@@ -3,17 +3,17 @@ on:
   schedule:
     # 06:00 UTC é 03:00 no horário de Brasília
     - cron: '0 6 * * *'
-  workflow_dispatch: # Permite que você rode manualmente para testar
+  workflow_dispatch: 
 
 jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Atualizado de v3 para v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # Atualizado de v3 para v4
         with:
-          node-version: 18
+          node-version: 24 # Atualizado de 18 para 24
       - name: Install dependencies
         run: npm install firebase-admin node-fetch@2
       - name: Run notifier
