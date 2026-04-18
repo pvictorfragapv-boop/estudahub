@@ -9,8 +9,12 @@ admin.initializeApp({
 const db = admin.firestore();
 
 async function dispararRevisoes() {
-  console.log("🚀 Iniciando varredura de usuários...");
-  const hoje = new Date().toISOString().split('T')[0];
+  console.log("🚀 Iniciando varredura...");
+  
+  // Teste de conexão simples
+  const collections = await db.listCollections();
+  console.log("📂 Coleções encontradas no banco:", collections.map(c => c.id));
+
   const usersSnap = await db.collection('users').get();
   
   console.log(`🔍 Total de usuários encontrados no Firebase: ${usersSnap.size}`);
