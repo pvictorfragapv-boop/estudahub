@@ -1116,6 +1116,24 @@ function tourEnd(){
   state.tourDone = true;
   save();
 }
+  // ... (resto do seu código anterior)
+
+// ========== INIT ==========
+window.onload = () => {
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      state.user = user.email;
+      await load();
+      enterApp();
+    } else {
+      showScreen('login'); 
+    }
+  });
+};
+
+</script> 
+</body>
+</html>
 </script>
 </body>
 </html>
