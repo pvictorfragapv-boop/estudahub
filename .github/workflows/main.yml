@@ -1,0 +1,23 @@
+name: Disparo Diario Telegram
+on:
+  schedule:
+    # 06:00 UTC é 03:00 no horário de Brasília
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Permite que você rode manualmente para testar
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install firebase-admin node-fetch@2
+      - name: Run notifier
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        run: node cron-notificador.js
