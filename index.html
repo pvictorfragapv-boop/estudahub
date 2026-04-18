@@ -512,6 +512,85 @@ canvas{width:100%!important}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script>
+// Configuração que você enviou
+const firebaseConfig = {
+  apiKey: "AIzaSyDhqCjtURR6WZvLbHb-hbWzrP1fMxK0Dnk",
+  authDomain: "estudahub-20436.firebaseapp.com",
+  projectId: "estudahub-20436",
+  storageBucket: "estudahub-20436.firebasestorage.app",
+  messagingSenderId: "957089244219",
+  appId: "1:957089244219:web:3cdc5c31261fab9843e81e"
+};
+
+// Inicialização
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// ========== NOVO STATE COM FIREBASE ==========
+let state = {
+  user: null,
+  theme: 'theme-default',
+  isNewUser: true,
+  temas: [],
+  provas: [],
+  tgChatId: null
+};
+
+// SUBSTITUA as suas funções save() e load() por estas:
+async function save() {
+  if (!state.user) return;
+  try {
+    await db.collection('usuarios').doc(state.user).set(state);
+    console.log("Sincronizado com Firebase");
+  } catch (e) {
+    console.error("Erro ao salvar:", e);
+  }
+}
+
+async function load() {
+  if (!state.user) return;
+  try {
+    const doc = await db.collection('usuarios').doc(state.user).get();
+    if (doc.exists) {
+      state = doc.data();
+      renderAll();
+    }
+  } catch (e) {
+    console.error("Erro ao carregar:", e);
+  }
+}
+
+// ATUALIZE sua função doLogin() para o Firebase
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value.trim();
+  
+  if(!email || !pass) { toast('// PREENCHA EMAIL E SENHA'); return; }
+
+  try {
+    // Tenta fazer login ou criar conta automaticamente
+    const userCredential = await auth.signInWithEmailAndPassword(email, pass)
+      .catch(() => auth.createUserWithEmailAndPassword(email, pass));
+    
+    state.user = userCredential.user.email;
+    await load(); // Carrega os dados do banco
+    
+    if(state.isNewUser) {
+      showScreen('onboard');
+    } else {
+      enterApp();
+    }
+  } catch (error) {
+    toast('// ERRO NA AUTENTICAÇÃO');
+  }
+}
+</script>
 
 <!-- FIREBASE -->
 <script type="module">
