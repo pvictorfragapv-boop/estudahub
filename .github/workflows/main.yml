@@ -8,12 +8,15 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
+    env:
+      # Esta linha força o GitHub a usar o Node 24 e remove o aviso
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
     steps:
-      - uses: actions/checkout@v4 # Atualizado de v3 para v4
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v4 # Atualizado de v3 para v4
+        uses: actions/setup-node@v4
         with:
-          node-version: 24 # Atualizado de 18 para 24
+          node-version: 24
       - name: Install dependencies
         run: npm install firebase-admin node-fetch@2
       - name: Run notifier
