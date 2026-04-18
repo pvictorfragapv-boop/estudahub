@@ -2,75 +2,49 @@ const admin = require('firebase-admin');
 const fetch = require('node-fetch');
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+
+// Inicialização robusta
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  projectId: serviceAccount.project_id
 });
 
 const db = admin.firestore();
 
-async function dispararRevisoes() {
-  console.log("🚀 Iniciando varredura...");
+async function diagnostico() {
+  console.log("🛠️ INICIANDO DIAGNÓSTICO...");
   
-  // Teste de conexão simples
-  const collections = await db.listCollections();
-  console.log("📂 Coleções encontradas no banco:", collections.map(c => c.id));
+  try {
+    // 1. Tentar listar todas as coleções do banco
+    const collections = await db.listCollections();
+    const nomes = collections.map(c => c.id);
+    console.log("📂 Coleções encontradas no seu banco:", nomes);
 
-  const usersSnap = await db.collection('users').get();
-  
-  console.log(`🔍 Total de usuários encontrados no Firebase: ${usersSnap.size}`);
-
-  for (const userDoc of usersSnap.docs) {
-    const stateSnap = await db.collection('users').doc(userDoc.id).collection('data').doc('state').get();
-    
-    if (stateSnap.exists()) {
-      const data = stateSnap.data();
-      console.log(`👤 Verificando usuário: ${userDoc.id} | Telegram: ${data.tgChatId ? 'Sim' : 'Não'}`);
-
-      if (!data.tgChatId || !data.temas) continue;
-
-      const revisoesHoje = data.temas.filter(t => {
-        if (!t.estudado || !t.dataEstudo) return false;
-        const d = t.dataEstudo;
-        const r24 = somarDias(d, 1);
-        const r1s = somarDias(d, 7);
-        const r1m = somarDias(d, 30);
-        
-        return (r24 === hoje && !t.rev24h) || 
-               (r1s === hoje && !t.rev1s) || 
-               (r1m === hoje && !t.rev1m);
-      });
-
-      if (revisoesHoje.length > 0) {
-        console.log(`✅ Enviando ${revisoesHoje.length} revisões para o chat ${data.tgChatId}`);
-        await enviarTelegram(data.tgChatId, revisoesHoje);
-      } else {
-        console.log(`ℹ️ Nenhuma revisão pendente para hoje neste usuário.`);
-      }
+    if (nomes.length === 0) {
+       console.error("❌ ERRO: O banco parece estar vazio ou a chave não tem permissão de leitura.");
+       return;
     }
+
+    // 2. Tentar ler a coleção 'users' (ou o que estiver lá)
+    const colName = nomes.includes('users') ? 'users' : nomes[0];
+    console.log(`🔍 Lendo a coleção: ${colName}...`);
+    
+    const snap = await db.collection(colName).get();
+    console.log(`👤 Documentos encontrados em '${colName}': ${snap.size}`);
+
+    snap.forEach(doc => {
+      console.log(`   - ID do documento: ${doc.id}`);
+      // Aqui vamos ver se existe a subcoleção data
+    });
+
+    if (snap.size > 0) {
+        console.log("✅ Conexão com Firebase funcionando!");
+        console.log("⚠️ Verifique se hoje há temas com data de estudo de ONTEM (17/04/2026).");
+    }
+
+  } catch (error) {
+    console.error("❌ ERRO FATAL:", error.message);
   }
 }
 
-function somarDias(dataStr, n) {
-  const d = new Date(dataStr);
-  d.setDate(d.getDate() + n);
-  return d.toISOString().split('T')[0];
-}
-
-async function enviarTelegram(chatId, revisoes) {
-  let msg = `🚀 *ESTUDAHUB: REVISÕES DE HOJE*\n\n`;
-  revisoes.forEach(r => msg += `• *${r.materia}*: ${r.tema}\n`);
-  
-  const url = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`;
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
-  });
-  const resData = await response.json();
-  if (!resData.ok) console.error("❌ Erro Telegram:", resData.description);
-}
-
-dispararRevisoes().then(() => {
-  console.log("🏁 Processo finalizado.");
-  process.exit(0);
-});
+diagnostico().then(() => process.exit(0));
