@@ -134,9 +134,9 @@ tr:hover td{background:var(--bg2)}
 .pct-green{background:#14311f;color:var(--green)}
 .pct-yellow{background:#2a2005;color:var(--yellow)}
 .pct-red{background:#2a0808;color:var(--red)}
-.check-box{width:18px;height:18px;border:1px solid var(--border2);background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.check-box{width:20px;height:20px;border:1px solid var(--border2);background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;-webkit-tap-highlight-color:transparent}
 .check-box.checked{background:var(--accent);border-color:var(--accent)}
-.check-box.checked::after{content:'✓';font-size:11px;color:var(--bg);font-weight:900}
+.check-box.checked::after{content:'✓';font-size:12px;color:var(--bg);font-weight:900}
 .revision-chips{display:flex;gap:4px;flex-wrap:wrap}
 .chip{padding:3px 7px;font-size:10px;font-family:'Space Mono',monospace;border:1px solid var(--border2);color:var(--muted);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
 .chip:active{opacity:.7}
@@ -148,8 +148,51 @@ input.inline:focus{border-bottom:1px solid var(--accent)}
 input.num{width:54px;text-align:center;font-family:'Space Mono',monospace}
 .del-btn{opacity:0;cursor:pointer;color:var(--red);font-size:18px;padding:0 6px;background:none;border:none;transition:opacity .2s;-webkit-tap-highlight-color:transparent}
 tr:hover .del-btn{opacity:1}
-/* always show on touch */
 @media(hover:none){.del-btn{opacity:0.4}}
+
+/* ===== MOBILE CARDS ===== */
+.card-list{display:none;flex-direction:column;gap:1px;background:var(--border)}
+.card-group-header{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--bg);cursor:pointer;-webkit-tap-highlight-color:transparent;border-bottom:1px solid var(--border)}
+.card-group-name{font-size:11px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);flex:1}
+.card-group-count{font-size:10px;font-family:'Space Mono',monospace;color:var(--muted);margin-right:8px}
+.card-group-arrow{font-size:11px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.card-group-arrow.open{transform:rotate(90deg)}
+.card-group-body{background:var(--bg)}
+.tema-card{background:var(--bg2);border-bottom:1px solid var(--border);overflow:hidden}
+.tema-card-top{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;min-height:56px}
+.tema-card-check{width:22px;height:22px;border:1px solid var(--border2);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:2px}
+.tema-card-check.checked{background:var(--accent);border-color:var(--accent)}
+.tema-card-check.checked::after{content:'✓';font-size:12px;color:var(--bg);font-weight:900}
+.tema-card-info{flex:1;min-width:0}
+.tema-card-name{font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.tema-card-meta{display:flex;align-items:center;gap:8px;margin-top:3px}
+.tema-card-pct{padding:1px 6px;font-size:10px;font-family:'Space Mono',monospace;font-weight:700}
+.tema-card-revpill{font-size:10px;font-family:'Space Mono',monospace;color:var(--yellow)}
+.tema-card-chevron{color:var(--muted);font-size:14px;flex-shrink:0;transition:transform .25s}
+.tema-card-chevron.open{transform:rotate(180deg)}
+/* expanded body */
+.tema-card-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
+.tema-card-body.open{display:block}
+.card-field{margin-bottom:14px}
+.card-field:last-child{margin-bottom:0}
+.card-field-label{font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.card-field-input{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 12px;font-family:'Space Mono',monospace;font-size:13px;outline:none;border-radius:0;-webkit-appearance:none}
+.card-field-input:focus{border-color:var(--accent)}
+.card-row{display:flex;gap:8px}
+.card-row .card-field{flex:1}
+.card-chips-row{display:flex;gap:6px;flex-wrap:wrap}
+.card-chip{padding:8px 12px;font-size:11px;font-family:'Space Mono',monospace;border:1px solid var(--border2);color:var(--muted);cursor:pointer;-webkit-tap-highlight-color:transparent;flex:1;text-align:center;min-width:60px;transition:all .15s}
+.card-chip:active{opacity:.7}
+.card-chip.due{border-color:var(--yellow);color:var(--yellow);background:#2a2005}
+.card-chip.overdue{border-color:var(--red);color:var(--red);background:#2a0808}
+.card-chip.done{border-color:var(--green);color:var(--green);background:#14311f;text-decoration:line-through;opacity:.6}
+.card-del-btn{width:100%;padding:10px;border:1px solid #3a1010;background:transparent;color:var(--red);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:14px;-webkit-tap-highlight-color:transparent}
+.card-del-btn:active{background:#3a1010}
+
+/* FAB */
+.fab{display:none;position:fixed;bottom:calc(24px + var(--safe-bottom));right:20px;width:56px;height:56px;background:var(--accent);border:none;border-radius:50%;font-size:28px;color:var(--bg);cursor:pointer;z-index:40;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.5);-webkit-tap-highlight-color:transparent;transition:transform .15s,opacity .15s;line-height:1}
+.fab:active{transform:scale(.92)}
+
 
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;display:none;align-items:flex-end;justify-content:center;padding:0}
@@ -293,24 +336,30 @@ canvas{width:100%!important}
   .color-grid{grid-template-columns:repeat(3,1fr)}
 
   .dash-header{padding:16px 16px 14px}
-  .dash-title{font-size:22px}
+  .dash-title{font-size:20px}
   .stats-row{flex-wrap:wrap}
   .stat-card{flex:1 1 calc(50% - 1px)}
   .stat-value{font-size:20px}
 
-  .subject-header{padding:14px 16px 8px}
-  .table-container{padding:16px}
-  .reviews-banner{margin:0 16px 16px}
-  .telegram-section,.settings-section{margin:0 16px 16px}
+  /* PLANILHA: hide table, show cards + FAB */
+  .table-container{padding:0 0 calc(80px + var(--safe-bottom))}
+  .table-toolbar{padding:14px 16px 10px;margin-bottom:0;border-bottom:1px solid var(--border)}
+  .table-toolbar .btn-add{display:none}
+  .subject-header{display:none}
+  #subjects-table-wrap{display:none}
+  .card-list{display:flex}
+  .fab{display:flex}
+
+  .reviews-banner{margin:0 12px 12px;padding:12px 14px}
+  #reviews-today-section > div{padding:14px 16px 0}
+  .telegram-section,.settings-section{margin:0 12px 12px}
   .provas-header{padding:16px 16px 14px}
 
   .perf-grid{grid-template-columns:1fr}
 
   .modal{max-height:92vh;padding:24px 20px;padding-bottom:calc(24px + var(--safe-bottom))}
 
-  .toast{bottom:calc(16px + var(--safe-bottom));right:12px;left:12px;max-width:100%}
-
-  /* Tour on mobile: tooltip always at bottom, full width */
+  .toast{bottom:calc(80px + var(--safe-bottom));right:12px;left:12px;max-width:100%}
   .tour-tooltip{left:12px!important;right:12px!important;width:auto!important}
 }
 
@@ -449,9 +498,17 @@ canvas{width:100%!important}
         <div class="table-title">TEMAS DE ESTUDO</div>
         <button class="btn-add" id="tour-btn-add" onclick="openAddModal()">+ ADICIONAR</button>
       </div>
-      <div id="subjects-container"></div>
+      <!-- DESKTOP TABLE -->
+      <div id="subjects-table-wrap">
+        <div id="subjects-container"></div>
+      </div>
+      <!-- MOBILE CARDS -->
+      <div class="card-list" id="card-list-container"></div>
     </div>
   </div>
+
+  <!-- FAB (mobile only) -->
+  <button class="fab" onclick="openAddModal()" aria-label="Adicionar tema">+</button>
 
   <!-- PAGE PROVAS -->
   <div id="page-provas" class="page">
@@ -937,7 +994,10 @@ function renderTodayRevisions(){
 
 function renderTable(){
   const container=document.getElementById('subjects-container');
-  if(!state.temas.length){container.innerHTML='<div class="empty-state">NENHUM TEMA CADASTRADO<br>// TOQUE EM "+ ADICIONAR" PARA COMEÇAR</div>';return;}
+  if(!state.temas.length){
+    container.innerHTML='<div class="empty-state">NENHUM TEMA CADASTRADO<br>// CLIQUE EM "+ ADICIONAR" PARA COMEÇAR</div>';
+    renderCards(); return;
+  }
   const groups={};
   state.temas.forEach(t=>{ if(!groups[t.materia])groups[t.materia]=[]; groups[t.materia].push(t); });
   let html='';
@@ -970,6 +1030,98 @@ function renderTable(){
     </table></div></div>`;
   }
   container.innerHTML=html;
+  renderCards();
+}
+
+function renderCards(){
+  const container=document.getElementById('card-list-container');
+  if(!state.temas.length){
+    container.innerHTML='<div class="empty-state">NENHUM TEMA CADASTRADO<br>// TOQUE NO + PARA COMEÇAR</div>';
+    return;
+  }
+  const groups={};
+  state.temas.forEach(t=>{ if(!groups[t.materia])groups[t.materia]=[]; groups[t.materia].push(t); });
+  let html='';
+  for(const[materia,temas]of Object.entries(groups)){
+    const estudados=temas.filter(t=>t.estudado).length;
+    const gkey='g'+btoa(encodeURIComponent(materia)).replace(/[^a-zA-Z0-9]/g,'').slice(0,10);
+    html+=`<div>
+      <div class="card-group-header" onclick="toggleCardGroup('${gkey}')">
+        <div class="card-group-name">${materia}</div>
+        <div class="card-group-count">${estudados}/${temas.length}</div>
+        <div class="card-group-arrow open" id="cgarr-${gkey}">▾</div>
+      </div>
+      <div class="card-group-body" id="cgbody-${gkey}">
+        ${temas.map(t=>{
+          const pct=getPct(t);
+          const revs=getRevisions(t);
+          const pendingRevs=revs.filter(r=>r.status==='due'||r.status==='overdue');
+          const cardId='card'+t.id;
+          return`<div class="tema-card">
+            <div class="tema-card-top" onclick="toggleCard('${cardId}')">
+              <div class="tema-card-check ${t.estudado?'checked':''}" onclick="event.stopPropagation();toggleCheck(${t.id})"></div>
+              <div class="tema-card-info">
+                <div class="tema-card-name">${t.tema}</div>
+                <div class="tema-card-meta">
+                  ${pct!==null?`<span class="tema-card-pct pct-badge ${pctClass(pct)}">${pct}%</span>`:''}
+                  ${pendingRevs.length?`<span class="tema-card-revpill">⏰ ${pendingRevs.map(r=>r.label).join(' ')}</span>`:''}
+                  ${t.estudado&&!pct?`<span style="font-size:10px;font-family:Space Mono,monospace;color:var(--muted)">sem questões</span>`:''}
+                </div>
+              </div>
+              <div class="tema-card-chevron" id="${cardId}-chev">▾</div>
+            </div>
+            <div class="tema-card-body" id="${cardId}">
+              <div style="height:14px"></div>
+              <div class="card-field">
+                <div class="card-field-label">Tema</div>
+                <input class="card-field-input" value="${t.tema.replace(/"/g,'&quot;')}" onblur="updateField(${t.id},'tema',this.value)" />
+              </div>
+              <div class="card-row">
+                <div class="card-field">
+                  <div class="card-field-label">Questões</div>
+                  <input class="card-field-input" type="number" inputmode="numeric" value="${t.questoes||''}" placeholder="0" onblur="updateField(${t.id},'questoes',this.value)" />
+                </div>
+                <div class="card-field">
+                  <div class="card-field-label">Acertos</div>
+                  <input class="card-field-input" type="number" inputmode="numeric" value="${t.acertos||''}" placeholder="0" onblur="updateField(${t.id},'acertos',this.value)" />
+                </div>
+              </div>
+              <div class="card-field">
+                <div class="card-field-label">Data estudada</div>
+                <input class="card-field-input" type="date" value="${t.dataEstudo||''}" onchange="updateField(${t.id},'dataEstudo',this.value)" />
+              </div>
+              ${revs.length?`<div class="card-field">
+                <div class="card-field-label">Revisões espaçadas</div>
+                <div class="card-chips-row">
+                  ${revs.map(r=>`<div class="card-chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')">${r.label}<br><span style="font-size:9px;opacity:.7">${r.date}</span></div>`).join('')}
+                </div>
+              </div>`:''}
+              <button class="card-del-btn" onclick="deleteTema(${t.id})">REMOVER TEMA</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
+  container.innerHTML=html;
+}
+
+function toggleCard(cardId){
+  const body=document.getElementById(cardId);
+  const chev=document.getElementById(cardId+'-chev');
+  if(!body)return;
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  if(chev) chev.classList.toggle('open',!isOpen);
+}
+
+function toggleCardGroup(gkey){
+  const body=document.getElementById('cgbody-'+gkey);
+  const arr=document.getElementById('cgarr-'+gkey);
+  if(!body)return;
+  const hidden=body.style.display==='none';
+  body.style.display=hidden?'':'none';
+  if(arr) arr.classList.toggle('open',hidden);
 }
 
 function toggleSubject(key){
