@@ -2,25 +2,19 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ESTUDAHUB</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0a0a0a;
-  --bg2:#111111;
-  --bg3:#181818;
-  --border:#2a2a2a;
-  --border2:#333;
-  --text:#e8e8e8;
-  --muted:#666;
-  --accent:#e8e8e8;
-  --green:#22c55e;
-  --yellow:#eab308;
-  --red:#ef4444;
-  --blue:#3b82f6;
+  --bg:#0a0a0a;--bg2:#111111;--bg3:#181818;
+  --border:#2a2a2a;--border2:#333;
+  --text:#e8e8e8;--muted:#666;
+  --green:#22c55e;--yellow:#eab308;--red:#ef4444;--blue:#3b82f6;
   --ticker-bg:#141414;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
 }
 .theme-default{--accent:#e8e8e8;--hi:#ffffff}
 .theme-blue{--accent:#3b82f6;--hi:#60a5fa}
@@ -29,75 +23,76 @@
 .theme-red{--accent:#ef4444;--hi:#f87171}
 .theme-purple{--accent:#a855f7;--hi:#c084fc}
 
-body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .mono{font-family:'Space Mono',monospace}
 
 /* TICKER */
 .ticker{background:var(--ticker-bg);border-bottom:1px solid var(--border);overflow:hidden;white-space:nowrap;padding:8px 0;font-size:11px;font-family:'Space Mono',monospace;color:var(--muted);letter-spacing:0.08em}
-.ticker-inner{display:inline-block;animation:ticker 30s linear infinite}
+.ticker-inner{display:inline-block;animation:ticker 35s linear infinite}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ticker-inner span{margin:0 40px}
 .ticker-inner .hi{color:var(--accent)}
 
 /* NAV */
-nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--border);height:60px;background:var(--bg);position:relative;z-index:10}
-.nav-logo{font-size:20px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--border);height:56px;background:var(--bg);position:sticky;top:0;z-index:50}
+.nav-logo{font-size:18px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent)}
 .nav-tabs{display:flex;gap:0}
-.nav-tab{padding:0 20px;height:60px;display:flex;align-items:center;font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;color:var(--muted);border-radius:0}
+.nav-tab{padding:0 18px;height:56px;display:flex;align-items:center;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;color:var(--muted)}
 .nav-tab:hover{color:var(--text)}
 .nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.nav-right{display:flex;align-items:center;gap:12px}
-.nav-user{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btn-sm{padding:6px 14px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:0}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-user{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-sm{padding:5px 12px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:10px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .btn-sm:hover{border-color:var(--accent);color:var(--accent)}
 
 /* HAMBURGER */
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none;-webkit-tap-highlight-color:transparent}
 .hamburger span{display:block;width:22px;height:2px;background:var(--muted);transition:all .3s}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
 .hamburger.open span:nth-child(2){opacity:0}
 .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
 
 /* MOBILE NAV DRAWER */
-.mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:50;flex-direction:column;padding:80px 40px 40px;gap:8px}
-.mobile-nav.open{display:flex}
-.mobile-nav-tab{padding:16px 0;font-size:16px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-bottom:1px solid var(--border);color:var(--muted);transition:color .2s}
-.mobile-nav-tab:hover,.mobile-nav-tab.active{color:var(--accent)}
-.mobile-nav-user{margin-top:24px;font-size:11px;color:var(--muted);font-family:'Space Mono',monospace}
-.mobile-close{position:absolute;top:16px;right:20px;font-size:24px;cursor:pointer;color:var(--muted);background:none;border:none;padding:8px}
+.mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:200;flex-direction:column;padding:0;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.mobile-nav.open{display:flex;transform:translateX(0)}
+.mobile-nav-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);height:56px;flex-shrink:0}
+.mobile-nav-logo{font-size:16px;font-weight:800;letter-spacing:0.15em;color:var(--accent)}
+.mobile-close{font-size:20px;cursor:pointer;color:var(--muted);background:none;border:none;padding:8px;line-height:1}
+.mobile-nav-body{flex:1;padding:8px 0;overflow-y:auto}
+.mobile-nav-tab{padding:18px 24px;font-size:14px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-bottom:1px solid var(--border);color:var(--muted);transition:all .2s;display:flex;align-items:center;gap:10px}
+.mobile-nav-tab:hover,.mobile-nav-tab.active{color:var(--accent);background:rgba(255,255,255,.02)}
+.mobile-nav-footer{padding:20px 24px;border-top:1px solid var(--border);flex-shrink:0;padding-bottom:calc(20px + var(--safe-bottom))}
+.mobile-nav-user{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:12px;word-break:break-all}
+.btn-logout{width:100%;padding:12px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.btn-logout:hover{border-color:var(--red);color:var(--red)}
 
 /* SCREENS */
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
 
 /* LOGIN */
-#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg)}
-.login-box{width:420px;max-width:90vw;border:1px solid var(--border2);padding:48px;background:var(--bg2)}
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);padding:20px}
+.login-box{width:420px;max-width:100%;border:1px solid var(--border2);padding:48px;background:var(--bg2)}
 .login-title{font-size:28px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
 .login-sub{font-size:12px;color:var(--muted);margin-bottom:40px;font-family:'Space Mono',monospace;letter-spacing:0.05em}
-.divider{display:flex;align-items:center;gap:12px;margin:24px 0;color:var(--muted);font-size:11px;font-family:'Space Mono',monospace}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border2)}
-.btn-google{width:100%;padding:14px;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:12px}
-.btn-google:hover{border-color:var(--accent);color:var(--accent)}
+.btn-google{width:100%;padding:14px;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:12px;-webkit-tap-highlight-color:transparent}
+.btn-google:hover,.btn-google:active{border-color:var(--accent);color:var(--accent)}
 .btn-google svg{flex-shrink:0}
-.btn-primary{width:100%;padding:14px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s;margin-top:8px}
-.btn-primary:hover{opacity:.85}
+.btn-primary{width:100%;padding:14px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer;transition:opacity .2s;margin-top:8px}
+.btn-primary:hover,.btn-primary:active{opacity:.85}
 .login-footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center;font-family:'Space Mono',monospace}
-.field{margin-bottom:20px}
-.field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.field input{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:12px 16px;font-family:'Space Mono',monospace;font-size:13px;outline:none;transition:border-color .2s;border-radius:0}
-.field input:focus{border-color:var(--accent)}
 
 /* USER AVATAR */
 .user-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid var(--border2);flex-shrink:0}
 
 /* ONBOARDING */
-#onboard-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg)}
-.onboard-box{width:560px;max-width:90vw;border:1px solid var(--border2);padding:48px;background:var(--bg2)}
+#onboard-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);padding:20px}
+.onboard-box{width:560px;max-width:100%;border:1px solid var(--border2);padding:48px;background:var(--bg2)}
 .onboard-title{font-size:24px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
 .onboard-sub{font-size:12px;color:var(--muted);margin-bottom:40px;font-family:'Space Mono',monospace}
 .color-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:32px}
-.color-opt{height:48px;border:2px solid transparent;cursor:pointer;transition:all .2s;position:relative;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase}
+.color-opt{height:48px;border:2px solid transparent;cursor:pointer;transition:all .2s;position:relative;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;-webkit-tap-highlight-color:transparent}
 .color-opt.selected{border-color:var(--text)!important}
 .color-opt .check{position:absolute;top:4px;right:4px;width:10px;height:10px;background:white;border-radius:50%;display:none}
 .color-opt.selected .check{display:block}
@@ -115,76 +110,80 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px
 .page.active{display:block}
 
 /* DASHBOARD HEADER */
-.dash-header{padding:32px 40px 24px;border-bottom:1px solid var(--border)}
-.dash-greeting{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
-.dash-title{font-size:36px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;color:var(--accent)}
-.stats-row{display:flex;gap:1px;margin-top:24px;background:var(--border)}
-.stat-card{flex:1;background:var(--bg2);padding:20px 24px}
-.stat-label{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.stat-value{font-size:28px;font-weight:800;font-family:'Space Mono',monospace;color:var(--accent)}
-.stat-sub{font-size:11px;color:var(--muted);margin-top:4px;font-family:'Space Mono',monospace}
+.dash-header{padding:28px 40px 20px;border-bottom:1px solid var(--border)}
+.dash-greeting{font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.dash-title{font-size:30px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;color:var(--accent);line-height:1.1}
+.stats-row{display:flex;gap:1px;margin-top:20px;background:var(--border)}
+.stat-card{flex:1;background:var(--bg2);padding:16px 20px;min-width:0}
+.stat-label{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.stat-value{font-size:24px;font-weight:800;font-family:'Space Mono',monospace;color:var(--accent)}
+.stat-sub{font-size:10px;color:var(--muted);margin-top:3px;font-family:'Space Mono',monospace}
 
 /* TABLE */
-.table-container{padding:32px 40px}
-.table-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.table-title{font-size:14px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase}
-.btn-add{padding:9px 18px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all .2s}
-.btn-add:hover{background:var(--accent);color:var(--bg)}
+.table-container{padding:24px 40px}
+.table-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px}
+.table-title{font-size:13px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase}
+.btn-add{padding:9px 16px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.btn-add:hover,.btn-add:active{background:var(--accent);color:var(--bg)}
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;min-width:600px}
-th{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--border2);text-align:left;background:var(--bg2)}
-td{padding:12px 12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;min-width:580px}
+th{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:10px 10px;border-bottom:1px solid var(--border2);text-align:left;background:var(--bg2)}
+td{padding:10px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 tr:hover td{background:var(--bg2)}
-.pct-badge{padding:3px 8px;font-size:11px;font-family:'Space Mono',monospace;font-weight:700;display:inline-block}
+.pct-badge{padding:3px 7px;font-size:11px;font-family:'Space Mono',monospace;font-weight:700;display:inline-block}
 .pct-green{background:#14311f;color:var(--green)}
 .pct-yellow{background:#2a2005;color:var(--yellow)}
 .pct-red{background:#2a0808;color:var(--red)}
-.check-box{width:18px;height:18px;border:1px solid var(--border2);background:transparent;cursor:pointer;display:inline-block;position:relative;flex-shrink:0}
+.check-box{width:18px;height:18px;border:1px solid var(--border2);background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;-webkit-tap-highlight-color:transparent}
 .check-box.checked{background:var(--accent);border-color:var(--accent)}
-.check-box.checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:11px;color:var(--bg);font-weight:900}
+.check-box.checked::after{content:'✓';font-size:11px;color:var(--bg);font-weight:900}
 .revision-chips{display:flex;gap:4px;flex-wrap:wrap}
-.chip{padding:2px 7px;font-size:10px;font-family:'Space Mono',monospace;border:1px solid var(--border2);color:var(--muted)}
+.chip{padding:3px 7px;font-size:10px;font-family:'Space Mono',monospace;border:1px solid var(--border2);color:var(--muted);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.chip:active{opacity:.7}
 .chip.due{border-color:var(--yellow);color:var(--yellow);background:#2a2005}
 .chip.overdue{border-color:var(--red);color:var(--red);background:#2a0808}
 .chip.done{border-color:var(--green);color:var(--green);background:#14311f;text-decoration:line-through;opacity:.6}
-input.inline{background:transparent;border:none;outline:none;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;width:100%}
+input.inline{background:transparent;border:none;outline:none;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;width:100%;min-width:0}
 input.inline:focus{border-bottom:1px solid var(--accent)}
-input.num{width:60px;text-align:center;font-family:'Space Mono',monospace}
-.del-btn{opacity:0;cursor:pointer;color:var(--red);font-size:16px;padding:0 8px;background:none;border:none;transition:opacity .2s}
+input.num{width:54px;text-align:center;font-family:'Space Mono',monospace}
+.del-btn{opacity:0;cursor:pointer;color:var(--red);font-size:18px;padding:0 6px;background:none;border:none;transition:opacity .2s;-webkit-tap-highlight-color:transparent}
 tr:hover .del-btn{opacity:1}
+/* always show on touch */
+@media(hover:none){.del-btn{opacity:0.4}}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;display:none;align-items:flex-end;justify-content:center;padding:0}
 .modal-overlay.open{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border2);padding:40px;width:480px;max-width:100%}
-.modal-title{font-size:18px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px}
-.modal-field{margin-bottom:20px}
-.modal-field label{display:block;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.modal-field input,.modal-field select{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 14px;font-family:'Space Mono',monospace;font-size:13px;outline:none;transition:border-color .2s;border-radius:0;-webkit-appearance:none}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-bottom:none;padding:32px 28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;border-radius:0;padding-bottom:calc(32px + var(--safe-bottom));animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 24px;display:block}
+.modal-title{font-size:16px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:28px}
+.modal-field{margin-bottom:18px}
+.modal-field label{display:block;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.modal-field input,.modal-field select{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:12px 14px;font-family:'Space Mono',monospace;font-size:14px;outline:none;transition:border-color .2s;-webkit-appearance:none;border-radius:0}
 .modal-field input:focus,.modal-field select:focus{border-color:var(--accent)}
 .modal-field select option{background:var(--bg3)}
-.modal-actions{display:flex;gap:12px;margin-top:32px}
-.btn-confirm{flex:1;padding:12px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer}
-.btn-cancel{flex:1;padding:12px;background:transparent;border:1px solid var(--border2);color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer}
-.btn-cancel:hover{border-color:var(--red);color:var(--red)}
+.modal-actions{display:flex;gap:10px;margin-top:28px}
+.btn-confirm{flex:1;padding:14px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn-cancel{flex:1;padding:14px;background:transparent;border:1px solid var(--border2);color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn-cancel:hover,.btn-cancel:active{border-color:var(--red);color:var(--red)}
 
 /* SECTION DIVIDER */
-.subject-header{display:flex;align-items:center;gap:12px;padding:20px 40px 8px;cursor:pointer}
-.subject-name{font-size:13px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent)}
-.subject-arrow{font-size:12px;color:var(--muted);transition:transform .2s}
+.subject-header{display:flex;align-items:center;gap:10px;padding:16px 40px 8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.subject-name{font-size:12px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent)}
+.subject-arrow{font-size:11px;color:var(--muted);transition:transform .2s}
 .subject-arrow.open{transform:rotate(90deg)}
 .subject-count{font-size:10px;font-family:'Space Mono',monospace;color:var(--muted)}
 
 /* PERFORMANCE TAB */
 .perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:1px}
-.perf-card{background:var(--bg2);padding:24px}
-.perf-card-title{font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.perf-card{background:var(--bg2);padding:20px}
+.perf-card-title{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
 canvas{width:100%!important}
-.chart-container{position:relative;width:100%;height:240px}
+.chart-container{position:relative;width:100%;height:220px}
 
 /* REVIEWS */
-.reviews-banner{background:var(--bg2);border:1px solid var(--border2);margin:0 40px 24px;padding:20px 24px}
-.reviews-title{font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.reviews-banner{background:var(--bg2);border:1px solid var(--border2);margin:0 40px 20px;padding:16px 20px}
 .review-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
 .review-item:last-child{border-bottom:none}
 .review-materia{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.05em}
@@ -192,98 +191,133 @@ canvas{width:100%!important}
 .review-badge-24h{padding:2px 6px;background:#2a2005;color:var(--yellow);font-size:10px;font-weight:700;font-family:'Space Mono',monospace}
 .review-badge-1s{padding:2px 6px;background:#1a2a40;color:#60a5fa;font-size:10px;font-weight:700;font-family:'Space Mono',monospace}
 .review-badge-1m{padding:2px 6px;background:#2a1540;color:#c084fc;font-size:10px;font-weight:700;font-family:'Space Mono',monospace}
-.empty-state{padding:40px;text-align:center;color:var(--muted);font-size:12px;font-family:'Space Mono',monospace;letter-spacing:0.1em}
+.empty-state{padding:40px 20px;text-align:center;color:var(--muted);font-size:11px;font-family:'Space Mono',monospace;letter-spacing:0.08em;line-height:1.8}
+
+/* SETTINGS SECTION */
+.settings-section{margin:0 40px 24px;padding:20px;border:1px solid var(--border2);background:var(--bg2)}
+.settings-title{font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;gap:12px}
 
 /* TELEGRAM */
-.telegram-section{margin:0 40px 32px;padding:24px;border:1px solid var(--border2);display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-.tg-icon{font-size:32px;flex-shrink:0}
-.tg-text h3{font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px}
-.tg-text p{font-size:12px;color:var(--muted);font-family:'Space Mono',monospace}
-.tg-input{flex:1;min-width:200px;display:flex;gap:8px;flex-wrap:wrap}
-.tg-input input{flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:9px 14px;font-family:'Space Mono',monospace;font-size:12px;outline:none;border-radius:0}
-.tg-input input:focus{border-color:var(--accent)}
-.btn-tg{padding:9px 16px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
-.btn-tg:hover{background:var(--accent);color:var(--bg)}
+.telegram-section{margin:0 40px 24px;padding:20px;border:1px solid var(--border2);background:var(--bg2)}
+.tg-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.tg-icon{font-size:24px}
+.tg-text h3{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:3px}
+.tg-text p{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace}
+.tg-body{display:flex;flex-direction:column;gap:10px}
+.tg-row{display:flex;gap:8px;flex-wrap:wrap}
+.tg-row input{flex:1;min-width:160px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 12px;font-family:'Space Mono',monospace;font-size:12px;outline:none;border-radius:0}
+.tg-row input:focus{border-color:var(--accent)}
+.btn-tg{padding:10px 14px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.btn-tg:hover,.btn-tg:active{background:var(--accent);color:var(--bg)}
+.btn-tg-test{border-color:var(--blue);color:var(--blue)}
+.btn-tg-test:hover,.btn-tg-test:active{background:var(--blue);color:var(--bg)}
+.tg-schedule{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg3);border:1px solid var(--border)}
+.tg-schedule-text{font-size:11px;font-family:'Space Mono',monospace;color:var(--muted);flex:1}
+.tg-schedule-text strong{color:var(--accent)}
+.toggle-switch{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:var(--border2);cursor:pointer;transition:.3s;border-radius:11px}
+.toggle-slider:before{position:absolute;content:'';width:16px;height:16px;left:3px;top:3px;background:var(--muted);transition:.3s;border-radius:50%}
+.toggle-switch input:checked + .toggle-slider{background:rgba(0,0,0,0.3);border:1px solid var(--accent)}
+.toggle-switch input:checked + .toggle-slider:before{transform:translateX(18px);background:var(--accent)}
 .tg-connected{color:var(--green);font-size:11px;font-family:'Space Mono',monospace;display:none}
-.tg-connected.show{display:inline}
+.tg-connected.show{display:flex;align-items:center;gap:6px}
 
 /* PROVAS */
-.provas-header{padding:32px 40px 24px;border-bottom:1px solid var(--border)}
+.provas-header{padding:28px 40px 20px;border-bottom:1px solid var(--border)}
 .provas-actions{display:flex;gap:12px;margin-top:16px}
 
 /* NOTIFICATION */
-.toast{position:fixed;bottom:32px;right:32px;background:var(--bg2);border:1px solid var(--accent);padding:16px 24px;font-size:12px;font-family:'Space Mono',monospace;z-index:500;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none;max-width:90vw}
+.toast{position:fixed;bottom:calc(32px + var(--safe-bottom));right:32px;background:var(--bg2);border:1px solid var(--accent);padding:14px 20px;font-size:11px;font-family:'Space Mono',monospace;z-index:500;opacity:0;transform:translateY(12px);transition:all .25s;pointer-events:none;max-width:calc(100vw - 64px)}
 .toast.show{opacity:1;transform:translateY(0)}
 
 /* SCROLLBAR */
-::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border2)}
 
 /* LOADING */
 #loading-screen{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
-.loading-logo{font-size:28px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent)}
+.loading-logo{font-size:24px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent)}
 .loading-dot{display:flex;gap:6px;margin-top:8px}
 .loading-dot span{width:6px;height:6px;background:var(--muted);border-radius:50%;animation:blink 1.4s infinite}
 .loading-dot span:nth-child(2){animation-delay:.2s}
 .loading-dot span:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
 
-/* ===================== TOUR ===================== */
-.tour-overlay{position:fixed;inset:0;z-index:900;pointer-events:none}
-.tour-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:901;pointer-events:all}
-.tour-spotlight{position:fixed;z-index:902;border:2px solid var(--accent);border-radius:2px;box-shadow:0 0 0 9999px rgba(0,0,0,0.7);pointer-events:none;transition:all .4s cubic-bezier(.4,0,.2,1)}
-.tour-tooltip{position:fixed;z-index:903;background:var(--bg2);border:1px solid var(--accent);padding:24px 28px;width:320px;max-width:90vw;pointer-events:all;animation:tooltipIn .3s ease}
-@keyframes tooltipIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
-.tour-step-label{font-size:10px;font-family:'Space Mono',monospace;color:var(--accent);letter-spacing:0.15em;margin-bottom:8px}
-.tour-title{font-size:16px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;color:var(--text)}
-.tour-desc{font-size:13px;color:var(--muted);font-family:'Space Mono',monospace;line-height:1.6;margin-bottom:20px}
+/* ===== TOUR — refeito ===== */
+/* Semi-opaque fullscreen backdrop with a "hole" cut via box-shadow on the spotlight */
+.tour-backdrop{position:fixed;inset:0;z-index:800;pointer-events:none}
+.tour-spotlight{
+  position:fixed;z-index:801;
+  outline:9999px solid rgba(0,0,0,0.78);
+  border:2px solid var(--accent);
+  border-radius:3px;
+  pointer-events:none;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+}
+.tour-tooltip{
+  position:fixed;z-index:802;
+  background:var(--bg2);
+  border:1px solid var(--accent);
+  padding:22px 24px;
+  width:300px;
+  pointer-events:all;
+  animation:tooltipIn .25s ease;
+  box-shadow:0 16px 48px rgba(0,0,0,.6);
+}
+@keyframes tooltipIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.tour-step-label{font-size:10px;font-family:'Space Mono',monospace;color:var(--accent);letter-spacing:0.15em;margin-bottom:7px;text-transform:uppercase}
+.tour-title{font-size:14px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:9px;color:var(--text);line-height:1.3}
+.tour-desc{font-size:12px;color:var(--muted);font-family:'Space Mono',monospace;line-height:1.65;margin-bottom:18px}
 .tour-actions{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.tour-btn-next{padding:10px 20px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer}
-.tour-btn-skip{font-size:11px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:'Space Mono',monospace;letter-spacing:0.05em;text-decoration:underline}
+.tour-btn-next{padding:9px 18px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tour-btn-skip{font-size:11px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:'Space Mono',monospace;text-decoration:underline;-webkit-tap-highlight-color:transparent}
 .tour-progress{display:flex;gap:5px;align-items:center}
 .tour-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background .3s}
 .tour-dot.active{background:var(--accent)}
 
-/* ===================== MOBILE ===================== */
+/* ===== MOBILE ===== */
 @media(max-width:768px){
-  .ticker{font-size:10px}
-  nav{padding:0 16px}
-  .nav-tabs{display:none}
-  .nav-right{display:none}
+  nav{padding:0 16px;height:52px;position:sticky;top:0;z-index:50}
+  .nav-tabs,.nav-right{display:none}
   .hamburger{display:flex}
-  .nav-logo{font-size:16px}
+  .nav-logo{font-size:15px}
 
-  #login-screen,.login-box{padding:24px}
-  .login-box{border:none;background:transparent}
+  #login-screen{padding:16px;align-items:flex-end}
+  .login-box{border:1px solid var(--border2);padding:28px 24px;background:var(--bg2);border-radius:0}
 
-  .onboard-box{padding:24px;border:none}
+  #onboard-screen{padding:16px;align-items:flex-end}
+  .onboard-box{padding:28px 24px;border:1px solid var(--border2);max-height:90vh;overflow-y:auto}
   .color-grid{grid-template-columns:repeat(3,1fr)}
 
-  .dash-header{padding:20px 16px 16px}
-  .dash-title{font-size:24px}
-  .stats-row{flex-wrap:wrap;gap:0}
-  .stat-card{flex:1 1 calc(50% - 1px);min-width:0}
-  .stat-value{font-size:22px}
+  .dash-header{padding:16px 16px 14px}
+  .dash-title{font-size:22px}
+  .stats-row{flex-wrap:wrap}
+  .stat-card{flex:1 1 calc(50% - 1px)}
+  .stat-value{font-size:20px}
 
-  .subject-header{padding:16px 16px 8px}
+  .subject-header{padding:14px 16px 8px}
   .table-container{padding:16px}
   .reviews-banner{margin:0 16px 16px}
-  .telegram-section{margin:0 16px 16px;flex-direction:column;align-items:flex-start}
-  .provas-header{padding:20px 16px 16px}
+  .telegram-section,.settings-section{margin:0 16px 16px}
+  .provas-header{padding:16px 16px 14px}
 
   .perf-grid{grid-template-columns:1fr}
 
-  .modal{padding:24px}
-  .modal-actions{flex-direction:column}
+  .modal{max-height:92vh;padding:24px 20px;padding-bottom:calc(24px + var(--safe-bottom))}
 
-  .toast{bottom:16px;right:16px;left:16px}
+  .toast{bottom:calc(16px + var(--safe-bottom));right:12px;left:12px;max-width:100%}
 
-  .tour-tooltip{width:calc(100vw - 32px);left:16px!important;right:16px!important}
+  /* Tour on mobile: tooltip always at bottom, full width */
+  .tour-tooltip{left:12px!important;right:12px!important;width:auto!important}
 }
 
 @media(max-width:480px){
   .stat-card{flex:1 1 100%}
+  .tg-row{flex-direction:column}
+  .tg-row input{min-width:100%}
 }
 </style>
 </head>
@@ -298,22 +332,14 @@ canvas{width:100%!important}
 <!-- TICKER -->
 <div class="ticker" id="main-ticker" style="display:none">
   <div class="ticker-inner">
-    <span>ESTUDAHUB — SEU RASTREADOR DE ESTUDOS</span>
-    <span class="hi">★</span>
-    <span>REVISÃO ESPAÇADA — 24H / 1 SEMANA / 1 MÊS</span>
-    <span class="hi">★</span>
-    <span>ACOMPANHE SEU DESEMPENHO</span>
-    <span class="hi">★</span>
-    <span>CONSISTÊNCIA É TUDO</span>
-    <span class="hi">★</span>
-    <span>ESTUDAHUB — SEU RASTREADOR DE ESTUDOS</span>
-    <span class="hi">★</span>
-    <span>REVISÃO ESPAÇADA — 24H / 1 SEMANA / 1 MÊS</span>
-    <span class="hi">★</span>
-    <span>ACOMPANHE SEU DESEMPENHO</span>
-    <span class="hi">★</span>
-    <span>CONSISTÊNCIA É TUDO</span>
-    <span class="hi">★</span>
+    <span>ESTUDAHUB — SEU RASTREADOR DE ESTUDOS</span><span class="hi">★</span>
+    <span>REVISÃO ESPAÇADA — 24H / 1 SEMANA / 1 MÊS</span><span class="hi">★</span>
+    <span>ACOMPANHE SEU DESEMPENHO</span><span class="hi">★</span>
+    <span>CONSISTÊNCIA É TUDO</span><span class="hi">★</span>
+    <span>ESTUDAHUB — SEU RASTREADOR DE ESTUDOS</span><span class="hi">★</span>
+    <span>REVISÃO ESPAÇADA — 24H / 1 SEMANA / 1 MÊS</span><span class="hi">★</span>
+    <span>ACOMPANHE SEU DESEMPENHO</span><span class="hi">★</span>
+    <span>CONSISTÊNCIA É TUDO</span><span class="hi">★</span>
   </div>
 </div>
 
@@ -352,11 +378,19 @@ canvas{width:100%!important}
 <div id="app-screen" class="screen" style="display:none">
   <!-- MOBILE DRAWER -->
   <div class="mobile-nav" id="mobile-nav">
-    <button class="mobile-close" onclick="closeMobileNav()">✕</button>
-    <div class="mobile-nav-tab active" id="mn-planilha" onclick="switchPage('planilha',null,true)">PLANILHA</div>
-    <div class="mobile-nav-tab" id="mn-provas" onclick="switchPage('provas',null,true)">PROVAS</div>
-    <div class="mobile-nav-user" id="mn-email">—</div>
-    <button class="btn-sm" style="margin-top:16px;width:100%;text-align:center" onclick="logout()">SAIR</button>
+    <div class="mobile-nav-header">
+      <div class="mobile-nav-logo">ESTUDAHUB</div>
+      <button class="mobile-close" onclick="closeMobileNav()">✕</button>
+    </div>
+    <div class="mobile-nav-body">
+      <div class="mobile-nav-tab active" id="mn-planilha" onclick="switchPage('planilha',null,true)">📋 PLANILHA</div>
+      <div class="mobile-nav-tab" id="mn-provas" onclick="switchPage('provas',null,true)">📊 PROVAS</div>
+      <div class="mobile-nav-tab" id="mn-configuracoes" onclick="switchPage('configuracoes',null,true)">⚙️ CONFIGURAÇÕES</div>
+    </div>
+    <div class="mobile-nav-footer">
+      <div class="mobile-nav-user" id="mn-email">—</div>
+      <button class="btn-logout" onclick="logout()">SAIR DA CONTA</button>
+    </div>
   </div>
 
   <nav>
@@ -364,6 +398,7 @@ canvas{width:100%!important}
     <div class="nav-tabs" id="desk-tabs">
       <div class="nav-tab active" id="dt-planilha" onclick="switchPage('planilha',this)">PLANILHA</div>
       <div class="nav-tab" id="dt-provas" onclick="switchPage('provas',this)">PROVAS</div>
+      <div class="nav-tab" id="dt-configuracoes" onclick="switchPage('configuracoes',this)">CONFIG.</div>
     </div>
     <div class="nav-right">
       <img class="user-avatar" id="nav-avatar" src="" style="display:none" />
@@ -380,7 +415,7 @@ canvas{width:100%!important}
     <div class="dash-header">
       <div class="dash-greeting">// painel de estudos</div>
       <div class="dash-title" id="greeting-name">OLHANDO PRO HORIZONTE</div>
-      <div class="stats-row" id="stats-row">
+      <div class="stats-row">
         <div class="stat-card" id="tour-stat-total">
           <div class="stat-label">Temas Totais</div>
           <div class="stat-value" id="stat-total">0</div>
@@ -405,29 +440,14 @@ canvas{width:100%!important}
     </div>
 
     <div id="reviews-today-section" style="display:none">
-      <div style="padding:24px 40px 0"><div class="section-label">📅 Revisões para hoje</div></div>
+      <div style="padding:20px 40px 0"><div class="section-label">📅 Revisões para hoje</div></div>
       <div class="reviews-banner" id="reviews-today-list"></div>
-    </div>
-
-    <div style="padding:24px 40px 0"><div class="section-label">INTEGRAÇÃO TELEGRAM</div></div>
-    <div class="telegram-section" id="tour-telegram">
-      <div class="tg-icon">✈️</div>
-      <div class="tg-text">
-        <h3>Notificações diárias</h3>
-        <p>Receba no Telegram quais temas revisar hoje</p>
-      </div>
-      <div class="tg-input">
-        <input type="text" id="tg-token" placeholder="Seu Telegram Chat ID" />
-        <button class="btn-tg" onclick="connectTelegram()">CONECTAR</button>
-        <button class="btn-tg" style="border-color: var(--blue); color: var(--blue);" onclick="dispararNotificacaoTelegram()">TESTAR ENVIO ✈️</button>
-        <span class="tg-connected" id="tg-connected">✓ CONECTADO</span>
-      </div>
     </div>
 
     <div class="table-container" id="tour-table">
       <div class="table-toolbar">
         <div class="table-title">TEMAS DE ESTUDO</div>
-        <button class="btn-add" id="tour-btn-add" onclick="openAddModal()">+ ADICIONAR TEMA</button>
+        <button class="btn-add" id="tour-btn-add" onclick="openAddModal()">+ ADICIONAR</button>
       </div>
       <div id="subjects-container"></div>
     </div>
@@ -439,7 +459,7 @@ canvas{width:100%!important}
       <div class="dash-greeting">// histórico de provas</div>
       <div class="dash-title">DESEMPENHO EM PROVAS</div>
       <div class="provas-actions">
-        <button class="btn-add" id="tour-btn-prova" onclick="openAddProvaModal()">+ ADICIONAR PROVA</button>
+        <button class="btn-add" onclick="openAddProvaModal()">+ ADICIONAR PROVA</button>
       </div>
     </div>
     <div class="perf-grid" id="charts-area" style="display:none">
@@ -460,18 +480,91 @@ canvas{width:100%!important}
     </div>
     <div class="table-container">
       <div class="table-scroll">
-        <div id="provas-container"><div class="empty-state">NENHUMA PROVA CADASTRADA // ADICIONE A PRIMEIRA</div></div>
+        <div id="provas-container"><div class="empty-state">NENHUMA PROVA CADASTRADA<br>// ADICIONE A PRIMEIRA</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE CONFIGURAÇÕES -->
+  <div id="page-configuracoes" class="page">
+    <div class="dash-header">
+      <div class="dash-greeting">// personalize sua experiência</div>
+      <div class="dash-title">CONFIGURAÇÕES</div>
+    </div>
+
+    <!-- TEMA DE CORES -->
+    <div style="padding:20px 40px 0 40px" id="settings-color-wrap">
+      <div class="section-label">🎨 Tema de Cores</div>
+    </div>
+    <div class="settings-section" id="tour-telegram-settings" style="margin-top:8px">
+      <div class="color-grid" id="settings-color-grid">
+        <div class="color-opt c-default" onclick="selectThemeApp(this,'theme-default')"><div class="check"></div><span>PADRÃO</span></div>
+        <div class="color-opt c-blue" onclick="selectThemeApp(this,'theme-blue')"><div class="check"></div><span>AZUL</span></div>
+        <div class="color-opt c-green" onclick="selectThemeApp(this,'theme-green')"><div class="check"></div><span>VERDE</span></div>
+        <div class="color-opt c-amber" onclick="selectThemeApp(this,'theme-amber')"><div class="check"></div><span>ÂMBAR</span></div>
+        <div class="color-opt c-red" onclick="selectThemeApp(this,'theme-red')"><div class="check"></div><span>RUBI</span></div>
+        <div class="color-opt c-purple" onclick="selectThemeApp(this,'theme-purple')"><div class="check"></div><span>ROXO</span></div>
+      </div>
+    </div>
+
+    <!-- TELEGRAM -->
+    <div style="padding:4px 40px 0 40px">
+      <div class="section-label">✈️ Telegram — Notificações</div>
+    </div>
+    <div class="telegram-section" id="tour-telegram">
+      <div class="tg-header">
+        <div class="tg-icon">✈️</div>
+        <div class="tg-text">
+          <h3>Notificações diárias</h3>
+          <p>Receba no Telegram seus temas de revisão do dia</p>
+        </div>
+      </div>
+      <div class="tg-body">
+        <div class="tg-row">
+          <input type="text" id="tg-token" placeholder="Seu Telegram Chat ID" inputmode="numeric" />
+          <button class="btn-tg" onclick="connectTelegram()">SALVAR</button>
+          <button class="btn-tg btn-tg-test" onclick="dispararNotificacaoTelegram()">TESTAR ✈️</button>
+        </div>
+        <div class="tg-schedule">
+          <div class="tg-schedule-text">Envio automático diário às <strong>03:00 AM</strong> com as revisões do dia</div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="tg-schedule-toggle" onchange="toggleSchedule(this.checked)" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="tg-schedule" id="schedule-status" style="display:none">
+          <div class="tg-schedule-text" id="schedule-status-text" style="font-size:10px"></div>
+        </div>
+        <div class="tg-connected" id="tg-connected">✓ CONECTADO</div>
+      </div>
+    </div>
+
+    <!-- CONTA -->
+    <div style="padding:4px 40px 0 40px">
+      <div class="section-label">👤 Conta</div>
+    </div>
+    <div class="settings-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:4px" id="settings-name">—</div>
+          <div style="font-size:11px;font-family:'Space Mono',monospace;color:var(--muted)" id="settings-email">—</div>
+        </div>
+        <button class="btn-add" style="border-color:var(--red);color:var(--red)" onclick="logout()">SAIR DA CONTA</button>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+        <button class="btn-sm" onclick="retakeTour()">🔁 REFAZER TOUR</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- MODALS -->
-<div class="modal-overlay" id="modal-add">
+<div class="modal-overlay" id="modal-add" onclick="handleModalOverlayClick(event,'modal-add')">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title">ADICIONAR TEMA</div>
-    <div class="modal-field"><label>Matéria</label><input type="text" id="add-materia" placeholder="Ex: Direito Constitucional" /></div>
-    <div class="modal-field"><label>Tema</label><input type="text" id="add-tema" placeholder="Ex: Princípios Fundamentais" /></div>
+    <div class="modal-field"><label>Matéria</label><input type="text" id="add-materia" placeholder="Ex: Direito Constitucional" autocomplete="off" /></div>
+    <div class="modal-field"><label>Tema</label><input type="text" id="add-tema" placeholder="Ex: Princípios Fundamentais" autocomplete="off" /></div>
     <div class="modal-field"><label>Data estudada (opcional)</label><input type="date" id="add-date" /></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModals()">CANCELAR</button>
@@ -480,13 +573,14 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-prova">
+<div class="modal-overlay" id="modal-prova" onclick="handleModalOverlayClick(event,'modal-prova')">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title">ADICIONAR PROVA</div>
-    <div class="modal-field"><label>Nome da Prova</label><input type="text" id="prova-nome" placeholder="Ex: ENEM 2024 — Ciências Humanas" /></div>
-    <div class="modal-field"><label>Ano</label><input type="number" id="prova-ano" placeholder="2024" min="2000" max="2099" /></div>
-    <div class="modal-field"><label>Nº de Questões</label><input type="number" id="prova-total" placeholder="45" min="1" /></div>
-    <div class="modal-field"><label>Nº de Acertos</label><input type="number" id="prova-acertos" placeholder="36" min="0" /></div>
+    <div class="modal-field"><label>Nome da Prova</label><input type="text" id="prova-nome" placeholder="Ex: ENEM 2024 — Ciências Humanas" autocomplete="off" /></div>
+    <div class="modal-field"><label>Ano</label><input type="number" id="prova-ano" placeholder="2024" min="2000" max="2099" inputmode="numeric" /></div>
+    <div class="modal-field"><label>Nº de Questões</label><input type="number" id="prova-total" placeholder="45" min="1" inputmode="numeric" /></div>
+    <div class="modal-field"><label>Nº de Acertos</label><input type="number" id="prova-acertos" placeholder="36" min="0" inputmode="numeric" /></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModals()">CANCELAR</button>
       <button class="btn-confirm" onclick="addProva()">REGISTRAR →</button>
@@ -496,8 +590,7 @@ canvas{width:100%!important}
 
 <div class="toast" id="toast"></div>
 
-<!-- TOUR ELEMENTS -->
-<div class="tour-backdrop" id="tour-backdrop" style="display:none" onclick="tourSkip()"></div>
+<!-- TOUR -->
 <div class="tour-spotlight" id="tour-spotlight" style="display:none"></div>
 <div class="tour-tooltip" id="tour-tooltip" style="display:none">
   <div class="tour-step-label" id="tour-step-label">PASSO 1 DE 5</div>
@@ -505,8 +598,8 @@ canvas{width:100%!important}
   <div class="tour-desc" id="tour-desc"></div>
   <div class="tour-actions">
     <div class="tour-progress" id="tour-progress"></div>
-    <div style="display:flex;gap:12px;align-items:center">
-      <button class="tour-btn-skip" onclick="tourSkip()">pular tour</button>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="tour-btn-skip" onclick="tourSkip()">pular</button>
       <button class="tour-btn-next" id="tour-btn-next" onclick="tourNext()">PRÓXIMO →</button>
     </div>
   </div>
@@ -536,7 +629,6 @@ const provider = new GoogleAuthProvider();
 
 let currentUser = null;
 
-// ========== SAVE / LOAD FIRESTORE ==========
 async function saveToCloud(){
   if(!currentUser) return;
   try {
@@ -546,6 +638,7 @@ async function saveToCloud(){
       temas: state.temas,
       provas: state.provas,
       tgChatId: state.tgChatId || null,
+      tgScheduleEnabled: state.tgScheduleEnabled || false,
       tourDone: state.tourDone || false,
       updatedAt: Date.now()
     });
@@ -562,16 +655,15 @@ async function loadFromCloud(uid){
       state.temas = d.temas || [];
       state.provas = d.provas || [];
       state.tgChatId = d.tgChatId || null;
+      state.tgScheduleEnabled = d.tgScheduleEnabled || false;
       state.tourDone = d.tourDone || false;
     }
   } catch(e){ console.error('Erro ao carregar:', e); }
 }
 
-// ========== EXPOSE TO GLOBAL ==========
 window._saveToCloud = saveToCloud;
 window._loadFromCloud = loadFromCloud;
 
-// ========== AUTH STATE ==========
 onAuthStateChanged(auth, async (user) => {
   document.getElementById('loading-screen').style.display = 'none';
   document.getElementById('main-ticker').style.display = '';
@@ -588,9 +680,7 @@ onAuthStateChanged(auth, async (user) => {
       showScreen('onboard');
     } else {
       enterApp();
-      if(!state.tourDone){
-        setTimeout(()=>startTour(), 800);
-      }
+      if(!state.tourDone) setTimeout(()=>startTour(), 800);
     }
   } else {
     currentUser = null;
@@ -598,38 +688,24 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ========== GOOGLE LOGIN ==========
 window.loginGoogle = async function(){
-  try {
-    await signInWithPopup(auth, provider);
-  } catch(e){
-    if(e.code !== 'auth/popup-closed-by-user'){
-      toast('// ERRO AO FAZER LOGIN: ' + e.message);
-    }
-  }
+  try { await signInWithPopup(auth, provider); }
+  catch(e){ if(e.code !== 'auth/popup-closed-by-user') toast('// ERRO: ' + e.message); }
 }
 
-// ========== LOGOUT ==========
-window.logoutFirebase = async function(){
-  await signOut(auth);
-}
-
+window.logoutFirebase = async function(){ await signOut(auth); }
 </script>
 
 <script>
-// ========== CONFIGURAÇÕES EXTERNAS ==========
+// ========== CONFIGURAÇÕES ==========
 const TELEGRAM_BOT_TOKEN = '8776004938:AAE0GyD9yu5FzpALcExwrFK5AwyjqK6-w3o';
-  
+
 // ========== STATE ==========
 let state = {
-  user: null,
-  displayName: null,
-  photoURL: null,
-  theme: 'theme-default',
-  isNewUser: true,
-  temas: [],
-  provas: [],
-  tgChatId: null,
+  user: null, displayName: null, photoURL: null,
+  theme: 'theme-default', isNewUser: true,
+  temas: [], provas: [],
+  tgChatId: null, tgScheduleEnabled: false,
   tourDone: false
 };
 
@@ -637,28 +713,25 @@ let state = {
 let saveTimer = null;
 function save(){
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(()=>{
-    if(window._saveToCloud) window._saveToCloud();
-  }, 600);
+  saveTimer = setTimeout(()=>{ if(window._saveToCloud) window._saveToCloud(); }, 600);
 }
 
 // ========== DATES ==========
-function today(){return new Date().toISOString().split('T')[0]}
-function addDays(dateStr, n){const d=new Date(dateStr);d.setDate(d.getDate()+n);return d.toISOString().split('T')[0]}
-function daysAgo(dateStr){return Math.floor((new Date(today())-new Date(dateStr))/86400000)}
+function today(){ return new Date().toISOString().split('T')[0]; }
+function addDays(dateStr, n){ const d=new Date(dateStr); d.setDate(d.getDate()+n); return d.toISOString().split('T')[0]; }
 
 // ========== TOAST ==========
 function toast(msg){
   const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3200);
 }
 
 // ========== SCREENS ==========
 function showScreen(name){
-  ['login-screen','onboard-screen','app-screen'].forEach(id=>{
-    document.getElementById(id).style.display='none';
-  });
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('onboard-screen').style.display='none';
+  document.getElementById('app-screen').style.display='none';
   if(name==='login') document.getElementById('login-screen').style.display='flex';
   if(name==='onboard') document.getElementById('onboard-screen').style.display='flex';
   if(name==='app') document.getElementById('app-screen').style.display='block';
@@ -666,22 +739,31 @@ function showScreen(name){
 
 function enterApp(){
   document.body.className = state.theme || 'theme-default';
+  syncSettingsColorGrid();
   document.getElementById('nav-email').textContent = state.displayName || (state.user ? state.user.split('@')[0] : '—');
   document.getElementById('mn-email').textContent = state.user || '—';
+  document.getElementById('settings-name').textContent = state.displayName || '—';
+  document.getElementById('settings-email').textContent = state.user || '—';
 
   const avatar = document.getElementById('nav-avatar');
-  if(state.photoURL){
-    avatar.src = state.photoURL;
-    avatar.style.display = 'block';
-  }
+  if(state.photoURL){ avatar.src=state.photoURL; avatar.style.display='block'; }
 
-  if(state.tgChatId){ document.getElementById('tg-connected').classList.add('show'); document.getElementById('tg-token').value=state.tgChatId; }
+  if(state.tgChatId){
+    document.getElementById('tg-connected').classList.add('show');
+    document.getElementById('tg-token').value = state.tgChatId;
+  }
+  const schedToggle = document.getElementById('tg-schedule-toggle');
+  schedToggle.checked = state.tgScheduleEnabled || false;
+  updateScheduleStatus();
+
   showScreen('app');
   renderAll();
   renderProvas();
+  scheduleInit();
 }
 
 function logout(){
+  scheduleClear();
   if(window.logoutFirebase) window.logoutFirebase();
   closeMobileNav();
 }
@@ -689,7 +771,7 @@ function logout(){
 // ========== ONBOARDING ==========
 let selectedTheme = 'theme-default';
 function selectTheme(el, theme){
-  document.querySelectorAll('.color-opt').forEach(e=>e.classList.remove('selected'));
+  document.querySelectorAll('#onboard-screen .color-opt').forEach(e=>e.classList.remove('selected'));
   el.classList.add('selected');
   selectedTheme = theme;
   document.body.className = theme;
@@ -702,42 +784,78 @@ function finishOnboard(){
   setTimeout(()=>startTour(), 600);
 }
 
+// ========== THEME IN APP ==========
+function selectThemeApp(el, theme){
+  document.querySelectorAll('#settings-color-grid .color-opt').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+  state.theme = theme;
+  document.body.className = theme;
+  save();
+  toast('// TEMA ALTERADO');
+}
+
+function syncSettingsColorGrid(){
+  const themeMap = {
+    'theme-default':0,'theme-blue':1,'theme-green':2,
+    'theme-amber':3,'theme-red':4,'theme-purple':5
+  };
+  const opts = document.querySelectorAll('#settings-color-grid .color-opt');
+  opts.forEach(e=>e.classList.remove('selected'));
+  const idx = themeMap[state.theme||'theme-default'];
+  if(opts[idx]) opts[idx].classList.add('selected');
+}
+
 // ========== MOBILE NAV ==========
 function toggleMobileNav(){
-  const nav = document.getElementById('mobile-nav');
-  const hb = document.getElementById('hamburger');
-  nav.classList.toggle('open');
-  hb.classList.toggle('open');
+  const nav=document.getElementById('mobile-nav');
+  const hb=document.getElementById('hamburger');
+  const isOpen = nav.classList.contains('open');
+  if(isOpen){ closeMobileNav(); } else {
+    nav.classList.add('open');
+    hb.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
 }
 function closeMobileNav(){
   document.getElementById('mobile-nav').classList.remove('open');
   document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow='';
 }
 
 // ========== PAGES ==========
 function switchPage(name, el, fromMobile){
-  // desktop tabs
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  const deskTab = document.getElementById('dt-'+name);
-  if(deskTab) deskTab.classList.add('active');
-  // mobile tabs
+  const dt=document.getElementById('dt-'+name);
+  if(dt) dt.classList.add('active');
   document.querySelectorAll('.mobile-nav-tab').forEach(t=>t.classList.remove('active'));
-  const mobTab = document.getElementById('mn-'+name);
-  if(mobTab) mobTab.classList.add('active');
-  // pages
+  const mt=document.getElementById('mn-'+name);
+  if(mt) mt.classList.add('active');
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   if(name==='provas') renderProvas();
   if(fromMobile) closeMobileNav();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ========== MODALS ==========
 function openAddModal(){
   document.getElementById('add-date').value=today();
   document.getElementById('modal-add').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('add-materia').focus(),200);
 }
-function openAddProvaModal(){ document.getElementById('modal-prova').classList.add('open'); }
-function closeModals(){ document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('open')); }
+function openAddProvaModal(){
+  document.getElementById('modal-prova').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('prova-nome').focus(),200);
+}
+function closeModals(){
+  document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('open'));
+  document.body.style.overflow='';
+}
+function handleModalOverlayClick(e, modalId){
+  if(e.target === document.getElementById(modalId)) closeModals();
+}
 
 // ========== PLANILHA ==========
 function addTema(){
@@ -746,10 +864,10 @@ function addTema(){
   const date=document.getElementById('add-date').value||today();
   if(!mat||!tema){toast('// PREENCHA MATÉRIA E TEMA');return;}
   state.temas.push({id:Date.now(),materia:mat,tema,estudado:false,questoes:0,acertos:0,dataEstudo:date,rev24h:false,rev1s:false,rev1m:false});
-  save();closeModals();
+  save(); closeModals();
   document.getElementById('add-materia').value='';
   document.getElementById('add-tema').value='';
-  renderAll();toast('// TEMA ADICIONADO');
+  renderAll(); toast('// TEMA ADICIONADO');
 }
 function deleteTema(id){ state.temas=state.temas.filter(t=>t.id!==id);save();renderAll();toast('// TEMA REMOVIDO'); }
 function toggleCheck(id){ const t=state.temas.find(x=>x.id===id);if(t){t.estudado=!t.estudado;if(t.estudado&&!t.dataEstudo)t.dataEstudo=today();}save();renderAll(); }
@@ -759,32 +877,32 @@ function pctClass(pct){ if(pct===null)return '';if(pct>=80)return 'pct-green';if
 
 function getRevisions(t){
   if(!t.estudado||!t.dataEstudo)return[];
-  const revs=[];const d=t.dataEstudo;const td=today();
-  const r24=addDays(d,1),r1s=addDays(d,7),r1m=addDays(d,30);
-  if(!t.rev24h)revs.push({label:'24H',date:r24,key:'rev24h',status:td>r24?'overdue':td===r24?'due':'ok'});
+  const d=t.dataEstudo; const td=today();
+  const r24=addDays(d,1), r1s=addDays(d,7), r1m=addDays(d,30);
+  const revs=[];
+  if(!t.rev24h) revs.push({label:'24H',date:r24,key:'rev24h',status:td>r24?'overdue':td===r24?'due':'ok'});
   else revs.push({label:'24H',date:r24,key:'rev24h',status:'done'});
-  if(!t.rev1s)revs.push({label:'1S',date:r1s,key:'rev1s',status:td>r1s?'overdue':td===r1s?'due':'ok'});
+  if(!t.rev1s) revs.push({label:'1S',date:r1s,key:'rev1s',status:td>r1s?'overdue':td===r1s?'due':'ok'});
   else revs.push({label:'1S',date:r1s,key:'rev1s',status:'done'});
-  if(!t.rev1m)revs.push({label:'1M',date:r1m,key:'rev1m',status:td>r1m?'overdue':td===r1m?'due':'ok'});
+  if(!t.rev1m) revs.push({label:'1M',date:r1m,key:'rev1m',status:td>r1m?'overdue':td===r1m?'due':'ok'});
   else revs.push({label:'1M',date:r1m,key:'rev1m',status:'done'});
   return revs;
 }
 function toggleRevision(temaId,key){ const t=state.temas.find(x=>x.id===temaId);if(t)t[key]=!t[key];save();renderAll(); }
 
 function getTodayRevisions(){
-  const td=today();const result=[];
+  const td=today(); const result=[];
   state.temas.forEach(t=>{
     if(!t.estudado||!t.dataEstudo)return;
     const d=t.dataEstudo;
-    if(!t.rev24h&&addDays(d,1)===td)result.push({...t,revType:'24H',badge:'review-badge-24h'});
-    if(!t.rev1s&&addDays(d,7)===td)result.push({...t,revType:'1 SEMANA',badge:'review-badge-1s'});
-    if(!t.rev1m&&addDays(d,30)===td)result.push({...t,revType:'1 MÊS',badge:'review-badge-1m'});
-    if(!t.rev24h&&today()>addDays(d,1)&&today()!==addDays(d,1))result.push({...t,revType:'24H (ATRASADO)',badge:'review-badge-24h'});
+    if(!t.rev24h&&addDays(d,1)<=td) result.push({...t,revType:'24H',badge:'review-badge-24h'});
+    else if(!t.rev1s&&addDays(d,7)<=td) result.push({...t,revType:'1 SEMANA',badge:'review-badge-1s'});
+    else if(!t.rev1m&&addDays(d,30)<=td) result.push({...t,revType:'1 MÊS',badge:'review-badge-1m'});
   });
   return result;
 }
 
-function renderAll(){ renderStats();renderTodayRevisions();renderTable(); }
+function renderAll(){ renderStats(); renderTodayRevisions(); renderTable(); }
 
 function renderStats(){
   const total=state.temas.length;
@@ -797,7 +915,7 @@ function renderStats(){
   document.getElementById('stat-avg').textContent=avg!==null?avg+'%':'—';
   document.getElementById('stat-revisions').textContent=rev;
   const name=state.displayName||state.user;
-  const firstName = name ? name.split(' ')[0].toUpperCase() : '';
+  const firstName=name?name.split(' ')[0].toUpperCase():'';
   document.getElementById('greeting-name').textContent='OLÁ, '+firstName;
 }
 
@@ -809,16 +927,19 @@ function renderTodayRevisions(){
   sec.style.display='block';
   list.innerHTML=revs.slice(0,6).map(r=>`
     <div class="review-item">
-      <div style="flex:1"><div class="review-materia">${r.materia}</div><div class="review-tema">${r.tema}</div></div>
-      <span class="${r.badge}">${r.revType}</span>
+      <div style="flex:1;min-width:0">
+        <div class="review-materia">${r.materia}</div>
+        <div class="review-tema" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.tema}</div>
+      </div>
+      <span class="${r.badge}" style="flex-shrink:0">${r.revType}</span>
     </div>`).join('');
 }
 
 function renderTable(){
   const container=document.getElementById('subjects-container');
-  if(!state.temas.length){container.innerHTML='<div class="empty-state">NENHUM TEMA CADASTRADO // COMECE AGORA</div>';return;}
+  if(!state.temas.length){container.innerHTML='<div class="empty-state">NENHUM TEMA CADASTRADO<br>// TOQUE EM "+ ADICIONAR" PARA COMEÇAR</div>';return;}
   const groups={};
-  state.temas.forEach(t=>{if(!groups[t.materia])groups[t.materia]=[];groups[t.materia].push(t);});
+  state.temas.forEach(t=>{ if(!groups[t.materia])groups[t.materia]=[]; groups[t.materia].push(t); });
   let html='';
   for(const[materia,temas]of Object.entries(groups)){
     const estudados=temas.filter(t=>t.estudado).length;
@@ -827,23 +948,24 @@ function renderTable(){
     <div class="subject-header" onclick="toggleSubject('${key}')">
       <div class="subject-arrow open" id="arr-${key}">▶</div>
       <div class="subject-name">${materia}</div>
-      <div class="subject-count mono">${estudados}/${temas.length} estudados</div>
+      <div class="subject-count mono">${estudados}/${temas.length}</div>
     </div>
     <div id="sub-${key}"><div class="table-scroll"><table>
-      <thead><tr><th>✓</th><th>TEMA</th><th>QUEST.</th><th>ACERTOS</th><th>%</th><th>DATA</th><th>REVISÕES</th><th></th></tr></thead>
+      <thead><tr><th>✓</th><th>TEMA</th><th>Q.</th><th>ACE.</th><th>%</th><th>DATA</th><th>REVISÕES</th><th></th></tr></thead>
       <tbody>
         ${temas.map(t=>{
-          const pct=getPct(t);const revs=getRevisions(t);
+          const pct=getPct(t); const revs=getRevisions(t);
           return`<tr>
             <td><div class="check-box ${t.estudado?'checked':''}" onclick="toggleCheck(${t.id})"></div></td>
-            <td><input class="inline" value="${t.tema}" onblur="updateField(${t.id},'tema',this.value)" /></td>
-            <td><input class="inline num" type="number" value="${t.questoes||''}" placeholder="0" onblur="updateField(${t.id},'questoes',this.value)" /></td>
-            <td><input class="inline num" type="number" value="${t.acertos||''}" placeholder="0" onblur="updateField(${t.id},'acertos',this.value)" /></td>
+            <td style="min-width:120px"><input class="inline" value="${t.tema.replace(/"/g,'&quot;')}" onblur="updateField(${t.id},'tema',this.value)" /></td>
+            <td><input class="inline num" type="number" value="${t.questoes||''}" placeholder="0" inputmode="numeric" onblur="updateField(${t.id},'questoes',this.value)" /></td>
+            <td><input class="inline num" type="number" value="${t.acertos||''}" placeholder="0" inputmode="numeric" onblur="updateField(${t.id},'acertos',this.value)" /></td>
             <td>${pct!==null?`<span class="pct-badge ${pctClass(pct)}">${pct}%</span>`:'—'}</td>
-            <td><input class="inline" type="date" value="${t.dataEstudo||''}" onchange="updateField(${t.id},'dataEstudo',this.value)" style="font-size:11px;font-family:'Space Mono',monospace;color:var(--muted)" /></td>
-            <td><div class="revision-chips">${revs.map(r=>`<span class="chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')" title="${r.date}" style="cursor:pointer">${r.label}</span>`).join('')}</div></td>
+            <td><input class="inline" type="date" value="${t.dataEstudo||''}" onchange="updateField(${t.id},'dataEstudo',this.value)" style="font-size:11px;font-family:'Space Mono',monospace;color:var(--muted);min-width:110px" /></td>
+            <td><div class="revision-chips">${revs.map(r=>`<span class="chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')" title="${r.date}">${r.label}</span>`).join('')}</div></td>
             <td><button class="del-btn" onclick="deleteTema(${t.id})">×</button></td>
-          </tr>`;}).join('')}
+          </tr>`;
+        }).join('')}
       </tbody>
     </table></div></div>`;
   }
@@ -851,58 +973,101 @@ function renderTable(){
 }
 
 function toggleSubject(key){
-  const sub=document.getElementById('sub-'+key);const arr=document.getElementById('arr-'+key);
+  const sub=document.getElementById('sub-'+key);
+  const arr=document.getElementById('arr-'+key);
   if(!sub)return;
   if(sub.style.display==='none'){sub.style.display='';arr.classList.add('open');}
   else{sub.style.display='none';arr.classList.remove('open');}
 }
 
-// ========== TELEGRAM REAL DISPARO ==========
-async function dispararNotificacaoTelegram() {
-  if (!state.tgChatId) {
-    toast('// INFORME E CONECTE SEU CHAT ID PRIMEIRO');
-    return;
+// ========== TELEGRAM ==========
+function connectTelegram(){
+  const val=document.getElementById('tg-token').value.trim();
+  if(!val){toast('// INSIRA SEU CHAT ID');return;}
+  state.tgChatId=val;
+  save();
+  document.getElementById('tg-connected').classList.add('show');
+  toast('// TELEGRAM CONECTADO');
+}
+
+async function dispararNotificacaoTelegram(){
+  if(!state.tgChatId){ toast('// CONECTE O TELEGRAM PRIMEIRO'); return; }
+  const revisoes=getTodayRevisions();
+  let mensagem = `🚀 *ESTUDAHUB: REVISÕES DE HOJE*\n_Data: ${new Date().toLocaleDateString('pt-BR')}_\n\n`;
+  if(revisoes.length){
+    revisoes.forEach((r,i)=>{ mensagem+=`${i+1}. *${r.materia}*\n   └ ${r.tema}\n   └ Tipo: ${r.revType}\n\n`; });
+    mensagem+=`🎯 *Bons estudos!*`;
+  } else {
+    mensagem+=`✅ *Nenhuma revisão pendente hoje!*\nContinue adicionando temas e estudando com consistência.`;
   }
-
-  const revisoes = getTodayRevisions();
-  
-  if (revisoes.length === 0) {
-    toast('// NADA PARA REVISAR HOJE. TUDO EM DIA!');
-    return;
-  }
-
-  // Montando o corpo da mensagem formatada
-  let mensagem = `🚀 *ESTUDAHUB: REVISÕES DE HOJE*\n`;
-  mensagem += `_Data: ${new Date().toLocaleDateString('pt-BR')}_\n\n`;
-  
-  revisoes.forEach((r, index) => {
-    mensagem += `${index + 1}. *${r.materia}*\n   └ Tema: ${r.tema}\n   └ Tipo: ${r.revType}\n\n`;
-  });
-
-  mensagem += `🎯 *Foco total e bons estudos!*`;
-
-  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: state.tgChatId,
-        text: mensagem,
-        parse_mode: 'Markdown'
-      })
+    const res=await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:state.tgChatId,text:mensagem,parse_mode:'Markdown'})
     });
+    if(res.ok) toast('// MENSAGEM ENVIADA ✓');
+    else { const e=await res.json(); toast('// ERRO: '+e.description); }
+  } catch(e){ toast('// ERRO DE REDE'); }
+}
 
-    if (response.ok) {
-      toast('// NOTIFICAÇÃO ENVIADA PARA O TELEGRAM');
-    } else {
-      const errData = await response.json();
-      console.error('Erro API Telegram:', errData);
-      toast('// ERRO NA API DO TELEGRAM: ' + errData.description);
-    }
-  } catch (e) {
-    toast('// ERRO DE REDE AO TENTAR ENVIAR');
+// ========== AGENDAMENTO 3AM (via setTimeout loop) ==========
+let scheduleTimeout = null;
+
+function scheduleInit(){
+  scheduleClear();
+  if(state.tgScheduleEnabled && state.tgChatId){
+    scheduleNextSend();
+    updateScheduleStatus();
+  }
+}
+
+function scheduleClear(){
+  if(scheduleTimeout){ clearTimeout(scheduleTimeout); scheduleTimeout=null; }
+}
+
+function scheduleNextSend(){
+  const now=new Date();
+  const next3am=new Date();
+  next3am.setHours(3,0,0,0);
+  if(now >= next3am) next3am.setDate(next3am.getDate()+1);
+  const msUntil=next3am.getTime()-now.getTime();
+  scheduleTimeout=setTimeout(()=>{
+    dispararNotificacaoTelegram();
+    scheduleTimeout=setTimeout(function loop(){
+      dispararNotificacaoTelegram();
+      scheduleTimeout=setTimeout(loop, 24*60*60*1000);
+    }, 24*60*60*1000);
+  }, msUntil);
+  return next3am;
+}
+
+function toggleSchedule(enabled){
+  state.tgScheduleEnabled=enabled;
+  save();
+  scheduleClear();
+  if(enabled){
+    if(!state.tgChatId){ toast('// CONECTE O TELEGRAM ANTES DE ATIVAR'); document.getElementById('tg-schedule-toggle').checked=false; state.tgScheduleEnabled=false; save(); return; }
+    const nextDate=scheduleNextSend();
+    toast('// AGENDAMENTO ATIVADO — PRÓXIMO ENVIO ÀS 03:00');
+  } else {
+    toast('// AGENDAMENTO DESATIVADO');
+  }
+  updateScheduleStatus();
+}
+
+function updateScheduleStatus(){
+  const statusDiv=document.getElementById('schedule-status');
+  const statusText=document.getElementById('schedule-status-text');
+  if(state.tgScheduleEnabled && state.tgChatId){
+    statusDiv.style.display='flex';
+    const now=new Date();
+    const next3am=new Date();
+    next3am.setHours(3,0,0,0);
+    if(now>=next3am) next3am.setDate(next3am.getDate()+1);
+    const h=next3am.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'});
+    statusText.innerHTML=`⏰ Próximo envio: <strong>${h} às 03:00</strong> — envio automático ativo`;
+  } else {
+    statusDiv.style.display='none';
   }
 }
 
@@ -915,14 +1080,13 @@ function addProva(){
   if(!nome||!total){toast('// PREENCHA NOME E Nº DE QUESTÕES');return;}
   if(acertos>total){toast('// ACERTOS NÃO PODE SER MAIOR QUE TOTAL');return;}
   state.provas.push({id:Date.now(),nome,ano:ano||new Date().getFullYear(),total,acertos});
-  save();closeModals();
-  document.getElementById('prova-nome').value='';document.getElementById('prova-ano').value='';
-  document.getElementById('prova-total').value='';document.getElementById('prova-acertos').value='';
-  renderProvas();toast('// PROVA REGISTRADA');
+  save(); closeModals();
+  ['prova-nome','prova-ano','prova-total','prova-acertos'].forEach(id=>document.getElementById(id).value='');
+  renderProvas(); toast('// PROVA REGISTRADA');
 }
 function deleteProva(id){ state.provas=state.provas.filter(p=>p.id!==id);save();renderProvas();toast('// PROVA REMOVIDA'); }
 
-let chartEvolucao=null,chartProvas=null;
+let chartEvolucao=null, chartProvas=null;
 function renderProvas(){
   const t=state.provas.length;
   const totalQ=state.provas.reduce((a,p)=>a+p.total,0);
@@ -934,14 +1098,12 @@ function renderProvas(){
   document.getElementById('pstat-best').textContent=best!==null?best+'%':'—';
   document.getElementById('pstat-q').textContent=totalQ;
   const c=document.getElementById('provas-container');
-  if(!state.provas.length){c.innerHTML='<div class="empty-state">NENHUMA PROVA CADASTRADA // ADICIONE A PRIMEIRA</div>';document.getElementById('charts-area').style.display='none';return;}
+  if(!state.provas.length){c.innerHTML='<div class="empty-state">NENHUMA PROVA CADASTRADA<br>// ADICIONE A PRIMEIRA</div>';document.getElementById('charts-area').style.display='none';return;}
   document.getElementById('charts-area').style.display='grid';
-  c.innerHTML=`<table><thead><tr><th>PROVA</th><th>ANO</th><th>Nº QUESTÕES</th><th>ACERTOS</th><th>%</th><th></th></tr></thead><tbody>
+  c.innerHTML=`<table><thead><tr><th>PROVA</th><th>ANO</th><th>Q.</th><th>ACE.</th><th>%</th><th></th></tr></thead><tbody>
     ${state.provas.map(p=>{const pct=Math.round(p.acertos/p.total*100);return`<tr>
-      <td><strong>${p.nome}</strong></td>
-      <td class="mono">${p.ano}</td>
-      <td class="mono">${p.total}</td>
-      <td class="mono">${p.acertos}</td>
+      <td style="min-width:140px"><strong>${p.nome}</strong></td>
+      <td class="mono">${p.ano}</td><td class="mono">${p.total}</td><td class="mono">${p.acertos}</td>
       <td><span class="pct-badge ${pctClass(pct)}">${pct}%</span></td>
       <td><button class="del-btn" onclick="deleteProva(${p.id})">×</button></td>
     </tr>`;}).join('')}
@@ -951,9 +1113,9 @@ function renderProvas(){
 
 function renderCharts(){
   const accent=getComputedStyle(document.body).getPropertyValue('--accent').trim()||'#e8e8e8';
-  const muted='#444';const grid='#1e1e1e';
+  const muted='#444'; const grid='#1e1e1e';
   const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:muted,font:{family:"'Space Mono',monospace",size:10}},grid:{color:grid}},y:{ticks:{color:muted,font:{family:"'Space Mono',monospace",size:10},callback:v=>v+'%'},grid:{color:grid},min:0,max:100}}};
-  const labels=state.provas.map(p=>p.nome.length>15?p.nome.slice(0,14)+'…':p.nome);
+  const labels=state.provas.map(p=>p.nome.length>14?p.nome.slice(0,13)+'…':p.nome);
   const pcts=state.provas.map(p=>Math.round(p.acertos/p.total*100));
   const colors=pcts.map(p=>p>=80?'rgba(34,197,94,0.7)':p>=70?'rgba(234,179,8,0.7)':'rgba(239,68,68,0.7)');
   if(chartEvolucao)chartEvolucao.destroy();
@@ -963,124 +1125,113 @@ function renderCharts(){
 }
 
 // ========== TOUR ==========
-const tourSteps = [
-  {
-    target: 'tour-stat-total',
-    title: 'SEU PAINEL DE CONTROLE',
-    desc: 'Aqui você vê um resumo rápido: total de temas cadastrados, quantos já estudou, sua média de acertos e revisões pendentes para hoje.',
-    position: 'bottom'
-  },
-  {
-    target: 'tour-btn-add',
-    title: 'ADICIONE SEUS TEMAS',
-    desc: 'Clique aqui para cadastrar um novo tema de estudo. Informe a matéria, o tema e a data que você estudou.',
-    position: 'bottom'
-  },
-  {
-    target: 'tour-table',
-    title: 'SUA PLANILHA DE ESTUDOS',
-    desc: 'Aqui ficam todos os seus temas organizados por matéria. Você pode marcar como estudado ✓, lançar questões e acertos, e acompanhar as revisões espaçadas (24h, 1 semana, 1 mês).',
-    position: 'top'
-  },
-  {
-    target: 'tour-telegram',
-    title: 'NOTIFICAÇÕES NO TELEGRAM',
-    desc: 'Conecte seu Telegram para receber avisos diários sobre quais temas você precisa revisar. Nunca mais perca uma revisão!',
-    position: 'top'
-  },
-  {
-    target: 'dt-provas',
-    title: 'ABA DE PROVAS',
-    desc: 'Na aba Provas você registra seus simulados e provas reais, acompanha sua evolução com gráficos e vê qual foi seu melhor desempenho. Clique para explorar!',
-    position: 'bottom'
-  }
+const tourSteps=[
+  {target:'tour-stat-total',title:'SEU PAINEL DE CONTROLE',desc:'Aqui você vê um resumo em tempo real: total de temas, quantos estudou, sua média de acertos e quantas revisões há pendentes hoje.',pos:'bottom'},
+  {target:'tour-btn-add',title:'ADICIONE SEUS TEMAS',desc:'Toque aqui para cadastrar um novo tema. Informe a matéria, o tema e a data que estudou para ativar as revisões espaçadas.',pos:'bottom'},
+  {target:'tour-table',title:'SUA PLANILHA DE ESTUDOS',desc:'Temas organizados por matéria. Marque como estudado ✓, lance questões e acertos, e gerencie as revisões espaçadas (24h, 1 semana, 1 mês).',pos:'top'},
+  {target:'dt-configuracoes',title:'CONFIGURAÇÕES',desc:'Na aba Configurações você troca o tema de cores a qualquer hora e conecta o Telegram para receber alertas diários às 3h da manhã.',pos:'bottom'},
+  {target:'dt-provas',title:'ABA DE PROVAS',desc:'Registre seus simulados, acompanhe sua evolução com gráficos e veja seu melhor desempenho histórico.',pos:'bottom'}
 ];
 
-let tourStep = 0;
+let tourStep=0;
+let tourActive=false;
+
+function retakeTour(){
+  state.tourDone=false;
+  switchPage('planilha');
+  setTimeout(()=>startTour(), 300);
+}
 
 function startTour(){
-  tourStep = 0;
-  document.getElementById('tour-backdrop').style.display = 'block';
+  tourStep=0; tourActive=true;
   renderTourStep();
 }
 
 function renderTourStep(){
-  if(tourStep >= tourSteps.length){ tourEnd(); return; }
-  const step = tourSteps[tourStep];
-  const target = document.getElementById(step.target);
-  if(!target){ tourNext(); return; }
+  if(tourStep>=tourSteps.length){tourEnd();return;}
+  const step=tourSteps[tourStep];
+  const target=document.getElementById(step.target);
+  if(!target){tourNext();return;}
 
-  const rect = target.getBoundingClientRect();
-  const pad = 8;
+  target.scrollIntoView({behavior:'smooth',block:'center'});
 
-  // spotlight
-  const sp = document.getElementById('tour-spotlight');
-  sp.style.display = 'block';
-  sp.style.left = (rect.left - pad) + 'px';
-  sp.style.top = (rect.top - pad + window.scrollY) + 'px';
-  sp.style.width = (rect.width + pad*2) + 'px';
-  sp.style.height = (rect.height + pad*2) + 'px';
-
-  // tooltip
-  const tt = document.getElementById('tour-tooltip');
-  tt.style.display = 'block';
-  document.getElementById('tour-step-label').textContent = `PASSO ${tourStep+1} DE ${tourSteps.length}`;
-  document.getElementById('tour-title').textContent = step.title;
-  document.getElementById('tour-desc').textContent = step.desc;
-
-  // progress dots
-  const prog = document.getElementById('tour-progress');
-  prog.innerHTML = tourSteps.map((_,i)=>`<div class="tour-dot ${i===tourStep?'active':''}"></div>`).join('');
-
-  // next btn
-  const btn = document.getElementById('tour-btn-next');
-  btn.textContent = tourStep === tourSteps.length-1 ? 'CONCLUIR ✓' : 'PRÓXIMO →';
-
-  // position tooltip
   setTimeout(()=>{
-    const ttRect = tt.getBoundingClientRect();
-    const isMobile = window.innerWidth <= 768;
+    const rect=target.getBoundingClientRect();
+    const pad=10;
+    const sp=document.getElementById('tour-spotlight');
+    const tt=document.getElementById('tour-tooltip');
+    sp.style.display='block';
+    tt.style.display='block';
+
+    // spotlight position
+    sp.style.left=(rect.left-pad)+'px';
+    sp.style.top=(rect.top-pad)+'px';
+    sp.style.width=(rect.width+pad*2)+'px';
+    sp.style.height=(rect.height+pad*2)+'px';
+
+    // tooltip content
+    document.getElementById('tour-step-label').textContent=`PASSO ${tourStep+1} DE ${tourSteps.length}`;
+    document.getElementById('tour-title').textContent=step.title;
+    document.getElementById('tour-desc').textContent=step.desc;
+    document.getElementById('tour-btn-next').textContent=tourStep===tourSteps.length-1?'CONCLUIR ✓':'PRÓXIMO →';
+    document.getElementById('tour-progress').innerHTML=tourSteps.map((_,i)=>`<div class="tour-dot ${i===tourStep?'active':''}"></div>`).join('');
+
+    const isMobile=window.innerWidth<=768;
+    const ttW=isMobile?(window.innerWidth-24):300;
+    const ttPad=isMobile?12:16;
+
+    // height of tooltip: approximate 180px
+    const ttH=190;
+    const vpH=window.innerHeight;
+
+    let left, top;
     if(isMobile){
-      tt.style.left = '16px';
-      tt.style.right = '16px';
-      tt.style.width = 'auto';
-      tt.style.top = (rect.bottom + 16 + window.scrollY) + 'px';
-      if(rect.bottom + 180 > window.innerHeight){
-        tt.style.top = Math.max(80, rect.top - 200 + window.scrollY) + 'px';
+      left=12;
+      tt.style.width='auto';
+      tt.style.left=left+'px';
+      tt.style.right='12px';
+      // prefer below, fallback above
+      if(rect.bottom+ttH+16<vpH){
+        top=rect.bottom+16;
+      } else {
+        top=Math.max(60,rect.top-ttH-16);
       }
     } else {
-      let left = rect.left + rect.width/2 - 160;
-      left = Math.max(16, Math.min(left, window.innerWidth - 340));
-      tt.style.left = left + 'px';
-      tt.style.width = '320px';
-
-      if(step.position === 'bottom' || rect.bottom + 220 > window.innerHeight){
-        tt.style.top = (rect.top - 180 + window.scrollY) + 'px';
+      tt.style.right='auto';
+      tt.style.width='300px';
+      // horizontal center on target, clamped
+      left=rect.left+rect.width/2-150;
+      left=Math.max(ttPad, Math.min(left, window.innerWidth-300-ttPad));
+      // vertical: prefer below, fallback above
+      if(rect.bottom+ttH+16<vpH){
+        top=rect.bottom+16;
       } else {
-        tt.style.top = (rect.bottom + 16 + window.scrollY) + 'px';
+        top=Math.max(60,rect.top-ttH-16);
       }
+      tt.style.left=left+'px';
     }
-  }, 10);
-
-  // scroll target into view
-  target.scrollIntoView({behavior:'smooth', block:'center'});
+    tt.style.top=top+'px';
+  }, 350);
 }
 
 function tourNext(){
   tourStep++;
-  if(tourStep >= tourSteps.length){ tourEnd(); return; }
+  if(tourStep>=tourSteps.length){tourEnd();return;}
   renderTourStep();
 }
 
-function tourSkip(){ tourEnd(); }
+function tourSkip(){tourEnd();}
 
 function tourEnd(){
-  document.getElementById('tour-backdrop').style.display = 'none';
-  document.getElementById('tour-spotlight').style.display = 'none';
-  document.getElementById('tour-tooltip').style.display = 'none';
-  state.tourDone = true;
+  tourActive=false;
+  document.getElementById('tour-spotlight').style.display='none';
+  document.getElementById('tour-tooltip').style.display='none';
+  state.tourDone=true;
   save();
 }
+
+// Close tour on resize
+window.addEventListener('resize',()=>{ if(tourActive) renderTourStep(); });
 </script>
 </body>
 </html>
