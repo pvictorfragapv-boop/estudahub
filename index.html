@@ -419,6 +419,7 @@ canvas{width:100%!important}
       <div class="tg-input">
         <input type="text" id="tg-token" placeholder="Seu Telegram Chat ID" />
         <button class="btn-tg" onclick="connectTelegram()">CONECTAR</button>
+        <button class="btn-tg" style="border-color: var(--blue); color: var(--blue);" onclick="dispararNotificacaoTelegram()">TESTAR ENVIO ✈️</button>
         <span class="tg-connected" id="tg-connected">✓ CONECTADO</span>
       </div>
     </div>
@@ -616,6 +617,9 @@ window.logoutFirebase = async function(){
 </script>
 
 <script>
+// ========== CONFIGURAÇÕES EXTERNAS ==========
+const TELEGRAM_BOT_TOKEN = '8776004938:AAE0GyD9yu5FzpALcExwrFK5AwyjqK6-w3o';
+  
 // ========== STATE ==========
 let state = {
   user: null,
@@ -853,13 +857,53 @@ function toggleSubject(key){
   else{sub.style.display='none';arr.classList.remove('open');}
 }
 
-// ========== TELEGRAM ==========
-function connectTelegram(){
-  const v=document.getElementById('tg-token').value.trim();
-  if(!v){toast('// INFORME O CHAT ID');return;}
-  state.tgChatId=v;save();
-  document.getElementById('tg-connected').classList.add('show');
-  toast('// TELEGRAM CONECTADO — NOTIFICAÇÕES ATIVADAS');
+// ========== TELEGRAM REAL DISPARO ==========
+async function dispararNotificacaoTelegram() {
+  if (!state.tgChatId) {
+    toast('// INFORME E CONECTE SEU CHAT ID PRIMEIRO');
+    return;
+  }
+
+  const revisoes = getTodayRevisions();
+  
+  if (revisoes.length === 0) {
+    toast('// NADA PARA REVISAR HOJE. TUDO EM DIA!');
+    return;
+  }
+
+  // Montando o corpo da mensagem formatada
+  let mensagem = `🚀 *ESTUDAHUB: REVISÕES DE HOJE*\n`;
+  mensagem += `_Data: ${new Date().toLocaleDateString('pt-BR')}_\n\n`;
+  
+  revisoes.forEach((r, index) => {
+    mensagem += `${index + 1}. *${r.materia}*\n   └ Tema: ${r.tema}\n   └ Tipo: ${r.revType}\n\n`;
+  });
+
+  mensagem += `🎯 *Foco total e bons estudos!*`;
+
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: state.tgChatId,
+        text: mensagem,
+        parse_mode: 'Markdown'
+      })
+    });
+
+    if (response.ok) {
+      toast('// NOTIFICAÇÃO ENVIADA PARA O TELEGRAM');
+    } else {
+      const errData = await response.json();
+      console.error('Erro API Telegram:', errData);
+      toast('// ERRO NA API DO TELEGRAM: ' + errData.description);
+    }
+  } catch (e) {
+    toast('// ERRO DE REDE AO TENTAR ENVIAR');
+  }
 }
 
 // ========== PROVAS ==========
