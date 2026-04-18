@@ -22,7 +22,6 @@
   --blue:#3b82f6;
   --ticker-bg:#141414;
 }
-/* THEME CLASSES */
 .theme-default{--accent:#e8e8e8;--hi:#ffffff}
 .theme-blue{--accent:#3b82f6;--hi:#60a5fa}
 .theme-green{--accent:#22c55e;--hi:#4ade80}
@@ -41,38 +40,60 @@ body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-he
 .ticker-inner .hi{color:var(--accent)}
 
 /* NAV */
-nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--border);height:60px;background:var(--bg)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--border);height:60px;background:var(--bg);position:relative;z-index:10}
 .nav-logo{font-size:20px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent)}
 .nav-tabs{display:flex;gap:0}
 .nav-tab{padding:0 20px;height:60px;display:flex;align-items:center;font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;color:var(--muted);border-radius:0}
 .nav-tab:hover{color:var(--text)}
 .nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.nav-right{display:flex;align-items:center;gap:16px}
-.nav-user{font-size:12px;color:var(--muted);font-family:'Space Mono',monospace}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-user{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .btn-sm{padding:6px 14px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:0}
 .btn-sm:hover{border-color:var(--accent);color:var(--accent)}
 
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+.hamburger span{display:block;width:22px;height:2px;background:var(--muted);transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* MOBILE NAV DRAWER */
+.mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:50;flex-direction:column;padding:80px 40px 40px;gap:8px}
+.mobile-nav.open{display:flex}
+.mobile-nav-tab{padding:16px 0;font-size:16px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-bottom:1px solid var(--border);color:var(--muted);transition:color .2s}
+.mobile-nav-tab:hover,.mobile-nav-tab.active{color:var(--accent)}
+.mobile-nav-user{margin-top:24px;font-size:11px;color:var(--muted);font-family:'Space Mono',monospace}
+.mobile-close{position:absolute;top:16px;right:20px;font-size:24px;cursor:pointer;color:var(--muted);background:none;border:none;padding:8px}
+
 /* SCREENS */
-.screen{display:none;min-height:calc(100vh - 61px - 37px)}
+.screen{display:none;min-height:100vh}
 .screen.active{display:block}
 
 /* LOGIN */
 #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg)}
-.login-box{width:420px;border:1px solid var(--border2);padding:48px;background:var(--bg2)}
+.login-box{width:420px;max-width:90vw;border:1px solid var(--border2);padding:48px;background:var(--bg2)}
 .login-title{font-size:28px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
 .login-sub{font-size:12px;color:var(--muted);margin-bottom:40px;font-family:'Space Mono',monospace;letter-spacing:0.05em}
+.divider{display:flex;align-items:center;gap:12px;margin:24px 0;color:var(--muted);font-size:11px;font-family:'Space Mono',monospace}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.btn-google{width:100%;padding:14px;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:12px}
+.btn-google:hover{border-color:var(--accent);color:var(--accent)}
+.btn-google svg{flex-shrink:0}
+.btn-primary{width:100%;padding:14px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s;margin-top:8px}
+.btn-primary:hover{opacity:.85}
+.login-footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center;font-family:'Space Mono',monospace}
 .field{margin-bottom:20px}
 .field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .field input{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:12px 16px;font-family:'Space Mono',monospace;font-size:13px;outline:none;transition:border-color .2s;border-radius:0}
 .field input:focus{border-color:var(--accent)}
-.btn-primary{width:100%;padding:14px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s;margin-top:8px}
-.btn-primary:hover{opacity:.85}
-.login-footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center;font-family:'Space Mono',monospace}
-.login-footer a{color:var(--accent);cursor:pointer;text-decoration:none}
+
+/* USER AVATAR */
+.user-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid var(--border2);flex-shrink:0}
 
 /* ONBOARDING */
 #onboard-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg)}
-.onboard-box{width:560px;border:1px solid var(--border2);padding:48px;background:var(--bg2)}
+.onboard-box{width:560px;max-width:90vw;border:1px solid var(--border2);padding:48px;background:var(--bg2)}
 .onboard-title{font-size:24px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
 .onboard-sub{font-size:12px;color:var(--muted);margin-bottom:40px;font-family:'Space Mono',monospace}
 .color-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:32px}
@@ -89,7 +110,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px
 .section-label{font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 
 /* MAIN APP */
-#app-screen{min-height:calc(100vh - 37px)}
+#app-screen{min-height:100vh}
 .page{display:none}
 .page.active{display:block}
 
@@ -109,7 +130,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px
 .table-title{font-size:14px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase}
 .btn-add{padding:9px 18px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .btn-add:hover{background:var(--accent);color:var(--bg)}
-table{width:100%;border-collapse:collapse}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:600px}
 th{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--border2);text-align:left;background:var(--bg2)}
 td{padding:12px 12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 tr:hover td{background:var(--bg2)}
@@ -132,9 +154,9 @@ input.num{width:60px;text-align:center;font-family:'Space Mono',monospace}
 tr:hover .del-btn{opacity:1}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;display:none;align-items:center;justify-content:center}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
 .modal-overlay.open{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border2);padding:40px;width:480px;max-width:90vw}
+.modal{background:var(--bg2);border:1px solid var(--border2);padding:40px;width:480px;max-width:100%}
 .modal-title{font-size:18px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px}
 .modal-field{margin-bottom:20px}
 .modal-field label{display:block;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
@@ -160,51 +182,122 @@ tr:hover .del-btn{opacity:1}
 canvas{width:100%!important}
 .chart-container{position:relative;width:100%;height:240px}
 
-/* REVIEWS SIDEBAR */
+/* REVIEWS */
 .reviews-banner{background:var(--bg2);border:1px solid var(--border2);margin:0 40px 24px;padding:20px 24px}
 .reviews-title{font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .review-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
 .review-item:last-child{border-bottom:none}
 .review-materia{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.05em}
 .review-tema{font-size:12px;color:var(--text)}
-.review-type{font-size:10px;font-family:'Space Mono',monospace;color:var(--muted)}
 .review-badge-24h{padding:2px 6px;background:#2a2005;color:var(--yellow);font-size:10px;font-weight:700;font-family:'Space Mono',monospace}
 .review-badge-1s{padding:2px 6px;background:#1a2a40;color:#60a5fa;font-size:10px;font-weight:700;font-family:'Space Mono',monospace}
 .review-badge-1m{padding:2px 6px;background:#2a1540;color:#c084fc;font-size:10px;font-weight:700;font-family:'Space Mono',monospace}
 .empty-state{padding:40px;text-align:center;color:var(--muted);font-size:12px;font-family:'Space Mono',monospace;letter-spacing:0.1em}
 
 /* TELEGRAM */
-.telegram-section{margin:0 40px 32px;padding:24px;border:1px solid var(--border2);display:flex;align-items:center;gap:24px}
+.telegram-section{margin:0 40px 32px;padding:24px;border:1px solid var(--border2);display:flex;align-items:center;gap:24px;flex-wrap:wrap}
 .tg-icon{font-size:32px;flex-shrink:0}
 .tg-text h3{font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px}
 .tg-text p{font-size:12px;color:var(--muted);font-family:'Space Mono',monospace}
-.tg-input{flex:1;display:flex;gap:8px}
-.tg-input input{flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:9px 14px;font-family:'Space Mono',monospace;font-size:12px;outline:none;border-radius:0}
+.tg-input{flex:1;min-width:200px;display:flex;gap:8px;flex-wrap:wrap}
+.tg-input input{flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:9px 14px;font-family:'Space Mono',monospace;font-size:12px;outline:none;border-radius:0}
 .tg-input input:focus{border-color:var(--accent)}
 .btn-tg{padding:9px 16px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
 .btn-tg:hover{background:var(--accent);color:var(--bg)}
 .tg-connected{color:var(--green);font-size:11px;font-family:'Space Mono',monospace;display:none}
 .tg-connected.show{display:inline}
 
-/* PROVAS TAB */
+/* PROVAS */
 .provas-header{padding:32px 40px 24px;border-bottom:1px solid var(--border)}
 .provas-actions{display:flex;gap:12px;margin-top:16px}
 
 /* NOTIFICATION */
-.toast{position:fixed;bottom:32px;right:32px;background:var(--bg2);border:1px solid var(--accent);padding:16px 24px;font-size:12px;font-family:'Space Mono',monospace;z-index:200;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}
+.toast{position:fixed;bottom:32px;right:32px;background:var(--bg2);border:1px solid var(--accent);padding:16px 24px;font-size:12px;font-family:'Space Mono',monospace;z-index:500;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none;max-width:90vw}
 .toast.show{opacity:1;transform:translateY(0)}
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border2)}
+
+/* LOADING */
+#loading-screen{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.loading-logo{font-size:28px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent)}
+.loading-dot{display:flex;gap:6px;margin-top:8px}
+.loading-dot span{width:6px;height:6px;background:var(--muted);border-radius:50%;animation:blink 1.4s infinite}
+.loading-dot span:nth-child(2){animation-delay:.2s}
+.loading-dot span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+
+/* ===================== TOUR ===================== */
+.tour-overlay{position:fixed;inset:0;z-index:900;pointer-events:none}
+.tour-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:901;pointer-events:all}
+.tour-spotlight{position:fixed;z-index:902;border:2px solid var(--accent);border-radius:2px;box-shadow:0 0 0 9999px rgba(0,0,0,0.7);pointer-events:none;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.tour-tooltip{position:fixed;z-index:903;background:var(--bg2);border:1px solid var(--accent);padding:24px 28px;width:320px;max-width:90vw;pointer-events:all;animation:tooltipIn .3s ease}
+@keyframes tooltipIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.tour-step-label{font-size:10px;font-family:'Space Mono',monospace;color:var(--accent);letter-spacing:0.15em;margin-bottom:8px}
+.tour-title{font-size:16px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;color:var(--text)}
+.tour-desc{font-size:13px;color:var(--muted);font-family:'Space Mono',monospace;line-height:1.6;margin-bottom:20px}
+.tour-actions{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tour-btn-next{padding:10px 20px;background:var(--accent);color:var(--bg);font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer}
+.tour-btn-skip{font-size:11px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:'Space Mono',monospace;letter-spacing:0.05em;text-decoration:underline}
+.tour-progress{display:flex;gap:5px;align-items:center}
+.tour-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background .3s}
+.tour-dot.active{background:var(--accent)}
+
+/* ===================== MOBILE ===================== */
+@media(max-width:768px){
+  .ticker{font-size:10px}
+  nav{padding:0 16px}
+  .nav-tabs{display:none}
+  .nav-right{display:none}
+  .hamburger{display:flex}
+  .nav-logo{font-size:16px}
+
+  #login-screen,.login-box{padding:24px}
+  .login-box{border:none;background:transparent}
+
+  .onboard-box{padding:24px;border:none}
+  .color-grid{grid-template-columns:repeat(3,1fr)}
+
+  .dash-header{padding:20px 16px 16px}
+  .dash-title{font-size:24px}
+  .stats-row{flex-wrap:wrap;gap:0}
+  .stat-card{flex:1 1 calc(50% - 1px);min-width:0}
+  .stat-value{font-size:22px}
+
+  .subject-header{padding:16px 16px 8px}
+  .table-container{padding:16px}
+  .reviews-banner{margin:0 16px 16px}
+  .telegram-section{margin:0 16px 16px;flex-direction:column;align-items:flex-start}
+  .provas-header{padding:20px 16px 16px}
+
+  .perf-grid{grid-template-columns:1fr}
+
+  .modal{padding:24px}
+  .modal-actions{flex-direction:column}
+
+  .toast{bottom:16px;right:16px;left:16px}
+
+  .tour-tooltip{width:calc(100vw - 32px);left:16px!important;right:16px!important}
+}
+
+@media(max-width:480px){
+  .stat-card{flex:1 1 100%}
+}
 </style>
 </head>
-<body>
+<body class="theme-default">
+
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="loading-logo">ESTUDAHUB</div>
+  <div class="loading-dot"><span></span><span></span><span></span></div>
+</div>
 
 <!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-inner" id="ticker-text">
+<div class="ticker" id="main-ticker" style="display:none">
+  <div class="ticker-inner">
     <span>ESTUDAHUB — SEU RASTREADOR DE ESTUDOS</span>
     <span class="hi">★</span>
     <span>REVISÃO ESPAÇADA — 24H / 1 SEMANA / 1 MÊS</span>
@@ -225,81 +318,70 @@ canvas{width:100%!important}
 </div>
 
 <!-- LOGIN -->
-<div id="login-screen" class="screen active">
+<div id="login-screen" class="screen" style="display:none">
   <div class="login-box">
     <div class="login-title">ESTUDAHUB</div>
     <div class="login-sub mono">// rastreador inteligente de estudos</div>
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="login-email" placeholder="seu@email.com" />
-    </div>
-    <div class="field">
-      <label>Senha</label>
-      <input type="password" id="login-pass" placeholder="••••••••" />
-    </div>
-    <button class="btn-primary" onclick="doLogin()">ENTRAR →</button>
-    <div class="login-footer">Não tem conta? <a onclick="doLogin()">Criar agora</a></div>
+    <button class="btn-google" onclick="loginGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+      ENTRAR COM GOOGLE
+    </button>
+    <div class="login-footer mono" style="margin-top:20px">// seus dados ficam salvos na nuvem em qualquer aparelho</div>
   </div>
 </div>
 
 <!-- ONBOARDING -->
 <div id="onboard-screen" class="screen" style="display:none">
   <div class="onboard-box">
-    <div class="onboard-title">BEM-VINDO(A)</div>
+    <div class="onboard-title">BEM-VINDO(A) 🎓</div>
     <div class="onboard-sub mono">// escolha sua identidade visual</div>
     <div class="section-label">Tema de cores</div>
     <div class="color-grid">
-      <div class="color-opt c-default selected" data-theme="theme-default" onclick="selectTheme(this,'theme-default')">
-        <div class="check"></div>
-        <span>PADRÃO</span>
-      </div>
-      <div class="color-opt c-blue" data-theme="theme-blue" onclick="selectTheme(this,'theme-blue')">
-        <div class="check"></div>
-        <span>AZUL</span>
-      </div>
-      <div class="color-opt c-green" data-theme="theme-green" onclick="selectTheme(this,'theme-green')">
-        <div class="check"></div>
-        <span>VERDE</span>
-      </div>
-      <div class="color-opt c-amber" data-theme="theme-amber" onclick="selectTheme(this,'theme-amber')">
-        <div class="check"></div>
-        <span>ÂMBAR</span>
-      </div>
-      <div class="color-opt c-red" data-theme="theme-red" onclick="selectTheme(this,'theme-red')">
-        <div class="check"></div>
-        <span>RUBI</span>
-      </div>
-      <div class="color-opt c-purple" data-theme="theme-purple" onclick="selectTheme(this,'theme-purple')">
-        <div class="check"></div>
-        <span>ROXO</span>
-      </div>
+      <div class="color-opt c-default selected" onclick="selectTheme(this,'theme-default')"><div class="check"></div><span>PADRÃO</span></div>
+      <div class="color-opt c-blue" onclick="selectTheme(this,'theme-blue')"><div class="check"></div><span>AZUL</span></div>
+      <div class="color-opt c-green" onclick="selectTheme(this,'theme-green')"><div class="check"></div><span>VERDE</span></div>
+      <div class="color-opt c-amber" onclick="selectTheme(this,'theme-amber')"><div class="check"></div><span>ÂMBAR</span></div>
+      <div class="color-opt c-red" onclick="selectTheme(this,'theme-red')"><div class="check"></div><span>RUBI</span></div>
+      <div class="color-opt c-purple" onclick="selectTheme(this,'theme-purple')"><div class="check"></div><span>ROXO</span></div>
     </div>
     <button class="btn-primary" onclick="finishOnboard()">ENTRAR NO HUB →</button>
   </div>
 </div>
 
-<!-- APP WRAPPER -->
+<!-- APP -->
 <div id="app-screen" class="screen" style="display:none">
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-nav" id="mobile-nav">
+    <button class="mobile-close" onclick="closeMobileNav()">✕</button>
+    <div class="mobile-nav-tab active" id="mn-planilha" onclick="switchPage('planilha',null,true)">PLANILHA</div>
+    <div class="mobile-nav-tab" id="mn-provas" onclick="switchPage('provas',null,true)">PROVAS</div>
+    <div class="mobile-nav-user" id="mn-email">—</div>
+    <button class="btn-sm" style="margin-top:16px;width:100%;text-align:center" onclick="logout()">SAIR</button>
+  </div>
+
   <nav>
     <div class="nav-logo">ESTUDAHUB</div>
-    <div class="nav-tabs">
-      <div class="nav-tab active" onclick="switchPage('planilha',this)">PLANILHA</div>
-      <div class="nav-tab" onclick="switchPage('provas',this)">PROVAS</div>
+    <div class="nav-tabs" id="desk-tabs">
+      <div class="nav-tab active" id="dt-planilha" onclick="switchPage('planilha',this)">PLANILHA</div>
+      <div class="nav-tab" id="dt-provas" onclick="switchPage('provas',this)">PROVAS</div>
     </div>
     <div class="nav-right">
+      <img class="user-avatar" id="nav-avatar" src="" style="display:none" />
       <span class="nav-user mono" id="nav-email">—</span>
       <button class="btn-sm" onclick="logout()">SAIR</button>
     </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
-  <!-- PAGE: PLANILHA -->
+  <!-- PAGE PLANILHA -->
   <div id="page-planilha" class="page active">
-    <!-- Stats -->
     <div class="dash-header">
       <div class="dash-greeting">// painel de estudos</div>
       <div class="dash-title" id="greeting-name">OLHANDO PRO HORIZONTE</div>
       <div class="stats-row" id="stats-row">
-        <div class="stat-card">
+        <div class="stat-card" id="tour-stat-total">
           <div class="stat-label">Temas Totais</div>
           <div class="stat-value" id="stat-total">0</div>
           <div class="stat-sub">cadastrados</div>
@@ -314,7 +396,7 @@ canvas{width:100%!important}
           <div class="stat-value" id="stat-avg">—</div>
           <div class="stat-sub">geral</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card" id="tour-stat-rev">
           <div class="stat-label">Revisões Hoje</div>
           <div class="stat-value" id="stat-revisions">0</div>
           <div class="stat-sub">pendentes</div>
@@ -322,19 +404,13 @@ canvas{width:100%!important}
       </div>
     </div>
 
-    <!-- Revisões hoje -->
     <div id="reviews-today-section" style="display:none">
-      <div style="padding:24px 40px 0">
-        <div class="section-label">📅 Revisões para hoje</div>
-      </div>
+      <div style="padding:24px 40px 0"><div class="section-label">📅 Revisões para hoje</div></div>
       <div class="reviews-banner" id="reviews-today-list"></div>
     </div>
 
-    <!-- Telegram -->
-    <div style="padding:24px 40px 0">
-      <div class="section-label">INTEGRAÇÃO TELEGRAM</div>
-    </div>
-    <div class="telegram-section">
+    <div style="padding:24px 40px 0"><div class="section-label">INTEGRAÇÃO TELEGRAM</div></div>
+    <div class="telegram-section" id="tour-telegram">
       <div class="tg-icon">✈️</div>
       <div class="tg-text">
         <h3>Notificações diárias</h3>
@@ -347,27 +423,24 @@ canvas{width:100%!important}
       </div>
     </div>
 
-    <!-- Table -->
-    <div class="table-container">
+    <div class="table-container" id="tour-table">
       <div class="table-toolbar">
         <div class="table-title">TEMAS DE ESTUDO</div>
-        <button class="btn-add" onclick="openAddModal()">+ ADICIONAR TEMA</button>
+        <button class="btn-add" id="tour-btn-add" onclick="openAddModal()">+ ADICIONAR TEMA</button>
       </div>
       <div id="subjects-container"></div>
     </div>
   </div>
 
-  <!-- PAGE: PROVAS -->
+  <!-- PAGE PROVAS -->
   <div id="page-provas" class="page">
     <div class="provas-header">
       <div class="dash-greeting">// histórico de provas</div>
       <div class="dash-title">DESEMPENHO EM PROVAS</div>
       <div class="provas-actions">
-        <button class="btn-add" onclick="openAddProvaModal()">+ ADICIONAR PROVA</button>
+        <button class="btn-add" id="tour-btn-prova" onclick="openAddProvaModal()">+ ADICIONAR PROVA</button>
       </div>
     </div>
-
-    <!-- Gráficos -->
     <div class="perf-grid" id="charts-area" style="display:none">
       <div class="perf-card">
         <div class="perf-card-title">EVOLUÇÃO DO DESEMPENHO</div>
@@ -378,31 +451,15 @@ canvas{width:100%!important}
         <div class="chart-container"><canvas id="chart-provas"></canvas></div>
       </div>
     </div>
-
-    <!-- Stats provas -->
-    <div class="stats-row" id="stats-provas" style="background:var(--border);margin-bottom:1px">
-      <div class="stat-card">
-        <div class="stat-label">Provas Feitas</div>
-        <div class="stat-value" id="pstat-total">0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Média Geral</div>
-        <div class="stat-value" id="pstat-avg">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Melhor Prova</div>
-        <div class="stat-value" id="pstat-best">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Total de Questões</div>
-        <div class="stat-value" id="pstat-q">0</div>
-      </div>
+    <div class="stats-row" style="background:var(--border);margin-bottom:1px">
+      <div class="stat-card"><div class="stat-label">Provas Feitas</div><div class="stat-value" id="pstat-total">0</div></div>
+      <div class="stat-card"><div class="stat-label">Média Geral</div><div class="stat-value" id="pstat-avg">—</div></div>
+      <div class="stat-card"><div class="stat-label">Melhor Prova</div><div class="stat-value" id="pstat-best">—</div></div>
+      <div class="stat-card"><div class="stat-label">Total de Questões</div><div class="stat-value" id="pstat-q">0</div></div>
     </div>
-
-    <!-- Provas table -->
     <div class="table-container">
-      <div id="provas-container">
-        <div class="empty-state">NENHUMA PROVA CADASTRADA // ADICIONE A PRIMEIRA</div>
+      <div class="table-scroll">
+        <div id="provas-container"><div class="empty-state">NENHUMA PROVA CADASTRADA // ADICIONE A PRIMEIRA</div></div>
       </div>
     </div>
   </div>
@@ -412,18 +469,9 @@ canvas{width:100%!important}
 <div class="modal-overlay" id="modal-add">
   <div class="modal">
     <div class="modal-title">ADICIONAR TEMA</div>
-    <div class="modal-field">
-      <label>Matéria</label>
-      <input type="text" id="add-materia" placeholder="Ex: Direito Constitucional" />
-    </div>
-    <div class="modal-field">
-      <label>Tema</label>
-      <input type="text" id="add-tema" placeholder="Ex: Princípios Fundamentais" />
-    </div>
-    <div class="modal-field">
-      <label>Data estudada (opcional)</label>
-      <input type="date" id="add-date" />
-    </div>
+    <div class="modal-field"><label>Matéria</label><input type="text" id="add-materia" placeholder="Ex: Direito Constitucional" /></div>
+    <div class="modal-field"><label>Tema</label><input type="text" id="add-tema" placeholder="Ex: Princípios Fundamentais" /></div>
+    <div class="modal-field"><label>Data estudada (opcional)</label><input type="date" id="add-date" /></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModals()">CANCELAR</button>
       <button class="btn-confirm" onclick="addTema()">ADICIONAR →</button>
@@ -434,22 +482,10 @@ canvas{width:100%!important}
 <div class="modal-overlay" id="modal-prova">
   <div class="modal">
     <div class="modal-title">ADICIONAR PROVA</div>
-    <div class="modal-field">
-      <label>Nome da Prova</label>
-      <input type="text" id="prova-nome" placeholder="Ex: ENEM 2024 — Ciências Humanas" />
-    </div>
-    <div class="modal-field">
-      <label>Ano</label>
-      <input type="number" id="prova-ano" placeholder="2024" min="2000" max="2099" />
-    </div>
-    <div class="modal-field">
-      <label>Nº de Questões</label>
-      <input type="number" id="prova-total" placeholder="45" min="1" />
-    </div>
-    <div class="modal-field">
-      <label>Nº de Acertos</label>
-      <input type="number" id="prova-acertos" placeholder="36" min="0" />
-    </div>
+    <div class="modal-field"><label>Nome da Prova</label><input type="text" id="prova-nome" placeholder="Ex: ENEM 2024 — Ciências Humanas" /></div>
+    <div class="modal-field"><label>Ano</label><input type="number" id="prova-ano" placeholder="2024" min="2000" max="2099" /></div>
+    <div class="modal-field"><label>Nº de Questões</label><input type="number" id="prova-total" placeholder="45" min="1" /></div>
+    <div class="modal-field"><label>Nº de Acertos</label><input type="number" id="prova-acertos" placeholder="36" min="0" /></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModals()">CANCELAR</button>
       <button class="btn-confirm" onclick="addProva()">REGISTRAR →</button>
@@ -459,65 +495,191 @@ canvas{width:100%!important}
 
 <div class="toast" id="toast"></div>
 
+<!-- TOUR ELEMENTS -->
+<div class="tour-backdrop" id="tour-backdrop" style="display:none" onclick="tourSkip()"></div>
+<div class="tour-spotlight" id="tour-spotlight" style="display:none"></div>
+<div class="tour-tooltip" id="tour-tooltip" style="display:none">
+  <div class="tour-step-label" id="tour-step-label">PASSO 1 DE 5</div>
+  <div class="tour-title" id="tour-title"></div>
+  <div class="tour-desc" id="tour-desc"></div>
+  <div class="tour-actions">
+    <div class="tour-progress" id="tour-progress"></div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button class="tour-btn-skip" onclick="tourSkip()">pular tour</button>
+      <button class="tour-btn-next" id="tour-btn-next" onclick="tourNext()">PRÓXIMO →</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDhqCjtURR6WZvLbHb-hbWzrP1fMxK0Dnk",
+  authDomain: "estudahub-20436.firebaseapp.com",
+  projectId: "estudahub-20436",
+  storageBucket: "estudahub-20436.firebasestorage.app",
+  messagingSenderId: "957089244219",
+  appId: "1:957089244219:web:3cdc5c31261fab9843e81e"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+let currentUser = null;
+
+// ========== SAVE / LOAD FIRESTORE ==========
+async function saveToCloud(){
+  if(!currentUser) return;
+  try {
+    await setDoc(doc(db, 'users', currentUser.uid, 'data', 'state'), {
+      theme: state.theme,
+      isNewUser: state.isNewUser,
+      temas: state.temas,
+      provas: state.provas,
+      tgChatId: state.tgChatId || null,
+      tourDone: state.tourDone || false,
+      updatedAt: Date.now()
+    });
+  } catch(e){ console.error('Erro ao salvar:', e); }
+}
+
+async function loadFromCloud(uid){
+  try {
+    const snap = await getDoc(doc(db, 'users', uid, 'data', 'state'));
+    if(snap.exists()){
+      const d = snap.data();
+      state.theme = d.theme || 'theme-default';
+      state.isNewUser = d.isNewUser !== undefined ? d.isNewUser : true;
+      state.temas = d.temas || [];
+      state.provas = d.provas || [];
+      state.tgChatId = d.tgChatId || null;
+      state.tourDone = d.tourDone || false;
+    }
+  } catch(e){ console.error('Erro ao carregar:', e); }
+}
+
+// ========== EXPOSE TO GLOBAL ==========
+window._saveToCloud = saveToCloud;
+window._loadFromCloud = loadFromCloud;
+
+// ========== AUTH STATE ==========
+onAuthStateChanged(auth, async (user) => {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('main-ticker').style.display = '';
+
+  if(user){
+    currentUser = user;
+    state.user = user.email;
+    state.displayName = user.displayName;
+    state.photoURL = user.photoURL;
+
+    await loadFromCloud(user.uid);
+
+    if(state.isNewUser){
+      showScreen('onboard');
+    } else {
+      enterApp();
+      if(!state.tourDone){
+        setTimeout(()=>startTour(), 800);
+      }
+    }
+  } else {
+    currentUser = null;
+    showScreen('login');
+  }
+});
+
+// ========== GOOGLE LOGIN ==========
+window.loginGoogle = async function(){
+  try {
+    await signInWithPopup(auth, provider);
+  } catch(e){
+    if(e.code !== 'auth/popup-closed-by-user'){
+      toast('// ERRO AO FAZER LOGIN: ' + e.message);
+    }
+  }
+}
+
+// ========== LOGOUT ==========
+window.logoutFirebase = async function(){
+  await signOut(auth);
+}
+
+</script>
+
 <script>
 // ========== STATE ==========
 let state = {
   user: null,
+  displayName: null,
+  photoURL: null,
   theme: 'theme-default',
   isNewUser: true,
   temas: [],
   provas: [],
-  tgChatId: null
+  tgChatId: null,
+  tourDone: false
 };
 
-// ========== PERSISTENCE ==========
+// ========== SAVE (debounced) ==========
+let saveTimer = null;
 function save(){
-  try{localStorage.setItem('estudahub_state', JSON.stringify(state))}catch(e){}
-}
-function load(){
-  try{
-    const d = localStorage.getItem('estudahub_state');
-    if(d) state = {...state, ...JSON.parse(d)};
-  }catch(e){}
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    if(window._saveToCloud) window._saveToCloud();
+  }, 600);
 }
 
 // ========== DATES ==========
 function today(){return new Date().toISOString().split('T')[0]}
-function addDays(dateStr, n){
-  const d = new Date(dateStr);
-  d.setDate(d.getDate()+n);
-  return d.toISOString().split('T')[0];
-}
-function daysAgo(dateStr){
-  const diff = (new Date(today()) - new Date(dateStr)) / 86400000;
-  return Math.floor(diff);
-}
+function addDays(dateStr, n){const d=new Date(dateStr);d.setDate(d.getDate()+n);return d.toISOString().split('T')[0]}
+function daysAgo(dateStr){return Math.floor((new Date(today())-new Date(dateStr))/86400000)}
 
 // ========== TOAST ==========
 function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3000);
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// ========== AUTH ==========
-function doLogin(){
-  const email = document.getElementById('login-email').value.trim();
-  if(!email || !email.includes('@')){toast('// EMAIL INVÁLIDO'); return;}
-  state.user = email;
-  if(state.isNewUser){
-    showScreen('onboard');
-  } else {
-    enterApp();
+// ========== SCREENS ==========
+function showScreen(name){
+  ['login-screen','onboard-screen','app-screen'].forEach(id=>{
+    document.getElementById(id).style.display='none';
+  });
+  if(name==='login') document.getElementById('login-screen').style.display='flex';
+  if(name==='onboard') document.getElementById('onboard-screen').style.display='flex';
+  if(name==='app') document.getElementById('app-screen').style.display='block';
+}
+
+function enterApp(){
+  document.body.className = state.theme || 'theme-default';
+  document.getElementById('nav-email').textContent = state.displayName || (state.user ? state.user.split('@')[0] : '—');
+  document.getElementById('mn-email').textContent = state.user || '—';
+
+  const avatar = document.getElementById('nav-avatar');
+  if(state.photoURL){
+    avatar.src = state.photoURL;
+    avatar.style.display = 'block';
   }
+
+  if(state.tgChatId){ document.getElementById('tg-connected').classList.add('show'); document.getElementById('tg-token').value=state.tgChatId; }
+  showScreen('app');
+  renderAll();
+  renderProvas();
 }
 
 function logout(){
-  showScreen('login');
-  document.getElementById('login-email').value='';
-  document.getElementById('login-pass').value='';
+  if(window.logoutFirebase) window.logoutFirebase();
+  closeMobileNav();
 }
 
 // ========== ONBOARDING ==========
@@ -526,7 +688,6 @@ function selectTheme(el, theme){
   document.querySelectorAll('.color-opt').forEach(e=>e.classList.remove('selected'));
   el.classList.add('selected');
   selectedTheme = theme;
-  // preview accent
   document.body.className = theme;
 }
 function finishOnboard(){
@@ -534,388 +695,347 @@ function finishOnboard(){
   state.isNewUser = false;
   save();
   enterApp();
+  setTimeout(()=>startTour(), 600);
 }
 
-// ========== SCREENS ==========
-function showScreen(name){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('onboard-screen').style.display='none';
-  document.getElementById('app-screen').style.display='none';
-  if(name==='login') document.getElementById('login-screen').style.display='flex';
-  if(name==='onboard') document.getElementById('onboard-screen').style.display='flex';
-  if(name==='app') document.getElementById('app-screen').style.display='block';
+// ========== MOBILE NAV ==========
+function toggleMobileNav(){
+  const nav = document.getElementById('mobile-nav');
+  const hb = document.getElementById('hamburger');
+  nav.classList.toggle('open');
+  hb.classList.toggle('open');
 }
-function enterApp(){
-  document.body.className = state.theme || 'theme-default';
-  document.getElementById('nav-email').textContent = state.user;
-  if(state.tgChatId) document.getElementById('tg-connected').classList.add('show');
-  if(state.tgChatId) document.getElementById('tg-token').value = state.tgChatId;
-  showScreen('app');
-  renderAll();
+function closeMobileNav(){
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
 }
 
-function switchPage(name, el){
+// ========== PAGES ==========
+function switchPage(name, el, fromMobile){
+  // desktop tabs
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
+  const deskTab = document.getElementById('dt-'+name);
+  if(deskTab) deskTab.classList.add('active');
+  // mobile tabs
+  document.querySelectorAll('.mobile-nav-tab').forEach(t=>t.classList.remove('active'));
+  const mobTab = document.getElementById('mn-'+name);
+  if(mobTab) mobTab.classList.add('active');
+  // pages
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   if(name==='provas') renderProvas();
+  if(fromMobile) closeMobileNav();
 }
 
-// ========== PLANILHA ==========
+// ========== MODALS ==========
 function openAddModal(){
-  document.getElementById('add-date').value = today();
+  document.getElementById('add-date').value=today();
   document.getElementById('modal-add').classList.add('open');
 }
-function closeModals(){
-  document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('open'));
-}
+function openAddProvaModal(){ document.getElementById('modal-prova').classList.add('open'); }
+function closeModals(){ document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('open')); }
 
+// ========== PLANILHA ==========
 function addTema(){
-  const mat = document.getElementById('add-materia').value.trim();
-  const tema = document.getElementById('add-tema').value.trim();
-  const date = document.getElementById('add-date').value || today();
-  if(!mat||!tema){toast('// PREENCHA MATÉRIA E TEMA'); return;}
-  state.temas.push({
-    id: Date.now(),
-    materia: mat,
-    tema,
-    estudado: false,
-    questoes: 0,
-    acertos: 0,
-    dataEstudo: date,
-    rev24h: false, rev1s: false, rev1m: false
-  });
-  save();
-  closeModals();
+  const mat=document.getElementById('add-materia').value.trim();
+  const tema=document.getElementById('add-tema').value.trim();
+  const date=document.getElementById('add-date').value||today();
+  if(!mat||!tema){toast('// PREENCHA MATÉRIA E TEMA');return;}
+  state.temas.push({id:Date.now(),materia:mat,tema,estudado:false,questoes:0,acertos:0,dataEstudo:date,rev24h:false,rev1s:false,rev1m:false});
+  save();closeModals();
   document.getElementById('add-materia').value='';
   document.getElementById('add-tema').value='';
-  renderAll();
-  toast('// TEMA ADICIONADO');
+  renderAll();toast('// TEMA ADICIONADO');
 }
-
-function deleteTema(id){
-  state.temas = state.temas.filter(t=>t.id!==id);
-  save(); renderAll();
-  toast('// TEMA REMOVIDO');
-}
-
-function toggleCheck(id){
-  const t = state.temas.find(x=>x.id===id);
-  if(t){t.estudado=!t.estudado; if(t.estudado&&!t.dataEstudo) t.dataEstudo=today();}
-  save(); renderAll();
-}
-
-function updateField(id, field, val){
-  const t = state.temas.find(x=>x.id===id);
-  if(t){
-    if(field==='questoes'||field==='acertos') val=parseInt(val)||0;
-    t[field]=val;
-  }
-  save(); renderAll();
-}
-
-function getPct(t){
-  if(!t.questoes) return null;
-  return Math.round((t.acertos/t.questoes)*100);
-}
-function pctClass(pct){
-  if(pct===null) return '';
-  if(pct>=80) return 'pct-green';
-  if(pct>=70) return 'pct-yellow';
-  return 'pct-red';
-}
+function deleteTema(id){ state.temas=state.temas.filter(t=>t.id!==id);save();renderAll();toast('// TEMA REMOVIDO'); }
+function toggleCheck(id){ const t=state.temas.find(x=>x.id===id);if(t){t.estudado=!t.estudado;if(t.estudado&&!t.dataEstudo)t.dataEstudo=today();}save();renderAll(); }
+function updateField(id,field,val){ const t=state.temas.find(x=>x.id===id);if(t){if(field==='questoes'||field==='acertos')val=parseInt(val)||0;t[field]=val;}save();renderAll(); }
+function getPct(t){ if(!t.questoes)return null;return Math.round((t.acertos/t.questoes)*100); }
+function pctClass(pct){ if(pct===null)return '';if(pct>=80)return 'pct-green';if(pct>=70)return 'pct-yellow';return 'pct-red'; }
 
 function getRevisions(t){
-  if(!t.estudado||!t.dataEstudo) return [];
-  const revs = [];
-  const d = t.dataEstudo;
-  const r24 = addDays(d,1);
-  const r1s = addDays(d,7);
-  const r1m = addDays(d,30);
-  const td = today();
-  if(!t.rev24h) revs.push({label:'24H', date:r24, key:'rev24h', status: td>r24?'overdue': td===r24?'due':'ok'});
-  else revs.push({label:'24H', date:r24, key:'rev24h', status:'done'});
-  if(!t.rev1s) revs.push({label:'1S', date:r1s, key:'rev1s', status: td>r1s?'overdue': td===r1s?'due':'ok'});
-  else revs.push({label:'1S', date:r1s, key:'rev1s', status:'done'});
-  if(!t.rev1m) revs.push({label:'1M', date:r1m, key:'rev1m', status: td>r1m?'overdue': td===r1m?'due':'ok'});
-  else revs.push({label:'1M', date:r1m, key:'rev1m', status:'done'});
+  if(!t.estudado||!t.dataEstudo)return[];
+  const revs=[];const d=t.dataEstudo;const td=today();
+  const r24=addDays(d,1),r1s=addDays(d,7),r1m=addDays(d,30);
+  if(!t.rev24h)revs.push({label:'24H',date:r24,key:'rev24h',status:td>r24?'overdue':td===r24?'due':'ok'});
+  else revs.push({label:'24H',date:r24,key:'rev24h',status:'done'});
+  if(!t.rev1s)revs.push({label:'1S',date:r1s,key:'rev1s',status:td>r1s?'overdue':td===r1s?'due':'ok'});
+  else revs.push({label:'1S',date:r1s,key:'rev1s',status:'done'});
+  if(!t.rev1m)revs.push({label:'1M',date:r1m,key:'rev1m',status:td>r1m?'overdue':td===r1m?'due':'ok'});
+  else revs.push({label:'1M',date:r1m,key:'rev1m',status:'done'});
   return revs;
 }
-
-function toggleRevision(temaId, key){
-  const t = state.temas.find(x=>x.id===temaId);
-  if(t) t[key] = !t[key];
-  save(); renderAll();
-}
+function toggleRevision(temaId,key){ const t=state.temas.find(x=>x.id===temaId);if(t)t[key]=!t[key];save();renderAll(); }
 
 function getTodayRevisions(){
-  const td = today();
-  const result = [];
+  const td=today();const result=[];
   state.temas.forEach(t=>{
-    if(!t.estudado||!t.dataEstudo) return;
-    const d = t.dataEstudo;
-    if(!t.rev24h && addDays(d,1)===td) result.push({...t, revType:'24H', badge:'review-badge-24h'});
-    if(!t.rev1s && addDays(d,7)===td) result.push({...t, revType:'1 SEMANA', badge:'review-badge-1s'});
-    if(!t.rev1m && addDays(d,30)===td) result.push({...t, revType:'1 MÊS', badge:'review-badge-1m'});
-    // overdue
-    if(!t.rev24h && today()>addDays(d,1)&&today()!==addDays(d,1)) result.push({...t, revType:'24H (ATRASADO)', badge:'review-badge-24h'});
+    if(!t.estudado||!t.dataEstudo)return;
+    const d=t.dataEstudo;
+    if(!t.rev24h&&addDays(d,1)===td)result.push({...t,revType:'24H',badge:'review-badge-24h'});
+    if(!t.rev1s&&addDays(d,7)===td)result.push({...t,revType:'1 SEMANA',badge:'review-badge-1s'});
+    if(!t.rev1m&&addDays(d,30)===td)result.push({...t,revType:'1 MÊS',badge:'review-badge-1m'});
+    if(!t.rev24h&&today()>addDays(d,1)&&today()!==addDays(d,1))result.push({...t,revType:'24H (ATRASADO)',badge:'review-badge-24h'});
   });
   return result;
 }
 
-function renderAll(){
-  renderStats();
-  renderTodayRevisions();
-  renderTable();
-}
+function renderAll(){ renderStats();renderTodayRevisions();renderTable(); }
 
 function renderStats(){
-  const total = state.temas.length;
-  const studied = state.temas.filter(t=>t.estudado).length;
-  const withQ = state.temas.filter(t=>t.questoes>0);
-  const avg = withQ.length ? Math.round(withQ.reduce((a,t)=>a+(t.acertos/t.questoes)*100,0)/withQ.length) : null;
-  const rev = getTodayRevisions().length;
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-studied').textContent = studied;
-  document.getElementById('stat-avg').textContent = avg!==null ? avg+'%' : '—';
-  document.getElementById('stat-revisions').textContent = rev;
-  const name = state.user ? state.user.split('@')[0].toUpperCase() : '';
-  document.getElementById('greeting-name').textContent = 'OLÁ, '+ name;
+  const total=state.temas.length;
+  const studied=state.temas.filter(t=>t.estudado).length;
+  const withQ=state.temas.filter(t=>t.questoes>0);
+  const avg=withQ.length?Math.round(withQ.reduce((a,t)=>a+(t.acertos/t.questoes)*100,0)/withQ.length):null;
+  const rev=getTodayRevisions().length;
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-studied').textContent=studied;
+  document.getElementById('stat-avg').textContent=avg!==null?avg+'%':'—';
+  document.getElementById('stat-revisions').textContent=rev;
+  const name=state.displayName||state.user;
+  const firstName = name ? name.split(' ')[0].toUpperCase() : '';
+  document.getElementById('greeting-name').textContent='OLÁ, '+firstName;
 }
 
 function renderTodayRevisions(){
-  const revs = getTodayRevisions();
-  document.getElementById('stat-revisions').textContent = revs.length;
-  const sec = document.getElementById('reviews-today-section');
-  const list = document.getElementById('reviews-today-list');
-  if(!revs.length){sec.style.display='none'; return;}
+  const revs=getTodayRevisions();
+  const sec=document.getElementById('reviews-today-section');
+  const list=document.getElementById('reviews-today-list');
+  if(!revs.length){sec.style.display='none';return;}
   sec.style.display='block';
-  list.innerHTML = revs.slice(0,6).map(r=>`
+  list.innerHTML=revs.slice(0,6).map(r=>`
     <div class="review-item">
-      <div style="flex:1">
-        <div class="review-materia">${r.materia}</div>
-        <div class="review-tema">${r.tema}</div>
-      </div>
+      <div style="flex:1"><div class="review-materia">${r.materia}</div><div class="review-tema">${r.tema}</div></div>
       <span class="${r.badge}">${r.revType}</span>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
 function renderTable(){
-  const container = document.getElementById('subjects-container');
-  if(!state.temas.length){
-    container.innerHTML='<div class="empty-state">NENHUM TEMA CADASTRADO // COMECE AGORA</div>';
-    return;
-  }
-  // group by materia
-  const groups = {};
-  state.temas.forEach(t=>{
-    if(!groups[t.materia]) groups[t.materia]=[];
-    groups[t.materia].push(t);
-  });
+  const container=document.getElementById('subjects-container');
+  if(!state.temas.length){container.innerHTML='<div class="empty-state">NENHUM TEMA CADASTRADO // COMECE AGORA</div>';return;}
+  const groups={};
+  state.temas.forEach(t=>{if(!groups[t.materia])groups[t.materia]=[];groups[t.materia].push(t);});
   let html='';
-  for(const [materia, temas] of Object.entries(groups)){
-    const estudados = temas.filter(t=>t.estudado).length;
+  for(const[materia,temas]of Object.entries(groups)){
+    const estudados=temas.filter(t=>t.estudado).length;
+    const key=btoa(encodeURIComponent(materia)).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
     html+=`
-    <div class="subject-header" onclick="toggleSubject('${materia.replace(/'/g,"\\'")}')">
-      <div class="subject-arrow open" id="arr-${btoa(materia).replace(/=/g,'')}">▶</div>
+    <div class="subject-header" onclick="toggleSubject('${key}')">
+      <div class="subject-arrow open" id="arr-${key}">▶</div>
       <div class="subject-name">${materia}</div>
       <div class="subject-count mono">${estudados}/${temas.length} estudados</div>
     </div>
-    <div id="sub-${btoa(materia).replace(/=/g,'')}">
-    <table>
-      <thead><tr>
-        <th>✓</th>
-        <th>TEMA</th>
-        <th>QUESTÕES</th>
-        <th>ACERTOS</th>
-        <th>%</th>
-        <th>DATA</th>
-        <th>REVISÕES</th>
-        <th></th>
-      </tr></thead>
+    <div id="sub-${key}"><div class="table-scroll"><table>
+      <thead><tr><th>✓</th><th>TEMA</th><th>QUEST.</th><th>ACERTOS</th><th>%</th><th>DATA</th><th>REVISÕES</th><th></th></tr></thead>
       <tbody>
         ${temas.map(t=>{
-          const pct = getPct(t);
-          const revs = getRevisions(t);
-          return `<tr>
-            <td>
-              <div class="check-box ${t.estudado?'checked':''}" onclick="toggleCheck(${t.id})"></div>
-            </td>
+          const pct=getPct(t);const revs=getRevisions(t);
+          return`<tr>
+            <td><div class="check-box ${t.estudado?'checked':''}" onclick="toggleCheck(${t.id})"></div></td>
             <td><input class="inline" value="${t.tema}" onblur="updateField(${t.id},'tema',this.value)" /></td>
             <td><input class="inline num" type="number" value="${t.questoes||''}" placeholder="0" onblur="updateField(${t.id},'questoes',this.value)" /></td>
             <td><input class="inline num" type="number" value="${t.acertos||''}" placeholder="0" onblur="updateField(${t.id},'acertos',this.value)" /></td>
             <td>${pct!==null?`<span class="pct-badge ${pctClass(pct)}">${pct}%</span>`:'—'}</td>
             <td><input class="inline" type="date" value="${t.dataEstudo||''}" onchange="updateField(${t.id},'dataEstudo',this.value)" style="font-size:11px;font-family:'Space Mono',monospace;color:var(--muted)" /></td>
-            <td>
-              <div class="revision-chips">
-                ${revs.map(r=>`<span class="chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')" title="${r.date}" style="cursor:pointer">${r.label}</span>`).join('')}
-              </div>
-            </td>
+            <td><div class="revision-chips">${revs.map(r=>`<span class="chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')" title="${r.date}" style="cursor:pointer">${r.label}</span>`).join('')}</div></td>
             <td><button class="del-btn" onclick="deleteTema(${t.id})">×</button></td>
-          </tr>`;
-        }).join('')}
+          </tr>`;}).join('')}
       </tbody>
-    </table>
-    </div>`;
+    </table></div></div>`;
   }
   container.innerHTML=html;
 }
 
-function toggleSubject(materia){
-  const key = btoa(materia).replace(/=/g,'');
-  const sub = document.getElementById('sub-'+key);
-  const arr = document.getElementById('arr-'+key);
+function toggleSubject(key){
+  const sub=document.getElementById('sub-'+key);const arr=document.getElementById('arr-'+key);
+  if(!sub)return;
   if(sub.style.display==='none'){sub.style.display='';arr.classList.add('open');}
   else{sub.style.display='none';arr.classList.remove('open');}
 }
 
 // ========== TELEGRAM ==========
 function connectTelegram(){
-  const v = document.getElementById('tg-token').value.trim();
-  if(!v){toast('// INFORME O CHAT ID'); return;}
-  state.tgChatId = v;
-  save();
+  const v=document.getElementById('tg-token').value.trim();
+  if(!v){toast('// INFORME O CHAT ID');return;}
+  state.tgChatId=v;save();
   document.getElementById('tg-connected').classList.add('show');
   toast('// TELEGRAM CONECTADO — NOTIFICAÇÕES ATIVADAS');
 }
 
 // ========== PROVAS ==========
-function openAddProvaModal(){
-  document.getElementById('modal-prova').classList.add('open');
-}
-
 function addProva(){
-  const nome = document.getElementById('prova-nome').value.trim();
-  const ano = document.getElementById('prova-ano').value;
-  const total = parseInt(document.getElementById('prova-total').value)||0;
-  const acertos = parseInt(document.getElementById('prova-acertos').value)||0;
-  if(!nome||!total){toast('// PREENCHA NOME E Nº DE QUESTÕES'); return;}
-  if(acertos>total){toast('// ACERTOS NÃO PODE SER MAIOR QUE TOTAL'); return;}
-  state.provas.push({id:Date.now(), nome, ano:ano||new Date().getFullYear(), total, acertos});
-  save();
-  closeModals();
-  document.getElementById('prova-nome').value='';
-  document.getElementById('prova-ano').value='';
-  document.getElementById('prova-total').value='';
-  document.getElementById('prova-acertos').value='';
-  renderProvas();
-  toast('// PROVA REGISTRADA');
+  const nome=document.getElementById('prova-nome').value.trim();
+  const ano=document.getElementById('prova-ano').value;
+  const total=parseInt(document.getElementById('prova-total').value)||0;
+  const acertos=parseInt(document.getElementById('prova-acertos').value)||0;
+  if(!nome||!total){toast('// PREENCHA NOME E Nº DE QUESTÕES');return;}
+  if(acertos>total){toast('// ACERTOS NÃO PODE SER MAIOR QUE TOTAL');return;}
+  state.provas.push({id:Date.now(),nome,ano:ano||new Date().getFullYear(),total,acertos});
+  save();closeModals();
+  document.getElementById('prova-nome').value='';document.getElementById('prova-ano').value='';
+  document.getElementById('prova-total').value='';document.getElementById('prova-acertos').value='';
+  renderProvas();toast('// PROVA REGISTRADA');
 }
+function deleteProva(id){ state.provas=state.provas.filter(p=>p.id!==id);save();renderProvas();toast('// PROVA REMOVIDA'); }
 
-function deleteProva(id){
-  state.provas = state.provas.filter(p=>p.id!==id);
-  save(); renderProvas();
-  toast('// PROVA REMOVIDA');
-}
-
-let chartEvolucao=null, chartProvas=null;
+let chartEvolucao=null,chartProvas=null;
 function renderProvas(){
-  // Stats
-  const t = state.provas.length;
-  const totalQ = state.provas.reduce((a,p)=>a+p.total,0);
-  const avgs = state.provas.map(p=>Math.round(p.acertos/p.total*100));
-  const avg = t ? Math.round(avgs.reduce((a,b)=>a+b,0)/t) : null;
-  const best = t ? Math.max(...avgs) : null;
-  document.getElementById('pstat-total').textContent = t;
-  document.getElementById('pstat-avg').textContent = avg!==null ? avg+'%' : '—';
-  document.getElementById('pstat-best').textContent = best!==null ? best+'%' : '—';
-  document.getElementById('pstat-q').textContent = totalQ;
-
-  // Table
-  const c = document.getElementById('provas-container');
-  if(!state.provas.length){
-    c.innerHTML='<div class="empty-state">NENHUMA PROVA CADASTRADA // ADICIONE A PRIMEIRA</div>';
-    document.getElementById('charts-area').style.display='none';
-    return;
-  }
+  const t=state.provas.length;
+  const totalQ=state.provas.reduce((a,p)=>a+p.total,0);
+  const avgs=state.provas.map(p=>Math.round(p.acertos/p.total*100));
+  const avg=t?Math.round(avgs.reduce((a,b)=>a+b,0)/t):null;
+  const best=t?Math.max(...avgs):null;
+  document.getElementById('pstat-total').textContent=t;
+  document.getElementById('pstat-avg').textContent=avg!==null?avg+'%':'—';
+  document.getElementById('pstat-best').textContent=best!==null?best+'%':'—';
+  document.getElementById('pstat-q').textContent=totalQ;
+  const c=document.getElementById('provas-container');
+  if(!state.provas.length){c.innerHTML='<div class="empty-state">NENHUMA PROVA CADASTRADA // ADICIONE A PRIMEIRA</div>';document.getElementById('charts-area').style.display='none';return;}
   document.getElementById('charts-area').style.display='grid';
-  c.innerHTML=`
-    <table>
-      <thead><tr>
-        <th>PROVA</th>
-        <th>ANO</th>
-        <th>Nº QUESTÕES</th>
-        <th>ACERTOS</th>
-        <th>%</th>
-        <th></th>
-      </tr></thead>
-      <tbody>
-        ${state.provas.map(p=>{
-          const pct = Math.round(p.acertos/p.total*100);
-          return `<tr>
-            <td><strong>${p.nome}</strong></td>
-            <td class="mono">${p.ano}</td>
-            <td class="mono">${p.total}</td>
-            <td class="mono">${p.acertos}</td>
-            <td><span class="pct-badge ${pctClass(pct)}">${pct}%</span></td>
-            <td><button class="del-btn" onclick="deleteProva(${p.id})">×</button></td>
-          </tr>`;
-        }).join('')}
-      </tbody>
-    </table>`;
-
-  // Charts
+  c.innerHTML=`<table><thead><tr><th>PROVA</th><th>ANO</th><th>Nº QUESTÕES</th><th>ACERTOS</th><th>%</th><th></th></tr></thead><tbody>
+    ${state.provas.map(p=>{const pct=Math.round(p.acertos/p.total*100);return`<tr>
+      <td><strong>${p.nome}</strong></td>
+      <td class="mono">${p.ano}</td>
+      <td class="mono">${p.total}</td>
+      <td class="mono">${p.acertos}</td>
+      <td><span class="pct-badge ${pctClass(pct)}">${pct}%</span></td>
+      <td><button class="del-btn" onclick="deleteProva(${p.id})">×</button></td>
+    </tr>`;}).join('')}
+  </tbody></table>`;
   renderCharts();
 }
 
 function renderCharts(){
-  const accent = getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#e8e8e8';
-  const muted = '#444';
-  const grid = '#1e1e1e';
-  const chartDefaults = {
-    responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false}},
-    scales:{
-      x:{ticks:{color:muted,font:{family:"'Space Mono',monospace",size:10}},grid:{color:grid}},
-      y:{ticks:{color:muted,font:{family:"'Space Mono',monospace",size:10},callback:v=>v+'%'},grid:{color:grid},min:0,max:100}
+  const accent=getComputedStyle(document.body).getPropertyValue('--accent').trim()||'#e8e8e8';
+  const muted='#444';const grid='#1e1e1e';
+  const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:muted,font:{family:"'Space Mono',monospace",size:10}},grid:{color:grid}},y:{ticks:{color:muted,font:{family:"'Space Mono',monospace",size:10},callback:v=>v+'%'},grid:{color:grid},min:0,max:100}}};
+  const labels=state.provas.map(p=>p.nome.length>15?p.nome.slice(0,14)+'…':p.nome);
+  const pcts=state.provas.map(p=>Math.round(p.acertos/p.total*100));
+  const colors=pcts.map(p=>p>=80?'rgba(34,197,94,0.7)':p>=70?'rgba(234,179,8,0.7)':'rgba(239,68,68,0.7)');
+  if(chartEvolucao)chartEvolucao.destroy();
+  chartEvolucao=new Chart(document.getElementById('chart-evolucao').getContext('2d'),{type:'line',data:{labels,datasets:[{data:pcts,borderColor:accent,backgroundColor:'transparent',pointBackgroundColor:accent,tension:.3,borderWidth:2,pointRadius:5}]},options:opts});
+  if(chartProvas)chartProvas.destroy();
+  chartProvas=new Chart(document.getElementById('chart-provas').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:pcts,backgroundColor:colors,borderWidth:0}]},options:opts});
+}
+
+// ========== TOUR ==========
+const tourSteps = [
+  {
+    target: 'tour-stat-total',
+    title: 'SEU PAINEL DE CONTROLE',
+    desc: 'Aqui você vê um resumo rápido: total de temas cadastrados, quantos já estudou, sua média de acertos e revisões pendentes para hoje.',
+    position: 'bottom'
+  },
+  {
+    target: 'tour-btn-add',
+    title: 'ADICIONE SEUS TEMAS',
+    desc: 'Clique aqui para cadastrar um novo tema de estudo. Informe a matéria, o tema e a data que você estudou.',
+    position: 'bottom'
+  },
+  {
+    target: 'tour-table',
+    title: 'SUA PLANILHA DE ESTUDOS',
+    desc: 'Aqui ficam todos os seus temas organizados por matéria. Você pode marcar como estudado ✓, lançar questões e acertos, e acompanhar as revisões espaçadas (24h, 1 semana, 1 mês).',
+    position: 'top'
+  },
+  {
+    target: 'tour-telegram',
+    title: 'NOTIFICAÇÕES NO TELEGRAM',
+    desc: 'Conecte seu Telegram para receber avisos diários sobre quais temas você precisa revisar. Nunca mais perca uma revisão!',
+    position: 'top'
+  },
+  {
+    target: 'dt-provas',
+    title: 'ABA DE PROVAS',
+    desc: 'Na aba Provas você registra seus simulados e provas reais, acompanha sua evolução com gráficos e vê qual foi seu melhor desempenho. Clique para explorar!',
+    position: 'bottom'
+  }
+];
+
+let tourStep = 0;
+
+function startTour(){
+  tourStep = 0;
+  document.getElementById('tour-backdrop').style.display = 'block';
+  renderTourStep();
+}
+
+function renderTourStep(){
+  if(tourStep >= tourSteps.length){ tourEnd(); return; }
+  const step = tourSteps[tourStep];
+  const target = document.getElementById(step.target);
+  if(!target){ tourNext(); return; }
+
+  const rect = target.getBoundingClientRect();
+  const pad = 8;
+
+  // spotlight
+  const sp = document.getElementById('tour-spotlight');
+  sp.style.display = 'block';
+  sp.style.left = (rect.left - pad) + 'px';
+  sp.style.top = (rect.top - pad + window.scrollY) + 'px';
+  sp.style.width = (rect.width + pad*2) + 'px';
+  sp.style.height = (rect.height + pad*2) + 'px';
+
+  // tooltip
+  const tt = document.getElementById('tour-tooltip');
+  tt.style.display = 'block';
+  document.getElementById('tour-step-label').textContent = `PASSO ${tourStep+1} DE ${tourSteps.length}`;
+  document.getElementById('tour-title').textContent = step.title;
+  document.getElementById('tour-desc').textContent = step.desc;
+
+  // progress dots
+  const prog = document.getElementById('tour-progress');
+  prog.innerHTML = tourSteps.map((_,i)=>`<div class="tour-dot ${i===tourStep?'active':''}"></div>`).join('');
+
+  // next btn
+  const btn = document.getElementById('tour-btn-next');
+  btn.textContent = tourStep === tourSteps.length-1 ? 'CONCLUIR ✓' : 'PRÓXIMO →';
+
+  // position tooltip
+  setTimeout(()=>{
+    const ttRect = tt.getBoundingClientRect();
+    const isMobile = window.innerWidth <= 768;
+    if(isMobile){
+      tt.style.left = '16px';
+      tt.style.right = '16px';
+      tt.style.width = 'auto';
+      tt.style.top = (rect.bottom + 16 + window.scrollY) + 'px';
+      if(rect.bottom + 180 > window.innerHeight){
+        tt.style.top = Math.max(80, rect.top - 200 + window.scrollY) + 'px';
+      }
+    } else {
+      let left = rect.left + rect.width/2 - 160;
+      left = Math.max(16, Math.min(left, window.innerWidth - 340));
+      tt.style.left = left + 'px';
+      tt.style.width = '320px';
+
+      if(step.position === 'bottom' || rect.bottom + 220 > window.innerHeight){
+        tt.style.top = (rect.top - 180 + window.scrollY) + 'px';
+      } else {
+        tt.style.top = (rect.bottom + 16 + window.scrollY) + 'px';
+      }
     }
-  };
+  }, 10);
 
-  const labels = state.provas.map(p=>p.nome.length>15?p.nome.slice(0,14)+'…':p.nome);
-  const pcts = state.provas.map(p=>Math.round(p.acertos/p.total*100));
-  const colors = pcts.map(p=>p>=80?'rgba(34,197,94,0.7)':p>=70?'rgba(234,179,8,0.7)':'rgba(239,68,68,0.7)');
-
-  if(chartEvolucao) chartEvolucao.destroy();
-  const ctx1 = document.getElementById('chart-evolucao').getContext('2d');
-  chartEvolucao = new Chart(ctx1,{
-    type:'line',
-    data:{labels,datasets:[{data:pcts,borderColor:accent,backgroundColor:'transparent',pointBackgroundColor:accent,tension:.3,borderWidth:2,pointRadius:5}]},
-    options:chartDefaults
-  });
-
-  if(chartProvas) chartProvas.destroy();
-  const ctx2 = document.getElementById('chart-provas').getContext('2d');
-  chartProvas = new Chart(ctx2,{
-    type:'bar',
-    data:{labels,datasets:[{data:pcts,backgroundColor:colors,borderWidth:0}]},
-    options:chartDefaults
-  });
+  // scroll target into view
+  target.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
-// ========== INIT ==========
-load();
-if(state.user && !state.isNewUser){
-  // auto-login demo
+function tourNext(){
+  tourStep++;
+  if(tourStep >= tourSteps.length){ tourEnd(); return; }
+  renderTourStep();
 }
-// Add demo data if first time
-function addDemoData(){
-  if(state.temas.length) return;
-  const d = today();
-  const d2 = addDays(today(), -2);
-  state.temas=[
-    {id:1, materia:'Direito Constitucional', tema:'Princípios Fundamentais', estudado:true, questoes:20, acertos:17, dataEstudo:d2, rev24h:true, rev1s:false, rev1m:false},
-    {id:2, materia:'Direito Constitucional', tema:'Direitos Fundamentais', estudado:true, questoes:30, acertos:22, dataEstudo:d, rev24h:false, rev1s:false, rev1m:false},
-    {id:3, materia:'Direito Constitucional', tema:'Organização do Estado', estudado:false, questoes:0, acertos:0, dataEstudo:'', rev24h:false, rev1s:false, rev1m:false},
-    {id:4, materia:'Raciocínio Lógico', tema:'Proposições', estudado:true, questoes:25, acertos:21, dataEstudo:d2, rev24h:true, rev1s:false, rev1m:false},
-    {id:5, materia:'Raciocínio Lógico', tema:'Silogismos', estudado:false, questoes:0, acertos:0, dataEstudo:'', rev24h:false, rev1s:false, rev1m:false},
-  ];
-  state.provas=[
-    {id:101, nome:'CESPE — Direito 2023', ano:'2023', total:120, acertos:89},
-    {id:102, nome:'FCC — Raciocínio 2024', ano:'2024', total:60, acertos:52},
-    {id:103, nome:'FGV — Geral 2024', ano:'2024', total:80, acertos:55},
-  ];
+
+function tourSkip(){ tourEnd(); }
+
+function tourEnd(){
+  document.getElementById('tour-backdrop').style.display = 'none';
+  document.getElementById('tour-spotlight').style.display = 'none';
+  document.getElementById('tour-tooltip').style.display = 'none';
+  state.tourDone = true;
+  save();
 }
 </script>
 </body>
