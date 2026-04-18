@@ -3,48 +3,74 @@ const fetch = require('node-fetch');
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
-// Inicialização robusta
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  projectId: serviceAccount.project_id
+  credential: admin.credential.cert(serviceAccount)
 });
 
 const db = admin.firestore();
 
-async function diagnostico() {
-  console.log("🛠️ INICIANDO DIAGNÓSTICO...");
+async function dispararRevisoes() {
+  console.log("🚀 Iniciando busca...");
+  const hoje = new Date().toISOString().split('T')[0];
   
-  try {
-    // 1. Tentar listar todas as coleções do banco
-    const collections = await db.listCollections();
-    const nomes = collections.map(c => c.id);
-    console.log("📂 Coleções encontradas no seu banco:", nomes);
+  // Pegamos todos os documentos da coleção users
+  const usersSnap = await db.collection('users').get();
+  
+  if (usersSnap.empty) {
+    console.log("❌ NENHUM DOCUMENTO encontrado na coleção 'users'.");
+    console.log("👉 Certifique-se de que você fez login no site e salvou pelo menos um tema.");
+    return;
+  }
 
-    if (nomes.length === 0) {
-       console.error("❌ ERRO: O banco parece estar vazio ou a chave não tem permissão de leitura.");
-       return;
-    }
-
-    // 2. Tentar ler a coleção 'users' (ou o que estiver lá)
-    const colName = nomes.includes('users') ? 'users' : nomes[0];
-    console.log(`🔍 Lendo a coleção: ${colName}...`);
+  for (const userDoc of usersSnap.docs) {
+    // Tentamos ler a subcoleção data/state
+    const stateSnap = await db.collection('users').doc(userDoc.id).collection('data').doc('state').get();
     
-    const snap = await db.collection(colName).get();
-    console.log(`👤 Documentos encontrados em '${colName}': ${snap.size}`);
+    if (stateSnap.exists()) {
+      const data = stateSnap.data();
+      if (!data.tgChatId || !data.temas) continue;
 
-    snap.forEach(doc => {
-      console.log(`   - ID do documento: ${doc.id}`);
-      // Aqui vamos ver se existe a subcoleção data
-    });
+      const revisoesHoje = data.temas.filter(t => {
+        if (!t.estudado || !t.dataEstudo) return false;
+        
+        // Ajuste de fuso horário manual para bater com o Brasil
+        const d = t.dataEstudo;
+        const r24 = somarDias(d, 1);
+        const r1s = somarDias(d, 7);
+        const r1m = somarDias(d, 30);
+        
+        return (r24 === hoje && !t.rev24h) || 
+               (r1s === hoje && !t.rev1s) || 
+               (r1m === hoje && !t.rev1m);
+      });
 
-    if (snap.size > 0) {
-        console.log("✅ Conexão com Firebase funcionando!");
-        console.log("⚠️ Verifique se hoje há temas com data de estudo de ONTEM (17/04/2026).");
+      if (revisoesHoje.length > 0) {
+        console.log(`✅ Enviando para ${data.tgChatId}`);
+        await enviarTelegram(data.tgChatId, revisoesHoje);
+      }
     }
-
-  } catch (error) {
-    console.error("❌ ERRO FATAL:", error.message);
   }
 }
 
-diagnostico().then(() => process.exit(0));
+function somarDias(dataStr, n) {
+  const partes = dataStr.split('-');
+  const d = new Date(partes[0], partes[1] - 1, partes[2]);
+  d.setDate(d.getDate() + n);
+  const ano = d.getFullYear();
+  const mes = String(d.getMonth() + 1).padStart(2, '0');
+  const dia = String(d.getDate()).padStart(2, '0');
+  return `${ano}-${mes}-${dia}`;
+}
+
+async function enviarTelegram(chatId, revisoes) {
+  let msg = `🚀 *ESTUDAHUB: REVISÕES DE HOJE*\n\n`;
+  revisoes.forEach(r => msg += `• *${r.materia}*: ${r.tema}\n`);
+  const url = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`;
+  await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
+  });
+}
+
+dispararRevisoes().then(() => process.exit(0));
