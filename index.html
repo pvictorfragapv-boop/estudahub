@@ -6,7 +6,7 @@
 <title>ESTUDAHUB | MEDICINA</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* MANTIVE TODO O SEU CSS ORIGINAL ABAIXO */
+/* SEU CSS ORIGINAL */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --bg:#0a0a0a; --bg2:#111111; --bg3:#181818;
@@ -16,49 +16,47 @@
   --ticker-bg:#141414;
 }
 .theme-default{--accent:#e8e8e8;--hi:#ffffff}
-.theme-blue{--accent:#3b82f6;--hi:#60a5fa}
-.theme-green{--accent:#22c55e;--hi:#4ade80}
 body{background:var(--bg);color:var(--text);font-family:'Space+Mono',monospace;overflow-x:hidden}
-
-/* Estilos de transição e telas */
 .screen{display:none;min-height:100vh;padding:20px;animation:fadeIn 0.4s ease}
 .screen.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* Estilo do Card de Login */
+/* ESTILO DO LOGIN */
 .login-container{max-width:400px;margin:100px auto;padding:40px;background:var(--bg2);border:1px solid var(--border);text-align:center}
-.btn-login{width:100%;padding:12px;margin-top:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:inherit;cursor:pointer}
-.btn-login:hover{border-color:var(--accent)}
+.btn-google{width:100%;padding:12px;margin-top:20px;background:#fff;color:#000;border:none;font-family:inherit;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
 </style>
 </head>
 <body class="theme-default">
 
 <div id="loading-screen" style="position:fixed;inset:0;background:var(--bg);display:flex;justify-content:center;align-items:center;z-index:9999;">
-    // SINCRONIZANDO_NUVEM...
+    // INICIALIZANDO_SISTEMA...
 </div>
 
 <section id="login-screen" class="screen">
     <div class="login-container">
         <h1 style="font-family:'Syne';font-size:2rem;">ESTUDAHUB</h1>
         <p style="color:var(--muted);margin-bottom:30px;">// ACESSO MEDICINA</p>
-        <input type="email" id="email" placeholder="E-MAIL" class="btn-login" style="text-align:center">
-        <input type="password" id="pass" placeholder="SENHA" class="btn-login" style="text-align:center">
-        <button id="btn-entrar" class="btn-login" style="background:var(--accent);color:#000;font-weight:bold;margin-top:20px">ENTRAR / REGISTRAR</button>
+        
+        <button id="btn-google" class="btn-google">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+            ENTRAR COM GOOGLE
+        </button>
+        
+        <p style="margin-top:20px; color:var(--muted); font-size:0.7rem;">OU USE E-MAIL PARA TESTE</p>
+        <input type="email" id="email" placeholder="E-MAIL" style="width:100%;padding:10px;margin-top:10px;background:var(--bg3);border:1px solid var(--border);color:#fff;text-align:center">
+        <input type="password" id="pass" placeholder="SENHA" style="width:100%;padding:10px;margin-top:10px;background:var(--bg3);border:1px solid var(--border);color:#fff;text-align:center">
+        <button id="btn-entrar" style="width:100%;padding:10px;margin-top:10px;background:none;border:1px solid var(--border);color:var(--text);cursor:pointer">ENTRAR COM E-MAIL</button>
     </div>
 </section>
 
 <section id="main-screen" class="screen">
     <header style="border-bottom:1px solid var(--border);padding-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
-        <div>
-            <h2 id="display-user" style="font-family:'Syne'">ESTUDANTE</h2>
-            <p id="status-cloud" style="color:var(--green);font-size:0.8rem;">● NUVEM CONECTADA</p>
-        </div>
+        <h2 id="display-user" style="font-family:'Syne'">ESTUDANTE</h2>
         <button onclick="logout()" style="background:none;border:1px solid var(--red);color:var(--red);padding:5px 10px;cursor:pointer">SAIR</button>
     </header>
-
     <div style="margin-top:30px;">
-        <h3 style="margin-bottom:15px;">TEMAS DE ESTUDO</h3>
-        <div id="temas-container"></div>
+        <h3>SEUS ESTUDOS SINCRONIZADOS</h3>
+        <div id="temas-container" style="margin-top:20px;"></div>
         <button onclick="addNovoTema()" style="margin-top:20px;padding:10px;background:var(--accent);color:#000;border:none;cursor:pointer;font-weight:bold;">+ NOVO TEMA</button>
     </div>
 </section>
@@ -68,7 +66,6 @@ body{background:var(--bg);color:var(--text);font-family:'Space+Mono',monospace;o
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <script>
-// CONFIGURAÇÃO QUE VOCÊ ENVIOU
 const firebaseConfig = {
   apiKey: "AIzaSyDhqCjtURR6WZvLbHb-hbWzrP1fMxK0Dnk",
   authDomain: "estudahub-20436.firebaseapp.com",
@@ -78,99 +75,78 @@ const firebaseConfig = {
   appId: "1:957089244219:web:3cdc5c31261fab9843e81e"
 };
 
-// Inicialização
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-let state = {
-    temas: []
-};
+let state = { temas: [] };
 
-// Funções de Troca de Tela
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
 
-// Salvar na Nuvem
-async function saveToCloud() {
-    const user = auth.currentUser;
-    if (user) {
-        await db.collection('usuarios').doc(user.uid).set(state);
-        console.log("Dados salvos no Firebase");
+// LOGIN COM GOOGLE
+document.getElementById('btn-google').onclick = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try {
+        await auth.signInWithPopup(provider);
+    } catch (e) {
+        alert("Erro ao conectar com Google: " + e.message);
     }
-}
+};
 
-// Carregar da Nuvem
-async function loadFromCloud() {
-    const user = auth.currentUser;
-    if (user) {
-        const doc = await db.collection('usuarios').doc(user.uid).get();
-        if (doc.exists) {
-            state = doc.data();
-            renderTemas();
-        }
-    }
-}
-
-// Login/Registro
+// LOGIN COM EMAIL
 document.getElementById('btn-entrar').onclick = async () => {
     const email = document.getElementById('email').value;
     const pass = document.getElementById('pass').value;
-    
     try {
         await auth.signInWithEmailAndPassword(email, pass);
     } catch (e) {
-        try {
-            await auth.createUserWithEmailAndPassword(email, pass);
-        } catch (err) {
-            alert("Erro: " + err.message);
-        }
+        try { await auth.createUserWithEmailAndPassword(email, pass); }
+        catch (err) { alert("Erro: " + err.message); }
     }
 };
 
 window.logout = () => auth.signOut();
 
-// Gerenciamento de Temas
-function renderTemas() {
-    const container = document.getElementById('temas-container');
-    container.innerHTML = state.temas.length ? '' : '<p style="color:var(--muted)">Nenhum tema registrado.</p>';
+async function save() {
+    const user = auth.currentUser;
+    if (user) await db.collection('usuarios').doc(user.uid).set(state);
+}
+
+async function load() {
+    const user = auth.currentUser;
+    if (user) {
+        const doc = await db.collection('usuarios').doc(user.uid).get();
+        if (doc.exists) { state = doc.data(); render(); }
+    }
+}
+
+function render() {
+    const c = document.getElementById('temas-container');
+    c.innerHTML = state.temas.length ? '' : '<p>// NENHUM DADO NA NUVEM</p>';
     state.temas.forEach((t, i) => {
-        container.innerHTML += `<div style="padding:15px; background:var(--bg2); border:1px solid var(--border); margin-bottom:10px; display:flex; justify-content:space-between;">
-            <span>${t}</span>
-            <button onclick="removerTema(${i})" style="color:var(--red);background:none;border:none;cursor:pointer">X</button>
-        </div>`;
+        c.innerHTML += `<div style="padding:10px; border:1px solid var(--border); margin-bottom:5px;">${t}</div>`;
     });
 }
 
 window.addNovoTema = async () => {
-    const nome = prompt("Nome do Tema:");
-    if(nome) {
-        state.temas.push(nome);
-        renderTemas();
-        await saveToCloud();
-    }
+    const n = prompt("TEMA:");
+    if(n) { state.temas.push(n); render(); await save(); }
 };
 
-window.removerTema = async (index) => {
-    state.temas.splice(index, 1);
-    renderTemas();
-    await saveToCloud();
-};
-
-// MONITOR DE CONEXÃO (O coração do site)
+// MONITOR DE LOGIN
 auth.onAuthStateChanged(async (user) => {
     document.getElementById('loading-screen').style.display = 'none';
     if (user) {
-        document.getElementById('display-user').innerText = user.email.split('@')[0].toUpperCase();
-        await loadFromCloud();
+        document.getElementById('display-user').innerText = (user.displayName || user.email).toUpperCase();
+        await load();
         showScreen('main-screen');
     } else {
         showScreen('login-screen');
     }
 });
-
 </script>
 </body>
 </html>
