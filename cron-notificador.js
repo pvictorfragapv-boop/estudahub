@@ -1,7 +1,6 @@
 const admin = require('firebase-admin');
 const fetch = require('node-fetch');
 
-// 1. Inicializa o Firebase
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -10,17 +9,21 @@ admin.initializeApp({
 const db = admin.firestore();
 
 async function dispararRevisoes() {
+  console.log("🚀 Iniciando varredura de usuários...");
   const hoje = new Date().toISOString().split('T')[0];
   const usersSnap = await db.collection('users').get();
+  
+  console.log(`🔍 Total de usuários encontrados no Firebase: ${usersSnap.size}`);
 
   for (const userDoc of usersSnap.docs) {
     const stateSnap = await db.collection('users').doc(userDoc.id).collection('data').doc('state').get();
     
     if (stateSnap.exists()) {
       const data = stateSnap.data();
+      console.log(`👤 Verificando usuário: ${userDoc.id} | Telegram: ${data.tgChatId ? 'Sim' : 'Não'}`);
+
       if (!data.tgChatId || !data.temas) continue;
 
-      // Lógica de filtro (mesma que você usa no site)
       const revisoesHoje = data.temas.filter(t => {
         if (!t.estudado || !t.dataEstudo) return false;
         const d = t.dataEstudo;
@@ -34,7 +37,10 @@ async function dispararRevisoes() {
       });
 
       if (revisoesHoje.length > 0) {
+        console.log(`✅ Enviando ${revisoesHoje.length} revisões para o chat ${data.tgChatId}`);
         await enviarTelegram(data.tgChatId, revisoesHoje);
+      } else {
+        console.log(`ℹ️ Nenhuma revisão pendente para hoje neste usuário.`);
       }
     }
   }
@@ -51,11 +57,16 @@ async function enviarTelegram(chatId, revisoes) {
   revisoes.forEach(r => msg += `• *${r.materia}*: ${r.tema}\n`);
   
   const url = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`;
-  await fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
   });
+  const resData = await response.json();
+  if (!resData.ok) console.error("❌ Erro Telegram:", resData.description);
 }
 
-dispararRevisoes().then(() => process.exit(0));
+dispararRevisoes().then(() => {
+  console.log("🏁 Processo finalizado.");
+  process.exit(0);
+});
