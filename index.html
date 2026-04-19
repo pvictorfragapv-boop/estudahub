@@ -817,40 +817,6 @@ canvas{width:100%!important}
       <div class="rev-wrap"><div class="rev-banner" id="reviews-today-list"></div></div>
     </div>
 
-    <!-- VIEW TOGGLE (Dia / Semana / Mês) -->
-    <div class="view-toggle-bar" style="margin-top:20px">
-      <div class="view-toggle" id="view-toggle">
-        <div class="view-tab" data-view="day" onclick="switchViewMode('day',this)">Dia</div>
-        <div class="view-tab active" data-view="week" onclick="switchViewMode('week',this)">Semana</div>
-        <div class="view-tab" data-view="month" onclick="switchViewMode('month',this)">Mês</div>
-      </div>
-      <div class="view-period-label" id="view-period-label">—</div>
-    </div>
-
-    <!-- PERIOD SUMMARY STATS -->
-    <div class="period-summary" id="period-summary">
-      <div class="period-stat">
-        <div class="period-stat-val mono" id="ps-studied">0</div>
-        <div class="period-stat-lbl" id="ps-studied-lbl">Estudados</div>
-      </div>
-      <div class="period-stat">
-        <div class="period-stat-val mono" id="ps-avg">—</div>
-        <div class="period-stat-lbl">Média acertos</div>
-      </div>
-      <div class="period-stat">
-        <div class="period-stat-val mono" id="ps-revisions">0</div>
-        <div class="period-stat-lbl">Revisões pend.</div>
-      </div>
-    </div>
-
-    <div style="margin-top:20px" id="tour-table">
-  <div class="table-toolbar" style="padding:0 36px 14px" id="table-toolbar-main">
-    <div class="ttl-wrap">
-      <div class="table-title" id="table-section-title">Semana atual</div>
-      <div class="count-pill" id="count-pill">0</div>
-    </div>
-    <button class="btn-add" id="tour-btn-add" onclick="openAddTemaModal()">+ Adicionar tema</button>
-  </div>
   <!-- CALENDAR renders here -->
   <div id="cal-view-wrap"></div>
   <!-- classic table (hidden on week/month, used internally) -->
@@ -999,13 +965,40 @@ canvas{width:100%!important}
       </div>
     </div>
     <div class="rotina-days" id="rotina-days"></div>
-    <div class="rotina-legend" id="rotina-legend"></div>
-    <div class="rotina-balance">
-      <div class="rbal-title">Equilíbrio semanal (horas por categoria)</div>
-      <div class="rbal-bar" id="rbal-bar"></div>
-      <div class="rbal-labels" id="rbal-labels"></div>
+    <!-- VIEW TOGGLE (Dia / Semana / Mês) -->
+    <div class="view-toggle-bar" style="margin-top:20px">
+      <div class="view-toggle" id="view-toggle">
+        <div class="view-tab" data-view="day" onclick="switchViewMode('day',this)">Dia</div>
+        <div class="view-tab active" data-view="week" onclick="switchViewMode('week',this)">Semana</div>
+        <div class="view-tab" data-view="month" onclick="switchViewMode('month',this)">Mês</div>
+      </div>
+      <div class="view-period-label" id="view-period-label">—</div>
     </div>
-    <div class="rotina-grid-wrap"><div class="rotina-grid" id="rotina-grid"></div></div>
+
+    <!-- PERIOD SUMMARY STATS -->
+    <div class="period-summary" id="period-summary">
+      <div class="period-stat">
+        <div class="period-stat-val mono" id="ps-studied">0</div>
+        <div class="period-stat-lbl" id="ps-studied-lbl">Estudados</div>
+      </div>
+      <div class="period-stat">
+        <div class="period-stat-val mono" id="ps-avg">—</div>
+        <div class="period-stat-lbl">Média acertos</div>
+      </div>
+      <div class="period-stat">
+        <div class="period-stat-val mono" id="ps-revisions">0</div>
+        <div class="period-stat-lbl">Revisões pend.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px" id="tour-table">
+  <div class="table-toolbar" style="padding:0 36px 14px" id="table-toolbar-main">
+    <div class="ttl-wrap">
+      <div class="table-title" id="table-section-title">Semana atual</div>
+      <div class="count-pill" id="count-pill">0</div>
+    </div>
+    <button class="btn-add" id="tour-btn-add" onclick="openAddTemaModal()">+ Adicionar tema</button>
+  </div>
   </div>
 
   <!-- ══ PAGE: CONFIGURAÇÕES ══ -->
@@ -1351,7 +1344,7 @@ function switchPage(name,el,mob){
   const fab=document.getElementById('fab-btn');if(fab)fab.style.display=name==='planilha'?'flex':'none';
   if(name==='provas')renderProvas();
   if(name==='pomodoro'){renderPomoSubjectSelect();renderPomoSessions();renderPomoStats();}
-  if(name==='rotina')renderRotinaPage();
+  if(name==='rotina'){renderRotinaPage();renderCalView();}
   if(mob)closeMobileNav();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1469,7 +1462,7 @@ function celebrate(){
 }
 
 // ── RENDER ALL ──
-function renderAll(){renderStats();renderHeatmap();renderTodayRevisions();renderPeriodSummary();renderCalView();renderTable();}
+function renderAll(){renderStats();renderHeatmap();renderTodayRevisions();renderPeriodSummary();renderTable();}
 
 function renderStats(){
   const total=state.temas.length,studied=state.temas.filter(t=>t.estudado).length;
