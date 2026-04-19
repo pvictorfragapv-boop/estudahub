@@ -191,6 +191,63 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 .rbadge-1s{background:var(--ad);color:var(--a);border:1px solid var(--ag)}
 .rbadge-1m{background:var(--g-bg);color:var(--green);border:1px solid rgba(29,184,112,.25)}
 
+/* ══════════════════════════════════════
+   VIEW TOGGLE (Dia / Semana / Mês)
+══════════════════════════════════════ */
+.view-toggle-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 36px 0;gap:16px;
+}
+.view-toggle{
+  display:flex;gap:1px;background:var(--border2);border:1px solid var(--border2);
+  border-radius:var(--r);overflow:hidden;flex-shrink:0;
+}
+.view-tab{
+  padding:7px 16px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;color:var(--muted2);transition:all .18s;background:var(--bg3);
+  white-space:nowrap;font-family:'Outfit',sans-serif;
+}
+.view-tab:hover{background:var(--bg4);color:var(--text)}
+.view-tab.active{background:var(--ad);color:var(--a)}
+.view-period-label{
+  font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);
+  flex:1;text-align:right;letter-spacing:.04em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+@media(max-width:768px){
+  .view-toggle-bar{padding:12px 16px 0;gap:10px}
+  .view-tab{padding:6px 12px;font-size:9px}
+  .view-period-label{display:none}
+}
+
+/* ══════════════════════════════════════
+   PERIOD SUMMARY BAR (below toggle)
+══════════════════════════════════════ */
+.period-summary{
+  display:flex;gap:1px;background:var(--border2);margin:12px 36px 0;
+  border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;
+}
+.period-stat{
+  flex:1;background:var(--bg2);padding:10px 16px;min-width:0;
+  display:flex;flex-direction:column;gap:3px;
+}
+.period-stat-val{font-size:18px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:var(--a);line-height:1}
+.period-stat-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2)}
+@media(max-width:768px){.period-summary{margin:10px 12px 0}}
+
+/* "Outros temas" accordion */
+.outros-header{
+  display:flex;align-items:center;gap:10px;padding:11px 36px;
+  cursor:pointer;border-top:1px solid var(--border2);border-bottom:1px solid var(--border);
+  background:var(--bg2);transition:background .15s;
+}
+.outros-header:hover{background:var(--bg3)}
+.outros-arrow{font-size:10px;color:var(--muted);transition:transform .2s}
+.outros-arrow.open{transform:rotate(90deg)}
+.outros-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);flex:1}
+.outros-count{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted);background:var(--bg3);padding:2px 8px;border-radius:20px;border:1px solid var(--border3)}
+@media(max-width:768px){.outros-header{padding:11px 16px}}
+
 /* TABLE */
 .table-container{padding:0 36px 40px}
 .table-toolbar{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;gap:12px}
@@ -420,63 +477,11 @@ canvas{width:100%!important}
 .tg-ok.show{display:flex}
 .tg-ok::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0}
 
-/* ══════════════════════════════════════
-   ROTINA — VIEW TOGGLE
-══════════════════════════════════════ */
+/* ROTINA */
 .rotina-header{padding:32px 36px 22px;border-bottom:1px solid var(--border2);background:linear-gradient(180deg,var(--bg2),transparent);position:relative;overflow:hidden}
 .rotina-header::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:52px 52px;opacity:.26;pointer-events:none}
 .rotina-header::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 10%,var(--a) 50%,transparent 90%);opacity:.4}
 .rotina-inner{position:relative;z-index:1}
-
-.view-toggle-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 36px;border-bottom:1px solid var(--border2);background:var(--bg2);gap:16px}
-.view-toggle{display:flex;gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;flex-shrink:0}
-.view-tab{padding:8px 20px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;color:var(--muted2);transition:all .18s;background:var(--bg3);white-space:nowrap;font-family:'Outfit',sans-serif}
-.view-tab:hover{background:var(--bg4);color:var(--text)}
-.view-tab.active{background:var(--ad);color:var(--a)}
-.view-period-label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);flex:1;text-align:right;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* ── WEEK CALENDAR ── */
-.week-cal-outer{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0;border-bottom:1px solid var(--border2)}
-.week-cal{display:grid;background:var(--border2);gap:1px;min-width:600px}
-.week-cal-header{display:grid;grid-template-columns:52px repeat(7,1fr);gap:1px;background:var(--border2);position:sticky;top:54px;z-index:10}
-.wch-corner{background:var(--bg3);border-bottom:1px solid var(--border2)}
-.wch-day{background:var(--bg3);padding:10px 6px;text-align:center;border-bottom:1px solid var(--border2)}
-.wch-day-name{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2)}
-.wch-day-num{font-size:20px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:var(--text);line-height:1.2;margin-top:2px}
-.wch-day.is-today .wch-day-name{color:var(--a)}
-.wch-day.is-today .wch-day-num{color:var(--a)}
-.week-cal-body{display:grid;grid-template-columns:52px repeat(7,1fr);gap:1px;background:var(--border2)}
-.week-cal-body.day-view{grid-template-columns:52px 1fr}
-.wc-time-col{background:var(--bg2)}
-.wc-time-cell{height:56px;display:flex;align-items:flex-start;justify-content:flex-end;padding:4px 8px 0 0;border-bottom:1px solid var(--border);font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted);letter-spacing:.04em;white-space:nowrap}
-.wc-day-col{background:var(--bg);position:relative}
-.wc-slot{height:56px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;position:relative}
-.wc-slot:hover{background:var(--ad)}
-.wc-slot:hover::after{content:'+ tema';font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--a);position:absolute;left:6px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.7}
-.wc-block{position:absolute;left:3px;right:3px;border-radius:5px;padding:5px 8px;cursor:pointer;z-index:2;transition:filter .15s,transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.25);overflow:hidden;min-height:36px}
-.wc-block:hover{filter:brightness(1.15);transform:scale(1.02)}
-.wc-block-mat{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
-.wc-block-tema{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;margin-top:1px}
-.wc-block-pct{font-size:9px;font-family:'IBM Plex Mono',monospace;opacity:.75;margin-top:2px}
-.wc-block-check{font-size:9px;opacity:.6;margin-top:1px}
-
-/* ── MONTH CALENDAR ── */
-.month-cal-outer{overflow:hidden}
-.month-cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border2);border-bottom:1px solid var(--border2)}
-.mch-cell{background:var(--bg3);padding:10px 10px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);text-align:center}
-.month-cal-body{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border2)}
-.mc-day{background:var(--bg2);min-height:90px;padding:8px;position:relative;cursor:pointer;transition:background .12s}
-.mc-day:hover{background:var(--bg3)}
-.mc-day.other-month{background:var(--bg);opacity:.4}
-.mc-day.is-today{background:var(--ad)}
-.mc-day-num{font-size:11px;font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--muted2);margin-bottom:5px;line-height:1}
-.mc-day.is-today .mc-day-num{color:var(--a);font-size:13px}
-.mc-tema-dot{font-size:9px;font-weight:600;padding:2px 5px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5;display:block}
-.mc-more{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);margin-top:2px}
-
-/* ── ROTINA HORÁRIA (grade) ── */
-.rotina-divider{height:1px;background:var(--border2);margin:0}
-.rotina-section-lbl{padding:12px 36px 8px;font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);background:var(--bg2);border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
 .rotina-days{display:flex;gap:1px;background:var(--border2);border-bottom:1px solid var(--border2);overflow-x:auto;-webkit-overflow-scrolling:touch}
 .rotina-days::-webkit-scrollbar{display:none}
 .rotina-day-btn{flex:1;min-width:52px;padding:10px 8px;text-align:center;cursor:pointer;background:var(--bg2);transition:all .18s;border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:3px}
@@ -497,6 +502,8 @@ canvas{width:100%!important}
 .rbal-title{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
 .rbal-bar{height:8px;border-radius:4px;overflow:hidden;background:var(--border2);display:flex;gap:1px}
 .rbal-seg{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1);min-width:0}
+.rbal-seg:first-child{border-radius:4px 0 0 4px}
+.rbal-seg:last-child{border-radius:0 4px 4px 0}
 .rbal-labels{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
 .rbal-item{display:flex;align-items:center;gap:4px;font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2)}
 .rbal-item-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
@@ -584,9 +591,6 @@ canvas{width:100%!important}
   .rotina-header{padding:20px 16px 18px}
   .rotina-legend{padding:10px 12px}
   .rotina-balance{padding:10px 12px}
-  .view-toggle-bar{padding:12px 16px;gap:10px}
-  .view-tab{padding:7px 14px;font-size:9px}
-  .view-period-label{display:none}
   .pomo-header{padding:20px 16px 18px}
   .pomo-layout{grid-template-columns:1fr;min-height:auto}
   .pomo-sidebar{border-top:1px solid var(--border2);padding:20px 16px}
@@ -603,13 +607,6 @@ canvas{width:100%!important}
   .toast{bottom:calc(80px + var(--sb));right:12px;left:12px;max-width:100%}
   .tour-tooltip{left:12px!important;right:12px!important;width:auto!important}
   .perf-grid{grid-template-columns:1fr}
-  .rotina-section-lbl{padding:10px 12px}
-  .wch-day-num{font-size:15px}
-  .wch-day{padding:7px 4px}
-  .wc-time-cell{font-size:8px;padding:3px 5px 0 0}
-  .mc-day{min-height:60px;padding:5px}
-  .mc-day-num{font-size:10px}
-  .mc-tema-dot{font-size:8px}
 }
 @media(max-width:480px){.stat-card{flex:1 1 100%}.tg-row{flex-direction:column}}
 </style>
@@ -634,7 +631,6 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- LOGIN -->
 <div id="login-screen" class="screen" style="display:none">
   <div class="login-left">
     <div class="login-brand">
@@ -661,7 +657,6 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- ONBOARDING -->
 <div id="onboard-screen" class="screen" style="display:none">
   <div class="onboard-box">
     <div class="onboard-eyebrow">configuração inicial</div>
@@ -680,7 +675,6 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- APP -->
 <div id="app-screen" class="screen" style="display:none">
 
   <div class="mobile-nav" id="mobile-nav">
@@ -745,7 +739,7 @@ canvas{width:100%!important}
             <div class="stat-sub">geral</div>
             <div class="stat-bar"><div class="stat-bar-fill" id="bar-avg" style="width:0%"></div></div>
           </div>
-          <div class="stat-card">
+          <div class="stat-card" id="tour-stat-rev">
             <div class="stat-lbl">Revisões Hoje</div>
             <div class="stat-val mono" id="stat-revisions">0</div>
             <div class="stat-sub">pendentes</div>
@@ -775,33 +769,8 @@ canvas{width:100%!important}
       <div class="rev-wrap"><div class="rev-banner" id="reviews-today-list"></div></div>
     </div>
 
-    <div style="margin-top:20px" id="tour-table">
-      <div class="table-toolbar" style="padding:0 36px 14px">
-        <div class="ttl-wrap">
-          <div class="table-title">Todos os temas</div>
-          <div class="count-pill" id="count-pill">0</div>
-        </div>
-        <button class="btn-add" id="tour-btn-add" onclick="openAddTemaModal()">+ Adicionar tema</button>
-      </div>
-      <div id="subjects-table-wrap"><div id="subjects-container"></div></div>
-      <div class="card-list" id="card-list"></div>
-    </div>
-  </div>
-
-  <button class="fab" id="fab-btn" onclick="openAddTemaModal()" aria-label="Adicionar tema">+</button>
-
-  <!-- ══ PAGE: ROTINA ══ -->
-  <div id="page-rotina" class="page">
-    <div class="rotina-header">
-      <div class="rotina-inner">
-        <div class="dash-eyebrow">organização visual</div>
-        <div class="dash-title" style="margin-bottom:4px">Rotina</div>
-        <div class="dash-date mono">Calendário de temas estudados e grade horária semanal</div>
-      </div>
-    </div>
-
-    <!-- VIEW TOGGLE — fica no topo da rotina -->
-    <div class="view-toggle-bar">
+    <!-- VIEW TOGGLE (Dia / Semana / Mês) -->
+    <div class="view-toggle-bar" style="margin-top:20px">
       <div class="view-toggle" id="view-toggle">
         <div class="view-tab" data-view="day" onclick="switchViewMode('day',this)">Dia</div>
         <div class="view-tab active" data-view="week" onclick="switchViewMode('week',this)">Semana</div>
@@ -810,25 +779,49 @@ canvas{width:100%!important}
       <div class="view-period-label" id="view-period-label">—</div>
     </div>
 
-    <!-- CALENDAR VIEW — temas estudados -->
-    <div id="cal-view-wrap"></div>
-
-    <!-- DIVISOR -->
-    <div class="rotina-section-lbl">
-      <span>Grade horária</span>
-      <span style="font-size:9px;color:var(--muted)">clique em um slot para adicionar bloco</span>
+    <!-- PERIOD SUMMARY STATS -->
+    <div class="period-summary" id="period-summary">
+      <div class="period-stat">
+        <div class="period-stat-val mono" id="ps-studied">0</div>
+        <div class="period-stat-lbl" id="ps-studied-lbl">Estudados</div>
+      </div>
+      <div class="period-stat">
+        <div class="period-stat-val mono" id="ps-avg">—</div>
+        <div class="period-stat-lbl">Média acertos</div>
+      </div>
+      <div class="period-stat">
+        <div class="period-stat-val mono" id="ps-revisions">0</div>
+        <div class="period-stat-lbl">Revisões pend.</div>
+      </div>
     </div>
 
-    <!-- GRADE HORÁRIA EXISTENTE -->
-    <div class="rotina-days" id="rotina-days"></div>
-    <div class="rotina-legend" id="rotina-legend"></div>
-    <div class="rotina-balance">
-      <div class="rbal-title">Equilíbrio semanal (horas por categoria)</div>
-      <div class="rbal-bar" id="rbal-bar"></div>
-      <div class="rbal-labels" id="rbal-labels"></div>
+    <div style="margin-top:20px" id="tour-table">
+      <div class="table-toolbar" style="padding:0 36px 14px" id="table-toolbar-main">
+        <div class="ttl-wrap">
+          <div class="table-title" id="table-section-title">Temas da semana</div>
+          <div class="count-pill" id="count-pill">0</div>
+        </div>
+        <button class="btn-add" id="tour-btn-add" onclick="openAddTemaModal()">+ Adicionar tema</button>
+      </div>
+      <div id="subjects-table-wrap"><div id="subjects-container"></div></div>
+      <div class="card-list" id="card-list"></div>
+
+      <!-- "Outros temas" section (temas outside current period) -->
+      <div id="outros-section" style="display:none">
+        <div class="outros-header" onclick="toggleOutros()">
+          <div class="outros-arrow" id="outros-arrow">▶</div>
+          <div class="outros-label" id="outros-label">Outros temas</div>
+          <div class="outros-count" id="outros-count">0</div>
+        </div>
+        <div id="outros-body" style="display:none">
+          <div id="outros-table-wrap"></div>
+          <div id="outros-card-list" class="card-list" style="display:none"></div>
+        </div>
+      </div>
     </div>
-    <div class="rotina-grid-wrap"><div class="rotina-grid" id="rotina-grid"></div></div>
   </div>
+
+  <button class="fab" id="fab-btn" onclick="openAddTemaModal()" aria-label="Adicionar tema">+</button>
 
   <!-- ══ PAGE: POMODORO ══ -->
   <div id="page-pomodoro" class="page">
@@ -933,6 +926,25 @@ canvas{width:100%!important}
     </div>
   </div>
 
+  <!-- ══ PAGE: ROTINA ══ -->
+  <div id="page-rotina" class="page">
+    <div class="rotina-header">
+      <div class="rotina-inner">
+        <div class="dash-eyebrow">organização semanal</div>
+        <div class="dash-title" style="margin-bottom:4px">Rotina</div>
+        <div class="dash-date mono">Monte sua grade horária e visualize o equilíbrio da semana</div>
+      </div>
+    </div>
+    <div class="rotina-days" id="rotina-days"></div>
+    <div class="rotina-legend" id="rotina-legend"></div>
+    <div class="rotina-balance">
+      <div class="rbal-title">Equilíbrio semanal (horas por categoria)</div>
+      <div class="rbal-bar" id="rbal-bar"></div>
+      <div class="rbal-labels" id="rbal-labels"></div>
+    </div>
+    <div class="rotina-grid-wrap"><div class="rotina-grid" id="rotina-grid"></div></div>
+  </div>
+
   <!-- ══ PAGE: CONFIGURAÇÕES ══ -->
   <div id="page-configuracoes" class="page">
     <div class="config-header">
@@ -994,13 +1006,13 @@ canvas{width:100%!important}
     <div style="height:40px"></div>
   </div>
 
-</div><!-- /app-screen -->
+</div>
 
 <!-- MODALS -->
 <div class="modal-overlay" id="modal-rotina" onclick="handleOvClick(event,'modal-rotina')">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-hd"><div class="modal-title" id="modal-rotina-title">Novo bloco</div><div class="modal-sub mono">// configure o horário e a categoria</div></div>
+    <div class="modal-hd"><div class="modal-title" id="modal-rotina-title">Novo bloco</div><div class="modal-sub mono" id="modal-rotina-sub">// configure o horário e a categoria</div></div>
     <div class="modal-bd">
       <div class="mf"><label>Nome / descrição</label><input type="text" id="rblock-name" placeholder="Ex: Revisão de Direito" autocomplete="off"/></div>
       <div style="display:flex;gap:10px">
@@ -1109,7 +1121,16 @@ window.logoutFB=async()=>signOut(auth);
 <script>
 const TG_TOKEN='8776004938:AAE0GyD9yu5FzpALcExwrFK5AwyjqK6-w3o';
 
-let state={user:null,displayName:null,photoURL:null,theme:'theme-default',isNewUser:true,materias:[],temas:[],provas:[],tgChatId:null,tgSchedEn:false,tourDone:false,activityMap:{},pomSessions:[],rotinaBlocks:[],createdAt:Date.now()};
+let state={
+  user:null,displayName:null,photoURL:null,
+  theme:'theme-default',isNewUser:true,
+  materias:[],temas:[],provas:[],
+  tgChatId:null,tgSchedEn:false,tourDone:false,
+  activityMap:{},
+  pomSessions:[],
+  rotinaBlocks:[],
+  createdAt:Date.now()
+};
 let sTimer=null;
 function save(){clearTimeout(sTimer);sTimer=setTimeout(()=>{if(window._s2c)window._s2c();},600);}
 
@@ -1117,195 +1138,89 @@ function save(){clearTimeout(sTimer);sTimer=setTimeout(()=>{if(window._s2c)windo
 const today=()=>new Date().toISOString().split('T')[0];
 function addDays(s,n){const d=new Date(s);d.setDate(d.getDate()+n);return d.toISOString().split('T')[0];}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
-function dateKey(d){return d.toISOString().split('T')[0];}
 
-// ── CALENDAR COLORS (per matéria) ──
-const CAL_COLORS=[
-  {bg:'rgba(167,139,250,.22)',border:'#a78bfa',text:'#a78bfa'},
-  {bg:'rgba(96,165,250,.22)',border:'#60a5fa',text:'#60a5fa'},
-  {bg:'rgba(52,211,153,.22)',border:'#34d399',text:'#34d399'},
-  {bg:'rgba(251,191,36,.22)',border:'#fbbf24',text:'#fbbf24'},
-  {bg:'rgba(248,113,113,.22)',border:'#f87171',text:'#f87171'},
-  {bg:'rgba(192,132,252,.22)',border:'#c084fc',text:'#c084fc'},
-  {bg:'rgba(251,146,60,.22)',border:'#fb923c',text:'#fb923c'},
-  {bg:'rgba(45,212,191,.22)',border:'#2dd4bf',text:'#2dd4bf'},
-];
-const _matColorMap={};
-function getMatColor(mat){
-  if(!_matColorMap[mat]){
-    const keys=Object.keys(_matColorMap);
-    _matColorMap[mat]=CAL_COLORS[keys.length%CAL_COLORS.length];
-  }
-  return _matColorMap[mat];
+// ── VIEW MODE (Dia / Semana / Mês) ──
+let viewMode='week'; // default
+let outrosOpen=false;
+
+function getWeekRange(){
+  const now=new Date();
+  const dow=now.getDay(); // 0=Sun
+  const mon=new Date(now);mon.setDate(now.getDate()-(dow===0?6:dow-1)); // Monday
+  const sun=new Date(mon);sun.setDate(mon.getDate()+6); // Sunday
+  return{start:mon.toISOString().split('T')[0],end:sun.toISOString().split('T')[0]};
+}
+function getMonthRange(){
+  const now=new Date();
+  const start=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
+  const end=new Date(now.getFullYear(),now.getMonth()+1,0).toISOString().split('T')[0];
+  return{start,end};
+}
+function isInRange(dateStr,range){
+  if(!dateStr)return false;
+  return dateStr>=range.start&&dateStr<=range.end;
 }
 
-// ── VIEW MODE ──
-let viewMode='week';
-const DAY_NAMES=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
-const MONTH_NAMES_PT=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const CAL_HOURS=Array.from({length:19},(_,i)=>i+5); // 05h–23h
-
-function getWeekDays(){
-  const now=new Date();
-  const dow=now.getDay();
-  const monday=new Date(now);
-  monday.setDate(now.getDate()-(dow===0?6:dow-1));
-  return Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return d;});
+function getPeriodRange(){
+  const td=today();
+  if(viewMode==='day')return{start:td,end:td};
+  if(viewMode==='week')return getWeekRange();
+  return getMonthRange();
 }
 
 function getPeriodLabel(){
-  if(viewMode==='day'){const now=new Date();return now.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});}
-  if(viewMode==='week'){
-    const days=getWeekDays();
-    const s=days[0].toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
-    const e=days[6].toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
-    return`${s} – ${e}`;
+  if(viewMode==='day'){
+    const now=new Date();
+    return now.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
   }
-  const now=new Date();return`${MONTH_NAMES_PT[now.getMonth()]} ${now.getFullYear()}`;
+  if(viewMode==='week'){
+    const {start,end}=getWeekRange();
+    const s=new Date(start+'T12:00:00');
+    const e=new Date(end+'T12:00:00');
+    const fs=s.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+    const fe=e.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+    return`${fs} – ${fe}`;
+  }
+  const now=new Date();
+  return now.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
 }
 
 function switchViewMode(mode,el){
   viewMode=mode;
+  outrosOpen=false;
   document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
   if(el)el.classList.add('active');
+  renderTable();
+  renderPeriodSummary();
+  updateViewLabels();
+}
+
+function updateViewLabels(){
   document.getElementById('view-period-label').textContent=getPeriodLabel();
-  renderCalView();
+  const titles={day:'Temas estudados hoje',week:'Temas da semana',month:'Temas do mês'};
+  document.getElementById('table-section-title').textContent=titles[viewMode];
+  const lbl={day:'dia',week:'semana',month:'mês'};
+  document.getElementById('ps-studied-lbl').textContent=`Estudados (${lbl[viewMode]})`;
 }
 
-function renderCalView(){
-  const wrap=document.getElementById('cal-view-wrap');
-  if(!wrap)return;
-  if(viewMode==='week')renderWeekCal(wrap);
-  else if(viewMode==='day')renderDayCal(wrap);
-  else renderMonthCal(wrap);
+function renderPeriodSummary(){
+  const range=getPeriodRange();
+  // For "period studied" — temas with dataEstudo in range AND estudado=true
+  const periodStudied=state.temas.filter(t=>t.estudado&&isInRange(t.dataEstudo,range));
+  // avg acertos for period temas with questoes
+  const withQ=periodStudied.filter(t=>t.questoes>0);
+  const avg=withQ.length?Math.round(withQ.reduce((a,t)=>a+t.acertos/t.questoes*100,0)/withQ.length):null;
+  // revisions pending today (always today regardless of view)
+  const rev=getTodayRevisions().length;
+  document.getElementById('ps-studied').textContent=periodStudied.length;
+  document.getElementById('ps-avg').textContent=avg!==null?avg+'%':'—';
+  document.getElementById('ps-revisions').textContent=rev;
 }
 
-// ── WEEK CALENDAR ──
-function renderWeekCal(wrap){
-  const today_str=today();
-  const days=getWeekDays();
-
-  let html=`<div class="week-cal-outer"><div class="week-cal">
-  <div class="week-cal-header">
-    <div class="wch-corner"></div>
-    ${days.map(d=>{
-      const dk=dateKey(d);
-      const isToday=dk===today_str;
-      const dayIdx=(d.getDay()+6)%7;
-      return`<div class="wch-day${isToday?' is-today':''}">
-        <div class="wch-day-name">${DAY_NAMES[dayIdx]}</div>
-        <div class="wch-day-num">${d.getDate()}</div>
-      </div>`;
-    }).join('')}
-  </div>
-  <div class="week-cal-body">
-    <div class="wc-time-col">${CAL_HOURS.map(h=>`<div class="wc-time-cell">${String(h).padStart(2,'0')}:00</div>`).join('')}</div>
-    ${days.map(d=>{
-      const dk=dateKey(d);
-      const dayTemas=state.temas.filter(t=>t.dataEstudo===dk);
-      const colH=Math.max(CAL_HOURS.length*56, dayTemas.length*60+8);
-      return`<div class="wc-day-col" style="min-height:${colH}px" data-date="${dk}">
-        ${CAL_HOURS.map(h=>`<div class="wc-slot" onclick="openAddTemaModalForDate('${dk}')"></div>`).join('')}
-        ${dayTemas.map((t,idx)=>{
-          const col=getMatColor(t.materia);
-          const p=getPct(t);
-          const checked=t.estudado?'✓ ':'';
-          return`<div class="wc-block" style="top:${idx*60+4}px;background:${col.bg};border-left:3px solid ${col.border};color:${col.text}" onclick="event.stopPropagation();previewTema(${t.id})">
-            <div class="wc-block-mat">${checked}${t.materia}</div>
-            <div class="wc-block-tema">${t.tema}</div>
-            ${p!==null?`<div class="wc-block-pct">${p}%</div>`:''}
-          </div>`;
-        }).join('')}
-      </div>`;
-    }).join('')}
-  </div>
-</div></div>`;
-  wrap.innerHTML=html;
-}
-
-// ── DAY CALENDAR ──
-function renderDayCal(wrap){
-  const today_str=today();
-  const d=new Date();
-  const dk=dateKey(d);
-  const dayTemas=state.temas.filter(t=>t.dataEstudo===dk);
-  const colH=Math.max(CAL_HOURS.length*56, dayTemas.length*60+8);
-
-  let html=`<div class="week-cal-outer"><div class="week-cal">
-  <div class="week-cal-header" style="grid-template-columns:52px 1fr">
-    <div class="wch-corner"></div>
-    <div class="wch-day is-today" style="text-align:left;padding-left:20px">
-      <div class="wch-day-name">${d.toLocaleDateString('pt-BR',{weekday:'long'})}</div>
-      <div class="wch-day-num">${d.getDate()} de ${MONTH_NAMES_PT[d.getMonth()]}</div>
-    </div>
-  </div>
-  <div class="week-cal-body day-view">
-    <div class="wc-time-col">${CAL_HOURS.map(h=>`<div class="wc-time-cell">${String(h).padStart(2,'0')}:00</div>`).join('')}</div>
-    <div class="wc-day-col" style="min-height:${colH}px" data-date="${dk}">
-      ${CAL_HOURS.map(()=>`<div class="wc-slot" onclick="openAddTemaModalForDate('${dk}')"></div>`).join('')}
-      ${dayTemas.map((t,idx)=>{
-        const col=getMatColor(t.materia);
-        const p=getPct(t);
-        const checked=t.estudado?'✓ ':'';
-        return`<div class="wc-block" style="top:${idx*60+4}px;left:6px;right:12px;background:${col.bg};border-left:3px solid ${col.border};color:${col.text}" onclick="event.stopPropagation();previewTema(${t.id})">
-          <div class="wc-block-mat">${checked}${t.materia}</div>
-          <div class="wc-block-tema">${t.tema}</div>
-          ${p!==null?`<div class="wc-block-pct">${p}%</div>`:''}
-        </div>`;
-      }).join('')}
-    </div>
-  </div>
-</div></div>`;
-  wrap.innerHTML=html;
-}
-
-// ── MONTH CALENDAR ──
-function renderMonthCal(wrap){
-  const now=new Date();
-  const year=now.getFullYear(),month=now.getMonth();
-  const firstDay=new Date(year,month,1);
-  const startDow=firstDay.getDay();
-  const startOffset=startDow===0?6:startDow-1;
-  const start=new Date(firstDay);start.setDate(firstDay.getDate()-startOffset);
-  const today_str=today();
-
-  let html=`<div class="month-cal-outer">
-  <div class="month-cal-header">${DAY_NAMES.map(d=>`<div class="mch-cell">${d}</div>`).join('')}</div>
-  <div class="month-cal-body">`;
-
-  const cur=new Date(start);
-  for(let w=0;w<6;w++){
-    for(let dow=0;dow<7;dow++){
-      const dk=dateKey(cur);
-      const isThisMonth=cur.getMonth()===month;
-      const isToday=dk===today_str;
-      const dayTemas=state.temas.filter(t=>t.dataEstudo===dk);
-      const MAX_SHOW=3;
-      html+=`<div class="mc-day${!isThisMonth?' other-month':''}${isToday?' is-today':''}" onclick="openAddTemaModalForDate('${dk}')">
-        <div class="mc-day-num">${cur.getDate()}</div>
-        ${dayTemas.slice(0,MAX_SHOW).map(t=>{
-          const col=getMatColor(t.materia);
-          const checked=t.estudado?'✓ ':'';
-          return`<span class="mc-tema-dot" style="background:${col.bg};color:${col.text};border-left:2px solid ${col.border}">${checked}${t.tema}</span>`;
-        }).join('')}
-        ${dayTemas.length>MAX_SHOW?`<div class="mc-more">+${dayTemas.length-MAX_SHOW} mais</div>`:''}
-      </div>`;
-      cur.setDate(cur.getDate()+1);
-    }
-  }
-  html+=`</div></div>`;
-  wrap.innerHTML=html;
-}
-
-function openAddTemaModalForDate(dk){
-  openAddTemaModal();
-  setTimeout(()=>{document.getElementById('add-date').value=dk;},60);
-}
-function previewTema(id){
-  const t=state.temas.find(x=>x.id===id);
-  if(!t)return;
-  const p=getPct(t);
-  toast(`${t.tema} · ${t.materia}${p!==null?' · '+p+'%':''}`);
+function toggleOutros(){
+  outrosOpen=!outrosOpen;
+  document.getElementById('outros-body').style.display=outrosOpen?'block':'none';
+  document.getElementById('outros-arrow').classList.toggle('open',outrosOpen);
 }
 
 // ── SCREENS ──
@@ -1332,14 +1247,15 @@ function enterApp(){
   if(state.tgChatId){document.getElementById('tg-connected').classList.add('show');document.getElementById('tg-token').value=state.tgChatId;}
   document.getElementById('tg-sched-toggle').checked=state.tgSchedEn||false;
   updateSchedStatus();
-  const now=new Date();const h=now.getHours();
+  const now=new Date();
+  const h=now.getHours();
   const g=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';
   const fn=(state.displayName||state.user||'').split(' ')[0].toUpperCase();
   document.getElementById('greeting-name').textContent=g+', '+fn+'.';
   document.getElementById('dash-date2').textContent=now.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
-  document.getElementById('view-period-label').textContent=getPeriodLabel();
   showScreen('app');
-  renderAll();renderProvas();renderMatManage();renderPomoSubjectSelect();renderPomoStats();renderPomoSessions();
+  updateViewLabels();
+  renderAll();renderProvas();renderMatManage();renderPomoSubjectSelect();renderPomoStats();renderPomoSessions();renderRotinaPage();
   scheduleInit();
 }
 function logout(){scheduleClear();if(window.logoutFB)window.logoutFB();closeMobileNav();}
@@ -1371,15 +1287,28 @@ function switchPage(name,el,mob){
   const fab=document.getElementById('fab-btn');if(fab)fab.style.display=name==='planilha'?'flex':'none';
   if(name==='provas')renderProvas();
   if(name==='pomodoro'){renderPomoSubjectSelect();renderPomoSessions();renderPomoStats();}
-  if(name==='rotina'){renderRotinaPage();renderCalView();}
+  if(name==='rotina')renderRotinaPage();
   if(mob)closeMobileNav();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ── MATERIAS ──
-function getMaterias(){const fromTemas=[...new Set(state.temas.map(t=>t.materia))];return[...new Set([...state.materias,...fromTemas])].filter(Boolean);}
-function addMateria(){const inp=document.getElementById('new-mat-input');const v=inp.value.trim();if(!v){toast('Insira um nome');return;}if(!state.materias.includes(v)){state.materias.push(v);save();}inp.value='';renderMatManage();renderPomoSubjectSelect();toast('Matéria adicionada');}
-function deleteMateria(m){const inUse=state.temas.some(t=>t.materia===m);if(inUse){toast('Esta matéria tem temas cadastrados');return;}state.materias=state.materias.filter(x=>x!==m);save();renderMatManage();renderPomoSubjectSelect();toast('Matéria removida');}
+function getMaterias(){
+  const fromTemas=[...new Set(state.temas.map(t=>t.materia))];
+  return[...new Set([...state.materias,...fromTemas])].filter(Boolean);
+}
+function addMateria(){
+  const inp=document.getElementById('new-mat-input');const v=inp.value.trim();
+  if(!v){toast('Insira um nome');return;}
+  if(!state.materias.includes(v)){state.materias.push(v);save();}
+  inp.value='';renderMatManage();renderPomoSubjectSelect();toast('Matéria adicionada');
+}
+function deleteMateria(m){
+  const inUse=state.temas.some(t=>t.materia===m);
+  if(inUse){toast('Esta matéria tem temas cadastrados');return;}
+  state.materias=state.materias.filter(x=>x!==m);
+  save();renderMatManage();renderPomoSubjectSelect();toast('Matéria removida');
+}
 function renderMatManage(){
   const list=document.getElementById('mat-manage-list');if(!list)return;
   const mats=getMaterias();
@@ -1419,10 +1348,7 @@ function addTema(){
   state.temas.push({id:Date.now(),materia:mat,tema,estudado:false,questoes:0,acertos:0,dataEstudo:date,rev24h:false,rev1s:false,rev1m:false});
   save();closeModals();
   if(document.getElementById('inline-mat-input'))document.getElementById('inline-mat-input').value='';
-  renderAll();renderMatManage();renderPomoSubjectSelect();
-  // re-render calendar if rotina page is visible
-  if(document.getElementById('page-rotina').classList.contains('active'))renderCalView();
-  toast('Tema adicionado');
+  renderAll();renderMatManage();renderPomoSubjectSelect();toast('Tema adicionado');
 }
 
 // ── MODALS ──
@@ -1435,8 +1361,11 @@ function deleteTema(id){state.temas=state.temas.filter(t=>t.id!==id);save();rend
 function toggleCheck(id){
   const t=state.temas.find(x=>x.id===id);if(!t)return;
   t.estudado=!t.estudado;
-  if(t.estudado){if(!t.dataEstudo)t.dataEstudo=today();const d=today();state.activityMap[d]=(state.activityMap[d]||0)+1;save();celebrate();}
-  else save();
+  if(t.estudado){
+    if(!t.dataEstudo)t.dataEstudo=today();
+    const d=today();state.activityMap[d]=(state.activityMap[d]||0)+1;
+    save();celebrate();
+  }else{save();}
   renderAll();
 }
 function updateField(id,f,v){const t=state.temas.find(x=>x.id===id);if(t){if(f==='questoes'||f==='acertos')v=parseInt(v)||0;t[f]=v;}save();renderAll();}
@@ -1476,7 +1405,7 @@ function celebrate(){
 }
 
 // ── RENDER ALL ──
-function renderAll(){renderStats();renderHeatmap();renderTodayRevisions();renderTable();}
+function renderAll(){renderStats();renderHeatmap();renderTodayRevisions();renderPeriodSummary();renderTable();}
 
 function renderStats(){
   const total=state.temas.length,studied=state.temas.filter(t=>t.estudado).length;
@@ -1505,16 +1434,15 @@ function renderHeatmap(){
   const end=new Date();const start=new Date(end);start.setDate(start.getDate()-(weeksToShow*7-1));
   while(start.getDay()!==0)start.setDate(start.getDate()-1);
   const days=[];const cur=new Date(start);
-  while(cur<=end){days.push(dateKey(cur));cur.setDate(cur.getDate()+1);}
+  while(cur<=end){days.push(cur.toISOString().split('T')[0]);cur.setDate(cur.getDate()+1);}
   const weeks=[];let week=[];
   days.forEach(d=>{week.push(d);if(week.length===7){weeks.push(week);week=[];}});
   if(week.length)weeks.push(week);
   const maxVal=Math.max(1,...Object.values(state.activityMap));
   const monthNames=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   let lastMonth=-1;
-  monthsEl.innerHTML=weeks.map(w=>{const m=new Date(w[0]).getMonth();const lb=m!==lastMonth?monthNames[m]:'';lastMonth=m;return`<div class="hm-month-label">${lb}</div>`;}).join('');
-  const td=today();
-  grid.innerHTML=weeks.map(w=>`<div class="hm-col">${w.map(d=>{const v=state.activityMap[d]||0;const cls=v===0?'hm-0':v<=maxVal*.25?'hm-1':v<=maxVal*.5?'hm-2':v<=maxVal*.75?'hm-3':'hm-4';const isTd=d===td?'outline:1.5px solid var(--a);outline-offset:1px':'';return`<div class="hm-cell ${cls}" title="${d}: ${v} tema${v!==1?'s':''}" style="${isTd}"></div>`;}).join('')}</div>`).join('');
+  monthsEl.innerHTML=weeks.map(w=>{const m=new Date(w[0]).getMonth();const lbl=m!==lastMonth?monthNames[m]:'';lastMonth=m;return`<div class="hm-month-label">${lbl}</div>`;}).join('');
+  grid.innerHTML=weeks.map(w=>`<div class="hm-col">${w.map(d=>{const v=state.activityMap[d]||0;const cls=v===0?'hm-0':v<=maxVal*.25?'hm-1':v<=maxVal*.5?'hm-2':v<=maxVal*.75?'hm-3':'hm-4';const isTd=d===today()?'outline:1.5px solid var(--a);outline-offset:1px':'';return`<div class="hm-cell ${cls}" title="${d}: ${v} tema${v!==1?'s':''}" style="${isTd}"></div>`;}).join('')}</div>`).join('');
 }
 
 function renderTodayRevisions(){
@@ -1524,84 +1452,154 @@ function renderTodayRevisions(){
   list.innerHTML=`<div class="rev-head"><div class="rev-dot"></div>${revs.length} tema${revs.length>1?'s':''} para revisar hoje</div>`+revs.slice(0,6).map(r=>`<div class="review-item"><div class="review-mat">${r.materia}</div><div class="review-tema">${r.tema}</div><span class="rbadge ${r.badge}">${r.revType}</span></div>`).join('');
 }
 
-// ── TABLE ──
-function renderTable(){
-  const c=document.getElementById('subjects-container');
-  if(!state.temas.length){
-    c.innerHTML=`<div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Nenhum tema ainda</div><div class="empty-sub">// clique em "+ Adicionar tema" para começar</div></div>`;
-    renderCards();return;
-  }
-  const groups={};state.temas.forEach(t=>{if(!groups[t.materia])groups[t.materia]=[];groups[t.materia].push(t);});
-  let html='';
-  for(const[mat,temas]of Object.entries(groups)){
-    const est=temas.filter(t=>t.estudado).length;const pp=Math.round(est/temas.length*100);
-    const k=btoa(encodeURIComponent(mat)).replace(/[^a-zA-Z0-9]/g,'').slice(0,16);
-    html+=`<div class="subj-header" onclick="toggleSubj('${k}')">
-      <div class="subj-dot"></div><div class="subj-arrow open" id="arr-${k}">▶</div>
-      <div class="subj-name">${mat}</div>
-      <div class="subj-pbar"><div class="subj-pbar-fill" style="width:${pp}%"></div></div>
-      <div class="subj-count mono">${est}/${temas.length}</div>
-    </div>
-    <div id="sub-${k}"><div class="table-scroll"><table>
-      <thead><tr><th>✓</th><th>TEMA</th><th>Q.</th><th>ACE.</th><th>%</th><th>DATA</th><th>REVISÕES</th><th></th></tr></thead>
-      <tbody>${temas.map(t=>{const p=getPct(t),rv=getRevisions(t);return`<tr>
-        <td><div class="check-box ${t.estudado?'checked':''}" onclick="toggleCheck(${t.id})"></div></td>
-        <td style="min-width:120px"><input class="inline" value="${t.tema.replace(/"/g,'&quot;')}" onblur="updateField(${t.id},'tema',this.value)"/></td>
-        <td><input class="inline num" type="number" value="${t.questoes||''}" placeholder="0" inputmode="numeric" onblur="updateField(${t.id},'questoes',this.value)"/></td>
-        <td><input class="inline num" type="number" value="${t.acertos||''}" placeholder="0" inputmode="numeric" onblur="updateField(${t.id},'acertos',this.value)"/></td>
-        <td>${p!==null?`<span class="pct-badge ${pctCls(p)}">${p}%</span>`:'—'}</td>
-        <td><input class="inline" type="date" value="${t.dataEstudo||''}" onchange="updateField(${t.id},'dataEstudo',this.value)" style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);min-width:104px"/></td>
-        <td><div class="revision-chips">${rv.map(r=>`<span class="chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')" title="${r.date}">${r.label}</span>`).join('')}</div></td>
-        <td><button class="del-btn" onclick="deleteTema(${t.id})">×</button></td>
-      </tr>`;}).join('')}</tbody>
-    </table></div></div>`;
-  }
-  c.innerHTML=html;renderCards();
+// ── TABLE with VIEW MODE ──
+function getTemasInPeriod(){
+  const range=getPeriodRange();
+  // "in period" = dataEstudo falls within range, regardless of estudado flag
+  // (so they can see what they planned to study or actually studied)
+  // But primary grouping: estudado=true AND in range = "period temas"
+  // Not in range = "outros"
+  const inPeriod=state.temas.filter(t=>isInRange(t.dataEstudo,range));
+  const outros=state.temas.filter(t=>!isInRange(t.dataEstudo,range));
+  return{inPeriod,outros};
 }
 
-function renderCards(){
-  const c=document.getElementById('card-list');
-  if(!state.temas.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Nenhum tema</div><div class="empty-sub">// toque no + para começar</div></div>`;return;}
-  const groups={};state.temas.forEach(t=>{if(!groups[t.materia])groups[t.materia]=[];groups[t.materia].push(t);});
-  let html='';
-  for(const[mat,temas]of Object.entries(groups)){
-    const est=temas.filter(t=>t.estudado).length;const pp=Math.round(est/temas.length*100);
-    const gk='g'+btoa(encodeURIComponent(mat)).replace(/[^a-zA-Z0-9]/g,'').slice(0,10);
-    html+=`<div><div class="cg-header" onclick="toggleCG('${gk}')">
-      <div class="cg-dot"></div><div class="cg-name">${mat}</div>
-      <div class="cg-pbar"><div class="cg-pbar-fill" style="width:${pp}%"></div></div>
-      <div class="cg-count mono">${est}/${temas.length}</div>
-      <div class="cg-arr open" id="cgarr-${gk}">▾</div>
-    </div>
-    <div class="cg-body" id="cgbody-${gk}">
-      ${temas.map(t=>{const p=getPct(t),rv=getRevisions(t),pend=rv.filter(r=>r.status==='due'||r.status==='overdue');const cid='c'+t.id;return`<div class="tc"><div class="tc-top" onclick="toggleTC('${cid}')">
-        <div class="tc-chk ${t.estudado?'checked':''}" onclick="event.stopPropagation();toggleCheck(${t.id})"></div>
-        <div class="tc-info"><div class="tc-name">${t.tema}</div><div class="tc-meta">${p!==null?`<span class="pct-badge ${pctCls(p)}">${p}%</span>`:''}${pend.length?`<span class="tc-rev">⏰ ${pend.map(r=>r.label).join(' · ')}</span>`:''}${t.estudado&&p===null?`<span style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted)">sem questões</span>`:''}</div></div>
-        <div class="tc-chev" id="${cid}-chev">▾</div>
-      </div>
-      <div class="tc-body" id="${cid}">
-        <div class="cf"><div class="cf-lbl">Tema</div><input class="cf-inp" value="${t.tema.replace(/"/g,'&quot;')}" onblur="updateField(${t.id},'tema',this.value)"/></div>
-        <div class="cf-row"><div class="cf"><div class="cf-lbl">Questões</div><input class="cf-inp" type="number" inputmode="numeric" value="${t.questoes||''}" placeholder="0" onblur="updateField(${t.id},'questoes',this.value)"/></div><div class="cf"><div class="cf-lbl">Acertos</div><input class="cf-inp" type="number" inputmode="numeric" value="${t.acertos||''}" placeholder="0" onblur="updateField(${t.id},'acertos',this.value)"/></div></div>
-        <div class="cf"><div class="cf-lbl">Data estudada</div><input class="cf-inp" type="date" value="${t.dataEstudo||''}" onchange="updateField(${t.id},'dataEstudo',this.value)"/></div>
-        ${rv.length?`<div class="cf"><div class="cf-lbl">Revisões espaçadas</div><div class="cf-chips">${rv.map(r=>`<div class="cf-chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')">${r.label}<br><span style="font-size:9px;opacity:.6">${r.date}</span></div>`).join('')}</div></div>`:''}
-        <button class="tc-del" onclick="deleteTema(${t.id})">Remover tema</button>
-      </div></div>`;}).join('')}
-    </div></div>`;
+function renderTable(){
+  const{inPeriod,outros}=getTemasInPeriod();
+  const showOutros=outros.length>0;
+
+  // Main (in-period) table
+  renderGroupedTable(inPeriod, document.getElementById('subjects-container'), document.getElementById('card-list'), inPeriod.length);
+
+  // Outros section
+  const outrosSection=document.getElementById('outros-section');
+  if(showOutros){
+    outrosSection.style.display='block';
+    document.getElementById('outros-count').textContent=outros.length;
+    const lbl={day:'fora de hoje',week:'de outras semanas',month:'de outros meses'};
+    document.getElementById('outros-label').textContent=`Outros temas (${lbl[viewMode]})`;
+    // render outros content (lazy — only if open)
+    if(outrosOpen){
+      renderGroupedTable(outros, document.getElementById('outros-table-wrap'), document.getElementById('outros-card-list'), outros.length, true);
+    }
+  } else {
+    outrosSection.style.display='none';
   }
-  c.innerHTML=html;
+}
+
+function renderGroupedTable(temas, desktopContainer, mobileContainer, totalCount, isOutros){
+  // Show mobile or desktop
+  const isMobile=window.innerWidth<=768;
+  if(desktopContainer){
+    if(!temas.length){
+      const range=getPeriodRange();
+      const labels={day:'hoje',week:'nesta semana',month:'neste mês'};
+      desktopContainer.innerHTML=`<div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">${isOutros?'Sem temas':'Nenhum tema '+labels[viewMode]}</div><div class="empty-sub">${isOutros?'// todos os temas estão no período selecionado':'// adicione temas ou mude a data de estudo'}</div></div>`;
+    } else {
+      const groups={};temas.forEach(t=>{if(!groups[t.materia])groups[t.materia]=[];groups[t.materia].push(t);});
+      let html='';
+      for(const[mat,ts]of Object.entries(groups)){
+        const est=ts.filter(t=>t.estudado).length;const pp=Math.round(est/ts.length*100);
+        const k=btoa(encodeURIComponent(mat+(isOutros?'_out':''))).replace(/[^a-zA-Z0-9]/g,'').slice(0,16);
+        html+=`<div class="subj-header" onclick="toggleSubj('${k}')">
+          <div class="subj-dot"></div><div class="subj-arrow open" id="arr-${k}">▶</div>
+          <div class="subj-name">${mat}</div>
+          <div class="subj-pbar"><div class="subj-pbar-fill" style="width:${pp}%"></div></div>
+          <div class="subj-count mono">${est}/${ts.length}</div>
+        </div>
+        <div id="sub-${k}"><div class="table-scroll"><table>
+          <thead><tr><th>✓</th><th>TEMA</th><th>Q.</th><th>ACE.</th><th>%</th><th>DATA</th><th>REVISÕES</th><th></th></tr></thead>
+          <tbody>${ts.map(t=>{const p=getPct(t),rv=getRevisions(t);return`<tr>
+            <td><div class="check-box ${t.estudado?'checked':''}" onclick="toggleCheck(${t.id})"></div></td>
+            <td style="min-width:120px"><input class="inline" value="${t.tema.replace(/"/g,'&quot;')}" onblur="updateField(${t.id},'tema',this.value)"/></td>
+            <td><input class="inline num" type="number" value="${t.questoes||''}" placeholder="0" inputmode="numeric" onblur="updateField(${t.id},'questoes',this.value)"/></td>
+            <td><input class="inline num" type="number" value="${t.acertos||''}" placeholder="0" inputmode="numeric" onblur="updateField(${t.id},'acertos',this.value)"/></td>
+            <td>${p!==null?`<span class="pct-badge ${pctCls(p)}">${p}%</span>`:'—'}</td>
+            <td><input class="inline" type="date" value="${t.dataEstudo||''}" onchange="updateField(${t.id},'dataEstudo',this.value)" style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);min-width:104px"/></td>
+            <td><div class="revision-chips">${rv.map(r=>`<span class="chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')" title="${r.date}">${r.label}</span>`).join('')}</div></td>
+            <td><button class="del-btn" onclick="deleteTema(${t.id})">×</button></td>
+          </tr>`;}).join('')}</tbody>
+        </table></div></div>`;
+      }
+      desktopContainer.innerHTML=html;
+    }
+  }
+  // Mobile cards
+  if(mobileContainer){
+    if(!temas.length){
+      mobileContainer.innerHTML='';
+      return;
+    }
+    const groups={};temas.forEach(t=>{if(!groups[t.materia])groups[t.materia]=[];groups[t.materia].push(t);});
+    let html='';
+    for(const[mat,ts]of Object.entries(groups)){
+      const est=ts.filter(t=>t.estudado).length;const pp=Math.round(est/ts.length*100);
+      const suffix=isOutros?'_out':'';
+      const gk='g'+btoa(encodeURIComponent(mat+suffix)).replace(/[^a-zA-Z0-9]/g,'').slice(0,10);
+      html+=`<div><div class="cg-header" onclick="toggleCG('${gk}')">
+        <div class="cg-dot"></div><div class="cg-name">${mat}</div>
+        <div class="cg-pbar"><div class="cg-pbar-fill" style="width:${pp}%"></div></div>
+        <div class="cg-count mono">${est}/${ts.length}</div>
+        <div class="cg-arr open" id="cgarr-${gk}">▾</div>
+      </div>
+      <div class="cg-body" id="cgbody-${gk}">
+        ${ts.map(t=>{const p=getPct(t),rv=getRevisions(t),pend=rv.filter(r=>r.status==='due'||r.status==='overdue');const cid='c'+t.id+(isOutros?'_':'')+suffix;return`<div class="tc"><div class="tc-top" onclick="toggleTC('${cid}')">
+          <div class="tc-chk ${t.estudado?'checked':''}" onclick="event.stopPropagation();toggleCheck(${t.id})"></div>
+          <div class="tc-info"><div class="tc-name">${t.tema}</div><div class="tc-meta">${p!==null?`<span class="pct-badge ${pctCls(p)}">${p}%</span>`:''}${pend.length?`<span class="tc-rev">⏰ ${pend.map(r=>r.label).join(' · ')}</span>`:''}${t.estudado&&p===null?`<span style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted)">sem questões</span>`:''}</div></div>
+          <div class="tc-chev" id="${cid}-chev">▾</div>
+        </div>
+        <div class="tc-body" id="${cid}">
+          <div class="cf"><div class="cf-lbl">Tema</div><input class="cf-inp" value="${t.tema.replace(/"/g,'&quot;')}" onblur="updateField(${t.id},'tema',this.value)"/></div>
+          <div class="cf-row"><div class="cf"><div class="cf-lbl">Questões</div><input class="cf-inp" type="number" inputmode="numeric" value="${t.questoes||''}" placeholder="0" onblur="updateField(${t.id},'questoes',this.value)"/></div><div class="cf"><div class="cf-lbl">Acertos</div><input class="cf-inp" type="number" inputmode="numeric" value="${t.acertos||''}" placeholder="0" onblur="updateField(${t.id},'acertos',this.value)"/></div></div>
+          <div class="cf"><div class="cf-lbl">Data estudada</div><input class="cf-inp" type="date" value="${t.dataEstudo||''}" onchange="updateField(${t.id},'dataEstudo',this.value)"/></div>
+          ${rv.length?`<div class="cf"><div class="cf-lbl">Revisões espaçadas</div><div class="cf-chips">${rv.map(r=>`<div class="cf-chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')">${r.label}<br><span style="font-size:9px;opacity:.6">${r.date}</span></div>`).join('')}</div></div>`:''}
+          <button class="tc-del" onclick="deleteTema(${t.id})">Remover tema</button>
+        </div></div>`;}).join('')}
+      </div></div>`;
+    }
+    mobileContainer.innerHTML=html;
+    mobileContainer.style.display='flex';
+    mobileContainer.style.flexDirection='column';
+  }
 }
 
 function toggleTC(cid){const b=document.getElementById(cid),ch=document.getElementById(cid+'-chev');if(!b)return;b.classList.toggle('open');if(ch)ch.classList.toggle('open');}
 function toggleCG(gk){const b=document.getElementById('cgbody-'+gk),a=document.getElementById('cgarr-'+gk);if(!b)return;const h=b.style.display==='none';b.style.display=h?'':'none';if(a)a.classList.toggle('open',h);}
 function toggleSubj(k){const s=document.getElementById('sub-'+k),a=document.getElementById('arr-'+k);if(!s)return;if(s.style.display==='none'){s.style.display='';a.classList.add('open');}else{s.style.display='none';a.classList.remove('open');}}
 
+// Re-render outros when it's toggled open
+const _origToggleOutros=toggleOutros;
+toggleOutros=function(){
+  outrosOpen=!outrosOpen;
+  document.getElementById('outros-body').style.display=outrosOpen?'block':'none';
+  document.getElementById('outros-arrow').classList.toggle('open',outrosOpen);
+  if(outrosOpen){
+    const{outros}=getTemasInPeriod();
+    const isMob=window.innerWidth<=768;
+    const dw=document.getElementById('outros-table-wrap');
+    const mw=document.getElementById('outros-card-list');
+    if(isMob){dw.style.display='none';mw.style.display='flex';}
+    else{dw.style.display='';mw.style.display='none';}
+    renderGroupedTable(outros,isMob?null:dw,isMob?mw:null,outros.length,true);
+  }
+};
+
 // ── POMODORO ──
-const PRESETS={classic:{focusMin:25,breakMin:5,longBreakMin:15,cyclesBeforeLong:4},deep:{focusMin:45,breakMin:15,longBreakMin:30,cyclesBeforeLong:0},short:{focusMin:15,breakMin:3,longBreakMin:10,cyclesBeforeLong:0},custom:{focusMin:30,breakMin:10,longBreakMin:20,cyclesBeforeLong:4}};
+const PRESETS={
+  classic:{focusMin:25,breakMin:5,longBreakMin:15,cyclesBeforeLong:4},
+  deep:{focusMin:45,breakMin:15,longBreakMin:30,cyclesBeforeLong:0},
+  short:{focusMin:15,breakMin:3,longBreakMin:10,cyclesBeforeLong:0},
+  custom:{focusMin:30,breakMin:10,longBreakMin:20,cyclesBeforeLong:4},
+};
 const pomoCfg={preset:'classic',mode:'focus',sound:true};
 let pomoTimer={running:false,remaining:25*60,total:25*60,interval:null,sessionStart:null};
 let pomoCycleCount=0;
 const CIRC=2*Math.PI*110;
-function getCurrentPreset(){if(pomoCfg.preset==='custom')return{focusMin:parseInt(document.getElementById('custom-focus')?.value)||30,breakMin:parseInt(document.getElementById('custom-break')?.value)||10,longBreakMin:parseInt(document.getElementById('custom-long-break')?.value)||20,cyclesBeforeLong:parseInt(document.getElementById('custom-cycles')?.value)||4};return PRESETS[pomoCfg.preset];}
+
+function getCurrentPreset(){
+  if(pomoCfg.preset==='custom')return{focusMin:parseInt(document.getElementById('custom-focus')?.value)||30,breakMin:parseInt(document.getElementById('custom-break')?.value)||10,longBreakMin:parseInt(document.getElementById('custom-long-break')?.value)||20,cyclesBeforeLong:parseInt(document.getElementById('custom-cycles')?.value)||4};
+  return PRESETS[pomoCfg.preset];
+}
 function applyPreset(name,el){if(pomoTimer.running)return;pomoCfg.preset=name;document.querySelectorAll('.pomo-preset').forEach(p=>p.classList.remove('active'));if(el)el.classList.add('active');const cr=document.getElementById('pomo-custom-row');if(cr)cr.style.display=name==='custom'?'flex':'none';pomoCycleCount=0;setPomoMode('focus',document.querySelector('.pomo-mode-tab[data-mode="focus"]'));renderCycleDots();}
 function updateCustomPreset(){if(pomoCfg.preset==='custom'&&!pomoTimer.running)setPomoMode('focus',document.querySelector('.pomo-mode-tab[data-mode="focus"]'));}
 function renderCycleDots(){const el=document.getElementById('cycle-dots');if(!el)return;const p=getCurrentPreset();const cycles=p.cyclesBeforeLong;if(!cycles){el.innerHTML='';return;}el.innerHTML=Array.from({length:cycles},(_,i)=>{const cls=i<pomoCycleCount?'done':i===pomoCycleCount&&pomoCfg.mode==='focus'?'current':'';return`<div class="cycle-dot ${cls}"></div>`;}).join('');}
@@ -1621,14 +1619,18 @@ function onPomoComplete(){
     if(state.pomSessions.length>200)state.pomSessions=state.pomSessions.slice(0,200);
     const d=today();state.activityMap[d]=(state.activityMap[d]||0)+1;
     save();celebrate();renderPomoSessions();renderPomoStats();renderHeatmap();
-    pomoCycleCount++;const useLong=p.cyclesBeforeLong>0&&pomoCycleCount>=p.cyclesBeforeLong;
-    if(useLong)pomoCycleCount=0;const nextMode=useLong?'long':'short';
+    pomoCycleCount++;
+    const useLong=p.cyclesBeforeLong>0&&pomoCycleCount>=p.cyclesBeforeLong;
+    if(useLong)pomoCycleCount=0;
+    const nextMode=useLong?'long':'short';
     toast(`Foco concluído! ${useLong?'Hora da pausa longa.':'Hora da pausa curta.'}`);
-    const tab=document.querySelector(`.pomo-mode-tab[data-mode="${nextMode}"]`);setPomoMode(nextMode,tab);
+    const tab=document.querySelector(`.pomo-mode-tab[data-mode="${nextMode}"]`);
+    setPomoMode(nextMode,tab);
   } else {
     state.pomSessions.unshift({id:Date.now(),type:'break',subject:sub,startedAt:new Date().toISOString(),durationMin:pomoCfg.mode==='long'?p.longBreakMin:p.breakMin});
     if(state.pomSessions.length>200)state.pomSessions=state.pomSessions.slice(0,200);
-    save();renderPomoSessions();toast('Pausa concluída! Hora de focar.');
+    save();renderPomoSessions();
+    toast('Pausa concluída! Hora de focar.');
     const tab=document.querySelector('.pomo-mode-tab[data-mode="focus"]');setPomoMode('focus',tab);
   }
   pomoTimer.sessionStart=null;
@@ -1644,14 +1646,14 @@ function renderPomoSessions(){
 function renderPomoStats(){
   const ts=today();const focusSess=state.pomSessions.filter(s=>s.startedAt&&s.startedAt.startsWith(ts)&&s.type==='focus');const totalMin=focusSess.reduce((a,s)=>a+s.durationMin,0);
   let streak=0,d=new Date();
-  while(streak<366){const ds=dateKey(d);if(!state.pomSessions.some(s=>s.type==='focus'&&s.startedAt?.startsWith(ds))&&ds!==ts)break;if(state.pomSessions.some(s=>s.type==='focus'&&s.startedAt?.startsWith(ds)))streak++;d.setDate(d.getDate()-1);}
+  while(streak<366){const ds=d.toISOString().split('T')[0];if(!state.pomSessions.some(s=>s.type==='focus'&&s.startedAt?.startsWith(ds))&&ds!==ts)break;if(state.pomSessions.some(s=>s.type==='focus'&&s.startedAt?.startsWith(ds)))streak++;d.setDate(d.getDate()-1);}
   document.getElementById('pomo-sessions-count').textContent=focusSess.length;
   document.getElementById('pomo-focus-min').textContent=totalMin;
   document.getElementById('pomo-streak-days').textContent=streak;
 }
 document.addEventListener('DOMContentLoaded',()=>{const fill=document.getElementById('timer-ring-fill');if(fill){fill.style.strokeDasharray=CIRC.toFixed(2);fill.style.strokeDashoffset='0';}renderCycleDots();});
 
-// ── ROTINA (grade horária) ──
+// ── ROTINA ──
 const RCATS=[
   {id:'estudo',name:'Estudo',color:'#a78bfa',bg:'rgba(167,139,250,.22)'},
   {id:'aula',name:'Aula',color:'#60a5fa',bg:'rgba(96,165,250,.22)'},
@@ -1663,20 +1665,18 @@ const RCATS=[
   {id:'trabalho',name:'Trabalho',color:'#fb923c',bg:'rgba(251,146,60,.22)'},
   {id:'outro',name:'Outro',color:'#94a3b8',bg:'rgba(148,163,184,.22)'},
 ];
-const DAYS_ROT=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const START_H=5,SLOTS=38;
 let rotinaState={selectedDay:new Date().getDay(),filterCat:'all',editingBlockId:null,selectedCat:RCATS[0].id,selectedRepeat:'once',pendingSlot:null};
 let nowLineInterval=null;
-
 function slotToTime(i){const tm=(START_H*60)+i*30;const h=Math.floor(tm/60)%24,m=tm%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;}
 function timeToSlot(ts){const[hh,mm]=ts.split(':').map(Number);return Math.round((hh*60+mm-START_H*60)/30);}
 function blocksForDay(di){return(state.rotinaBlocks||[]).filter(b=>{if(b.repeat==='daily')return true;if(b.repeat==='weekdays')return di>=1&&di<=5;if(b.repeat==='weekend')return di===0||di===6;return b.day===di;});}
-
 function renderRotinaPage(){renderRotinaDays();renderRotinaLegend();renderRotinaBalance();renderRotinaGrid();startNowLine();}
 function renderRotinaDays(){
   const el=document.getElementById('rotina-days');if(!el)return;
   const today_d=new Date().getDay();
-  el.innerHTML=DAYS_ROT.map((d,i)=>{const isToday=i===today_d,isActive=i===rotinaState.selectedDay;const now=new Date(),diff=i-now.getDay(),dt=new Date(now);dt.setDate(now.getDate()+diff);const dateNum=dt.getDate();return`<div class="rotina-day-btn${isActive?' active':''}${isToday?' today':''}" onclick="selectRotinaDay(${i})"><div class="rday-name">${d}</div><div class="rday-num">${dateNum}</div></div>`;}).join('');
+  el.innerHTML=DAYS.map((d,i)=>{const isToday=i===today_d,isActive=i===rotinaState.selectedDay;const now=new Date(),diff=i-now.getDay(),dt=new Date(now);dt.setDate(now.getDate()+diff);const dateNum=dt.getDate();return`<div class="rotina-day-btn${isActive?' active':''}${isToday?' today':''}" onclick="selectRotinaDay(${i})"><div class="rday-name">${d}</div><div class="rday-num">${dateNum}</div></div>`;}).join('');
 }
 function selectRotinaDay(di){rotinaState.selectedDay=di;renderRotinaDays();renderRotinaGrid();}
 function renderRotinaLegend(){
@@ -1773,8 +1773,8 @@ function renderCharts(){
 // ── TOUR ──
 const TOUR=[
   {t:'tour-stat-total',title:'Painel de controle',desc:'Resumo em tempo real: temas, progresso, média de acertos e revisões pendentes hoje.'},
+  {t:'view-toggle',title:'Visualização por período',desc:'Alterne entre Dia, Semana e Mês para focar nos temas do período. Os temas de outros períodos ficam em "Outros temas" abaixo.'},
   {t:'tour-btn-add',title:'Adicionar temas',desc:'Selecione uma matéria existente ou crie uma nova — sem precisar digitar toda vez.'},
-  {t:'dt-rotina',title:'Rotina',desc:'Calendário semanal dos seus temas estudados + grade horária. Alterne entre Dia, Semana e Mês.'},
   {t:'dt-pomodoro',title:'Pomodoro',desc:'Timer com rastreio de sessões por matéria. Veja histórico, streaks e minutos de foco.'},
   {t:'dt-configuracoes',title:'Configurações',desc:'Tema, gerenciar matérias, Telegram para alertas diários às 03h.'},
 ];
