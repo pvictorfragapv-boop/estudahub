@@ -192,9 +192,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 .hm-months::-webkit-scrollbar{display:none}
 .hm-month-label{flex-shrink:0;width:52px;letter-spacing:.06em}
 
-/* heatmap grow animation */
-.hm-grow-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--a);background:var(--ad);border:1px solid var(--ag);padding:2px 9px;border-radius:20px;margin-left:8px;opacity:.9}
-
 /* ── REVIEWS BANNER ── */
 .rev-wrap{margin:0 36px 0}
 .rev-banner{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden}
@@ -334,7 +331,7 @@ tr:hover .del-btn{opacity:.4}
 .mat-list{display:flex;flex-direction:column;gap:6px}
 .mat-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r)}
 .mat-item-name{font-size:13px;font-weight:600;flex:1}
-.mat-item-del{font-size:12px;color:var(--red);cursor:pointer;padding:2px 6px;background:none;border:none;opacity:.4;transition:opacity .15px;font-family:'IBM Plex Mono',monospace}
+.mat-item-del{font-size:12px;color:var(--red);cursor:pointer;padding:2px 6px;background:none;border:none;opacity:.4;transition:opacity .15s;font-family:'IBM Plex Mono',monospace}
 .mat-item-del:hover{opacity:1}
 
 /* ── PROVAS ── */
@@ -366,54 +363,28 @@ canvas{width:100%!important}
 .pomo-layout{display:grid;grid-template-columns:1fr 360px;gap:1px;background:var(--border2);min-height:calc(100vh - 200px)}
 .pomo-main{background:var(--bg);padding:40px 36px;display:flex;flex-direction:column;align-items:center}
 .pomo-sidebar{background:var(--bg2);padding:28px 24px;overflow-y:auto}
-
-/* ── PRESET CARDS ── */
-.pomo-preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;width:100%;max-width:480px}
-.pomo-preset{padding:14px 10px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;transition:all .2s;text-align:center;position:relative;overflow:hidden}
-.pomo-preset::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--ad),transparent 70%);opacity:0;transition:opacity .2s}
-.pomo-preset:hover::before{opacity:1}
-.pomo-preset:hover{border-color:var(--border3);transform:translateY(-1px)}
-.pomo-preset.active{border-color:var(--a);background:var(--ad)}
-.pomo-preset.active::before{opacity:1}
-.pomo-preset-icon{font-size:18px;margin-bottom:6px;line-height:1}
-.pomo-preset-name{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:5px;position:relative;z-index:1}
-.pomo-preset-desc{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);line-height:1.5;position:relative;z-index:1}
-.pomo-preset.active .pomo-preset-desc{color:var(--a);opacity:.8}
-.pomo-preset-badge{display:inline-block;font-size:8px;font-family:'IBM Plex Mono',monospace;background:var(--ag);color:var(--a);padding:1px 6px;border-radius:10px;margin-top:4px;letter-spacing:.06em;position:relative;z-index:1}
-
-/* custom fields */
-.pomo-custom-row{display:none;gap:8px;margin-bottom:20px;width:100%;max-width:480px;flex-wrap:wrap}
-.pomo-custom-field{flex:1;min-width:90px}
-.pomo-custom-field .cf-lbl{margin-bottom:5px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2)}
-.pomo-custom-field .cf-inp{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:9px 10px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;border-radius:var(--r);transition:all .18s;-webkit-appearance:none}
-.pomo-custom-field .cf-inp:focus{border-color:var(--a);box-shadow:0 0 0 3px var(--ad)}
-
 /* timer ring */
-.timer-ring-wrap{position:relative;width:220px;height:220px;margin-bottom:24px;flex-shrink:0}
-.timer-ring-svg{display:block;width:220px;height:220px}
+.timer-ring-wrap{position:relative;width:240px;height:240px;margin-bottom:28px;flex-shrink:0}
+.timer-ring-svg{width:100%;height:100%;display:block}
 .timer-ring-track{fill:none;stroke:var(--border2);stroke-width:8}
-.timer-ring-fill{fill:none;stroke:var(--a);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .9s linear}
+.timer-ring-fill{fill:none;stroke:var(--a);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .9s linear;stroke-dasharray:691.15;stroke-dashoffset:0}
 .timer-display{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.timer-time{font-size:46px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:var(--text);letter-spacing:-.02em;line-height:1}
+.timer-time{font-size:52px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:var(--text);letter-spacing:-.02em;line-height:1}
 .timer-mode-lbl{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--a);letter-spacing:.2em;text-transform:uppercase;margin-top:6px}
-
-.pomo-mode-tabs{display:flex;gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;width:100%;max-width:480px}
-.pomo-mode-tab{flex:1;padding:9px 10px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:var(--muted2);transition:all .18s;text-align:center;background:var(--bg3)}
+.pomo-mode-tabs{display:flex;gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:28px;overflow:hidden}
+.pomo-mode-tab{flex:1;padding:9px 16px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;color:var(--muted2);transition:all .18s;text-align:center;background:var(--bg3)}
 .pomo-mode-tab.active{background:var(--ad);color:var(--a)}
-
-.pomo-controls{display:flex;gap:10px;margin-bottom:24px}
+.pomo-controls{display:flex;gap:10px;margin-bottom:28px}
 .pomo-btn{padding:12px 28px;background:transparent;border:1px solid var(--border3);color:var(--text);font-family:'Outfit',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:var(--r);transition:all .18s}
 .pomo-btn:hover{border-color:var(--a);color:var(--a);background:var(--ad)}
 .pomo-btn.primary{background:linear-gradient(135deg,var(--a2),var(--a));color:#fff;border:none;box-shadow:0 4px 20px var(--ag)}
 .pomo-btn.primary:hover{opacity:.9}
 .pomo-btn.danger{border-color:rgba(240,78,78,.3);color:var(--red)}
 .pomo-btn.danger:hover{background:var(--r-bg)}
-
-.pomo-subject-sel{width:100%;max-width:480px;margin-bottom:20px}
+.pomo-subject-sel{width:100%;margin-bottom:28px}
 .pomo-subject-sel label{display:block;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
-.pomo-subject-sel select{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;border-radius:var(--r);-webkit-appearance:none;transition:border-color .18s}
-.pomo-subject-sel select:focus{border-color:var(--a)}
-
+.pomo-subject-sel select,.pomo-subject-sel input{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;border-radius:var(--r);-webkit-appearance:none;transition:border-color .18s}
+.pomo-subject-sel select:focus,.pomo-subject-sel input:focus{border-color:var(--a)}
 /* sessions log */
 .sessions-log{display:flex;flex-direction:column;gap:8px}
 .session-item{padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;gap:10px;transition:border-color .15s}
@@ -425,21 +396,29 @@ canvas{width:100%!important}
 .session-subj{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .session-time{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);margin-top:2px}
 .session-dur{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--a);flex-shrink:0}
-
 /* pomo stats */
-.pomo-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:20px;width:100%;max-width:480px}
+.pomo-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-top:28px;width:100%}
 .pomo-stat{background:var(--bg2);padding:14px 16px;text-align:center}
 .pomo-stat-val{font-size:22px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:var(--a)}
 .pomo-stat-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-top:4px}
-
+/* pomo preset cycles */
+.pomo-preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;width:100%;max-width:360px}
+.pomo-preset{padding:10px 8px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;transition:all .18s;text-align:center}
+.pomo-preset:hover{border-color:var(--a);background:var(--ad)}
+.pomo-preset.active{border-color:var(--a);background:var(--ad)}
+.pomo-preset-name{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text);margin-bottom:4px}
+.pomo-preset-desc{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);line-height:1.4}
 /* cycle progress dots */
-.cycle-dots{display:flex;gap:5px;justify-content:center;margin-bottom:16px}
+.cycle-dots{display:flex;gap:5px;justify-content:center;margin-bottom:20px}
 .cycle-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);transition:all .3s}
 .cycle-dot.done{background:var(--a);box-shadow:0 0 5px var(--ag)}
 .cycle-dot.current{background:var(--a);box-shadow:0 0 8px var(--a);animation:orb-pulse 1.5s ease-in-out infinite}
-
-/* sound toggle */
-.pomo-sound{display:flex;align-items:center;gap:12px;margin-top:4px}
+/* custom preset inputs */
+.pomo-custom-fields{display:flex;gap:8px;align-items:flex-end;width:100%;max-width:360px;margin-bottom:0}
+.pomo-custom-fields .pomo-subject-sel{margin-bottom:0;flex:1}
+.pomo-custom-small{width:70px;flex-shrink:0}
+/* timer ring — make SVG scale correctly */
+.timer-ring-svg{display:block}
 .pomo-sound-lbl{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted2)}
 .toggle-sw{position:relative;width:38px;height:20px;flex-shrink:0}
 .toggle-sw input{opacity:0;width:0;height:0;position:absolute}
@@ -485,7 +464,7 @@ canvas{width:100%!important}
 .toast{position:fixed;bottom:calc(28px + var(--sb));right:20px;background:var(--bg3);border:1px solid var(--border3);padding:11px 18px;font-size:10px;font-family:'IBM Plex Mono',monospace;z-index:500;opacity:0;transform:translateY(8px) scale(.98);transition:all .22s;pointer-events:none;max-width:300px;border-left:2px solid var(--a);border-radius:var(--r)}
 .toast.show{opacity:1;transform:translateY(0) scale(1)}
 
-/* ── CONFETTI ── */
+/* ── CONFETTI (celebration) ── */
 .confetti-piece{position:fixed;top:-10px;z-index:9999;width:8px;height:8px;border-radius:1px;pointer-events:none;animation:confetti-fall linear forwards}
 @keyframes confetti-fall{0%{transform:translateX(0) rotate(0deg);opacity:1}100%{transform:translateX(var(--dx)) translateY(105vh) rotate(720deg);opacity:0}}
 
@@ -502,6 +481,85 @@ canvas{width:100%!important}
 .tour-prog{display:flex;gap:5px;align-items:center}
 .tour-dot{width:5px;height:5px;border-radius:50%;background:var(--border3);transition:all .25s}
 .tour-dot.active{background:var(--a);box-shadow:0 0 5px var(--ag)}
+
+/* ── ROTINA PAGE ── */
+.rotina-header{padding:32px 36px 22px;border-bottom:1px solid var(--border2);background:linear-gradient(180deg,var(--bg2),transparent);position:relative;overflow:hidden}
+.rotina-header::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:52px 52px;opacity:.26;pointer-events:none}
+.rotina-header::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 10%,var(--a) 50%,transparent 90%);opacity:.4}
+.rotina-inner{position:relative;z-index:1}
+
+/* Day selector strip */
+.rotina-days{display:flex;gap:1px;background:var(--border2);border-bottom:1px solid var(--border2);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rotina-days::-webkit-scrollbar{display:none}
+.rotina-day-btn{flex:1;min-width:52px;padding:10px 8px;text-align:center;cursor:pointer;background:var(--bg2);transition:all .18s;border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:3px}
+.rotina-day-btn:hover{background:var(--bg3)}
+.rotina-day-btn.active{background:var(--ad);border-bottom-color:var(--a)}
+.rotina-day-btn.today .rday-num{color:var(--a);font-weight:800}
+.rday-name{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2)}
+.rday-num{font-size:16px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--text)}
+.rotina-day-btn.active .rday-name,.rotina-day-btn.active .rday-num{color:var(--a)}
+
+/* Category legend / filter */
+.rotina-legend{display:flex;gap:6px;flex-wrap:wrap;padding:12px 36px;border-bottom:1px solid var(--border2);background:var(--bg2)}
+.rleg-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid transparent;cursor:pointer;transition:all .18s;font-size:10px;font-weight:600;font-family:'Outfit',sans-serif;background:var(--bg3)}
+.rleg-chip.active{border-color:currentColor;background:rgba(0,0,0,.2)}
+.rleg-chip:not(.active){opacity:.45}
+.rleg-chip.filt-all{color:var(--muted2);border-color:var(--border3)}
+.rleg-chip.filt-all.active{color:var(--text);border-color:var(--border3);opacity:1}
+.rleg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* Balance bar */
+.rotina-balance{padding:12px 36px;border-bottom:1px solid var(--border2);background:var(--bg)}
+.rbal-title{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
+.rbal-bar{height:8px;border-radius:4px;overflow:hidden;background:var(--border2);display:flex;gap:1px}
+.rbal-seg{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1);min-width:0}
+.rbal-seg:first-child{border-radius:4px 0 0 4px}
+.rbal-seg:last-child{border-radius:0 4px 4px 0}
+.rbal-labels{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.rbal-item{display:flex;align-items:center;gap:4px;font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2)}
+.rbal-item-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* Grid layout */
+.rotina-grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
+.rotina-grid{display:grid;grid-template-columns:52px 1fr;min-width:320px;position:relative}
+
+/* Time column */
+.rtime-col{background:var(--bg2);border-right:1px solid var(--border2);position:sticky;left:0;z-index:3}
+.rtime-cell{height:32px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;border-bottom:1px solid var(--border);position:relative}
+.rtime-cell.half-hour .rtime-lbl{display:none}
+.rtime-cell.full-hour{border-bottom:1px solid var(--border2)}
+.rtime-lbl{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted);white-space:nowrap;letter-spacing:.04em}
+
+/* Slots column */
+.rslots-col{position:relative;background:var(--bg)}
+.rslot{height:32px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;position:relative;display:flex;align-items:center;padding-left:6px}
+.rslot:hover{background:var(--bg3)}
+.rslot.full-hour{border-bottom:1px solid var(--border2)}
+.rslot-add-hint{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted);opacity:0;transition:opacity .15s;pointer-events:none}
+.rslot:hover .rslot-add-hint{opacity:.5}
+
+/* Blocks */
+.r-block{position:absolute;left:4px;right:4px;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;overflow:hidden;cursor:pointer;z-index:2;display:flex;flex-direction:column;justify-content:center;min-height:28px;transition:filter .15s,transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.r-block:hover{filter:brightness(1.15);transform:scaleX(.98)}
+.r-block-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;font-size:11px}
+.r-block-time{font-size:9px;font-family:'IBM Plex Mono',monospace;opacity:.75;margin-top:1px;white-space:nowrap}
+.r-block-del{position:absolute;top:2px;right:4px;font-size:11px;opacity:0;background:none;border:none;cursor:pointer;color:rgba(0,0,0,.7);padding:0 2px;line-height:1;font-weight:900}
+.r-block:hover .r-block-del{opacity:.7}
+.r-block-del:hover{opacity:1!important}
+
+/* Current time line */
+.r-now-line{position:absolute;left:0;right:0;height:2px;background:var(--red);z-index:10;pointer-events:none}
+.r-now-line::before{content:'';position:absolute;left:-1px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--red)}
+
+/* Modal rotina */
+.rcat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px}
+.rcat-opt{padding:10px 8px;border-radius:var(--r);border:2px solid transparent;cursor:pointer;text-align:center;font-size:10px;font-weight:700;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:5px}
+.rcat-opt.selected{border-color:rgba(255,255,255,.6)!important;transform:scale(1.04)}
+.rcat-dot-lg{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.repeat-opts{display:flex;gap:6px;flex-wrap:wrap}
+.repeat-opt{padding:7px 12px;border:1px solid var(--border2);border-radius:20px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);cursor:pointer;transition:all .18s;background:var(--bg3)}
+.repeat-opt:hover{border-color:var(--a);color:var(--a)}
+.repeat-opt.selected{background:var(--ad);border-color:var(--a);color:var(--a)}
 
 /* ── MOBILE RESPONSIVE ── */
 @media(max-width:768px){
@@ -526,68 +584,21 @@ canvas{width:100%!important}
   .card-list{display:flex}
   .fab{display:flex}
   .provas-header{padding:20px 16px 18px}
+  .rotina-header{padding:20px 16px 18px}
+  .rotina-legend{padding:10px 12px}
+  .rotina-balance{padding:10px 12px}
   .pomo-header{padding:20px 16px 18px}
-
-  /* ── MOBILE POMODORO FIXES ── */
-  .pomo-layout{
-    display:flex;
-    flex-direction:column;
-    min-height:auto;
-  }
-  .pomo-main{
-    padding:20px 16px 24px;
-    align-items:center;
-    width:100%;
-  }
-  .pomo-preset-grid{
-    grid-template-columns:1fr 1fr;
-    max-width:100%;
-    width:100%;
-    gap:8px;
-  }
-  .pomo-preset{padding:12px 8px}
-  .pomo-preset-icon{font-size:16px;margin-bottom:4px}
-  .pomo-preset-name{font-size:9px}
-  .pomo-preset-desc{font-size:8px}
-
-  .pomo-custom-row{max-width:100%;width:100%}
-
-  .pomo-mode-tabs{
-    max-width:100%;
-    width:100%;
-  }
-  .pomo-mode-tab{font-size:8px;padding:9px 6px;letter-spacing:.04em}
-
-  /* TIMER RING — fixed size on mobile */
-  .timer-ring-wrap{
-    width:200px;
-    height:200px;
-    margin-bottom:20px;
-  }
-  .timer-ring-svg{
-    width:200px !important;
-    height:200px !important;
-  }
-  .timer-time{font-size:40px}
-  .timer-mode-lbl{font-size:9px}
-
-  .pomo-controls{
-    width:100%;
-    max-width:100%;
-    justify-content:center;
-    gap:8px;
-  }
-  .pomo-btn{padding:11px 20px;font-size:11px}
-
-  .pomo-subject-sel{max-width:100%}
-  .pomo-stats-grid{max-width:100%;width:100%}
-
-  .pomo-sidebar{
-    border-top:1px solid var(--border2);
-    padding:20px 16px;
-    background:var(--bg2);
-  }
-
+  .pomo-layout{grid-template-columns:1fr;min-height:auto}
+  .pomo-sidebar{border-top:1px solid var(--border2);padding:20px 16px}
+  .pomo-main{padding:24px 16px;align-items:center;width:100%}
+  .timer-ring-wrap{width:180px;height:180px;margin-bottom:24px}
+  .timer-ring-svg{width:180px!important;height:180px!important}
+  .timer-time{font-size:36px}
+  .pomo-mode-tabs{width:100%;max-width:360px}
+  .pomo-controls{width:100%;max-width:360px;justify-content:center}
+  .pomo-subject-sel{max-width:100%!important}
+  .pomo-stats-grid{max-width:100%!important;width:100%!important}
+  .pomo-preset-grid{grid-template-columns:1fr 1fr!important}
   .config-header{padding:20px 16px 16px}
   .config-section{margin:12px}
   .toast{bottom:calc(80px + var(--sb));right:12px;left:12px;max-width:100%}
@@ -602,9 +613,6 @@ canvas{width:100%!important}
 @media(max-width:480px){
   .stat-card{flex:1 1 100%}
   .tg-row{flex-direction:column}
-  .timer-ring-wrap{width:180px;height:180px}
-  .timer-ring-svg{width:180px!important;height:180px!important}
-  .timer-time{font-size:36px}
 }
 </style>
 </head>
@@ -628,7 +636,6 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- LOGIN -->
 <div id="login-screen" class="screen" style="display:none">
   <div class="login-left">
     <div class="login-brand">
@@ -655,7 +662,6 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- ONBOARDING -->
 <div id="onboard-screen" class="screen" style="display:none">
   <div class="onboard-box">
     <div class="onboard-eyebrow">configuração inicial</div>
@@ -674,10 +680,8 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- APP -->
 <div id="app-screen" class="screen" style="display:none">
 
-  <!-- MOBILE DRAWER -->
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
       <div class="mobile-nav-logo">EstudaHub</div>
@@ -685,6 +689,7 @@ canvas{width:100%!important}
     </div>
     <div class="mobile-nav-body">
       <div class="mobile-nav-tab active" id="mn-planilha" onclick="switchPage('planilha',null,true)">Planilha</div>
+      <div class="mobile-nav-tab" id="mn-rotina" onclick="switchPage('rotina',null,true)">Rotina</div>
       <div class="mobile-nav-tab" id="mn-pomodoro" onclick="switchPage('pomodoro',null,true)">Pomodoro</div>
       <div class="mobile-nav-tab" id="mn-provas" onclick="switchPage('provas',null,true)">Provas</div>
       <div class="mobile-nav-tab" id="mn-configuracoes" onclick="switchPage('configuracoes',null,true)">Configurações</div>
@@ -699,6 +704,7 @@ canvas{width:100%!important}
     <div class="nav-logo"><div class="nav-orb"></div>EstudaHub</div>
     <div class="nav-tabs">
       <div class="nav-tab active" id="dt-planilha" onclick="switchPage('planilha',this)">Planilha</div>
+      <div class="nav-tab" id="dt-rotina" onclick="switchPage('rotina',this)">Rotina</div>
       <div class="nav-tab" id="dt-pomodoro" onclick="switchPage('pomodoro',this)">Pomodoro</div>
       <div class="nav-tab" id="dt-provas" onclick="switchPage('provas',this)">Provas</div>
       <div class="nav-tab" id="dt-configuracoes" onclick="switchPage('configuracoes',this)">Config.</div>
@@ -712,7 +718,6 @@ canvas{width:100%!important}
     <button class="hamburger" id="hamburger" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
   </nav>
 
-  <!-- ====== PAGE: PLANILHA ====== -->
   <div id="page-planilha" class="page active">
     <div class="dash-header">
       <div class="dash-inner">
@@ -748,11 +753,7 @@ canvas{width:100%!important}
       </div>
     </div>
 
-    <!-- HEATMAP -->
-    <div class="sec-hdr">
-      <div class="sec-label" id="heatmap-label">Atividade</div>
-      <span class="hm-grow-badge" id="hm-grow-badge" style="display:none">🌱 crescendo</span>
-    </div>
+    <div class="sec-hdr"><div class="sec-label" id="heatmap-label">Atividade</div></div>
     <div class="heatmap-wrap">
       <div class="hm-months" id="hm-months"></div>
       <div class="heatmap-grid" id="heatmap-grid"></div>
@@ -767,7 +768,6 @@ canvas{width:100%!important}
       </div>
     </div>
 
-    <!-- REVIEWS -->
     <div id="reviews-today-section" style="display:none">
       <div class="sec-hdr"><div class="sec-label">Revisões para hoje</div></div>
       <div class="rev-wrap">
@@ -775,7 +775,6 @@ canvas{width:100%!important}
       </div>
     </div>
 
-    <!-- TABLE -->
     <div class="sec-hdr" style="margin-top:8px"><div class="sec-label">Temas de estudo</div></div>
     <div class="table-container" id="tour-table">
       <div class="table-toolbar">
@@ -790,10 +789,8 @@ canvas{width:100%!important}
     </div>
   </div>
 
-  <!-- FAB only on planilha page -->
   <button class="fab" id="fab-btn" onclick="openAddTemaModal()" aria-label="Adicionar tema">+</button>
 
-  <!-- ====== PAGE: POMODORO ====== -->
   <div id="page-pomodoro" class="page">
     <div class="pomo-header">
       <div class="pomo-inner">
@@ -804,70 +801,56 @@ canvas{width:100%!important}
     </div>
     <div class="pomo-layout">
       <div class="pomo-main">
-
-        <!-- Preset cards -->
         <div class="pomo-preset-grid" id="pomo-preset-grid">
           <div class="pomo-preset active" id="preset-classic" onclick="applyPreset('classic',this)">
-            <div class="pomo-preset-icon">🍅</div>
             <div class="pomo-preset-name">Clássico</div>
-            <div class="pomo-preset-desc">25 foco · 5 pausa<br>4× ciclos</div>
-            <div class="pomo-preset-badge">15 min longa</div>
+            <div class="pomo-preset-desc">25 foco<br>5 pausa<br>4× → 15 longa</div>
           </div>
           <div class="pomo-preset" id="preset-deep" onclick="applyPreset('deep',this)">
-            <div class="pomo-preset-icon">🧠</div>
             <div class="pomo-preset-name">Deep Work</div>
-            <div class="pomo-preset-desc">45 foco · 15 pausa<br>sem ciclo</div>
-            <div class="pomo-preset-badge">foco longo</div>
+            <div class="pomo-preset-desc">45 foco<br>15 pausa<br>sem limite</div>
           </div>
           <div class="pomo-preset" id="preset-short" onclick="applyPreset('short',this)">
-            <div class="pomo-preset-icon">⚡</div>
             <div class="pomo-preset-name">Rápido</div>
-            <div class="pomo-preset-desc">15 foco · 3 pausa<br>sem ciclo</div>
-            <div class="pomo-preset-badge">aquecimento</div>
+            <div class="pomo-preset-desc">15 foco<br>3 pausa<br>sem limite</div>
           </div>
           <div class="pomo-preset" id="preset-custom" onclick="applyPreset('custom',this)">
-            <div class="pomo-preset-icon">⚙️</div>
             <div class="pomo-preset-name">Custom</div>
-            <div class="pomo-preset-desc">defina seus<br>próprios tempos</div>
-            <div class="pomo-preset-badge">personalizado</div>
+            <div class="pomo-preset-desc">defina<br>seus<br>tempos</div>
           </div>
         </div>
 
-        <!-- Custom fields -->
-        <div class="pomo-custom-row" id="pomo-custom-row">
-          <div class="pomo-custom-field">
-            <div class="cf-lbl">Foco (min)</div>
-            <input type="number" class="cf-inp" id="custom-focus" value="30" min="1" max="120" inputmode="numeric" onchange="updateCustomPreset()"/>
+        <div id="pomo-custom-row" style="display:none;gap:8px;margin-bottom:20px;width:100%;max-width:360px;flex-wrap:wrap">
+          <div style="flex:1;min-width:80px">
+            <div class="cf-lbl" style="margin-bottom:5px">Foco (min)</div>
+            <input type="number" class="cf-inp" id="custom-focus" value="30" min="1" max="120" inputmode="numeric" style="padding:8px 10px;font-size:12px" onchange="updateCustomPreset()"/>
           </div>
-          <div class="pomo-custom-field">
-            <div class="cf-lbl">Pausa (min)</div>
-            <input type="number" class="cf-inp" id="custom-break" value="10" min="1" max="60" inputmode="numeric" onchange="updateCustomPreset()"/>
+          <div style="flex:1;min-width:80px">
+            <div class="cf-lbl" style="margin-bottom:5px">Pausa (min)</div>
+            <input type="number" class="cf-inp" id="custom-break" value="10" min="1" max="60" inputmode="numeric" style="padding:8px 10px;font-size:12px" onchange="updateCustomPreset()"/>
           </div>
-          <div class="pomo-custom-field">
-            <div class="cf-lbl">Ciclos até longa</div>
-            <input type="number" class="cf-inp" id="custom-cycles" value="4" min="0" max="10" inputmode="numeric" onchange="updateCustomPreset()"/>
+          <div style="flex:1;min-width:80px">
+            <div class="cf-lbl" style="margin-bottom:5px">Ciclos até pausa longa</div>
+            <input type="number" class="cf-inp" id="custom-cycles" value="4" min="1" max="10" inputmode="numeric" style="padding:8px 10px;font-size:12px" onchange="updateCustomPreset()"/>
           </div>
-          <div class="pomo-custom-field">
-            <div class="cf-lbl">Pausa longa (min)</div>
-            <input type="number" class="cf-inp" id="custom-long-break" value="20" min="5" max="60" inputmode="numeric" onchange="updateCustomPreset()"/>
+          <div style="flex:1;min-width:80px">
+            <div class="cf-lbl" style="margin-bottom:5px">Pausa longa (min)</div>
+            <input type="number" class="cf-inp" id="custom-long-break" value="20" min="5" max="60" inputmode="numeric" style="padding:8px 10px;font-size:12px" onchange="updateCustomPreset()"/>
           </div>
         </div>
 
-        <!-- Mode tabs -->
         <div class="pomo-mode-tabs" id="pomo-mode-tabs">
           <div class="pomo-mode-tab active" data-mode="focus" onclick="setPomoMode('focus',this)">Foco</div>
           <div class="pomo-mode-tab" data-mode="short" onclick="setPomoMode('short',this)">Pausa Curta</div>
           <div class="pomo-mode-tab" data-mode="long" onclick="setPomoMode('long',this)">Pausa Longa</div>
         </div>
 
-        <!-- Cycle dots -->
         <div class="cycle-dots" id="cycle-dots"></div>
 
-        <!-- Ring timer -->
         <div class="timer-ring-wrap">
-          <svg class="timer-ring-svg" id="timer-ring-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
-            <circle class="timer-ring-track" cx="110" cy="110" r="100"/>
-            <circle class="timer-ring-fill" id="timer-ring-fill" cx="110" cy="110" r="100"/>
+          <svg class="timer-ring-svg" id="timer-ring-svg" width="240" height="240" viewBox="0 0 240 240">
+            <circle class="timer-ring-track" cx="120" cy="120" r="110"/>
+            <circle class="timer-ring-fill" id="timer-ring-fill" cx="120" cy="120" r="110"/>
           </svg>
           <div class="timer-display">
             <div class="timer-time" id="timer-display">25:00</div>
@@ -875,22 +858,19 @@ canvas{width:100%!important}
           </div>
         </div>
 
-        <!-- Controls -->
         <div class="pomo-controls">
           <button class="pomo-btn primary" id="pomo-start-btn" onclick="togglePomoTimer()">Iniciar</button>
           <button class="pomo-btn" onclick="resetPomoTimer()">Resetar</button>
         </div>
 
-        <!-- Subject selector -->
-        <div class="pomo-subject-sel">
+        <div class="pomo-subject-sel" style="width:100%;max-width:360px">
           <label>Matéria sendo estudada</label>
           <select id="pomo-subject-sel">
             <option value="">— Selecione uma matéria —</option>
           </select>
         </div>
 
-        <!-- Stats -->
-        <div class="pomo-stats-grid">
+        <div class="pomo-stats-grid" style="max-width:360px;width:100%">
           <div class="pomo-stat">
             <div class="pomo-stat-val mono" id="pomo-sessions-count">0</div>
             <div class="pomo-stat-lbl">Sessões</div>
@@ -905,15 +885,13 @@ canvas{width:100%!important}
           </div>
         </div>
 
-        <!-- Sound toggle -->
-        <div class="pomo-sound">
+        <div class="pomo-sound" style="margin-top:20px">
           <span class="pomo-sound-lbl mono">Som de conclusão</span>
           <label class="toggle-sw">
             <input type="checkbox" id="pomo-sound-toggle" checked onchange="pomoCfg.sound=this.checked"/>
             <span class="toggle-sl"></span>
           </label>
         </div>
-
       </div>
       <div class="pomo-sidebar">
         <div class="sec-label" style="margin-bottom:16px">Histórico de sessões</div>
@@ -927,7 +905,6 @@ canvas{width:100%!important}
     </div>
   </div>
 
-  <!-- ====== PAGE: PROVAS ====== -->
   <div id="page-provas" class="page">
     <div class="provas-header">
       <div class="provas-inner">
@@ -954,12 +931,32 @@ canvas{width:100%!important}
     </div>
   </div>
 
-  <!-- ====== PAGE: CONFIG ====== -->
+  <div id="page-rotina" class="page">
+    <div class="rotina-header">
+      <div class="rotina-inner">
+        <div class="dash-eyebrow">organização semanal</div>
+        <div class="dash-title" style="margin-bottom:4px">Rotina</div>
+        <div class="dash-date mono">Monte sua grade horária e visualize o equilíbrio da semana</div>
+      </div>
+    </div>
+    <div class="rotina-days" id="rotina-days"></div>
+    <div class="rotina-legend" id="rotina-legend"></div>
+    <div class="rotina-balance">
+      <div class="rbal-title">Equilíbrio semanal (horas por categoria)</div>
+      <div class="rbal-bar" id="rbal-bar"></div>
+      <div class="rbal-labels" id="rbal-labels"></div>
+    </div>
+    <div class="rotina-grid-wrap">
+      <div class="rotina-grid" id="rotina-grid"></div>
+    </div>
+  </div>
+
   <div id="page-configuracoes" class="page">
     <div class="config-header">
       <div class="dash-eyebrow" style="margin-bottom:8px">personalize</div>
       <div class="dash-title" style="font-size:32px;margin-bottom:0">Configurações</div>
     </div>
+
     <div class="config-section" style="margin-top:24px">
       <div class="config-section-header"><div class="config-section-title">Conta</div></div>
       <div class="config-body">
@@ -974,6 +971,7 @@ canvas{width:100%!important}
         <button class="btn-sm" style="margin-top:4px" onclick="retakeTour()">Refazer tour guiado</button>
       </div>
     </div>
+
     <div class="config-section">
       <div class="config-section-header"><div class="config-section-title">Tema de cores</div></div>
       <div class="config-body">
@@ -987,6 +985,7 @@ canvas{width:100%!important}
         </div>
       </div>
     </div>
+
     <div class="config-section">
       <div class="config-section-header"><div class="config-section-title">Gerenciar matérias</div></div>
       <div class="config-body">
@@ -997,6 +996,7 @@ canvas{width:100%!important}
         </div>
       </div>
     </div>
+
     <div class="config-section" id="tour-telegram">
       <div class="config-section-header"><div class="config-section-title">Telegram — notificações</div></div>
       <div class="config-body">
@@ -1020,9 +1020,40 @@ canvas{width:100%!important}
     <div style="height:40px"></div>
   </div>
 
-</div><!-- /app-screen -->
+</div><div class="modal-overlay" id="modal-rotina" onclick="handleOvClick(event,'modal-rotina')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-hd">
+      <div class="modal-title" id="modal-rotina-title">Novo bloco</div>
+      <div class="modal-sub mono" id="modal-rotina-sub">// configure o horário e a categoria</div>
+    </div>
+    <div class="modal-bd">
+      <div class="mf"><label>Nome / descrição</label><input type="text" id="rblock-name" placeholder="Ex: Revisão de Direito" autocomplete="off"/></div>
+      <div style="display:flex;gap:10px">
+        <div class="mf" style="flex:1"><label>Início</label><input type="time" id="rblock-start" step="1800"/></div>
+        <div class="mf" style="flex:1"><label>Fim</label><input type="time" id="rblock-end" step="1800"/></div>
+      </div>
+      <div class="mf">
+        <label>Categoria</label>
+        <div class="rcat-grid" id="rcat-grid"></div>
+      </div>
+      <div class="mf">
+        <label>Repetição</label>
+        <div class="repeat-opts" id="repeat-opts">
+          <div class="repeat-opt selected" data-r="once" onclick="selectRepeat(this)">Só hoje</div>
+          <div class="repeat-opt" data-r="daily" onclick="selectRepeat(this)">Todo dia</div>
+          <div class="repeat-opt" data-r="weekdays" onclick="selectRepeat(this)">Seg – Sex</div>
+          <div class="repeat-opt" data-r="weekend" onclick="selectRepeat(this)">Fim de semana</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
+      <button class="btn-confirm" onclick="saveRotinaBlock()">Salvar bloco →</button>
+    </div>
+  </div>
+</div>
 
-<!-- MODALS -->
 <div class="modal-overlay" id="modal-add-tema" onclick="handleOvClick(event,'modal-add-tema')">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -1087,13 +1118,13 @@ const app=initializeApp(cfg),auth=getAuth(app),db=getFirestore(app),prov=new Goo
 let cu=null;
 async function s2c(){
   if(!cu)return;
-  try{await setDoc(doc(db,'users',cu.uid,'data','state'),{theme:state.theme,isNewUser:state.isNewUser,temas:state.temas,materias:state.materias,provas:state.provas,tgChatId:state.tgChatId||null,tgSchedEn:state.tgSchedEn||false,tourDone:state.tourDone||false,activityMap:state.activityMap||{},pomSessions:state.pomSessions||[],createdAt:state.createdAt||Date.now(),updatedAt:Date.now()});}
+  try{await setDoc(doc(db,'users',cu.uid,'data','state'),{theme:state.theme,isNewUser:state.isNewUser,temas:state.temas,materias:state.materias,provas:state.provas,tgChatId:state.tgChatId||null,tgSchedEn:state.tgSchedEn||false,tourDone:state.tourDone||false,activityMap:state.activityMap||{},pomSessions:state.pomSessions||[],rotinaBlocks:state.rotinaBlocks||[],createdAt:state.createdAt||Date.now(),updatedAt:Date.now()});}
   catch(e){console.error(e);}
 }
 async function lfc(uid){
   try{
     const sn=await getDoc(doc(db,'users',uid,'data','state'));
-    if(sn.exists()){const d=sn.data();state.theme=d.theme||'theme-default';state.isNewUser=d.isNewUser!==undefined?d.isNewUser:true;state.temas=d.temas||[];state.materias=d.materias||[];state.provas=d.provas||[];state.tgChatId=d.tgChatId||null;state.tgSchedEn=d.tgSchedEn||false;state.tourDone=d.tourDone||false;state.activityMap=d.activityMap||{};state.pomSessions=d.pomSessions||[];state.createdAt=d.createdAt||Date.now();}
+    if(sn.exists()){const d=sn.data();state.theme=d.theme||'theme-default';state.isNewUser=d.isNewUser!==undefined?d.isNewUser:true;state.temas=d.temas||[];state.materias=d.materias||[];state.provas=d.provas||[];state.tgChatId=d.tgChatId||null;state.tgSchedEn=d.tgSchedEn||false;state.tourDone=d.tourDone||false;state.activityMap=d.activityMap||{};state.pomSessions=d.pomSessions||[];state.rotinaBlocks=d.rotinaBlocks||[];state.createdAt=d.createdAt||Date.now();}
   }catch(e){console.error(e);}
 }
 window._s2c=s2c;window._lfc=lfc;
@@ -1123,8 +1154,9 @@ let state={
   theme:'theme-default',isNewUser:true,
   materias:[],temas:[],provas:[],
   tgChatId:null,tgSchedEn:false,tourDone:false,
-  activityMap:{},
-  pomSessions:[],
+  activityMap:{},  // date -> count of studied topics
+  pomSessions:[],   // {id,type,subject,startedAt,durationMin}
+  rotinaBlocks:[],
   createdAt:Date.now()
 };
 let sTimer=null;
@@ -1171,8 +1203,7 @@ function enterApp(){
   const opts={weekday:'long',day:'numeric',month:'long'};
   document.getElementById('dash-date2').textContent=now.toLocaleDateString('pt-BR',opts);
   showScreen('app');
-  renderAll();renderProvas();renderMatManage();renderPomoSubjectSelect();renderPomoStats();renderPomoSessions();
-  initTimerRing();
+  renderAll();renderProvas();renderMatManage();renderPomoSubjectSelect();renderPomoStats();renderPomoSessions();renderRotinaPage();
   scheduleInit();
 }
 function logout(){scheduleClear();if(window.logoutFB)window.logoutFB();closeMobileNav();}
@@ -1182,7 +1213,7 @@ function logout(){scheduleClear();if(window.logoutFB)window.logoutFB();closeMobi
 // ═══════════════════════════════════════════════════
 let selTheme='theme-default';
 function selectTheme(el,t){document.querySelectorAll('#onboard-screen .color-opt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');selTheme=t;document.body.className=t;}
-function finishOnboard(){state.theme=selTheme;state.isNewUser=false;if(!state.createdAt)state.createdAt=Date.now();save();enterApp();setTimeout(startTour,700);}
+function finishOnboard(){state.theme=selTheme;state.isNewUser=false;save();enterApp();setTimeout(startTour,700);}
 function selectThemeApp(el,t){document.querySelectorAll('#settings-color-grid .color-opt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');state.theme=t;document.body.className=t;save();toast('Tema alterado');}
 function syncCG(){
   const m={'theme-default':0,'theme-blue':1,'theme-green':2,'theme-amber':3,'theme-red':4,'theme-purple':5};
@@ -1201,7 +1232,7 @@ function toggleMobileNav(){
 function closeMobileNav(){document.getElementById('mobile-nav').classList.remove('open');document.getElementById('hamburger').classList.remove('open');document.body.style.overflow='';}
 
 // ═══════════════════════════════════════════════════
-// PAGES
+// PAGES — hide FAB when not on planilha
 // ═══════════════════════════════════════════════════
 function switchPage(name,el,mob){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
@@ -1210,10 +1241,12 @@ function switchPage(name,el,mob){
   const mt=document.getElementById('mn-'+name);if(mt)mt.classList.add('active');
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
+  // FAB only on planilha
   const fab=document.getElementById('fab-btn');
   if(fab)fab.style.display=name==='planilha'?'flex':'none';
   if(name==='provas')renderProvas();
   if(name==='pomodoro'){renderPomoSubjectSelect();renderPomoSessions();renderPomoStats();}
+  if(name==='rotina')renderRotinaPage();
   if(mob)closeMobileNav();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1222,6 +1255,7 @@ function switchPage(name,el,mob){
 // MATERIAS
 // ═══════════════════════════════════════════════════
 function getMaterias(){
+  // derive from temas + explicit state.materias list
   const fromTemas=[...new Set(state.temas.map(t=>t.materia))];
   const merged=[...new Set([...state.materias,...fromTemas])];
   return merged.filter(Boolean);
@@ -1256,7 +1290,7 @@ function renderMatManage(){
 }
 
 // ═══════════════════════════════════════════════════
-// MODAL: ADD TEMA
+// MODAL: ADD TEMA (with matéria selector)
 // ═══════════════════════════════════════════════════
 let selectedMateria='';
 function openAddTemaModal(){
@@ -1298,6 +1332,7 @@ function addTema(){
   const date=document.getElementById('add-date').value||today();
   if(!mat){toast('Selecione ou crie uma matéria');return;}
   if(!tema){toast('Preencha o tema');return;}
+  // add matéria if new
   if(!state.materias.includes(mat)){state.materias.push(mat);}
   state.temas.push({id:Date.now(),materia:mat,tema,estudado:false,questoes:0,acertos:0,dataEstudo:date,rev24h:false,rev1s:false,rev1m:false});
   save();closeModals();
@@ -1322,9 +1357,12 @@ function toggleCheck(id){
   t.estudado=!t.estudado;
   if(t.estudado){
     if(!t.dataEstudo)t.dataEstudo=today();
+    // update activity map
     const d=today();
     state.activityMap[d]=(state.activityMap[d]||0)+1;
-    save();celebrate();
+    save();
+    // celebrate!
+    celebrate();
   }else{save();}
   renderAll();
 }
@@ -1354,7 +1392,7 @@ function getTodayRevisions(){
 }
 
 // ═══════════════════════════════════════════════════
-// CELEBRATE
+// CELEBRATE (confetti)
 // ═══════════════════════════════════════════════════
 function celebrate(){
   const colors=['#a78bfa','#60a5fa','#34d399','#fbbf24','#f87171','#c084fc','#fff'];
@@ -1371,7 +1409,7 @@ function celebrate(){
 }
 
 // ═══════════════════════════════════════════════════
-// RENDER ALL
+// RENDER ALL (stats + heatmap + reviews + table)
 // ═══════════════════════════════════════════════════
 function renderAll(){renderStats();renderHeatmap();renderTodayRevisions();renderTable();}
 
@@ -1391,49 +1429,24 @@ function renderStats(){
 }
 
 // ═══════════════════════════════════════════════════
-// HEATMAP — dynamic growth
+// HEATMAP — grows from 2 weeks to 6 months over time
 // ═══════════════════════════════════════════════════
 function renderHeatmap(){
   const grid=document.getElementById('heatmap-grid');
   const monthsEl=document.getElementById('hm-months');
-  const badge=document.getElementById('hm-grow-badge');
-  const lbl=document.getElementById('heatmap-label');
   if(!grid)return;
 
-  // Calculate account age in days
-  const createdAt=state.createdAt||Date.now();
-  const daysSinceCreated=Math.max(0,Math.floor((Date.now()-createdAt)/86400000));
-
-  // Growth schedule:
-  // Day 0–6:    2 weeks  (brand new)
-  // Day 7–13:   3 weeks
-  // Day 14–20:  4 weeks
-  // Day 21–27:  6 weeks  (1.5 months)
-  // Day 28–55:  8 weeks  (2 months)
-  // Day 56–83:  13 weeks (3 months)
-  // Day 84+:    26 weeks (6 months, max)
-  let weeksToShow;
-  if(daysSinceCreated<7)       weeksToShow=2;
-  else if(daysSinceCreated<14) weeksToShow=3;
-  else if(daysSinceCreated<21) weeksToShow=4;
-  else if(daysSinceCreated<28) weeksToShow=6;
-  else if(daysSinceCreated<56) weeksToShow=8;
-  else if(daysSinceCreated<84) weeksToShow=13;
-  else                         weeksToShow=26;
-
-  // Show growing badge for first 2 weeks
-  if(badge){
-    badge.style.display=daysSinceCreated<14?'inline-flex':'none';
-    if(daysSinceCreated<14){
-      const daysLeft=14-daysSinceCreated;
-      badge.textContent=`🌱 cresce em ${daysLeft}d`;
-    }
-  }
-
-  // Label
+  // Calculate how many weeks to show based on account age
+  // "age" = days since the first recorded activity (or today if none)
+  const allDates=Object.keys(state.activityMap).sort();
+  const firstDate=allDates.length?new Date(allDates[0]):new Date();
+  const daysSinceStart=Math.floor((new Date()-firstDate)/86400000);
+  // Start at 2 weeks, grow 1 week per 7 days up to 26 weeks (6 months)
+  const weeksToShow=Math.min(26,Math.max(2,2+Math.floor(daysSinceStart/7)));
+  // update label
+  const lbl=document.getElementById('heatmap-label');
   if(lbl){
-    if(weeksToShow<=2)lbl.textContent='Atividade — últimas 2 semanas';
-    else if(weeksToShow<=4)lbl.textContent=`Atividade — últimas ${weeksToShow} semanas`;
+    if(weeksToShow<=4)lbl.textContent=`Atividade — últimas ${weeksToShow} semanas`;
     else if(weeksToShow<26)lbl.textContent=`Atividade — últimos ${Math.round(weeksToShow/4)} meses`;
     else lbl.textContent='Atividade — últimos 6 meses';
   }
@@ -1441,12 +1454,14 @@ function renderHeatmap(){
   const end=new Date();
   const start=new Date(end);
   start.setDate(start.getDate()-(weeksToShow*7-1));
+  // align to Sunday
   while(start.getDay()!==0)start.setDate(start.getDate()-1);
 
   const days=[];
   const cur=new Date(start);
   while(cur<=end){days.push(cur.toISOString().split('T')[0]);cur.setDate(cur.getDate()+1);}
 
+  // group into weeks
   const weeks=[];let week=[];
   days.forEach(d=>{
     week.push(d);
@@ -1457,12 +1472,13 @@ function renderHeatmap(){
   const maxVal=Math.max(1,...Object.values(state.activityMap));
   const monthNames=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
+  // month labels — only show first week of each month
   let lastMonth=-1;
   monthsEl.innerHTML=weeks.map(w=>{
     const m=new Date(w[0]).getMonth();
-    const lbStr=m!==lastMonth?monthNames[m]:'';
+    const lbl=m!==lastMonth?monthNames[m]:'';
     lastMonth=m;
-    return`<div class="hm-month-label">${lbStr}</div>`;
+    return`<div class="hm-month-label">${lbl}</div>`;
   }).join('');
 
   grid.innerHTML=weeks.map(w=>`<div class="hm-col">${w.map(d=>{
@@ -1585,37 +1601,27 @@ function toggleSubj(k){const s=document.getElementById('sub-'+k),a=document.getE
 // ═══════════════════════════════════════════════════
 const PRESETS={
   classic:{focusMin:25,breakMin:5,longBreakMin:15,cyclesBeforeLong:4},
-  deep:   {focusMin:45,breakMin:15,longBreakMin:30,cyclesBeforeLong:0},
+  deep:   {focusMin:45,breakMin:15,longBreakMin:30,cyclesBeforeLong:0}, // 0 = no long break
   short:  {focusMin:15,breakMin:3, longBreakMin:10,cyclesBeforeLong:0},
   custom: {focusMin:30,breakMin:10,longBreakMin:20,cyclesBeforeLong:4},
 };
 const pomoCfg={preset:'classic',mode:'focus',sound:true};
-let pomoTimer={running:false,remaining:25*60,total:25*60,interval:null};
-let pomoCycleCount=0;
+let pomoTimer={running:false,remaining:25*60,total:25*60,interval:null,sessionStart:null};
+let pomoCycleCount=0; // completed focus cycles in current session
 
-// Circumference for r=100
-const CIRC=2*Math.PI*100; // ~628.32
-
-function initTimerRing(){
-  const fill=document.getElementById('timer-ring-fill');
-  if(fill){
-    fill.style.strokeDasharray=CIRC.toFixed(2);
-    fill.style.strokeDashoffset='0';
-  }
-  renderCycleDots();
-  updateTimerDisplay();
-}
+const CIRC=2*Math.PI*110;
 
 function getCurrentPreset(){
+  const p=PRESETS[pomoCfg.preset];
   if(pomoCfg.preset==='custom'){
     return{
       focusMin:parseInt(document.getElementById('custom-focus')?.value)||30,
       breakMin:parseInt(document.getElementById('custom-break')?.value)||10,
       longBreakMin:parseInt(document.getElementById('custom-long-break')?.value)||20,
-      cyclesBeforeLong:parseInt(document.getElementById('custom-cycles')?.value)||0,
+      cyclesBeforeLong:parseInt(document.getElementById('custom-cycles')?.value)||4,
     };
   }
-  return PRESETS[pomoCfg.preset];
+  return p;
 }
 
 function applyPreset(name,el){
@@ -1625,17 +1631,15 @@ function applyPreset(name,el){
   if(el)el.classList.add('active');
   const cr=document.getElementById('pomo-custom-row');
   if(cr)cr.style.display=name==='custom'?'flex':'none';
+  // reset to focus mode
   pomoCycleCount=0;
-  const focusTab=document.querySelector('.pomo-mode-tab[data-mode="focus"]');
-  setPomoMode('focus',focusTab);
+  setPomoMode('focus',document.querySelector('.pomo-mode-tab[data-mode="focus"]'));
   renderCycleDots();
 }
 
 function updateCustomPreset(){
   if(pomoCfg.preset==='custom'&&!pomoTimer.running){
-    pomoCycleCount=0;
-    const focusTab=document.querySelector('.pomo-mode-tab[data-mode="focus"]');
-    setPomoMode('focus',focusTab);
+    setPomoMode('focus',document.querySelector('.pomo-mode-tab[data-mode="focus"]'));
   }
 }
 
@@ -1668,6 +1672,7 @@ function togglePomoTimer(){
   if(pomoTimer.running){pausePomoTimer();}else{startPomoTimer();}
 }
 function startPomoTimer(){
+  if(!pomoTimer.sessionStart)pomoTimer.sessionStart=new Date();
   pomoTimer.running=true;
   document.getElementById('pomo-start-btn').textContent='Pausar';
   pomoTimer.interval=setInterval(()=>{
@@ -1681,24 +1686,24 @@ function pausePomoTimer(){
   document.getElementById('pomo-start-btn').textContent='Continuar';
 }
 function resetPomoTimer(){
-  clearInterval(pomoTimer.interval);pomoTimer.running=false;
+  clearInterval(pomoTimer.interval);pomoTimer.running=false;pomoTimer.sessionStart=null;
   pomoCycleCount=0;
+  const p=getCurrentPreset();
+  // go back to focus
   const focusTab=document.querySelector('.pomo-mode-tab[data-mode="focus"]');
-  setPomoMode('focus',focusTab);
+  if(focusTab)focusTab.click();
+  else setPomoMode('focus',null);
   document.getElementById('pomo-start-btn').textContent='Iniciar';
 }
 
 function updateTimerDisplay(){
   const m=Math.floor(pomoTimer.remaining/60),s=pomoTimer.remaining%60;
   const timeStr=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  const el=document.getElementById('timer-display');
-  if(el)el.textContent=timeStr;
+  document.getElementById('timer-display').textContent=timeStr;
   const fill=document.getElementById('timer-ring-fill');
   if(fill){
     const ratio=pomoTimer.total>0?pomoTimer.remaining/pomoTimer.total:1;
-    const offset=CIRC*(1-ratio);
-    fill.style.strokeDasharray=CIRC.toFixed(2);
-    fill.style.strokeDashoffset=offset.toFixed(2);
+    fill.style.strokeDashoffset=(CIRC*(1-ratio)).toFixed(2);
   }
   document.title=pomoTimer.running?`${timeStr} — EstudaHub`:'EstudaHub';
 }
@@ -1710,26 +1715,30 @@ function onPomoComplete(){
   const p=getCurrentPreset();
 
   if(pomoCfg.mode==='focus'){
+    // log session
     state.pomSessions.unshift({id:Date.now(),type:'focus',subject:sub,startedAt:new Date().toISOString(),durationMin:p.focusMin});
     if(state.pomSessions.length>200)state.pomSessions=state.pomSessions.slice(0,200);
     const d=today();state.activityMap[d]=(state.activityMap[d]||0)+1;
     save();celebrate();
     renderPomoSessions();renderPomoStats();renderHeatmap();
+    // increment cycle count
     pomoCycleCount++;
     const useLong=p.cyclesBeforeLong>0&&pomoCycleCount>=p.cyclesBeforeLong;
     if(useLong)pomoCycleCount=0;
     const nextMode=useLong?'long':'short';
-    toast(`Foco concluído! ${useLong?'Hora da pausa longa 🎉':'Hora da pausa curta ☕'}`);
+    toast(`Foco concluído! ${useLong?'Hora da pausa longa.':'Hora da pausa curta.'}`);
+    // auto-switch mode
     const tab=document.querySelector(`.pomo-mode-tab[data-mode="${nextMode}"]`);
     setPomoMode(nextMode,tab);
   } else {
     state.pomSessions.unshift({id:Date.now(),type:'break',subject:sub,startedAt:new Date().toISOString(),durationMin:pomoCfg.mode==='long'?p.longBreakMin:p.breakMin});
     if(state.pomSessions.length>200)state.pomSessions=state.pomSessions.slice(0,200);
     save();renderPomoSessions();
-    toast('Pausa concluída! Hora de focar 🧠');
+    toast('Pausa concluída! Hora de focar.');
     const tab=document.querySelector('.pomo-mode-tab[data-mode="focus"]');
     setPomoMode('focus',tab);
   }
+  pomoTimer.sessionStart=null;
 }
 
 function playBeep(){
@@ -1785,6 +1794,287 @@ function renderPomoStats(){
   document.getElementById('pomo-streak-days').textContent=streak;
 }
 
+// init ring on load
+document.addEventListener('DOMContentLoaded',()=>{
+  const fill=document.getElementById('timer-ring-fill');
+  if(fill){fill.style.strokeDasharray=CIRC.toFixed(2);fill.style.strokeDashoffset='0';}
+  renderCycleDots();
+});
+
+// ═══════════════════════════════════════════════════
+// ROTINA — weekly schedule grid
+// ═══════════════════════════════════════════════════
+const RCATS=[
+  {id:'estudo',   name:'Estudo',   color:'#a78bfa',bg:'rgba(167,139,250,.22)'},
+  {id:'aula',      name:'Aula',      color:'#60a5fa',bg:'rgba(96,165,250,.22)'},
+  {id:'academia', name:'Academia', color:'#f87171',bg:'rgba(248,113,113,.22)'},
+  {id:'sono',      name:'Sono',      color:'#2dd4bf',bg:'rgba(45,212,191,.22)'},
+  {id:'refeicao', name:'Refeição', color:'#fbbf24',bg:'rgba(251,191,36,.22)'},
+  {id:'descanso', name:'Descanso', color:'#34d399',bg:'rgba(52,211,153,.22)'},
+  {id:'livre',    name:'Livre',    color:'#f9a8d4',bg:'rgba(249,168,212,.22)'},
+  {id:'trabalho', name:'Trabalho', color:'#fb923c',bg:'rgba(251,146,60,.22)'},
+  {id:'outro',    name:'Outro',    color:'#94a3b8',bg:'rgba(148,163,184,.22)'},
+];
+const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const FULL_DAYS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+// 38 slots: 05:00 → 00:00 (47 slots of 30min from 05:00 to 00:30, display up to 00:00)
+const START_H=5; // 05:00
+const SLOTS=38;  // 05:00–00:00 = 19h = 38 × 30min
+
+let rotinaState={
+  selectedDay: new Date().getDay(),
+  filterCat: 'all',
+  editingBlockId: null,
+  selectedCat: RCATS[0].id,
+  selectedRepeat: 'once',
+  pendingSlot: null, // {day, slotIndex}
+};
+let nowLineInterval=null;
+
+function slotToTime(slotIdx){
+  const totalMin=(START_H*60)+slotIdx*30;
+  const h=Math.floor(totalMin/60)%24;
+  const m=totalMin%60;
+  return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+function timeToSlot(timeStr){
+  const [hh,mm]=timeStr.split(':').map(Number);
+  const totalMin=hh*60+mm;
+  const startMin=START_H*60;
+  return Math.round((totalMin-startMin)/30);
+}
+function slotMinutes(slotIdx){
+  return(START_H*60)+slotIdx*30;
+}
+
+// state.rotinaBlocks = [{id, day(0-6 or 'daily'/'weekdays'/'weekend'), catId, name, startSlot, endSlot, repeat}]
+function getRotinaBlocks(){return state.rotinaBlocks||[];}
+
+function blocksForDay(dayIdx){
+  const blocks=getRotinaBlocks();
+  return blocks.filter(b=>{
+    if(b.repeat==='daily')return true;
+    if(b.repeat==='weekdays')return dayIdx>=1&&dayIdx<=5;
+    if(b.repeat==='weekend')return dayIdx===0||dayIdx===6;
+    return b.day===dayIdx;
+  });
+}
+
+function renderRotinaPage(){
+  renderRotinaDays();
+  renderRotinaLegend();
+  renderRotinaBalance();
+  renderRotinaGrid();
+  startNowLine();
+}
+
+function renderRotinaDays(){
+  const el=document.getElementById('rotina-days');if(!el)return;
+  const today_d=new Date().getDay();
+  // Show current week Mon–Sun centred, with Sun at start
+  el.innerHTML=DAYS.map((d,i)=>{
+    const isToday=i===today_d;
+    const isActive=i===rotinaState.selectedDay;
+    // Get date for this day in current week
+    const now=new Date();
+    const diff=i-now.getDay();
+    const dt=new Date(now);dt.setDate(now.getDate()+diff);
+    const dateNum=dt.getDate();
+    return`<div class="rotina-day-btn${isActive?' active':''}${isToday?' today':''}" onclick="selectRotinaDay(${i})">
+      <div class="rday-name">${d}</div>
+      <div class="rday-num">${dateNum}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectRotinaDay(dayIdx){
+  rotinaState.selectedDay=dayIdx;
+  renderRotinaDays();
+  renderRotinaGrid();
+}
+
+function renderRotinaLegend(){
+  const el=document.getElementById('rotina-legend');if(!el)return;
+  let html=`<div class="rleg-chip filt-all${rotinaState.filterCat==='all'?' active':''}" onclick="filterRotinaCat('all')"><div class="rleg-dot" style="background:var(--muted2)"></div>Todas</div>`;
+  html+=RCATS.map(c=>`<div class="rleg-chip${rotinaState.filterCat===c.id?' active':''}" style="color:${c.color}" onclick="filterRotinaCat('${c.id}')">
+    <div class="rleg-dot" style="background:${c.color}"></div>${c.name}
+  </div>`).join('');
+  el.innerHTML=html;
+}
+
+function filterRotinaCat(catId){
+  rotinaState.filterCat=catId;
+  renderRotinaLegend();
+  renderRotinaGrid();
+}
+
+function renderRotinaBalance(){
+  const bar=document.getElementById('rbal-bar');
+  const lbls=document.getElementById('rbal-labels');
+  if(!bar||!lbls)return;
+  // Count hours per category across all 7 days
+  const catHours={};
+  RCATS.forEach(c=>{catHours[c.id]=0;});
+  for(let d=0;d<7;d++){
+    blocksForDay(d).forEach(b=>{
+      const dur=(b.endSlot-b.startSlot)*0.5;
+      if(catHours[b.catId]!==undefined)catHours[b.catId]+=dur;
+    });
+  }
+  const total=Object.values(catHours).reduce((a,b)=>a+b,0)||1;
+  const cats=RCATS.filter(c=>catHours[c.id]>0);
+  bar.innerHTML=cats.map(c=>`<div class="rbal-seg" style="width:${(catHours[c.id]/total*100).toFixed(1)}%;background:${c.color}"></div>`).join('');
+  lbls.innerHTML=cats.map(c=>`<div class="rbal-item"><div class="rbal-item-dot" style="background:${c.color}"></div>${c.name}: ${catHours[c.id].toFixed(1)}h</div>`).join('');
+  if(!cats.length){bar.innerHTML=`<div style="width:100%;height:100%;background:var(--border2);border-radius:4px"></div>`;lbls.innerHTML=`<div style="font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted)">sem blocos cadastrados ainda</div>`;}
+}
+
+function renderRotinaGrid(){
+  const grid=document.getElementById('rotina-grid');if(!grid)return;
+  const dayBlocks=blocksForDay(rotinaState.selectedDay).filter(b=>rotinaState.filterCat==='all'||b.catId===rotinaState.filterCat);
+
+  let timeHtml='<div class="rtime-col">';
+  let slotsHtml='<div class="rslots-col" id="rslots-col">';
+
+  for(let i=0;i<SLOTS;i++){
+    const totalMin=START_H*60+i*30;
+    const h=Math.floor(totalMin/60)%24;
+    const m=totalMin%60;
+    const isFullHour=m===0;
+    const timeStr=isFullHour?`${String(h).padStart(2,'0')}:00`:'';
+    timeHtml+=`<div class="rtime-cell${isFullHour?' full-hour':'half-hour'}" data-slot="${i}">
+      <span class="rtime-lbl">${timeStr}</span>
+    </div>`;
+    slotsHtml+=`<div class="rslot${isFullHour?' full-hour':''}" data-slot="${i}" onclick="openRotinaModal(${i})">
+      <span class="rslot-add-hint">+ bloco</span>
+    </div>`;
+  }
+  timeHtml+='</div>';
+  slotsHtml+='</div>';
+  grid.innerHTML=timeHtml+slotsHtml;
+
+  // Render blocks as absolutely positioned overlays
+  const slotsCol=document.getElementById('rslots-col');
+  if(!slotsCol)return;
+  const slotH=32; // px per 30min slot
+  dayBlocks.forEach(b=>{
+    const cat=RCATS.find(c=>c.id===b.catId)||RCATS[0];
+    const top=b.startSlot*slotH;
+    const height=Math.max(1,b.endSlot-b.startSlot)*slotH-2;
+    const tStart=slotToTime(b.startSlot);
+    const tEnd=slotToTime(b.endSlot);
+    const div=document.createElement('div');
+    div.className='r-block';
+    div.style.cssText=`top:${top+1}px;height:${height}px;background:${cat.bg};border-left:3px solid ${cat.color};color:${cat.color}`;
+    div.innerHTML=`<div class="r-block-name">${b.name||cat.name}</div>${height>40?`<div class="r-block-time">${tStart}–${tEnd}</div>`:''}<button class="r-block-del" onclick="event.stopPropagation();deleteRotinaBlock('${b.id}')">×</button>`;
+    div.onclick=()=>editRotinaBlock(b.id);
+    slotsCol.appendChild(div);
+  });
+
+  // Current time line
+  renderNowLine();
+}
+
+function renderNowLine(){
+  const slotsCol=document.getElementById('rslots-col');if(!slotsCol)return;
+  const old=document.getElementById('r-now-line');if(old)old.remove();
+  const now=new Date();
+  const todayIdx=now.getDay();
+  if(todayIdx!==rotinaState.selectedDay)return;
+  const totalMin=now.getHours()*60+now.getMinutes();
+  const startMin=START_H*60;
+  const endMin=startMin+SLOTS*30;
+  if(totalMin<startMin||totalMin>endMin)return;
+  const offsetMin=totalMin-startMin;
+  const px=(offsetMin/30)*32;
+  const line=document.createElement('div');
+  line.className='r-now-line';line.id='r-now-line';
+  line.style.top=px+'px';
+  slotsCol.appendChild(line);
+}
+
+function startNowLine(){
+  if(nowLineInterval)clearInterval(nowLineInterval);
+  nowLineInterval=setInterval(renderNowLine,60000);
+}
+
+function openRotinaModal(slotIdx){
+  rotinaState.pendingSlot={day:rotinaState.selectedDay,slotIndex:slotIdx};
+  rotinaState.editingBlockId=null;
+  document.getElementById('modal-rotina-title').textContent='Novo bloco';
+  document.getElementById('rblock-name').value='';
+  document.getElementById('rblock-start').value=slotToTime(slotIdx);
+  // default 1h end
+  document.getElementById('rblock-end').value=slotToTime(Math.min(slotIdx+2,SLOTS));
+  rotinaState.selectedCat=RCATS[0].id;
+  rotinaState.selectedRepeat='once';
+  renderRcatGrid();
+  renderRepeatOpts();
+  document.getElementById('modal-rotina').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('rblock-name').focus(),200);
+}
+
+function editRotinaBlock(id){
+  const b=getRotinaBlocks().find(x=>x.id===id);if(!b)return;
+  rotinaState.editingBlockId=id;
+  document.getElementById('modal-rotina-title').textContent='Editar bloco';
+  document.getElementById('rblock-name').value=b.name||'';
+  document.getElementById('rblock-start').value=slotToTime(b.startSlot);
+  document.getElementById('rblock-end').value=slotToTime(b.endSlot);
+  rotinaState.selectedCat=b.catId;
+  rotinaState.selectedRepeat=b.repeat||'once';
+  renderRcatGrid();renderRepeatOpts();
+  document.getElementById('modal-rotina').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function renderRcatGrid(){
+  const el=document.getElementById('rcat-grid');if(!el)return;
+  el.innerHTML=RCATS.map(c=>`<div class="rcat-opt${rotinaState.selectedCat===c.id?' selected':''}" style="background:${c.bg};color:${c.color}" onclick="selectRcat('${c.id}')">
+    <div class="rleg-dot" style="background:${c.color};width:10px;height:10px;border-radius:50%"></div>
+    <span>${c.name}</span>
+  </div>`).join('');
+}
+function selectRcat(catId){rotinaState.selectedCat=catId;renderRcatGrid();}
+function renderRepeatOpts(){
+  document.querySelectorAll('#repeat-opts .repeat-opt').forEach(el=>{
+    el.classList.toggle('selected',el.dataset.r===rotinaState.selectedRepeat);
+  });
+}
+function selectRepeat(el){rotinaState.selectedRepeat=el.dataset.r;renderRepeatOpts();}
+
+function saveRotinaBlock(){
+  const name=document.getElementById('rblock-name').value.trim();
+  const startStr=document.getElementById('rblock-start').value;
+  const endStr=document.getElementById('rblock-end').value;
+  if(!startStr||!endStr){toast('Defina horário de início e fim');return;}
+  let startSlot=timeToSlot(startStr);
+  let endSlot=timeToSlot(endStr);
+  // handle midnight crossover (00:xx)
+  const [sh,sm]=startStr.split(':').map(Number);
+  const [eh,em]=endStr.split(':').map(Number);
+  if(eh<sh||(eh===sh&&em<=sm)){toast('Horário de fim deve ser após início');return;}
+  startSlot=Math.max(0,Math.min(startSlot,SLOTS-1));
+  endSlot=Math.max(startSlot+1,Math.min(endSlot,SLOTS));
+  if(!state.rotinaBlocks)state.rotinaBlocks=[];
+  if(rotinaState.editingBlockId){
+    const idx=state.rotinaBlocks.findIndex(b=>b.id===rotinaState.editingBlockId);
+    if(idx>=0)state.rotinaBlocks[idx]={...state.rotinaBlocks[idx],name,catId:rotinaState.selectedCat,startSlot,endSlot,repeat:rotinaState.selectedRepeat};
+  }else{
+    const day=rotinaState.pendingSlot?.day??rotinaState.selectedDay;
+    state.rotinaBlocks.push({id:'rb'+Date.now(),day,catId:rotinaState.selectedCat,name,startSlot,endSlot,repeat:rotinaState.selectedRepeat});
+  }
+  save();closeModals();
+  renderRotinaGrid();renderRotinaBalance();
+  toast('Bloco salvo');
+}
+
+function deleteRotinaBlock(id){
+  if(!state.rotinaBlocks)return;
+  state.rotinaBlocks=state.rotinaBlocks.filter(b=>b.id!==id);
+  save();renderRotinaGrid();renderRotinaBalance();toast('Bloco removido');
+}
+
 // ═══════════════════════════════════════════════════
 // TELEGRAM
 // ═══════════════════════════════════════════════════
@@ -1793,7 +2083,7 @@ async function dispararNotificacaoTelegram(){
   if(!state.tgChatId){toast('Conecte o Telegram primeiro');return;}
   const revs=getTodayRevisions();
   let m=`🚀 *ESTUDAHUB — REVISÕES DE HOJE*\n_${new Date().toLocaleDateString('pt-BR')}_\n\n`;
-  if(revs.length){revs.forEach((r,i)=>{m+=`${i+1}. *${r.materia}*\n   └ ${r.tema}\n   └ ${r.revType}\n\n`;});m+=`🎯 *Bons estudos!*`;}
+  if(revs.length){revs.forEach((r,i)=>{m+=`${i+1}. *${r.materia}*\n    └ ${r.tema}\n    └ ${r.revType}\n\n`;});m+=`🎯 *Bons estudos!*`;}
   else m+=`✅ *Tudo em dia! Sem revisões pendentes.*`;
   try{const res=await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:state.tgChatId,text:m,parse_mode:'Markdown'})});
     if(res.ok)toast('Mensagem enviada');else{const e=await res.json();toast('Erro: '+e.description);}
@@ -1868,7 +2158,7 @@ function renderProvas(){
 function renderCharts(){
   const ac=getComputedStyle(document.body).getPropertyValue('--a').trim()||'#a78bfa';
   const mu='#42425a',gr='rgba(255,255,255,.04)';
-  const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#888',bodyColor:'#555',borderColor:'rgba(255,255,255,.08)',borderWidth:1,cornerRadius:6}},scales:{x:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9}},grid:{color:gr},border:{color:'transparent'}},y:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9},callback:v=>v+'%'},grid:{color:gr},min:0,max:100,border:{color:'transparent'}}}};
+  const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#888',bodyColor:'#555',borderColor:'rgba(255,255,255,.08)',borderWidth:1,cornerRadius:var_r()}},scales:{x:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9}},grid:{color:gr},border:{color:'transparent'}},y:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9},callback:v=>v+'%'},grid:{color:gr},min:0,max:100,border:{color:'transparent'}}}};
   const labels=state.provas.map(p=>p.nome.length>14?p.nome.slice(0,13)+'…':p.nome);
   const pcts=state.provas.map(p=>Math.round(p.acertos/p.total*100));
   const cols=pcts.map(p=>p>=80?'rgba(29,184,112,.7)':p>=70?'rgba(240,180,41,.7)':'rgba(240,78,78,.7)');
@@ -1877,6 +2167,7 @@ function renderCharts(){
   if(cPr)cPr.destroy();
   cPr=new Chart(document.getElementById('chart-provas').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:pcts,backgroundColor:cols,borderWidth:0,borderRadius:4}]},options:base});
 }
+function var_r(){return 6;}
 
 // ═══════════════════════════════════════════════════
 // TOUR
@@ -1885,7 +2176,7 @@ const TOUR=[
   {t:'tour-stat-total',title:'Painel de controle',desc:'Resumo em tempo real: temas, progresso, média de acertos e revisões pendentes hoje.'},
   {t:'tour-btn-add',title:'Adicionar temas',desc:'Selecione uma matéria existente ou crie uma nova — sem precisar digitar toda vez.'},
   {t:'tour-table',title:'Planilha de estudos',desc:'Temas por matéria com barra de progresso. Marque como estudado, lance questões e gerencie revisões 24h · 1S · 1M.'},
-  {t:'dt-pomodoro',title:'Pomodoro',desc:'4 presets de ciclo: Clássico (25/5), Deep Work (45/15), Rápido (15/3) e Custom. Histórico de sessões por matéria.'},
+  {t:'dt-pomodoro',title:'Pomodoro',desc:'Timer com rastreio de sessões por matéria. Veja histórico, streaks e minutos de foco do dia.'},
   {t:'dt-configuracoes',title:'Configurações',desc:'Tema, gerenciar matérias, Telegram para alertas diários às 03h.'},
 ];
 let tStep=0,tActive=false;
