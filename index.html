@@ -35,7 +35,7 @@ body::after{
 }
 body>*{position:relative;z-index:1}
 .mono{font-family:'IBM Plex Mono',monospace}
-::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border3);border-radius:2px}
 
@@ -349,7 +349,7 @@ tr:hover .del-btn{opacity:.4}
 .mat-item-del{font-size:12px;color:var(--red);cursor:pointer;padding:2px 6px;background:none;border:none;opacity:.4;transition:opacity .15s;font-family:'IBM Plex Mono',monospace}
 .mat-item-del:hover{opacity:1}
 
-/* ── PROVAS ── */
+/* ── PROVAS & CALENDÁRIO ── */
 .provas-header{padding:32px 36px 22px;border-bottom:1px solid var(--border2);background:linear-gradient(180deg,var(--bg2),transparent);position:relative;overflow:hidden}
 .provas-header::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:52px 52px;opacity:.26;pointer-events:none}
 .provas-header::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 10%,var(--a) 50%,transparent 90%);opacity:.4}
@@ -378,7 +378,6 @@ canvas{width:100%!important}
 .pomo-layout{display:grid;grid-template-columns:1fr 360px;gap:1px;background:var(--border2);min-height:calc(100vh - 200px)}
 .pomo-main{background:var(--bg);padding:40px 36px;display:flex;flex-direction:column;align-items:center}
 .pomo-sidebar{background:var(--bg2);padding:28px 24px;overflow-y:auto}
-/* timer ring */
 .timer-ring-wrap{position:relative;width:240px;height:240px;margin-bottom:28px;flex-shrink:0}
 .timer-ring-svg{width:100%;height:100%;display:block}
 .timer-ring-track{fill:none;stroke:var(--border2);stroke-width:8}
@@ -394,13 +393,10 @@ canvas{width:100%!important}
 .pomo-btn:hover{border-color:var(--a);color:var(--a);background:var(--ad)}
 .pomo-btn.primary{background:linear-gradient(135deg,var(--a2),var(--a));color:#fff;border:none;box-shadow:0 4px 20px var(--ag)}
 .pomo-btn.primary:hover{opacity:.9}
-.pomo-btn.danger{border-color:rgba(240,78,78,.3);color:var(--red)}
-.pomo-btn.danger:hover{background:var(--r-bg)}
 .pomo-subject-sel{width:100%;margin-bottom:28px}
 .pomo-subject-sel label{display:block;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
 .pomo-subject-sel select,.pomo-subject-sel input{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;border-radius:var(--r);-webkit-appearance:none;transition:border-color .18s}
 .pomo-subject-sel select:focus,.pomo-subject-sel input:focus{border-color:var(--a)}
-/* sessions log */
 .sessions-log{display:flex;flex-direction:column;gap:8px}
 .session-item{padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;gap:10px;transition:border-color .15s}
 .session-item:hover{border-color:var(--border2)}
@@ -411,29 +407,21 @@ canvas{width:100%!important}
 .session-subj{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .session-time{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);margin-top:2px}
 .session-dur{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--a);flex-shrink:0}
-/* pomo stats */
 .pomo-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-top:28px;width:100%}
 .pomo-stat{background:var(--bg2);padding:14px 16px;text-align:center}
 .pomo-stat-val{font-size:22px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:var(--a)}
 .pomo-stat-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-top:4px}
-/* pomo preset cycles */
 .pomo-preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;width:100%;max-width:360px}
 .pomo-preset{padding:10px 8px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;transition:all .18s;text-align:center}
 .pomo-preset:hover{border-color:var(--a);background:var(--ad)}
 .pomo-preset.active{border-color:var(--a);background:var(--ad)}
 .pomo-preset-name{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text);margin-bottom:4px}
 .pomo-preset-desc{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);line-height:1.4}
-/* cycle progress dots */
 .cycle-dots{display:flex;gap:5px;justify-content:center;margin-bottom:20px}
 .cycle-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);transition:all .3s}
 .cycle-dot.done{background:var(--a);box-shadow:0 0 5px var(--ag)}
 .cycle-dot.current{background:var(--a);box-shadow:0 0 8px var(--a);animation:orb-pulse 1.5s ease-in-out infinite}
-/* custom preset inputs */
 .pomo-custom-fields{display:flex;gap:8px;align-items:flex-end;width:100%;max-width:360px;margin-bottom:0}
-.pomo-custom-fields .pomo-subject-sel{margin-bottom:0;flex:1}
-.pomo-custom-small{width:70px;flex-shrink:0}
-/* timer ring — make SVG scale correctly */
-.timer-ring-svg{display:block}
 .pomo-sound-lbl{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted2)}
 .toggle-sw{position:relative;width:38px;height:20px;flex-shrink:0}
 .toggle-sw input{opacity:0;width:0;height:0;position:absolute}
@@ -497,24 +485,14 @@ canvas{width:100%!important}
 .tour-dot{width:5px;height:5px;border-radius:50%;background:var(--border3);transition:all .25s}
 .tour-dot.active{background:var(--a);box-shadow:0 0 5px var(--ag)}
 
-/* ── ROTINA PAGE ── */
+/* ── ROTINA PAGE (NEW GRID) ── */
 .rotina-header{padding:32px 36px 22px;border-bottom:1px solid var(--border2);background:linear-gradient(180deg,var(--bg2),transparent);position:relative;overflow:hidden}
 .rotina-header::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:52px 52px;opacity:.26;pointer-events:none}
 .rotina-header::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 10%,var(--a) 50%,transparent 90%);opacity:.4}
-.rotina-inner{position:relative;z-index:1}
+.rotina-inner{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;}
+.btn-gerar{padding:8px 16px;background:transparent;border:1px dashed var(--a);color:var(--a);font-family:'Outfit',sans-serif;font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:var(--r);transition:all .18s;white-space:nowrap;}
+.btn-gerar:hover{background:var(--ad);}
 
-/* Day selector strip */
-.rotina-days{display:flex;gap:1px;background:var(--border2);border-bottom:1px solid var(--border2);overflow-x:auto;-webkit-overflow-scrolling:touch}
-.rotina-days::-webkit-scrollbar{display:none}
-.rotina-day-btn{flex:1;min-width:52px;padding:10px 8px;text-align:center;cursor:pointer;background:var(--bg2);transition:all .18s;border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:3px}
-.rotina-day-btn:hover{background:var(--bg3)}
-.rotina-day-btn.active{background:var(--ad);border-bottom-color:var(--a)}
-.rotina-day-btn.today .rday-num{color:var(--a);font-weight:800}
-.rday-name{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2)}
-.rday-num{font-size:16px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--text)}
-.rotina-day-btn.active .rday-name,.rotina-day-btn.active .rday-num{color:var(--a)}
-
-/* Category legend / filter */
 .rotina-legend{display:flex;gap:6px;flex-wrap:wrap;padding:12px 36px;border-bottom:1px solid var(--border2);background:var(--bg2)}
 .rleg-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid transparent;cursor:pointer;transition:all .18s;font-size:10px;font-weight:600;font-family:'Outfit',sans-serif;background:var(--bg3)}
 .rleg-chip.active{border-color:currentColor;background:rgba(0,0,0,.2)}
@@ -523,7 +501,6 @@ canvas{width:100%!important}
 .rleg-chip.filt-all.active{color:var(--text);border-color:var(--border3);opacity:1}
 .rleg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-/* Balance bar */
 .rotina-balance{padding:12px 36px;border-bottom:1px solid var(--border2);background:var(--bg)}
 .rbal-title{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
 .rbal-bar{height:8px;border-radius:4px;overflow:hidden;background:var(--border2);display:flex;gap:1px}
@@ -534,49 +511,46 @@ canvas{width:100%!important}
 .rbal-item{display:flex;align-items:center;gap:4px;font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2)}
 .rbal-item-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 
-/* Grid layout */
 .rotina-grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
-.rotina-grid{display:grid;grid-template-columns:52px 1fr;min-width:320px;position:relative}
+.rotina-weekly-header{display:grid;grid-template-columns:52px repeat(7, 1fr);min-width:800px;background:var(--bg2);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:10;}
+.rgh-cell{padding:12px 10px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);border-right:1px solid var(--border2);}
+.rgh-cell:last-child{border-right:none;}
+.rotina-grid{display:grid;grid-template-columns:52px repeat(7, 1fr);min-width:800px;position:relative}
 
-/* Time column */
 .rtime-col{background:var(--bg2);border-right:1px solid var(--border2);position:sticky;left:0;z-index:3}
 .rtime-cell{height:32px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;border-bottom:1px solid var(--border);position:relative}
 .rtime-cell.half-hour .rtime-lbl{display:none}
 .rtime-cell.full-hour{border-bottom:1px solid var(--border2)}
 .rtime-lbl{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted);white-space:nowrap;letter-spacing:.04em}
 
-/* Slots column */
-.rslots-col{position:relative;background:var(--bg)}
+.rslots-col{position:relative;background:var(--bg);border-right:1px solid var(--border2);}
+.rslots-col:last-child{border-right:none;}
 .rslot{height:32px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;position:relative;display:flex;align-items:center;padding-left:6px}
 .rslot:hover{background:var(--bg3)}
 .rslot.full-hour{border-bottom:1px solid var(--border2)}
 .rslot-add-hint{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted);opacity:0;transition:opacity .15s;pointer-events:none}
 .rslot:hover .rslot-add-hint{opacity:.5}
 
-/* Blocks */
-.r-block{position:absolute;left:4px;right:4px;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;overflow:hidden;cursor:pointer;z-index:2;display:flex;flex-direction:column;justify-content:center;min-height:28px;transition:filter .15s,transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.r-block{position:absolute;left:2px;right:2px;border-radius:4px;padding:3px 6px;font-size:11px;font-weight:700;overflow:hidden;cursor:pointer;z-index:2;display:flex;flex-direction:column;justify-content:center;min-height:28px;transition:filter .15s,transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .r-block:hover{filter:brightness(1.15);transform:scaleX(.98)}
-.r-block-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;font-size:11px}
+.r-block-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;font-size:10px}
 .r-block-time{font-size:9px;font-family:'IBM Plex Mono',monospace;opacity:.75;margin-top:1px;white-space:nowrap}
 .r-block-del{position:absolute;top:2px;right:4px;font-size:11px;opacity:0;background:none;border:none;cursor:pointer;color:rgba(0,0,0,.7);padding:0 2px;line-height:1;font-weight:900}
 .r-block:hover .r-block-del{opacity:.7}
 .r-block-del:hover{opacity:1!important}
 
-/* Current time line */
 .r-now-line{position:absolute;left:0;right:0;height:2px;background:var(--red);z-index:10;pointer-events:none}
 .r-now-line::before{content:'';position:absolute;left:-1px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--red)}
 
-/* Modal rotina */
 .rcat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px}
 .rcat-opt{padding:10px 8px;border-radius:var(--r);border:2px solid transparent;cursor:pointer;text-align:center;font-size:10px;font-weight:700;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:5px}
 .rcat-opt.selected{border-color:rgba(255,255,255,.6)!important;transform:scale(1.04)}
-.rcat-dot-lg{width:12px;height:12px;border-radius:50%;flex-shrink:0}
 .repeat-opts{display:flex;gap:6px;flex-wrap:wrap}
 .repeat-opt{padding:7px 12px;border:1px solid var(--border2);border-radius:20px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);cursor:pointer;transition:all .18s;background:var(--bg3)}
 .repeat-opt:hover{border-color:var(--a);color:var(--a)}
 .repeat-opt.selected{background:var(--ad);border-color:var(--a);color:var(--a)}
 
-/* ── MOBILE RESPONSIVE ── */
+/* ── RESPONSIVE ── */
 @media(max-width:768px){
   nav{padding:0 16px;height:50px}
   .nav-tabs,.nav-right{display:none}
@@ -600,6 +574,7 @@ canvas{width:100%!important}
   .fab{display:flex}
   .provas-header{padding:20px 16px 18px}
   .rotina-header{padding:20px 16px 18px}
+  .rotina-inner{flex-direction: column; align-items: flex-start;}
   .rotina-legend{padding:10px 12px}
   .rotina-balance{padding:10px 12px}
   .pomo-header{padding:20px 16px 18px}
@@ -925,11 +900,22 @@ canvas{width:100%!important}
   <div id="page-provas" class="page">
     <div class="provas-header">
       <div class="provas-inner">
-        <div class="dash-eyebrow">histórico de provas</div>
-        <div class="dash-title" style="margin-bottom:16px">Desempenho</div>
-        <button class="btn-add" onclick="openAddProvaModal()">+ Registrar prova</button>
+        <div class="dash-eyebrow">planejamento e metas</div>
+        <div class="dash-title" style="margin-bottom:16px">Provas e Simulados</div>
       </div>
     </div>
+
+    <div class="sec-hdr">
+      <div class="sec-label">Calendário de Provas</div>
+      <button class="btn-sm" onclick="openModalCalendario()">+ Agendar</button>
+    </div>
+    <div id="calendario-list" style="padding: 0 36px 20px;"></div>
+
+    <div class="sec-hdr" style="border-top: 1px solid var(--border2); padding-top: 30px;">
+      <div class="sec-label">Desempenho em Provas Anteriores</div>
+      <button class="btn-sm" onclick="openAddProvaModal()">+ Registrar Resultado</button>
+    </div>
+
     <div class="perf-grid" id="charts-area" style="display:none">
       <div class="perf-card"><div class="perf-ttl">Evolução</div><div class="chart-wrap"><canvas id="chart-evolucao"></canvas></div></div>
       <div class="perf-card"><div class="perf-ttl">Por prova</div><div class="chart-wrap"><canvas id="chart-provas"></canvas></div></div>
@@ -943,7 +929,7 @@ canvas{width:100%!important}
     <div style="padding:0 36px 40px">
       <div style="padding:18px 0 12px;border-bottom:1px solid var(--border);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)">Lista de Provas</div>
       <div id="provas-container">
-        <div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Nenhuma prova</div><div class="empty-sub">// adicione simulados para acompanhar sua evolução</div></div>
+        <div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Nenhuma prova</div><div class="empty-sub">// adicione resultados de simulados para acompanhar evolução</div></div>
       </div>
     </div>
   </div>
@@ -951,12 +937,14 @@ canvas{width:100%!important}
   <div id="page-rotina" class="page">
     <div class="rotina-header">
       <div class="rotina-inner">
-        <div class="dash-eyebrow">organização semanal</div>
-        <div class="dash-title" style="margin-bottom:4px">Rotina</div>
-        <div class="dash-date mono">Monte sua grade horária e visualize o equilíbrio da semana</div>
+        <div>
+          <div class="dash-eyebrow">organização semanal</div>
+          <div class="dash-title" style="margin-bottom:4px">Rotina</div>
+          <div class="dash-date mono">Monte sua grade horária estilo timeblocking e gerencie sua semana</div>
+        </div>
+        <button class="btn-gerar" onclick="gerarRotinaBase()">🪄 Gerar Rotina Base</button>
       </div>
     </div>
-    <div class="rotina-days" id="rotina-days"></div>
     <div class="rotina-legend" id="rotina-legend"></div>
     <div class="rotina-balance">
       <div class="rbal-title">Equilíbrio semanal (horas por categoria)</div>
@@ -964,6 +952,16 @@ canvas{width:100%!important}
       <div class="rbal-labels" id="rbal-labels"></div>
     </div>
     <div class="rotina-grid-wrap">
+      <div class="rotina-weekly-header">
+        <div class="rgh-cell" style="border-right:1px solid var(--border2)">H.</div>
+        <div class="rgh-cell">Seg</div>
+        <div class="rgh-cell">Ter</div>
+        <div class="rgh-cell">Qua</div>
+        <div class="rgh-cell">Qui</div>
+        <div class="rgh-cell">Sex</div>
+        <div class="rgh-cell" style="color:var(--text)">Sáb</div>
+        <div class="rgh-cell" style="color:var(--text)">Dom</div>
+      </div>
       <div class="rotina-grid" id="rotina-grid"></div>
     </div>
   </div>
@@ -1059,11 +1057,23 @@ canvas{width:100%!important}
       <div class="mf">
         <label>Repetição</label>
         <div class="repeat-opts" id="repeat-opts">
-          <div class="repeat-opt selected" data-r="once" onclick="selectRepeat(this)">Só hoje</div>
+          <div class="repeat-opt selected" data-r="once" onclick="selectRepeat(this)">Só neste dia</div>
           <div class="repeat-opt" data-r="daily" onclick="selectRepeat(this)">Todo dia</div>
           <div class="repeat-opt" data-r="weekdays" onclick="selectRepeat(this)">Seg – Sex</div>
-          <div class="repeat-opt" data-r="weekend" onclick="selectRepeat(this)">Fim de semana</div>
+          <div class="repeat-opt" data-r="weekend" onclick="selectRepeat(this)">Sáb – Dom</div>
         </div>
+      </div>
+      <div class="mf" id="mf-dia-semana">
+          <label>Dia da Semana</label>
+          <select id="rblock-day">
+              <option value="1">Segunda-feira</option>
+              <option value="2">Terça-feira</option>
+              <option value="3">Quarta-feira</option>
+              <option value="4">Quinta-feira</option>
+              <option value="5">Sexta-feira</option>
+              <option value="6">Sábado</option>
+              <option value="0">Domingo</option>
+          </select>
       </div>
     </div>
     <div class="modal-actions">
@@ -1098,9 +1108,9 @@ canvas{width:100%!important}
 <div class="modal-overlay" id="modal-prova" onclick="handleOvClick(event,'modal-prova')">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-hd"><div class="modal-title">Registrar Prova</div></div>
+    <div class="modal-hd"><div class="modal-title">Registrar Resultado Histórico</div></div>
     <div class="modal-bd">
-      <div class="mf"><label>Nome da Prova</label><input type="text" id="prova-nome" placeholder="Ex: ENEM 2024 — Ciências Humanas" autocomplete="off"/></div>
+      <div class="mf"><label>Nome da Prova / Simulado</label><input type="text" id="prova-nome" placeholder="Ex: ENEM 2024 — Ciências Humanas" autocomplete="off"/></div>
       <div class="mf"><label>Ano</label><input type="number" id="prova-ano" placeholder="2024" min="2000" max="2099" inputmode="numeric"/></div>
       <div class="mf"><label>Nº de Questões</label><input type="number" id="prova-total" placeholder="45" min="1" inputmode="numeric"/></div>
       <div class="mf"><label>Nº de Acertos</label><input type="number" id="prova-acertos" placeholder="36" min="0" inputmode="numeric"/></div>
@@ -1108,6 +1118,22 @@ canvas{width:100%!important}
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
       <button class="btn-confirm" onclick="addProva()">Registrar →</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-calendario" onclick="handleOvClick(event,'modal-calendario')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-hd"><div class="modal-title">Agendar Prova / Simulado</div><div class="modal-sub mono">// crie seu calendário de metas</div></div>
+    <div class="modal-bd">
+      <div class="mf"><label>Nome</label><input type="text" id="cal-nome" placeholder="Ex: Simulado Geral 01" autocomplete="off"/></div>
+      <div class="mf"><label>Data</label><input type="date" id="cal-data"/></div>
+      <div class="mf"><label>Meta (Opcional)</label><input type="text" id="cal-meta" placeholder="Ex: Acertar 80% ou 75 questões" autocomplete="off"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
+      <button class="btn-confirm" onclick="addCalendario()">Salvar Data →</button>
     </div>
   </div>
 </div>
@@ -1137,13 +1163,13 @@ const app=initializeApp(cfg),auth=getAuth(app),db=getFirestore(app),prov=new Goo
 let cu=null;
 async function s2c(){
   if(!cu)return;
-  try{await setDoc(doc(db,'users',cu.uid,'data','state'),{theme:state.theme,isNewUser:state.isNewUser,temas:state.temas,materias:state.materias,provas:state.provas,tgChatId:state.tgChatId||null,tgSchedEn:state.tgSchedEn||false,tourDone:state.tourDone||false,activityMap:state.activityMap||{},pomSessions:state.pomSessions||[],rotinaBlocks:state.rotinaBlocks||[],createdAt:state.createdAt||Date.now(),updatedAt:Date.now()});}
+  try{await setDoc(doc(db,'users',cu.uid,'data','state'),{theme:state.theme,isNewUser:state.isNewUser,temas:state.temas,materias:state.materias,provas:state.provas,calendario:state.calendario||[],tgChatId:state.tgChatId||null,tgSchedEn:state.tgSchedEn||false,tourDone:state.tourDone||false,activityMap:state.activityMap||{},pomSessions:state.pomSessions||[],rotinaBlocks:state.rotinaBlocks||[],createdAt:state.createdAt||Date.now(),updatedAt:Date.now()});}
   catch(e){console.error(e);}
 }
 async function lfc(uid){
   try{
     const sn=await getDoc(doc(db,'users',uid,'data','state'));
-    if(sn.exists()){const d=sn.data();state.theme=d.theme||'theme-default';state.isNewUser=d.isNewUser!==undefined?d.isNewUser:true;state.temas=d.temas||[];state.materias=d.materias||[];state.provas=d.provas||[];state.tgChatId=d.tgChatId||null;state.tgSchedEn=d.tgSchedEn||false;state.tourDone=d.tourDone||false;state.activityMap=d.activityMap||{};state.pomSessions=d.pomSessions||[];state.rotinaBlocks=d.rotinaBlocks||[];state.createdAt=d.createdAt||Date.now();}
+    if(sn.exists()){const d=sn.data();state.theme=d.theme||'theme-default';state.isNewUser=d.isNewUser!==undefined?d.isNewUser:true;state.temas=d.temas||[];state.materias=d.materias||[];state.provas=d.provas||[];state.calendario=d.calendario||[];state.tgChatId=d.tgChatId||null;state.tgSchedEn=d.tgSchedEn||false;state.tourDone=d.tourDone||false;state.activityMap=d.activityMap||{};state.pomSessions=d.pomSessions||[];state.rotinaBlocks=d.rotinaBlocks||[];state.createdAt=d.createdAt||Date.now();}
   }catch(e){console.error(e);}
 }
 window._s2c=s2c;window._lfc=lfc;
@@ -1171,10 +1197,10 @@ const TG_TOKEN='8776004938:AAE0GyD9yu5FzpALcExwrFK5AwyjqK6-w3o';
 let state={
   user:null,displayName:null,photoURL:null,
   theme:'theme-default',isNewUser:true,
-  materias:[],temas:[],provas:[],
+  materias:[],temas:[],provas:[],calendario:[],
   tgChatId:null,tgSchedEn:false,tourDone:false,
-  activityMap:{},  // date -> count of studied topics
-  pomSessions:[],   // {id,type,subject,startedAt,durationMin}
+  activityMap:{},  
+  pomSessions:[],   
   rotinaBlocks:[],
   createdAt:Date.now()
 };
@@ -1222,7 +1248,7 @@ function enterApp(){
   const opts={weekday:'long',day:'numeric',month:'long'};
   document.getElementById('dash-date2').textContent=now.toLocaleDateString('pt-BR',opts);
   showScreen('app');
-  renderAll();renderProvas();renderMatManage();renderPomoSubjectSelect();renderPomoStats();renderPomoSessions();renderRotinaPage();
+  renderAll();renderProvas();renderCalendario();renderMatManage();renderPomoSubjectSelect();renderPomoStats();renderPomoSessions();renderRotinaPage();
   scheduleInit();
 }
 function logout(){scheduleClear();if(window.logoutFB)window.logoutFB();closeMobileNav();}
@@ -1263,7 +1289,7 @@ function switchPage(name,el,mob){
   // FAB only on planilha
   const fab=document.getElementById('fab-btn');
   if(fab)fab.style.display=name==='planilha'?'flex':'none';
-  if(name==='provas')renderProvas();
+  if(name==='provas'){renderProvas();renderCalendario();}
   if(name==='pomodoro'){renderPomoSubjectSelect();renderPomoSessions();renderPomoStats();}
   if(name==='rotina')renderRotinaPage();
   if(mob)closeMobileNav();
@@ -1274,7 +1300,6 @@ function switchPage(name,el,mob){
 // MATERIAS
 // ═══════════════════════════════════════════════════
 function getMaterias(){
-  // derive from temas + explicit state.materias list
   const fromTemas=[...new Set(state.temas.map(t=>t.materia))];
   const merged=[...new Set([...state.materias,...fromTemas])];
   return merged.filter(Boolean);
@@ -1351,7 +1376,6 @@ function addTema(){
   const date=document.getElementById('add-date').value||today();
   if(!mat){toast('Selecione ou crie uma matéria');return;}
   if(!tema){toast('Preencha o tema');return;}
-  // add matéria if new
   if(!state.materias.includes(mat)){state.materias.push(mat);}
   state.temas.push({id:Date.now(),materia:mat,tema,estudado:false,questoes:0,acertos:0,dataEstudo:date,rev24h:false,rev1s:false,rev1m:false});
   save();closeModals();
@@ -1365,6 +1389,14 @@ function addTema(){
 function closeModals(){document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('open'));document.body.style.overflow='';}
 function handleOvClick(e,id){if(e.target===document.getElementById(id))closeModals();}
 function openAddProvaModal(){document.getElementById('modal-prova').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('prova-nome').focus(),200);}
+function openModalCalendario(){
+  document.getElementById('cal-nome').value = '';
+  document.getElementById('cal-data').value = '';
+  document.getElementById('cal-meta').value = '';
+  document.getElementById('modal-calendario').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('cal-nome').focus(),200);
+}
 
 // ═══════════════════════════════════════════════════
 // TEMAS CRUD
@@ -1376,11 +1408,9 @@ function toggleCheck(id){
   t.estudado=!t.estudado;
   if(t.estudado){
     if(!t.dataEstudo)t.dataEstudo=today();
-    // update activity map
     const d=today();
     state.activityMap[d]=(state.activityMap[d]||0)+1;
     save();
-    // celebrate!
     celebrate();
   }else{save();}
   renderAll();
@@ -1411,7 +1441,7 @@ function getTodayRevisions(){
 }
 
 // ═══════════════════════════════════════════════════
-// CELEBRATE (confetti)
+// CELEBRATE
 // ═══════════════════════════════════════════════════
 function celebrate(){
   const colors=['#a78bfa','#60a5fa','#34d399','#fbbf24','#f87171','#c084fc','#fff'];
@@ -1428,7 +1458,7 @@ function celebrate(){
 }
 
 // ═══════════════════════════════════════════════════
-// RENDER ALL (stats + heatmap + reviews + table)
+// RENDER ALL
 // ═══════════════════════════════════════════════════
 function renderAll(){renderStats();renderHeatmap();renderTodayRevisions();renderTable();}
 
@@ -1448,21 +1478,18 @@ function renderStats(){
 }
 
 // ═══════════════════════════════════════════════════
-// HEATMAP E STREAK — grows from 2 weeks to 6 months over time
+// HEATMAP E STREAK
 // ═══════════════════════════════════════════════════
 function renderHeatmap(){
   const grid=document.getElementById('heatmap-grid');
   const monthsEl=document.getElementById('hm-months');
   if(!grid)return;
 
-  // Calculate how many weeks to show based on account age
-  // "age" = days since the first recorded activity (or today if none)
   const allDates=Object.keys(state.activityMap).sort();
   const firstDate=allDates.length?new Date(allDates[0]):new Date();
   const daysSinceStart=Math.floor((new Date()-firstDate)/86400000);
-  // Start at 2 weeks, grow 1 week per 7 days up to 26 weeks (6 months)
   const weeksToShow=Math.min(26,Math.max(2,2+Math.floor(daysSinceStart/7)));
-  // update label
+  
   const lbl=document.getElementById('heatmap-label');
   if(lbl){
     if(weeksToShow<=4)lbl.textContent=`Atividade — últimas ${weeksToShow} semanas`;
@@ -1473,14 +1500,12 @@ function renderHeatmap(){
   const end=new Date();
   const start=new Date(end);
   start.setDate(start.getDate()-(weeksToShow*7-1));
-  // align to Sunday
   while(start.getDay()!==0)start.setDate(start.getDate()-1);
 
   const days=[];
   const cur=new Date(start);
   while(cur<=end){days.push(cur.toISOString().split('T')[0]);cur.setDate(cur.getDate()+1);}
 
-  // group into weeks
   const weeks=[];let week=[];
   days.forEach(d=>{
     week.push(d);
@@ -1491,7 +1516,6 @@ function renderHeatmap(){
   const maxVal=Math.max(1,...Object.values(state.activityMap));
   const monthNames=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-  // month labels — only show first week of each month
   let lastMonth=-1;
   monthsEl.innerHTML=weeks.map(w=>{
     const m=new Date(w[0]).getMonth();
@@ -1507,13 +1531,11 @@ function renderHeatmap(){
     return`<div class="hm-cell ${cls}" title="${d}: ${v} tema${v!==1?'s':''} estudado${v!==1?'s':''}" style="${isTd}"></div>`;
   }).join('')}</div>`).join('');
 
-  // --- LÓGICA DO STREAK (FOGUINHO) ---
   let streak=0;
   let d=new Date();
   const ts=today();
   
   if(state.activityMap[ts]>0){
-    // Estudou hoje, começa a contar e volta 1 dia
     streak++;
     d.setDate(d.getDate()-1);
     while(true){
@@ -1522,7 +1544,6 @@ function renderHeatmap(){
       else break;
     }
   }else{
-    // Não estudou hoje, checa ontem para manter o streak vivo hoje
     d.setDate(d.getDate()-1);
     const ys=d.toISOString().split('T')[0];
     if(state.activityMap[ys]>0){
@@ -1655,17 +1676,17 @@ function toggleCG(gk){const b=document.getElementById('cgbody-'+gk),a=document.g
 function toggleSubj(k){const s=document.getElementById('sub-'+k),a=document.getElementById('arr-'+k);if(!s)return;if(s.style.display==='none'){s.style.display='';a.classList.add('open');}else{s.style.display='none';a.classList.remove('open');}}
 
 // ═══════════════════════════════════════════════════
-// POMODORO — presets & cycle tracking
+// POMODORO
 // ═══════════════════════════════════════════════════
 const PRESETS={
   classic:{focusMin:25,breakMin:5,longBreakMin:15,cyclesBeforeLong:4},
-  deep:   {focusMin:45,breakMin:15,longBreakMin:30,cyclesBeforeLong:0}, // 0 = no long break
+  deep:   {focusMin:45,breakMin:15,longBreakMin:30,cyclesBeforeLong:0},
   short:  {focusMin:15,breakMin:3, longBreakMin:10,cyclesBeforeLong:0},
   custom: {focusMin:30,breakMin:10,longBreakMin:20,cyclesBeforeLong:4},
 };
 const pomoCfg={preset:'classic',mode:'focus',sound:true};
 let pomoTimer={running:false,remaining:25*60,total:25*60,interval:null,sessionStart:null};
-let pomoCycleCount=0; // completed focus cycles in current session
+let pomoCycleCount=0;
 
 const CIRC=2*Math.PI*110;
 
@@ -1689,7 +1710,6 @@ function applyPreset(name,el){
   if(el)el.classList.add('active');
   const cr=document.getElementById('pomo-custom-row');
   if(cr)cr.style.display=name==='custom'?'flex':'none';
-  // reset to focus mode
   pomoCycleCount=0;
   setPomoMode('focus',document.querySelector('.pomo-mode-tab[data-mode="focus"]'));
   renderCycleDots();
@@ -1747,7 +1767,6 @@ function resetPomoTimer(){
   clearInterval(pomoTimer.interval);pomoTimer.running=false;pomoTimer.sessionStart=null;
   pomoCycleCount=0;
   const p=getCurrentPreset();
-  // go back to focus
   const focusTab=document.querySelector('.pomo-mode-tab[data-mode="focus"]');
   if(focusTab)focusTab.click();
   else setPomoMode('focus',null);
@@ -1773,19 +1792,16 @@ function onPomoComplete(){
   const p=getCurrentPreset();
 
   if(pomoCfg.mode==='focus'){
-    // log session
     state.pomSessions.unshift({id:Date.now(),type:'focus',subject:sub,startedAt:new Date().toISOString(),durationMin:p.focusMin});
     if(state.pomSessions.length>200)state.pomSessions=state.pomSessions.slice(0,200);
     const d=today();state.activityMap[d]=(state.activityMap[d]||0)+1;
     save();celebrate();
     renderPomoSessions();renderPomoStats();renderHeatmap();
-    // increment cycle count
     pomoCycleCount++;
     const useLong=p.cyclesBeforeLong>0&&pomoCycleCount>=p.cyclesBeforeLong;
     if(useLong)pomoCycleCount=0;
     const nextMode=useLong?'long':'short';
     toast(`Foco concluído! ${useLong?'Hora da pausa longa.':'Hora da pausa curta.'}`);
-    // auto-switch mode
     const tab=document.querySelector(`.pomo-mode-tab[data-mode="${nextMode}"]`);
     setPomoMode(nextMode,tab);
   } else {
@@ -1852,7 +1868,6 @@ function renderPomoStats(){
   document.getElementById('pomo-streak-days').textContent=streak;
 }
 
-// init ring on load
 document.addEventListener('DOMContentLoaded',()=>{
   const fill=document.getElementById('timer-ring-fill');
   if(fill){fill.style.strokeDasharray=CIRC.toFixed(2);fill.style.strokeDashoffset='0';}
@@ -1860,7 +1875,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ═══════════════════════════════════════════════════
-// ROTINA — weekly schedule grid
+// ROTINA — SEMANAL FULL GRID
 // ═══════════════════════════════════════════════════
 const RCATS=[
   {id:'estudo',   name:'Estudo',   color:'#a78bfa',bg:'rgba(167,139,250,.22)'},
@@ -1873,14 +1888,10 @@ const RCATS=[
   {id:'trabalho', name:'Trabalho', color:'#fb923c',bg:'rgba(251,146,60,.22)'},
   {id:'outro',    name:'Outro',    color:'#94a3b8',bg:'rgba(148,163,184,.22)'},
 ];
-const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-const FULL_DAYS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-// 38 slots: 05:00 → 00:00 (47 slots of 30min from 05:00 to 00:30, display up to 00:00)
 const START_H=5; // 05:00
-const SLOTS=38;  // 05:00–00:00 = 19h = 38 × 30min
+const SLOTS=38;  // 05:00–00:00 = 19h = 38 slots
 
 let rotinaState={
-  selectedDay: new Date().getDay(),
   filterCat: 'all',
   editingBlockId: null,
   selectedCat: RCATS[0].id,
@@ -1901,11 +1912,7 @@ function timeToSlot(timeStr){
   const startMin=START_H*60;
   return Math.round((totalMin-startMin)/30);
 }
-function slotMinutes(slotIdx){
-  return(START_H*60)+slotIdx*30;
-}
 
-// state.rotinaBlocks = [{id, day(0-6 or 'daily'/'weekdays'/'weekend'), catId, name, startSlot, endSlot, repeat}]
 function getRotinaBlocks(){return state.rotinaBlocks||[];}
 
 function blocksForDay(dayIdx){
@@ -1919,36 +1926,10 @@ function blocksForDay(dayIdx){
 }
 
 function renderRotinaPage(){
-  renderRotinaDays();
   renderRotinaLegend();
   renderRotinaBalance();
   renderRotinaGrid();
   startNowLine();
-}
-
-function renderRotinaDays(){
-  const el=document.getElementById('rotina-days');if(!el)return;
-  const today_d=new Date().getDay();
-  // Show current week Mon–Sun centred, with Sun at start
-  el.innerHTML=DAYS.map((d,i)=>{
-    const isToday=i===today_d;
-    const isActive=i===rotinaState.selectedDay;
-    // Get date for this day in current week
-    const now=new Date();
-    const diff=i-now.getDay();
-    const dt=new Date(now);dt.setDate(now.getDate()+diff);
-    const dateNum=dt.getDate();
-    return`<div class="rotina-day-btn${isActive?' active':''}${isToday?' today':''}" onclick="selectRotinaDay(${i})">
-      <div class="rday-name">${d}</div>
-      <div class="rday-num">${dateNum}</div>
-    </div>`;
-  }).join('');
-}
-
-function selectRotinaDay(dayIdx){
-  rotinaState.selectedDay=dayIdx;
-  renderRotinaDays();
-  renderRotinaGrid();
 }
 
 function renderRotinaLegend(){
@@ -1970,7 +1951,6 @@ function renderRotinaBalance(){
   const bar=document.getElementById('rbal-bar');
   const lbls=document.getElementById('rbal-labels');
   if(!bar||!lbls)return;
-  // Count hours per category across all 7 days
   const catHours={};
   RCATS.forEach(c=>{catHours[c.id]=0;});
   for(let d=0;d<7;d++){
@@ -1988,11 +1968,9 @@ function renderRotinaBalance(){
 
 function renderRotinaGrid(){
   const grid=document.getElementById('rotina-grid');if(!grid)return;
-  const dayBlocks=blocksForDay(rotinaState.selectedDay).filter(b=>rotinaState.filterCat==='all'||b.catId===rotinaState.filterCat);
+  grid.innerHTML = ''; 
 
   let timeHtml='<div class="rtime-col">';
-  let slotsHtml='<div class="rslots-col" id="rslots-col">';
-
   for(let i=0;i<SLOTS;i++){
     const totalMin=START_H*60+i*30;
     const h=Math.floor(totalMin/60)%24;
@@ -2002,42 +1980,66 @@ function renderRotinaGrid(){
     timeHtml+=`<div class="rtime-cell${isFullHour?' full-hour':'half-hour'}" data-slot="${i}">
       <span class="rtime-lbl">${timeStr}</span>
     </div>`;
-    slotsHtml+=`<div class="rslot${isFullHour?' full-hour':''}" data-slot="${i}" onclick="openRotinaModal(${i})">
-      <span class="rslot-add-hint">+ bloco</span>
-    </div>`;
   }
   timeHtml+='</div>';
-  slotsHtml+='</div>';
-  grid.innerHTML=timeHtml+slotsHtml;
 
-  // Render blocks as absolutely positioned overlays
-  const slotsCol=document.getElementById('rslots-col');
-  if(!slotsCol)return;
-  const slotH=32; // px per 30min slot
-  dayBlocks.forEach(b=>{
+  const weekOrder = [1,2,3,4,5,6,0]; // Seg a Dom
+  let colsHtml = '';
+  
+  weekOrder.forEach(dayIdx => {
+    let slotBg = `<div class="rslots-col" id="rcol-${dayIdx}">`;
+    for(let i=0;i<SLOTS;i++) {
+      const isFull = i%2 === 0;
+      slotBg += `<div class="rslot${isFull?' full-hour':''}" data-slot="${i}" onclick="openRotinaModal(${i}, ${dayIdx})">
+        <span class="rslot-add-hint">+ bloco</span>
+      </div>`;
+    }
+    slotBg += `</div>`;
+    colsHtml += slotBg;
+  });
+
+  grid.innerHTML = timeHtml + colsHtml;
+
+  const blocks = getRotinaBlocks().filter(b=>rotinaState.filterCat==='all'||b.catId===rotinaState.filterCat);
+  const slotH = 32; 
+
+  blocks.forEach(b=>{
     const cat=RCATS.find(c=>c.id===b.catId)||RCATS[0];
     const top=b.startSlot*slotH;
     const height=Math.max(1,b.endSlot-b.startSlot)*slotH-2;
     const tStart=slotToTime(b.startSlot);
     const tEnd=slotToTime(b.endSlot);
-    const div=document.createElement('div');
-    div.className='r-block';
-    div.style.cssText=`top:${top+1}px;height:${height}px;background:${cat.bg};border-left:3px solid ${cat.color};color:${cat.color}`;
-    div.innerHTML=`<div class="r-block-name">${b.name||cat.name}</div>${height>40?`<div class="r-block-time">${tStart}–${tEnd}</div>`:''}<button class="r-block-del" onclick="event.stopPropagation();deleteRotinaBlock('${b.id}')">×</button>`;
-    div.onclick=()=>editRotinaBlock(b.id);
-    slotsCol.appendChild(div);
+    
+    const divHTML = `<div class="r-block" style="top:${top+1}px;height:${height}px;background:${cat.bg};border-left:3px solid ${cat.color};color:${cat.color}" onclick="editRotinaBlock('${b.id}')">
+      <div class="r-block-name">${b.name||cat.name}</div>
+      ${height>40?`<div class="r-block-time">${tStart}–${tEnd}</div>`:''}
+      <button class="r-block-del" onclick="event.stopPropagation();deleteRotinaBlock('${b.id}')">×</button>
+    </div>`;
+    
+    let targetDays = [];
+    if(b.repeat === 'daily') targetDays = [0,1,2,3,4,5,6];
+    else if(b.repeat === 'weekdays') targetDays = [1,2,3,4,5];
+    else if(b.repeat === 'weekend') targetDays = [0,6];
+    else targetDays = [Number(b.day)];
+
+    targetDays.forEach(d => {
+        const col = document.getElementById(`rcol-${d}`);
+        if(col) col.insertAdjacentHTML('beforeend', divHTML);
+    });
   });
 
-  // Current time line
   renderNowLine();
 }
 
 function renderNowLine(){
-  const slotsCol=document.getElementById('rslots-col');if(!slotsCol)return;
-  const old=document.getElementById('r-now-line');if(old)old.remove();
+  const old=document.querySelectorAll('.r-now-line');
+  old.forEach(o => o.remove());
+
   const now=new Date();
   const todayIdx=now.getDay();
-  if(todayIdx!==rotinaState.selectedDay)return;
+  const targetCol = document.getElementById(`rcol-${todayIdx}`);
+  if(!targetCol) return;
+
   const totalMin=now.getHours()*60+now.getMinutes();
   const startMin=START_H*60;
   const endMin=startMin+SLOTS*30;
@@ -2045,9 +2047,9 @@ function renderNowLine(){
   const offsetMin=totalMin-startMin;
   const px=(offsetMin/30)*32;
   const line=document.createElement('div');
-  line.className='r-now-line';line.id='r-now-line';
+  line.className='r-now-line';
   line.style.top=px+'px';
-  slotsCol.appendChild(line);
+  targetCol.appendChild(line);
 }
 
 function startNowLine(){
@@ -2055,16 +2057,18 @@ function startNowLine(){
   nowLineInterval=setInterval(renderNowLine,60000);
 }
 
-function openRotinaModal(slotIdx){
-  rotinaState.pendingSlot={day:rotinaState.selectedDay,slotIndex:slotIdx};
+function openRotinaModal(slotIdx, dayIdx){
+  rotinaState.pendingSlot={day:dayIdx, slotIndex:slotIdx};
   rotinaState.editingBlockId=null;
   document.getElementById('modal-rotina-title').textContent='Novo bloco';
   document.getElementById('rblock-name').value='';
   document.getElementById('rblock-start').value=slotToTime(slotIdx);
-  // default 1h end
   document.getElementById('rblock-end').value=slotToTime(Math.min(slotIdx+2,SLOTS));
+  
   rotinaState.selectedCat=RCATS[0].id;
   rotinaState.selectedRepeat='once';
+  document.getElementById('rblock-day').value = dayIdx;
+
   renderRcatGrid();
   renderRepeatOpts();
   document.getElementById('modal-rotina').classList.add('open');
@@ -2081,6 +2085,8 @@ function editRotinaBlock(id){
   document.getElementById('rblock-end').value=slotToTime(b.endSlot);
   rotinaState.selectedCat=b.catId;
   rotinaState.selectedRepeat=b.repeat||'once';
+  document.getElementById('rblock-day').value = b.day;
+
   renderRcatGrid();renderRepeatOpts();
   document.getElementById('modal-rotina').classList.add('open');
   document.body.style.overflow='hidden';
@@ -2094,12 +2100,18 @@ function renderRcatGrid(){
   </div>`).join('');
 }
 function selectRcat(catId){rotinaState.selectedCat=catId;renderRcatGrid();}
+
 function renderRepeatOpts(){
   document.querySelectorAll('#repeat-opts .repeat-opt').forEach(el=>{
     el.classList.toggle('selected',el.dataset.r===rotinaState.selectedRepeat);
   });
+  document.getElementById('mf-dia-semana').style.display = rotinaState.selectedRepeat === 'once' ? 'block' : 'none';
 }
-function selectRepeat(el){rotinaState.selectedRepeat=el.dataset.r;renderRepeatOpts();}
+
+function selectRepeat(el){
+    rotinaState.selectedRepeat=el.dataset.r;
+    renderRepeatOpts();
+}
 
 function saveRotinaBlock(){
   const name=document.getElementById('rblock-name').value.trim();
@@ -2108,18 +2120,22 @@ function saveRotinaBlock(){
   if(!startStr||!endStr){toast('Defina horário de início e fim');return;}
   let startSlot=timeToSlot(startStr);
   let endSlot=timeToSlot(endStr);
-  // handle midnight crossover (00:xx)
+  
   const [sh,sm]=startStr.split(':').map(Number);
   const [eh,em]=endStr.split(':').map(Number);
   if(eh<sh||(eh===sh&&em<=sm)){toast('Horário de fim deve ser após início');return;}
+  
   startSlot=Math.max(0,Math.min(startSlot,SLOTS-1));
   endSlot=Math.max(startSlot+1,Math.min(endSlot,SLOTS));
+  
+  const dayValue = Number(document.getElementById('rblock-day').value);
+
   if(!state.rotinaBlocks)state.rotinaBlocks=[];
   if(rotinaState.editingBlockId){
     const idx=state.rotinaBlocks.findIndex(b=>b.id===rotinaState.editingBlockId);
-    if(idx>=0)state.rotinaBlocks[idx]={...state.rotinaBlocks[idx],name,catId:rotinaState.selectedCat,startSlot,endSlot,repeat:rotinaState.selectedRepeat};
+    if(idx>=0)state.rotinaBlocks[idx]={...state.rotinaBlocks[idx],name,catId:rotinaState.selectedCat,startSlot,endSlot,repeat:rotinaState.selectedRepeat, day:dayValue};
   }else{
-    const day=rotinaState.pendingSlot?.day??rotinaState.selectedDay;
+    const day=rotinaState.selectedRepeat === 'once' ? dayValue : (rotinaState.pendingSlot?.day ?? 1);
     state.rotinaBlocks.push({id:'rb'+Date.now(),day,catId:rotinaState.selectedCat,name,startSlot,endSlot,repeat:rotinaState.selectedRepeat});
   }
   save();closeModals();
@@ -2131,6 +2147,28 @@ function deleteRotinaBlock(id){
   if(!state.rotinaBlocks)return;
   state.rotinaBlocks=state.rotinaBlocks.filter(b=>b.id!==id);
   save();renderRotinaGrid();renderRotinaBalance();toast('Bloco removido');
+}
+
+function gerarRotinaBase() {
+    if(state.rotinaBlocks && state.rotinaBlocks.length > 0) {
+        if(!confirm("Isso vai adicionar os blocos padrão por cima da sua rotina atual. Deseja continuar?")) return;
+    }
+    const blocksDefaults = [
+        { catId: 'sono', name: 'Sono', startSlot: 37, endSlot: 38, repeat: 'daily' }, 
+        { catId: 'sono', name: 'Sono', startSlot: 0, endSlot: 2, repeat: 'daily' }, 
+        { catId: 'refeicao', name: 'Café da Manhã', startSlot: 2, endSlot: 3, repeat: 'daily' }, 
+        { catId: 'refeicao', name: 'Almoço', startSlot: 14, endSlot: 16, repeat: 'daily' }, 
+        { catId: 'descanso', name: 'Pausa', startSlot: 16, endSlot: 17, repeat: 'daily' }, 
+        { catId: 'refeicao', name: 'Jantar', startSlot: 30, endSlot: 32, repeat: 'daily' } 
+    ];
+    
+    state.rotinaBlocks = state.rotinaBlocks || [];
+    blocksDefaults.forEach(d => {
+        state.rotinaBlocks.push({ id: 'rb'+Math.random().toString(36).substr(2,9), day: 1, ...d });
+    });
+    save();
+    renderRotinaPage();
+    toast("Rotina base gerada!");
 }
 
 // ═══════════════════════════════════════════════════
@@ -2171,8 +2209,68 @@ function updateSchedStatus(){
 }
 
 // ═══════════════════════════════════════════════════
-// PROVAS
+// PROVAS E CALENDÁRIO
 // ═══════════════════════════════════════════════════
+function addCalendario(){
+    const nome = document.getElementById('cal-nome').value.trim();
+    const data = document.getElementById('cal-data').value;
+    const meta = document.getElementById('cal-meta').value.trim();
+
+    if(!nome || !data) { toast('Preencha o nome e a data.'); return; }
+
+    state.calendario = state.calendario || [];
+    state.calendario.push({ id: Date.now(), nome, data, meta });
+    save();
+    closeModals();
+    renderCalendario();
+    toast('Data salva no calendário!');
+}
+
+function deleteCalendario(id){
+    state.calendario = state.calendario.filter(c => c.id !== id);
+    save();
+    renderCalendario();
+    toast('Data removida');
+}
+
+function renderCalendario() {
+    const list = document.getElementById('calendario-list');
+    if(!state.calendario || !state.calendario.length) {
+        list.innerHTML = `<div class="empty-state" style="padding: 20px;"><div class="empty-sub">// Nenhuma data agendada.<br>Adicione o dia do seu próximo simulado ou prova.</div></div>`;
+        return;
+    }
+    
+    const todayD = new Date();
+    todayD.setHours(0,0,0,0);
+    
+    const sorted = [...state.calendario].sort((a,b) => new Date(a.data) - new Date(b.data));
+    
+    list.innerHTML = sorted.map(c => {
+        const d = new Date(c.data + 'T12:00:00'); // Evita timezone offset errando o dia
+        const diffTime = d - todayD;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        let badge = '';
+        if(diffDays < 0) badge = `<span class="rbadge rbadge-1s" style="opacity:0.6">Concluída</span>`;
+        else if(diffDays === 0) badge = `<span class="rbadge rbadge-24" style="background:var(--yellow); color:black;">É HOJE!</span>`;
+        else badge = `<span class="rbadge" style="background:var(--bg3);color:var(--text);border:1px solid var(--border3)">Faltam ${diffDays} dias</span>`;
+
+        return `<div class="tc" style="margin-bottom: 8px; border-radius: var(--r);">
+            <div class="tc-top" style="min-height: auto; padding: 14px 16px; display:flex; justify-content: space-between; align-items:center;">
+                <div>
+                    <div class="tc-name" style="font-size:14px; margin-bottom:4px;">${c.nome}</div>
+                    <div class="tc-meta mono">${d.toLocaleDateString('pt-BR')} ${c.meta ? `<span style="color:var(--muted2)">· Meta: ${c.meta}</span>` : ''}</div>
+                </div>
+                <div style="display:flex; align-items:center; gap: 12px;">
+                    ${badge}
+                    <button class="del-btn" style="opacity: 1; color: var(--muted); font-size:18px;" onclick="deleteCalendario(${c.id})">×</button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+
 function addProva(){
   const nome=document.getElementById('prova-nome').value.trim();
   const ano=document.getElementById('prova-ano').value;
@@ -2182,7 +2280,7 @@ function addProva(){
   if(ac>total){toast('Acertos > total');return;}
   state.provas.push({id:Date.now(),nome,ano:ano||new Date().getFullYear(),total,acertos:ac});
   save();closeModals();['prova-nome','prova-ano','prova-total','prova-acertos'].forEach(id=>document.getElementById(id).value='');
-  renderProvas();toast('Prova registrada');
+  renderProvas();toast('Resultado registrado');
 }
 function deleteProva(id){state.provas=state.provas.filter(p=>p.id!==id);save();renderProvas();toast('Prova removida');}
 let cEv=null,cPr=null;
@@ -2195,7 +2293,7 @@ function renderProvas(){
   document.getElementById('pstat-best').textContent=best!==null?best+'%':'—';
   document.getElementById('pstat-q').textContent=tq;
   const c=document.getElementById('provas-container');
-  if(!state.provas.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Nenhuma prova</div><div class="empty-sub">// adicione simulados para acompanhar sua evolução</div></div>`;document.getElementById('charts-area').style.display='none';return;}
+  if(!state.provas.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Sem resultados</div><div class="empty-sub">// adicione notas de simulados para acompanhar sua evolução</div></div>`;document.getElementById('charts-area').style.display='none';return;}
   document.getElementById('charts-area').style.display='grid';
   const R=19,circ2=2*Math.PI*R;
   c.innerHTML=state.provas.map(p=>{
