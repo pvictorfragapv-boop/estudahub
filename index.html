@@ -109,6 +109,54 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
   .login-right{width:100%;border-left:none;border-top:1px solid var(--border);padding:32px 20px;flex:1}
 }
 
+  /* ── WEEKLY CALENDAR VIEW ── */
+.week-cal-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 36px 40px;border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden}
+.week-cal{display:grid;min-width:600px;background:var(--border2);gap:1px}
+.week-cal-header{display:grid;grid-template-columns:48px repeat(7,1fr);gap:1px;background:var(--border2);position:sticky;top:54px;z-index:10}
+.wch-corner{background:var(--bg3)}
+.wch-day{background:var(--bg3);padding:8px 6px;text-align:center}
+.wch-day-name{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2)}
+.wch-day-num{font-size:18px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:var(--text);line-height:1.2}
+.wch-day.is-today .wch-day-name{color:var(--a)}
+.wch-day.is-today .wch-day-num{color:var(--a)}
+.week-cal-body{display:grid;grid-template-columns:48px repeat(7,1fr);gap:1px;background:var(--border2)}
+.wc-time-col{background:var(--bg2)}
+.wc-time-cell{height:52px;display:flex;align-items:flex-start;justify-content:flex-end;padding:3px 6px 0 0;border-bottom:1px solid var(--border);font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted);letter-spacing:.04em}
+.wc-day-col{background:var(--bg);position:relative;min-height:52px}
+.wc-slot{height:52px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.wc-slot:hover{background:var(--ad)}
+.wc-slot:hover::after{content:'+ tema';font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--a);position:absolute;left:6px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.6}
+.wc-block{position:absolute;left:3px;right:3px;border-radius:5px;padding:4px 7px;cursor:pointer;z-index:2;transition:filter .15s,transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.25);overflow:hidden}
+.wc-block:hover{filter:brightness(1.15);transform:scale(1.02)}
+.wc-block-mat{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wc-block-tema{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.wc-block-pct{font-size:9px;font-family:'IBM Plex Mono',monospace;opacity:.75;margin-top:2px}
+.wc-now-line{position:absolute;left:0;right:0;height:2px;background:var(--red);z-index:5;pointer-events:none}
+.wc-now-line::before{content:'';position:absolute;left:-1px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--red)}
+/* day view single col */
+.week-cal-body.day-view{grid-template-columns:48px 1fr}
+/* month view */
+.month-cal-wrap{margin:0 36px 40px;border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden}
+.month-cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border2)}
+.mch-cell{background:var(--bg3);padding:8px 10px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);text-align:center}
+.month-cal-body{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border2)}
+.mc-day{background:var(--bg2);min-height:80px;padding:6px;position:relative;cursor:pointer;transition:background .12s}
+.mc-day:hover{background:var(--bg3)}
+.mc-day.other-month{background:var(--bg);opacity:.45}
+.mc-day.is-today{background:var(--ad)}
+.mc-day-num{font-size:11px;font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--muted2);margin-bottom:4px}
+.mc-day.is-today .mc-day-num{color:var(--a)}
+.mc-tema-dot{font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
+.mc-more{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);margin-top:2px}
+/* responsive */
+@media(max-width:768px){
+  .week-cal-wrap{margin:0 0 calc(80px + var(--sb));border-radius:0;border-left:none;border-right:none}
+  .month-cal-wrap{margin:0 0 calc(80px + var(--sb));border-radius:0;border-left:none;border-right:none}
+  .wch-day-num{font-size:14px}
+  .wch-day{padding:6px 4px}
+  .wc-time-cell{font-size:8px;padding:2px 4px 0 0}
+}
+  
 /* ONBOARDING */
 #onboard-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
 .onboard-box{width:100%;max-width:500px;background:var(--bg2);border:1px solid var(--border2);padding:44px;border-radius:var(--r2);position:relative;overflow:hidden}
@@ -796,15 +844,30 @@ canvas{width:100%!important}
     </div>
 
     <div style="margin-top:20px" id="tour-table">
-      <div class="table-toolbar" style="padding:0 36px 14px" id="table-toolbar-main">
-        <div class="ttl-wrap">
-          <div class="table-title" id="table-section-title">Temas da semana</div>
-          <div class="count-pill" id="count-pill">0</div>
-        </div>
-        <button class="btn-add" id="tour-btn-add" onclick="openAddTemaModal()">+ Adicionar tema</button>
-      </div>
-      <div id="subjects-table-wrap"><div id="subjects-container"></div></div>
-      <div class="card-list" id="card-list"></div>
+  <div class="table-toolbar" style="padding:0 36px 14px" id="table-toolbar-main">
+    <div class="ttl-wrap">
+      <div class="table-title" id="table-section-title">Semana atual</div>
+      <div class="count-pill" id="count-pill">0</div>
+    </div>
+    <button class="btn-add" id="tour-btn-add" onclick="openAddTemaModal()">+ Adicionar tema</button>
+  </div>
+  <!-- CALENDAR renders here -->
+  <div id="cal-view-wrap"></div>
+  <!-- classic table (hidden on week/month, used internally) -->
+  <div id="subjects-table-wrap" style="display:none"><div id="subjects-container"></div></div>
+  <div class="card-list" id="card-list" style="display:none"></div>
+  <div id="outros-section" style="display:none">
+    <div class="outros-header" onclick="toggleOutros()">
+      <div class="outros-arrow" id="outros-arrow">▶</div>
+      <div class="outros-label" id="outros-label">Outros temas</div>
+      <div class="outros-count" id="outros-count">0</div>
+    </div>
+    <div id="outros-body" style="display:none">
+      <div id="outros-table-wrap"></div>
+      <div id="outros-card-list" class="card-list" style="display:none"></div>
+    </div>
+  </div>
+</div>
 
       <!-- "Outros temas" section (temas outside current period) -->
       <div id="outros-section" style="display:none">
@@ -1190,6 +1253,7 @@ function switchViewMode(mode,el){
   outrosOpen=false;
   document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
   if(el)el.classList.add('active');
+  renderCalView();       // ← ADD THIS
   renderTable();
   renderPeriodSummary();
   updateViewLabels();
@@ -1197,7 +1261,7 @@ function switchViewMode(mode,el){
 
 function updateViewLabels(){
   document.getElementById('view-period-label').textContent=getPeriodLabel();
-  const titles={day:'Temas estudados hoje',week:'Temas da semana',month:'Temas do mês'};
+  const titles={day:'Hoje',week:'Semana atual',month:MONTH_NAMES[new Date().getMonth()]};
   document.getElementById('table-section-title').textContent=titles[viewMode];
   const lbl={day:'dia',week:'semana',month:'mês'};
   document.getElementById('ps-studied-lbl').textContent=`Estudados (${lbl[viewMode]})`;
@@ -1405,7 +1469,7 @@ function celebrate(){
 }
 
 // ── RENDER ALL ──
-function renderAll(){renderStats();renderHeatmap();renderTodayRevisions();renderPeriodSummary();renderTable();}
+function renderAll(){renderStats();renderHeatmap();renderTodayRevisions();renderPeriodSummary();renderCalView();renderTable();}
 
 function renderStats(){
   const total=state.temas.length,studied=state.temas.filter(t=>t.estudado).length;
@@ -1770,6 +1834,209 @@ function renderCharts(){
   if(cPr)cPr.destroy();cPr=new Chart(document.getElementById('chart-provas').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:pcts,backgroundColor:cols,borderWidth:0,borderRadius:4}]},options:base});
 }
 
+  // ── CALENDAR COLORS (per matéria, cycling) ──
+const CAL_COLORS=[
+  {bg:'rgba(167,139,250,.25)',border:'#a78bfa',text:'#a78bfa'},
+  {bg:'rgba(96,165,250,.25)',border:'#60a5fa',text:'#60a5fa'},
+  {bg:'rgba(52,211,153,.25)',border:'#34d399',text:'#34d399'},
+  {bg:'rgba(251,191,36,.25)',border:'#fbbf24',text:'#fbbf24'},
+  {bg:'rgba(248,113,113,.25)',border:'#f87171',text:'#f87171'},
+  {bg:'rgba(192,132,252,.25)',border:'#c084fc',text:'#c084fc'},
+  {bg:'rgba(251,146,60,.25)',border:'#fb923c',text:'#fb923c'},
+  {bg:'rgba(45,212,191,.25)',border:'#2dd4bf',text:'#2dd4bf'},
+];
+const _matColorMap={};
+function getMatColor(mat){
+  if(!_matColorMap[mat]){
+    const keys=Object.keys(_matColorMap);
+    _matColorMap[mat]=CAL_COLORS[keys.length%CAL_COLORS.length];
+  }
+  return _matColorMap[mat];
+}
+
+// ── WEEK HELPERS ──
+function getWeekDays(refDate){
+  // Monday-based week containing refDate
+  const d=new Date(refDate);
+  const dow=d.getDay(); // 0=Sun
+  const monday=new Date(d);
+  monday.setDate(d.getDate()-(dow===0?6:dow-1));
+  return Array.from({length:7},(_,i)=>{
+    const dd=new Date(monday);
+    dd.setDate(monday.getDate()+i);
+    return dd;
+  });
+}
+function dateKey(d){return d.toISOString().split('T')[0];}
+const DAY_NAMES_SHORT=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+const MONTH_NAMES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+// ── RENDER CALENDAR (week / day / month) ──
+const CAL_HOURS=Array.from({length:19},(_,i)=>i+5); // 5h–23h
+
+function renderCalView(){
+  const wrap=document.getElementById('cal-view-wrap');
+  if(!wrap)return;
+  if(viewMode==='week')renderWeekCal(wrap);
+  else if(viewMode==='day')renderDayCal(wrap);
+  else renderMonthCal(wrap);
+}
+
+function renderWeekCal(wrap){
+  const today_str=today();
+  const days=getWeekDays(new Date());
+
+  // Header
+  let hdr=`<div class="week-cal-wrap"><div class="week-cal">
+  <div class="week-cal-header">
+    <div class="wch-corner" style="background:var(--bg3)"></div>
+    ${days.map(d=>{
+      const dk=dateKey(d);
+      const isToday=dk===today_str;
+      const dayIdx=(d.getDay()+6)%7; // 0=Mon
+      return`<div class="wch-day${isToday?' is-today':''}">
+        <div class="wch-day-name">${DAY_NAMES_SHORT[dayIdx]}</div>
+        <div class="wch-day-num">${d.getDate()}</div>
+      </div>`;
+    }).join('')}
+  </div>
+  <div class="week-cal-body">`;
+
+  // Time col
+  hdr+=`<div class="wc-time-col">${CAL_HOURS.map(h=>`<div class="wc-time-cell">${String(h).padStart(2,'0')}:00</div>`).join('')}</div>`;
+
+  // Day columns
+  days.forEach(d=>{
+    const dk=dateKey(d);
+    const dayTemas=state.temas.filter(t=>t.dataEstudo===dk);
+    const isToday=dk===today_str;
+
+    hdr+=`<div class="wc-day-col" data-date="${dk}">`;
+    // slots (clickable to add tema on that date)
+    CAL_HOURS.forEach(h=>{
+      hdr+=`<div class="wc-slot" onclick="openAddTemaModalForDate('${dk}')"></div>`;
+    });
+
+    // tema blocks — distribute them vertically within the day col
+    // Each block = 52px * slot height, stacked
+    dayTemas.forEach((t,idx)=>{
+      const col=getMatColor(t.materia);
+      const p=getPct(t);
+      const pctStr=p!==null?`${p}%`:'';
+      const checked=t.estudado?'✓ ':'';
+      // position: stack from top, each block ~52px
+      const top=idx*56+4;
+      hdr+=`<div class="wc-block" style="top:${top}px;background:${col.bg};border-left:3px solid ${col.border};color:${col.text}" onclick="event.stopPropagation();focusTema(${t.id})">
+        <div class="wc-block-mat">${checked}${t.materia}</div>
+        <div class="wc-block-tema">${t.tema}</div>
+        ${pctStr?`<div class="wc-block-pct">${pctStr}</div>`:''}
+      </div>`;
+    });
+
+    hdr+='</div>';
+  });
+
+  hdr+=`</div></div></div>`;
+  wrap.innerHTML=hdr;
+
+  // Adjust day col heights to fit blocks
+  days.forEach(d=>{
+    const dk=dateKey(d);
+    const dayTemas=state.temas.filter(t=>t.dataEstudo===dk);
+    const col=wrap.querySelector(`.wc-day-col[data-date="${dk}"]`);
+    if(col&&dayTemas.length>CAL_HOURS.length){
+      col.style.minHeight=(dayTemas.length*56+8)+'px';
+    }
+  });
+}
+
+function renderDayCal(wrap){
+  const today_str=today();
+  const d=new Date();
+  const dk=dateKey(d);
+  const dayTemas=state.temas.filter(t=>t.dataEstudo===dk);
+
+  let html=`<div class="week-cal-wrap"><div class="week-cal">
+  <div class="week-cal-header" style="grid-template-columns:48px 1fr">
+    <div class="wch-corner"></div>
+    <div class="wch-day is-today" style="text-align:left;padding-left:16px">
+      <div class="wch-day-name">${d.toLocaleDateString('pt-BR',{weekday:'long'})}</div>
+      <div class="wch-day-num">${d.getDate()} de ${MONTH_NAMES[d.getMonth()]}</div>
+    </div>
+  </div>
+  <div class="week-cal-body day-view">
+    <div class="wc-time-col">${CAL_HOURS.map(h=>`<div class="wc-time-cell">${String(h).padStart(2,'0')}:00</div>`).join('')}</div>
+    <div class="wc-day-col" data-date="${dk}" style="min-height:${Math.max(CAL_HOURS.length,dayTemas.length+1)*56}px">
+      ${CAL_HOURS.map(h=>`<div class="wc-slot" onclick="openAddTemaModalForDate('${dk}')"></div>`).join('')}
+      ${dayTemas.map((t,idx)=>{
+        const col=getMatColor(t.materia);
+        const p=getPct(t);
+        const checked=t.estudado?'✓ ':'';
+        return`<div class="wc-block" style="top:${idx*56+4}px;background:${col.bg};border-left:3px solid ${col.border};color:${col.text};right:8px" onclick="event.stopPropagation();focusTema(${t.id})">
+          <div class="wc-block-mat">${checked}${t.materia}</div>
+          <div class="wc-block-tema">${t.tema}</div>
+          ${p!==null?`<div class="wc-block-pct">${p}%</div>`:''}
+        </div>`;
+      }).join('')}
+    </div>
+  </div></div></div>`;
+  wrap.innerHTML=html;
+}
+
+function renderMonthCal(wrap){
+  const now=new Date();
+  const year=now.getFullYear(),month=now.getMonth();
+  const firstDay=new Date(year,month,1);
+  const lastDay=new Date(year,month+1,0);
+  // start from Monday before first day
+  const startDow=firstDay.getDay();
+  const startOffset=startDow===0?6:startDow-1;
+  const start=new Date(firstDay);start.setDate(firstDay.getDate()-startOffset);
+
+  const today_str=today();
+  const WEEK_DAYS=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+
+  let html=`<div class="month-cal-wrap">
+  <div class="month-cal-header">${WEEK_DAYS.map(d=>`<div class="mch-cell">${d}</div>`).join('')}</div>
+  <div class="month-cal-body">`;
+
+  const cur=new Date(start);
+  for(let w=0;w<6;w++){
+    for(let dow=0;dow<7;dow++){
+      const dk=dateKey(cur);
+      const isThisMonth=cur.getMonth()===month;
+      const isToday=dk===today_str;
+      const dayTemas=state.temas.filter(t=>t.dataEstudo===dk);
+      const MAX_SHOW=3;
+      html+=`<div class="mc-day${!isThisMonth?' other-month':''}${isToday?' is-today':''}" onclick="openAddTemaModalForDate('${dk}')">
+        <div class="mc-day-num">${cur.getDate()}</div>
+        ${dayTemas.slice(0,MAX_SHOW).map(t=>{
+          const col=getMatColor(t.materia);
+          const checked=t.estudado?'✓ ':'';
+          return`<div class="mc-tema-dot" style="background:${col.bg};color:${col.text};border-left:2px solid ${col.border}">${checked}${t.tema}</div>`;
+        }).join('')}
+        ${dayTemas.length>MAX_SHOW?`<div class="mc-more">+${dayTemas.length-MAX_SHOW} mais</div>`:''}
+      </div>`;
+      cur.setDate(cur.getDate()+1);
+    }
+  }
+  html+=`</div></div>`;
+  wrap.innerHTML=html;
+}
+
+// Open add-tema modal pre-filled with a date
+function openAddTemaModalForDate(dk){
+  openAddTemaModal();
+  setTimeout(()=>{ document.getElementById('add-date').value=dk; },50);
+}
+
+// Scroll/highlight a tema in the list (fallback — just open modal context)
+function focusTema(id){
+  // on mobile open the card, on desktop highlight the row
+  const t=state.temas.find(x=>x.id===id);
+  if(!t)return;
+  toast(`${t.tema} — ${t.materia}`);
+}
 // ── TOUR ──
 const TOUR=[
   {t:'tour-stat-total',title:'Painel de controle',desc:'Resumo em tempo real: temas, progresso, média de acertos e revisões pendentes hoje.'},
