@@ -175,6 +175,21 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 .sec-hdr .sec-label{margin-bottom:0}
 .sec-hdr::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
 
+/* ── STREAK BADGE ── */
+.streak-badge {
+  font-size: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #fb923c;
+  background: rgba(251, 146, 60, 0.15);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* ── HEATMAP ── */
 .heatmap-wrap{margin:0 36px 4px;overflow:hidden}
 .heatmap-grid{display:flex;gap:3px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}
@@ -753,7 +768,10 @@ canvas{width:100%!important}
       </div>
     </div>
 
-    <div class="sec-hdr"><div class="sec-label" id="heatmap-label">Atividade</div></div>
+    <div class="sec-hdr" style="gap:10px">
+      <div class="sec-label" id="heatmap-label" style="margin-bottom:0">Atividade</div>
+      <div class="streak-badge" id="streak-badge" style="display:none">🔥 <span id="streak-count">0</span></div>
+    </div>
     <div class="heatmap-wrap">
       <div class="hm-months" id="hm-months"></div>
       <div class="heatmap-grid" id="heatmap-grid"></div>
@@ -775,8 +793,7 @@ canvas{width:100%!important}
       </div>
     </div>
 
-    <div class="sec-hdr" style="margin-top:8px"><div class="sec-label">Temas de estudo</div></div>
-    <div class="table-container" id="tour-table">
+    <div class="table-container" id="tour-table" style="margin-top:24px">
       <div class="table-toolbar">
         <div class="ttl-wrap">
           <div class="table-title">Todos os temas</div>
@@ -1020,7 +1037,9 @@ canvas{width:100%!important}
     <div style="height:40px"></div>
   </div>
 
-</div><div class="modal-overlay" id="modal-rotina" onclick="handleOvClick(event,'modal-rotina')">
+</div>
+
+<div class="modal-overlay" id="modal-rotina" onclick="handleOvClick(event,'modal-rotina')">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-hd">
@@ -1429,7 +1448,7 @@ function renderStats(){
 }
 
 // ═══════════════════════════════════════════════════
-// HEATMAP — grows from 2 weeks to 6 months over time
+// HEATMAP E STREAK — grows from 2 weeks to 6 months over time
 // ═══════════════════════════════════════════════════
 function renderHeatmap(){
   const grid=document.getElementById('heatmap-grid');
@@ -1487,6 +1506,45 @@ function renderHeatmap(){
     const isTd=d===today()?'outline:1.5px solid var(--a);outline-offset:1px':'';
     return`<div class="hm-cell ${cls}" title="${d}: ${v} tema${v!==1?'s':''} estudado${v!==1?'s':''}" style="${isTd}"></div>`;
   }).join('')}</div>`).join('');
+
+  // --- LÓGICA DO STREAK (FOGUINHO) ---
+  let streak=0;
+  let d=new Date();
+  const ts=today();
+  
+  if(state.activityMap[ts]>0){
+    // Estudou hoje, começa a contar e volta 1 dia
+    streak++;
+    d.setDate(d.getDate()-1);
+    while(true){
+      const ds=d.toISOString().split('T')[0];
+      if(state.activityMap[ds]>0){streak++; d.setDate(d.getDate()-1);}
+      else break;
+    }
+  }else{
+    // Não estudou hoje, checa ontem para manter o streak vivo hoje
+    d.setDate(d.getDate()-1);
+    const ys=d.toISOString().split('T')[0];
+    if(state.activityMap[ys]>0){
+      streak++;
+      d.setDate(d.getDate()-1);
+      while(true){
+        const ds=d.toISOString().split('T')[0];
+        if(state.activityMap[ds]>0){streak++; d.setDate(d.getDate()-1);}
+        else break;
+      }
+    }
+  }
+
+  const sb=document.getElementById('streak-badge');
+  if(sb){
+    if(streak>0){
+      document.getElementById('streak-count').textContent=streak;
+      sb.style.display='inline-flex';
+    }else{
+      sb.style.display='none';
+    }
+  }
 }
 
 // ═══════════════════════════════════════════════════
@@ -2158,7 +2216,7 @@ function renderProvas(){
 function renderCharts(){
   const ac=getComputedStyle(document.body).getPropertyValue('--a').trim()||'#a78bfa';
   const mu='#42425a',gr='rgba(255,255,255,.04)';
-  const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#888',bodyColor:'#555',borderColor:'rgba(255,255,255,.08)',borderWidth:1,cornerRadius:var_r()}},scales:{x:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9}},grid:{color:gr},border:{color:'transparent'}},y:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9},callback:v=>v+'%'},grid:{color:gr},min:0,max:100,border:{color:'transparent'}}}};
+  const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#888',bodyColor:'#555',borderColor:'rgba(255,255,255,.08)',borderWidth:1,cornerRadius:6}},scales:{x:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9}},grid:{color:gr},border:{color:'transparent'}},y:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9},callback:v=>v+'%'},grid:{color:gr},min:0,max:100,border:{color:'transparent'}}}};
   const labels=state.provas.map(p=>p.nome.length>14?p.nome.slice(0,13)+'…':p.nome);
   const pcts=state.provas.map(p=>Math.round(p.acertos/p.total*100));
   const cols=pcts.map(p=>p>=80?'rgba(29,184,112,.7)':p>=70?'rgba(240,180,41,.7)':'rgba(240,78,78,.7)');
@@ -2167,7 +2225,6 @@ function renderCharts(){
   if(cPr)cPr.destroy();
   cPr=new Chart(document.getElementById('chart-provas').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:pcts,backgroundColor:cols,borderWidth:0,borderRadius:4}]},options:base});
 }
-function var_r(){return 6;}
 
 // ═══════════════════════════════════════════════════
 // TOUR
