@@ -1373,6 +1373,7 @@
           activityMap: state.activityMap || {},
           pomSessions: state.pomSessions || [],
           rotinaBlocks: state.rotinaBlocks || [],
+          simuladosDraft: state.simuladosDraft || [],
           createdAt: state.createdAt || Date.now(),
           updatedAt: Date.now()
         });
@@ -1397,6 +1398,7 @@
           state.activityMap = d.activityMap || {};
           state.pomSessions = d.pomSessions || [];
           state.rotinaBlocks = d.rotinaBlocks || [];
+          state.simuladosDraft = d.simuladosDraft || [];
           state.createdAt = d.createdAt || Date.now();
         }
       } catch(e) {
@@ -1444,7 +1446,8 @@
       user: null, displayName: null, photoURL: null, theme: 'theme-default',
       isNewUser: true, materias: [], temas: [], provas: [],
       tgChatId: null, tgSchedEn: false, tourDone: false,
-      activityMap: {}, pomSessions: [], rotinaBlocks: [], createdAt: Date.now()
+      activityMap: {}, pomSessions: [], rotinaBlocks: [], simuladosDraft: [],
+      createdAt: Date.now()
     };
     let sTimer = null;
     
@@ -2014,14 +2017,46 @@
 
     // --- STEP 1: Open BYOK modal ---
     function openSimuladoByok() {
+      renderSimLib();
+      document.getElementById('modal-sim-library').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function abrirNovoSimulado() {
+      closeModals();
       const savedKey = getGeminiKey();
       const inp = document.getElementById('byok-key-input');
       if (inp && savedKey) inp.value = savedKey;
-      document.getElementById('byok-file-input').value = '';
+      upClear();
       document.getElementById('byok-processing').style.display = 'none';
       document.getElementById('byok-btn-extrair').disabled = false;
       document.getElementById('modal-simulado-byok').classList.add('open');
       document.body.style.overflow = 'hidden';
+    }
+
+    // ── Dropzone helpers ──────────────────────────────────────────────────────
+    function upDrag(e, over) { e.preventDefault(); document.getElementById('upzone').classList.toggle('drag', over); }
+    function upDrop(e) {
+      e.preventDefault();
+      document.getElementById('upzone').classList.remove('drag');
+      const file = e.dataTransfer.files[0];
+      if (file) upSetFile(file);
+    }
+    function upSelect(input) { if (input.files[0]) upSetFile(input.files[0]); }
+    function upSetFile(file) {
+      const icons = { 'application/pdf': '📄', 'image/png': '🖼️', 'image/jpeg': '🖼️', 'image/webp': '🖼️' };
+      document.getElementById('upzone-prev-icon').textContent = icons[file.type] || '📄';
+      document.getElementById('upzone-prev-name').textContent = file.name;
+      document.getElementById('upzone-preview').style.display = 'flex';
+      document.getElementById('upzone-content').style.opacity = '.4';
+      // Transfer to the real file input so extrairProvaIA can read it
+      const dt = new DataTransfer(); dt.items.add(file);
+      document.getElementById('byok-file-input').files = dt.files;
+    }
+    function upClear() {
+      document.getElementById('byok-file-input').value = '';
+      document.getElementById('upzone-preview').style.display = 'none';
+      document.getElementById('upzone-content').style.opacity = '1';
     }
 
     // --- STEP 2: Extract questions from PDF/image using Gemini ---
@@ -2117,10 +2152,13 @@
 
     closeModals();
     // Show mode selector
-    document.getElementById('modal-mode-title').textContent=`"${simuladoCorrente.titulo}"`;
-    document.getElementById('modal-mode-sub').textContent=`// ${parsed.questoes.length} questão(ões) extraída(s)`;
-    document.getElementById('modal-simulado-mode').classList.add('open');
-    document.body.style.overflow='hidden';
+    // Show name modal
+    const nameInp = document.getElementById('sim-name-input');
+    if (nameInp) nameInp.value = simuladoCorrente.titulo || '';
+    document.getElementById('modal-simname-sub').textContent = `// ${parsed.questoes.length} questão(ões) extraída(s) — dê um nome ao teste`;
+    closeModals();
+    document.getElementById('modal-sim-name').classList.add('open');
+    document.body.style.overflow = 'hidden';
 
   } catch(err) {
     console.error(err);
@@ -2166,7 +2204,21 @@
     }
 
     function confirmarSairSimulado() {
-      if (confirm('Sair do simulado? O progresso será perdido.')) fecharSimulado();
+      const { questoes, qIdx, respostas, titulo, modo } = simuladoCorrente;
+      const respondidas = respostas.filter(r => r.resposta !== null).length;
+      if (respondidas === 0) { if (confirm('Sair do simulado?')) fecharSimulado(); return; }
+      const opcao = confirm(
+        `Sair do simulado?\n\nOK → Salvar progresso (${respondidas}/${questoes.length} respondidas) para continuar depois\nCancelar → Descartar e sair`
+      );
+      if (opcao) {
+        salvarRascunho();
+        fecharSimulado();
+        toast('Progresso salvo! Acesse em "Meus Simulados"');
+      } else if (!opcao) {
+        // They pressed Cancel = discard, but we need a 3rd option...
+        // Let's use a second confirm for discard
+        if (confirm('Descartar o progresso e sair?')) fecharSimulado();
+      }
     }
     
     function fecharSimulado() {
@@ -2254,14 +2306,30 @@
             <div class="sim-feedback-text">Gabarito: <strong>${q.gabarito_correto}</strong><br>${q.explicacao || ''}</div>
           </div>`;
         } else {
-          feedbackHtml = `<div class="sim-feedback neutral show">
-            <div class="sim-feedback-label">🤖 AVALIAÇÃO DA IA</div>
-            <div class="sim-feedback-nota">${resp.nota !== null ? resp.nota + '/100' : '…'}</div>
-            <div class="sim-feedback-text">${resp.feedback || 'Aguardando avaliação…'}</div>
-          </div>
-          <div class="sim-ai-loading ${resp.nota === null ? 'show' : ''}" id="sim-ai-loading">
+          const notaVal = resp.nota;
+          const notaCls = notaVal === null ? '' : notaVal >= 80 ? 'disc-nota-green' : notaVal >= 60 ? 'disc-nota-yellow' : 'disc-nota-red';
+          feedbackHtml = `
+          <div class="sim-ai-loading ${notaVal === null ? 'show' : ''}" id="sim-ai-loading">
             <div class="sim-ai-spinner"></div> Avaliando com IA…
-          </div>`;
+          </div>
+          ${notaVal !== null ? `
+          <div class="disc-fb-card">
+            <div class="disc-fb-nota-row">
+              <span class="disc-fb-nota-lbl">NOTA</span>
+              <span class="disc-fb-nota ${notaCls}">${notaVal}<span class="disc-fb-nota-max">/100</span></span>
+            </div>
+            <div class="disc-fb-section">
+              <div class="disc-fb-section-lbl">✦ Resposta esperada</div>
+              <div class="disc-fb-section-body">${resp.resposta_ideal || ''}</div>
+            </div>
+            ${resp.o_que_faltou ? `<div class="disc-fb-section disc-fb-faltou">
+              <div class="disc-fb-section-lbl">⚠ O que faltou / estava errado</div>
+              <div class="disc-fb-section-body">${resp.o_que_faltou}</div>
+            </div>` : `<div class="disc-fb-section disc-fb-ok">
+              <div class="disc-fb-section-lbl">✓ Resposta completa</div>
+              <div class="disc-fb-section-body">Sua resposta contemplou todos os pontos esperados.</div>
+            </div>`}
+          </div>` : ''}`;
         }
       }
 
@@ -2355,7 +2423,8 @@
           // show loading state
           const resultado = await avaliarDiscursivaIA(q, resp.resposta);
           resp.nota = resultado.nota;
-          resp.feedback = resultado.feedback;
+          resp.resposta_ideal = resultado.resposta_ideal;
+          resp.o_que_faltou = resultado.o_que_faltou;
           resp.acertou = resultado.nota >= 60;
           renderSimQuestao();
         }
@@ -2389,17 +2458,15 @@
     const padrao = sanitize(questao.padrao_esperado||'');
     const resposta = sanitize(respostaUsuario);
 
-    const prompt=`Você é um professor avaliador.
-  Leia a questão, o padrão de resposta esperado e a resposta do aluno.
-  Avalie a resposta do aluno de 0 a 100 com base no padrão esperado.
+    const prompt=`Você é um professor avaliador de medicina.
+  Leia a questão, o padrão esperado e a resposta do aluno. Retorne ESTRITAMENTE em JSON puro (sem markdown, sem crases, sem texto adicional):
+  {"nota": 80, "resposta_ideal": "A resposta completa e correta que o professor esperava, em 2-4 frases objetivas.", "o_que_faltou": "Liste de forma direta os pontos que estavam ausentes, incompletos ou incorretos na resposta do aluno. Se a resposta estava correta, escreva null."}
+  
   QUESTÃO: ${enunciado}
-  
   PADRÃO ESPERADO: ${padrao}
-  
   RESPOSTA DO ALUNO: ${resposta}
   
-  Retorne ESTRITAMENTE em JSON puro (sem markdown, sem crases):
-  {"nota": 80, "feedback": "Texto de feedback construtivo e detalhado em 2-3 frases sobre o que o aluno acertou e o que poderia melhorar."}`;
+  REGRAS: nota de 0 a 100. resposta_ideal deve ser a resposta modelo independente do que o aluno escreveu. o_que_faltou deve ser null se nota >= 95.`;
   
     try {
       let response;
@@ -2440,13 +2507,13 @@
       catch(parseErr){
         const notaMatch=raw.match(/"nota"\s*:\s*(\d+)/);
         const feedMatch=raw.match(/"feedback"\s*:\s*"([^"]{0,1000})"/);
-        parsed={nota:notaMatch?parseInt(notaMatch[1]):0,feedback:feedMatch?feedMatch[1]:'Não foi possível interpretar o feedback da IA.'};
+        parsed={nota:notaMatch?parseInt(notaMatch[1]):0,resposta_ideal:'Não foi possível interpretar a resposta da IA.',o_que_faltou:null};
       }
-      return{nota:Math.min(100,Math.max(0,parseInt(parsed.nota)||0)),feedback:parsed.feedback||''};
+      return{nota:Math.min(100,Math.max(0,parseInt(parsed.nota)||0)),resposta_ideal:parsed.resposta_ideal||'',o_que_faltou:parsed.o_que_faltou||null};
   
     } catch(e) {
       console.error(e);
-      return{nota:0,feedback:'Erro ao avaliar com IA: '+e.message};
+      return{nota:0,resposta_ideal:'Erro ao avaliar com IA: '+e.message,o_que_faltou:null};
     }
   }
 
@@ -2468,7 +2535,8 @@
         await Promise.all(discursivas.map(async ({ q, i, r }) => {
           const resultado = await avaliarDiscursivaIA(q, r.resposta);
           respostas[i].nota = resultado.nota;
-          respostas[i].feedback = resultado.feedback;
+          respostas[i].resposta_ideal = resultado.resposta_ideal;
+          respostas[i].o_que_faltou = resultado.o_que_faltou;
           respostas[i].acertou = resultado.nota >= 60;
           done++;
           const pct = Math.round(done / discursivas.length * 100);
@@ -2562,17 +2630,27 @@
           }).join('');
           respostaHtml = `<div class="rq-alts">${altRows}</div>`;
         } else if (!isObj) {
+          const notaCls2 = nota >= 80 ? 'green' : nota >= 60 ? '' : 'red';
           respostaHtml = `<div class="rq-section">
             <div class="rq-section-lbl">Sua resposta</div>
             <div class="rq-section-val">${r.resposta || '(não respondida)'}</div>
           </div>
-          <div class="rq-section">
-            <div class="rq-section-lbl">Nota da IA</div>
-            <div class="rq-section-val ${nota >= 60 ? 'green' : 'red'}"><span class="rq-nota-disc">${nota}/100</span></div>
-          </div>
-          <div class="rq-section">
-            <div class="rq-section-lbl">Padrão esperado</div>
-            <div class="rq-section-val">${q.padrao_esperado || ''}</div>
+          <div class="disc-fb-card" style="margin:0 0 12px">
+            <div class="disc-fb-nota-row">
+              <span class="disc-fb-nota-lbl">NOTA</span>
+              <span class="disc-fb-nota disc-nota-${nota>=80?'green':nota>=60?'yellow':'red'}">${nota}<span class="disc-fb-nota-max">/100</span></span>
+            </div>
+            <div class="disc-fb-section">
+              <div class="disc-fb-section-lbl">✦ Resposta esperada</div>
+              <div class="disc-fb-section-body">${r.resposta_ideal || q.padrao_esperado || ''}</div>
+            </div>
+            ${r.o_que_faltou ? `<div class="disc-fb-section disc-fb-faltou">
+              <div class="disc-fb-section-lbl">⚠ O que faltou / estava errado</div>
+              <div class="disc-fb-section-body">${r.o_que_faltou}</div>
+            </div>` : `<div class="disc-fb-section disc-fb-ok">
+              <div class="disc-fb-section-lbl">✓ Resposta completa</div>
+              <div class="disc-fb-section-body">Sua resposta contemplou todos os pontos esperados.</div>
+            </div>`}
           </div>`;
         }
 
@@ -2601,6 +2679,7 @@
 
       // Show revisão screen
       document.getElementById('revisao-screen').classList.add('open');
+      marcarConcluido();
       if (parseFloat(notaFinal) >= 7) celebrate();
     }
 
@@ -3319,6 +3398,114 @@ if (rotinaHdr && rotinaWrap) {
   rotinaWrap.addEventListener('scroll', () => {
     rotinaHdr.scrollLeft = rotinaWrap.scrollLeft;
   });
+}
+
+
+// ═══════════════ SIMULADOS LIBRARY ═══════════════
+function renderSimLib() {
+  const list = document.getElementById('simlib-list');
+  if (!list) return;
+  const drafts = state.simuladosDraft || [];
+  if (!drafts.length) {
+    list.innerHTML = '<div class="simlib-empty">// nenhum simulado salvo ainda</div>';
+    return;
+  }
+  list.innerHTML = drafts.map((d, i) => {
+    const total = d.questoes ? d.questoes.length : 0;
+    const resp = d.respostas ? d.respostas.filter(r => r.resposta !== null).length : 0;
+    const pct = total ? Math.round(resp / total * 100) : 0;
+    const isDone = d.concluido;
+    const statusCls = isDone ? 'done' : resp > 0 ? 'prog' : 'new';
+    const statusTxt = isDone ? '✓ Concluído' : resp > 0 ? `${resp}/${total} feitas` : 'Não iniciado';
+    const modeIcon = d.modo === 'tutor' ? '🎓' : '🏆';
+    const date = d.savedAt ? new Date(d.savedAt).toLocaleDateString('pt-BR', {day:'2-digit',month:'short'}) : '';
+    return `<div class="simlib-item" onclick="carregarRascunho(${i})">
+      <div class="simlib-icon">${modeIcon}</div>
+      <div class="simlib-info">
+        <div class="simlib-title">${d.titulo || 'Simulado sem nome'}</div>
+        <div class="simlib-meta">${total} questões · ${d.modo === 'tutor' ? 'Tutor' : 'Simulado'}${date ? ' · ' + date : ''}</div>
+        <div class="simlib-progress"><div class="simlib-progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <span class="simlib-badge ${statusCls}">${statusTxt}</span>
+      <button class="simlib-del" onclick="event.stopPropagation();deletarRascunho(${i})" title="Remover">🗑</button>
+    </div>`;
+  }).join('');
+}
+
+function salvarRascunho() {
+  if (!state.simuladosDraft) state.simuladosDraft = [];
+  const { questoes, titulo, modo, qIdx, respostas, apiKey } = simuladoCorrente;
+  // Update existing draft if same titulo, otherwise add new
+  const idx = state.simuladosDraft.findIndex(d => d.titulo === titulo && !d.concluido);
+  const draft = { titulo, modo, questoes, respostas, qIdx, apiKey: apiKey || '', savedAt: Date.now(), concluido: false };
+  if (idx >= 0) state.simuladosDraft[idx] = draft;
+  else state.simuladosDraft.unshift(draft);
+  // Cap at 20 drafts
+  if (state.simuladosDraft.length > 20) state.simuladosDraft = state.simuladosDraft.slice(0, 20);
+  save();
+}
+
+function marcarConcluido() {
+  if (!state.simuladosDraft) return;
+  const idx = state.simuladosDraft.findIndex(d => d.titulo === simuladoCorrente.titulo && !d.concluido);
+  if (idx >= 0) { state.simuladosDraft[idx].concluido = true; save(); }
+}
+
+function carregarRascunho(i) {
+  const draft = state.simuladosDraft[i];
+  if (!draft) return;
+  closeModals();
+  if (draft.concluido) {
+    // Re-show revisão
+    simuladoCorrente = { ...draft };
+    exibirRevisao();
+    return;
+  }
+  // Load into simuladoCorrente and show mode selector if not started, else jump in
+  simuladoCorrente = {
+    apiKey: draft.apiKey || getGeminiKey(),
+    questoes: draft.questoes,
+    titulo: draft.titulo,
+    modo: draft.modo || 'tutor',
+    qIdx: draft.qIdx || 0,
+    respostas: draft.respostas,
+    respondida: !!(draft.respostas[draft.qIdx || 0]?.resposta),
+  };
+  if (!draft.modo) {
+    // Hasn't picked mode yet — show mode selector
+    document.getElementById('modal-mode-title').textContent = `"${draft.titulo}"`;
+    document.getElementById('modal-mode-sub').textContent = `// ${draft.questoes.length} questão(ões) · escolha o modo`;
+    document.getElementById('modal-simulado-mode').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    // Already in progress — jump back in
+    const badge = document.getElementById('sim-mode-badge');
+    badge.textContent = simuladoCorrente.modo === 'tutor' ? 'Modo Tutor' : 'Modo Simulado';
+    badge.className = 'sim-mode-badge ' + simuladoCorrente.modo;
+    document.getElementById('simulado-screen').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    renderSimQuestao();
+  }
+}
+
+function deletarRascunho(i) {
+  if (!confirm('Remover este simulado?')) return;
+  state.simuladosDraft.splice(i, 1);
+  save();
+  renderSimLib();
+}
+
+function confirmarNomeSimulado() {
+  const inp = document.getElementById('sim-name-input');
+  const nome = inp ? inp.value.trim() : '';
+  if (!nome) { toast('Digite um nome para o simulado'); return; }
+  simuladoCorrente.titulo = nome;
+  // Show mode selector
+  closeModals();
+  document.getElementById('modal-mode-title').textContent = `"${nome}"`;
+  document.getElementById('modal-mode-sub').textContent = `// ${simuladoCorrente.questoes.length} questão(ões) extraída(s) · como quer fazer?`;
+  document.getElementById('modal-simulado-mode').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 // ═══════════════ TOOLBAR DE ANOTAÇÃO ═══════════════
