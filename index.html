@@ -452,7 +452,8 @@ canvas{width:100%!important}
   min-width:700px;
   background:var(--bg2);
   border-bottom:2px solid var(--border2);
-  position:sticky;top:82px;z-index:30;
+  position: sticky; top: 54px; z-index: 30;
+  overflow-x: auto; /* para sincronizar scroll horizontal */
 }
 .rgh-cell{
   padding:8px 6px;text-align:center;
@@ -927,7 +928,6 @@ canvas{width:100%!important}
       <div class="rbal-bar" id="rbal-bar"></div>
       <div class="rbal-labels" id="rbal-labels"></div>
     </div>
-    <div class="rotina-grid-wrap" id="rotina-grid-wrap">
       <div class="rotina-weekly-header" id="rotina-weekly-header">
         <div class="rgh-cell" style="border-right:2px solid var(--border2)">H.</div>
         <div class="rgh-cell" id="rgh-1">Seg</div>
@@ -938,6 +938,7 @@ canvas{width:100%!important}
         <div class="rgh-cell" id="rgh-6">Sáb</div>
         <div class="rgh-cell" id="rgh-0">Dom</div>
       </div>
+      <div class="rotina-grid-wrap" id="rotina-grid-wrap">
       <div class="rotina-grid" id="rotina-grid"></div>
     </div>
   </div>
@@ -1722,6 +1723,16 @@ function tourNext(){tStep++;if(tStep>=TOUR.length){tourEnd();return;}renderTourS
 function tourSkip(){tourEnd();}
 function tourEnd(){tActive=false;document.getElementById('tour-spotlight').style.display='none';document.getElementById('tour-tooltip').style.display='none';state.tourDone=true;save();}
 window.addEventListener('resize',()=>{if(tActive)renderTourStep();if(document.getElementById('page-rotina').classList.contains('active'))renderRotinaPage();});
+
+// Sincronizar scroll horizontal header ↔ grid
+const rotinaHdr = document.getElementById('rotina-weekly-header');
+const rotinaWrap = document.getElementById('rotina-grid-wrap');
+
+if (rotinaHdr && rotinaWrap) {
+  rotinaWrap.addEventListener('scroll', () => {
+    rotinaHdr.scrollLeft = rotinaWrap.scrollLeft;
+  });
+}
 </script>
 </body>
 </html>
