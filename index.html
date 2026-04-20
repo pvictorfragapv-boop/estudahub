@@ -1960,86 +1960,106 @@
     }
 
     // --- STEP 2: Extract questions from PDF/image using Gemini ---
-    async function extrairProvaIA() {
-      const keyInp = document.getElementById('byok-key-input').value.trim();
-      const fileInp = document.getElementById('byok-file-input');
-      const apiKey = keyInp || getGeminiKey();
-
-      if (!apiKey) { toast('Insira sua API Key do Gemini'); return; }
-      if (!fileInp.files || !fileInp.files[0]) { toast('Selecione um arquivo'); return; }
-
-      // Save key for later use
-      localStorage.setItem('gemini_api_key', apiKey);
-      simuladoCorrente.apiKey = apiKey;
-
-      const file = fileInp.files[0];
-      const proc = document.getElementById('byok-processing');
-      const btn = document.getElementById('byok-btn-extrair');
-      proc.style.display = 'flex';
-      document.getElementById('byok-proc-txt').textContent = 'Lendo arquivo…';
-      btn.disabled = true;
-
-      try {
-        // Read file as base64
-        const base64 = await readFileBase64(file);
-        const mimeType = file.type || 'application/pdf';
-        document.getElementById('byok-proc-txt').textContent = 'Extraindo questões com IA…';
-
-        const prompt = `Você é um professor de medicina. Leia a prova em anexo. Extraia as questões e classifique como 'objetiva' ou 'discursiva'. Retorne ESTRITAMENTE em JSON neste formato (sem markdown, sem crases, sem texto adicional):
-{"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva ou discursiva", "enunciado": "Texto completo da questão", "alternativas": {"A": "Texto A", "B": "Texto B", "C": "Texto C", "D": "Texto D", "E": "Texto E"}, "gabarito_correto": "A", "padrao_esperado": "O que o aluno deve responder para acertar a questão (rubrica de correção detalhada)", "explicacao": "Comentário geral explicando a questão e por que a resposta correta está certa"}]}
-
-IMPORTANTE:
-- Para questões objetivas: preencha 'alternativas' com as opções (pode ter 2-5 alternativas), 'gabarito_correto' com a letra correta, deixe 'padrao_esperado' como string descritiva do conteúdo correto.
-- Para questões discursivas: alternativas deve ser null, gabarito_correto deve ser null, preencha 'padrao_esperado' com critérios detalhados de correção.
-- Retorne APENAS o JSON puro, sem nenhum texto antes ou depois.`;
-
-        const response = await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [
-              { inline_data: { mime_type: mimeType, data: base64 } },
-              { text: prompt }
-            ] }],
-            generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
+    async function extrairProvaIA(){
+    const keyInp=document.getElementById('byok-key-input').value.trim();
+    const fileInp=document.getElementById('byok-file-input');
+    const apiKey=keyInp||getGeminiKey();
+  
+    if(!apiKey){toast('Insira sua API Key do Gemini');return;}
+    if(!fileInp.files||!fileInp.files[0]){toast('Selecione um arquivo');return;}
+  
+    // Save key for later use
+    localStorage.setItem('gemini_api_key',apiKey);
+    simuladoCorrente.apiKey=apiKey;
+  
+    const file=fileInp.files[0];
+    const proc=document.getElementById('byok-processing');
+    const btn=document.getElementById('byok-btn-extrair');
+    proc.style.display='flex';
+    document.getElementById('byok-proc-txt').textContent='Lendo arquivo…';
+    btn.disabled=true;
+  
+    try {
+      // Read file as base64
+      const base64=await readFileBase64(file);
+      const mimeType=file.type||'application/pdf';
+      document.getElementById('byok-proc-txt').textContent='Extraindo questões com IA…';
+  
+      const prompt=`Você é um professor de medicina. Leia a prova em anexo.
+  Extraia as questões e classifique como 'objetiva' ou 'discursiva'. Retorne ESTRITAMENTE em JSON neste formato (sem markdown, sem crases, sem texto adicional):
+  {"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva ou discursiva", "enunciado": "Texto completo da questão", "alternativas": {"A": "Texto A", "B": "Texto B", "C": "Texto C", "D": "Texto D", "E": "Texto E"}, "gabarito_correto": "A", "padrao_esperado": "O que o aluno deve responder para acertar a questão (rubrica de correção detalhada)", "explicacao": "Comentário geral explicando a questão e por que a resposta correta está certa"}]}
+  
+  IMPORTANTE:
+  - Para questões objetivas: preencha 'alternativas' com as opções (pode ter 2-5 alternativas), 'gabarito_correto' com a letra correta, deixe 'padrao_esperado' como string descritiva do conteúdo correto.
+  - Para questões discursivas: alternativas deve ser null, gabarito_correto deve ser null, preencha 'padrao_esperado' com critérios detalhados de correção.
+  - Retorne APENAS o JSON puro, sem nenhum texto antes ou depois.`;
+  
+      let response;
+      let tentativas = 3; // Tenta até 3 vezes antes de desistir
+      
+      while (tentativas > 0) {
+        response = await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            contents:[{parts:[
+              {inline_data:{mime_type:mimeType,data:base64}},
+              {text:prompt}
+            ]}],
+            generationConfig:{temperature:0.1,maxOutputTokens:8192}
           })
         });
-
-        if (!response.ok) { const err = await response.json(); throw new Error(err.error?.message || 'Erro na API Gemini'); }
-        const data = await response.json();
-        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        
-        // Parse JSON — strip any markdown fences
-        let cleanText = rawText.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-        
-        // Find JSON object
-        const jsonStart = cleanText.indexOf('{');
-        const jsonEnd = cleanText.lastIndexOf('}');
-        if (jsonStart === -1 || jsonEnd === -1) throw new Error('IA não retornou JSON válido');
-        cleanText = cleanText.slice(jsonStart, jsonEnd + 1);
-        
-        const parsed = JSON.parse(cleanText);
-        if (!parsed.questoes || !parsed.questoes.length) throw new Error('Nenhuma questão extraída');
-
-        simuladoCorrente.questoes = parsed.questoes;
-        simuladoCorrente.titulo = parsed.titulo_sugerido || 'Simulado';
-        simuladoCorrente.respostas = parsed.questoes.map(() => ({ resposta: null, nota: null, feedback: null, acertou: null }));
-
-        closeModals();
-        
-        // Show mode selector
-        document.getElementById('modal-mode-title').textContent = `"${simuladoCorrente.titulo}"`;
-        document.getElementById('modal-mode-sub').textContent = `// ${parsed.questoes.length} questão(ões) extraída(s)`;
-        document.getElementById('modal-simulado-mode').classList.add('open');
-        document.body.style.overflow = 'hidden';
-
-      } catch(err) {
-        console.error(err);
-        toast('Erro: ' + err.message);
-        proc.style.display = 'none';
-        btn.disabled = false;
+  
+        if (response.ok) break; // Se deu certo, sai do loop
+  
+        const err = await response.json();
+        const errMsg = err.error?.message || '';
+  
+        // Verifica se é sobrecarga
+        if (response.status === 503 || response.status === 429 || errMsg.includes('demand') || errMsg.includes('quota')) {
+          tentativas--;
+          if (tentativas === 0) throw new Error('A IA está muito sobrecarregada no momento. Tente novamente mais tarde.');
+          
+          document.getElementById('byok-proc-txt').textContent = `Servidor cheio. Reconectando em 3s...`;
+          await new Promise(resolve => setTimeout(resolve, 3000));
+        } else {
+          throw new Error(errMsg || 'Erro na API Gemini');
+        }
       }
-    }
+
+    const data=await response.json();
+    const rawText=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+
+    // Parse JSON — strip any markdown fences
+    let cleanText=rawText.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+
+    // Find JSON object
+    const jsonStart=cleanText.indexOf('{');
+    const jsonEnd=cleanText.lastIndexOf('}');
+    if(jsonStart===-1||jsonEnd===-1)throw new Error('IA não retornou JSON válido');
+    cleanText=cleanText.slice(jsonStart,jsonEnd+1);
+
+    const parsed=JSON.parse(cleanText);
+    if(!parsed.questoes||!parsed.questoes.length)throw new Error('Nenhuma questão extraída');
+
+    simuladoCorrente.questoes=parsed.questoes;
+    simuladoCorrente.titulo=parsed.titulo_sugerido||'Simulado';
+    simuladoCorrente.respostas=parsed.questoes.map(()=>({resposta:null,nota:null,feedback:null,acertou:null}));
+
+    closeModals();
+    // Show mode selector
+    document.getElementById('modal-mode-title').textContent=`"${simuladoCorrente.titulo}"`;
+    document.getElementById('modal-mode-sub').textContent=`// ${parsed.questoes.length} questão(ões) extraída(s)`;
+    document.getElementById('modal-simulado-mode').classList.add('open');
+    document.body.style.overflow='hidden';
+
+  } catch(err) {
+    console.error(err);
+    toast('Erro: '+err.message);
+    proc.style.display='none';
+    btn.disabled=false;
+  }
+}
 
     function readFileBase64(file) {
       return new Promise((res, rej) => {
