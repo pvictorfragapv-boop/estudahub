@@ -2006,7 +2006,7 @@
               {inline_data:{mime_type:mimeType,data:base64}},
               {text:prompt}
             ]}],
-            generationConfig:{temperature:0.1,maxOutputTokens:8192}
+            generationConfig:{temperature:0.1,maxOutputTokens:8192,responseMimeType:"application/json"}
           })
         });
   
@@ -2311,7 +2311,7 @@
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify({
             contents:[{parts:[{text:prompt}]}],
-            generationConfig:{temperature:0.2,maxOutputTokens:512}
+            generationConfig:{temperature:0.1,maxOutputTokens:8192,responseMimeType:"application/json"}
           })
         });
   
