@@ -559,6 +559,7 @@
     .sim-q-header { padding: 18px 24px 14px; border-bottom: 1px solid var(--border); }
     .sim-q-type { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--a); margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
     .sim-q-enunciado { font-size: 15px; line-height: 1.75; color: var(--text); font-weight: 500; }
+    .sim-q-contexto { font-size: 13px; line-height: 1.75; color: var(--text); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 12px; }
     .sim-q-body { padding: 20px 24px; }
 
     .sim-alts { display: flex; flex-direction: column; gap: 8px; }
@@ -579,6 +580,26 @@
     .sim-alt.correct .sim-alt-letter { background: var(--green); color: #fff; }
     .sim-alt.wrong .sim-alt-letter { background: var(--red); color: #fff; }
     .sim-alt-text { flex: 1; position: relative; z-index: 1; }
+
+    /* Toolbar de anotação */
+    #annot-toolbar { position: fixed; z-index: 9999; display: none; background: var(--bg3); border: 1px solid var(--border3); border-radius: 8px; padding: 4px 6px; gap: 4px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
+    #annot-toolbar.show { display: flex; }
+    .annot-btn { width: 30px; height: 28px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all .15s; color: var(--text); }
+    .annot-btn:hover { background: var(--bg4); border-color: var(--a); }
+    .annot-btn.active { background: var(--ad); border-color: var(--a); }
+    .annot-sep { width: 1px; height: 18px; background: var(--border2); margin: 0 2px; }
+    mark.hl-yellow { background: rgba(240,180,41,.35); color: inherit; border-radius: 2px; padding: 0 1px; }
+    mark.hl-green  { background: rgba(29,184,112,.3);  color: inherit; border-radius: 2px; padding: 0 1px; }
+    mark.hl-red    { background: rgba(240,78,78,.3);   color: inherit; border-radius: 2px; padding: 0 1px; }
+    mark.hl-blue   { background: rgba(77,158,245,.3);  color: inherit; border-radius: 2px; padding: 0 1px; }
+    s.hl-strike { color: var(--muted2); text-decoration: line-through; }
+    .annot-color { width: 16px; height: 16px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform .15s; flex-shrink: 0; }
+    .annot-color:hover { transform: scale(1.2); }
+    .annot-color.sel { border-color: #fff; }
+    .annot-color-y { background: rgba(240,180,41,.8); }
+    .annot-color-g { background: rgba(29,184,112,.8); }
+    .annot-color-r { background: rgba(240,78,78,.8); }
+    .annot-color-b { background: rgba(77,158,245,.8); }
 
     .sim-disc-wrap { position: relative; }
     .sim-disc-textarea { width: 100%; min-height: 180px; background: var(--bg3); border: 1.5px solid var(--border2); border-radius: var(--r); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.75; padding: 16px 18px; resize: vertical; outline: none; transition: border-color .18s, box-shadow .18s; }
@@ -666,12 +687,43 @@
     @keyframes rqopen { from { opacity: 0; } to { opacity: 1; } }
     
     .rq-enunciado { font-size: 13px; line-height: 1.7; color: var(--text); margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .rq-contexto { font-size: 12px; line-height: 1.75; color: var(--text); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 12px; }
     .rq-section { margin-bottom: 12px; }
     .rq-section-lbl { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--muted2); margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
     .rq-section-val { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--text); line-height: 1.7; padding: 10px 12px; background: var(--bg3); border-radius: var(--r); border: 1px solid var(--border); }
     .rq-section-val.green { border-color: rgba(29, 184, 112, .3); background: rgba(29, 184, 112, .06); color: var(--green); }
     .rq-section-val.red { border-color: rgba(240, 78, 78, .3); background: rgba(240, 78, 78, .06); color: var(--red); }
     .rq-nota-disc { font-size: 18px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; }
+    /* Gabarito comentado — alternativas */
+    .rq-alts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .rq-alt { border-radius: var(--r); border: 1px solid var(--border2); overflow: hidden; }
+    .rq-alt-header { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; cursor: pointer; transition: background .15s; }
+    .rq-alt-header:hover { background: rgba(255,255,255,.03); }
+    .rq-alt-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+    .rq-alt.alt-correta { border-color: rgba(29,184,112,.35); background: rgba(29,184,112,.06); }
+    .rq-alt.alt-correta .rq-alt-icon { background: rgba(29,184,112,.2); color: var(--green); }
+    .rq-alt.alt-errada { border-color: rgba(240,78,78,.25); background: rgba(240,78,78,.04); }
+    .rq-alt.alt-errada .rq-alt-icon { background: rgba(240,78,78,.15); color: var(--red); }
+    .rq-alt.alt-neutra { border-color: var(--border2); }
+    .rq-alt.alt-neutra .rq-alt-icon { background: var(--bg4); color: var(--muted2); }
+    .rq-alt-letra { font-size: 10px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; width: 14px; margin-top: 2px; flex-shrink: 0; }
+    .rq-alt.alt-correta .rq-alt-letra { color: var(--green); }
+    .rq-alt.alt-errada .rq-alt-letra { color: var(--red); }
+    .rq-alt.alt-neutra .rq-alt-letra { color: var(--muted2); }
+    .rq-alt-txt { font-size: 13px; line-height: 1.6; flex: 1; }
+    .rq-alt.alt-correta .rq-alt-txt { color: var(--text); }
+    .rq-alt.alt-errada .rq-alt-txt { color: var(--text); }
+    .rq-alt.alt-neutra .rq-alt-txt { color: var(--text); }
+    .rq-alt-badge { font-size: 9px; font-weight: 700; letter-spacing: .08em; padding: 2px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 3px; font-family: 'IBM Plex Mono', monospace; }
+    .rq-alt.alt-correta .rq-alt-badge { background: var(--g-bg); color: var(--green); border: 1px solid rgba(29,184,112,.3); }
+    .rq-alt.alt-errada .rq-alt-badge { background: var(--r-bg); color: var(--red); border: 1px solid rgba(240,78,78,.3); }
+    .rq-alt-exp { display: none; padding: 8px 14px 10px 48px; font-size: 12px; line-height: 1.65; border-top: 1px solid var(--border); }
+    .rq-alt.alt-correta .rq-alt-exp { color: rgba(29,184,112,.9); border-top-color: rgba(29,184,112,.15); background: rgba(29,184,112,.04); }
+    .rq-alt.alt-errada .rq-alt-exp { color: rgba(240,78,78,.85); border-top-color: rgba(240,78,78,.12); background: rgba(240,78,78,.03); }
+    .rq-alt.alt-neutra .rq-alt-exp { color: var(--muted2); }
+    .rq-alt-exp.open { display: block; }
+    .rq-explicacao-geral { font-size: 12px; line-height: 1.7; color: var(--muted2); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 10px 14px; margin-top: 10px; }
+    .rq-explicacao-geral strong { color: var(--a); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: 4px; font-family: 'IBM Plex Mono', monospace; }
 
     .revisao-footer { padding: 14px 28px calc(14px + var(--sb)); border-top: 1px solid var(--border2); background: rgba(7, 7, 11, .95); flex-shrink: 0; }
     .btn-voltar-dash { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 16px var(--ag); transition: all .18s; }
@@ -1099,6 +1151,19 @@
         <button class="sim-btn-finish" id="sim-btn-finish" onclick="finalizarSimulado()">Finalizar Simulado ✓</button>
       </div>
     </div>
+  </div>
+
+  <!-- Annotation toolbar (global, floats on selection) -->
+  <div id="annot-toolbar">
+    <div class="annot-color annot-color-y sel" id="annot-c-y" title="Amarelo" onclick="annotSetColor('y')"></div>
+    <div class="annot-color annot-color-g" id="annot-c-g" title="Verde" onclick="annotSetColor('g')"></div>
+    <div class="annot-color annot-color-r" id="annot-c-r" title="Vermelho" onclick="annotSetColor('r')"></div>
+    <div class="annot-color annot-color-b" id="annot-c-b" title="Azul" onclick="annotSetColor('b')"></div>
+    <div class="annot-sep"></div>
+    <button class="annot-btn" id="annot-hl-btn" title="Marca-texto" onclick="annotApply('highlight')">🖊</button>
+    <button class="annot-btn" id="annot-st-btn" title="Riscar texto" onclick="annotApply('strike')"><s>A</s></button>
+    <div class="annot-sep"></div>
+    <button class="annot-btn" title="Limpar" onclick="annotApply('clear')">✕</button>
   </div>
 
   <div id="grading-screen">
@@ -1987,11 +2052,12 @@
   
       const prompt=`Você é um professor de medicina. Leia a prova em anexo.
   Extraia as questões e classifique como 'objetiva' ou 'discursiva'. Retorne ESTRITAMENTE em JSON neste formato (sem markdown, sem crases, sem texto adicional):
-  {"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva ou discursiva", "enunciado": "Texto completo da questão", "alternativas": {"A": "Texto A", "B": "Texto B", "C": "Texto C", "D": "Texto D", "E": "Texto E"}, "gabarito_correto": "A", "padrao_esperado": "O que o aluno deve responder para acertar a questão (rubrica de correção detalhada)", "explicacao": "Comentário geral explicando a questão e por que a resposta correta está certa"}]}
+  {"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva ou discursiva", "contexto": "Texto introdutório, caso clínico ou vinheta que precede a pergunta (deixe como string vazia se não houver)", "enunciado": "Apenas a pergunta em si, sem repetir o contexto", "alternativas": {"A": "Texto A", "B": "Texto B", "C": "Texto C", "D": "Texto D", "E": "Texto E"}, "gabarito_correto": "A", "padrao_esperado": "O que o aluno deve responder para acertar a questão (rubrica de correção detalhada)", "explicacao_geral": "Explicação geral do tema da questão", "explicacoes_alternativas": {"A": "Por que A está correta ou incorreta", "B": "Por que B está correta ou incorreta", "C": "Por que C está correta ou incorreta", "D": "Por que D está correta ou incorreta", "E": "Por que E está correta ou incorreta"}}]}
   
   IMPORTANTE:
-  - Para questões objetivas: preencha 'alternativas' com as opções (pode ter 2-5 alternativas), 'gabarito_correto' com a letra correta, deixe 'padrao_esperado' como string descritiva do conteúdo correto.
-  - Para questões discursivas: alternativas deve ser null, gabarito_correto deve ser null, preencha 'padrao_esperado' com critérios detalhados de correção.
+  - Se a questão tiver um caso clínico, vinheta ou texto introdutório ANTES da pergunta, coloque esse texto em 'contexto' e apenas a pergunta em 'enunciado'.
+  - Para questões objetivas: preencha 'alternativas', 'gabarito_correto', e 'explicacoes_alternativas' com comentário para cada opção.
+  - Para questões discursivas: alternativas deve ser null, gabarito_correto deve ser null, explicacoes_alternativas deve ser null, preencha 'padrao_esperado' com critérios detalhados.
   - Retorne APENAS o JSON puro, sem nenhum texto antes ou depois.`;
   
       let response;
@@ -2115,6 +2181,30 @@
       const total = questoes.length;
       const resp = respostas[qIdx];
       
+      // --- Fix V/F normalization ---
+      // If alternativas has keys like "Verdadeiro"/"Falso" or "True"/"False" or "V"/"F", normalize
+      if (q.alternativas && typeof q.alternativas === 'object') {
+        const keys = Object.keys(q.alternativas);
+        // Detect if alternativas is array-like (keys are long strings, not single letters)
+        const needsNorm = keys.some(k => k.length > 1 && /verdadeiro|falso|true|false|certo|errado/i.test(k));
+        if (needsNorm) {
+          const newAlts = {};
+          keys.forEach(k => {
+            const norm = /verdadeiro|true|certo/i.test(k) ? 'V' : /falso|false|errado/i.test(k) ? 'F' : k[0].toUpperCase();
+            newAlts[norm] = q.alternativas[k];
+          });
+          // Also fix gabarito if it was a full word
+          if (q.gabarito_correto && q.gabarito_correto.length > 1) {
+            q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
+          }
+          q.alternativas = newAlts;
+        }
+        // If gabarito is 'Verdadeiro'/'Falso' style but keys are already V/F
+        if (q.gabarito_correto && q.gabarito_correto.length > 1 && keys.includes('V')) {
+          q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
+        }
+      }
+      
       // Update header
       document.getElementById('sim-q-cur').textContent = qIdx + 1;
       document.getElementById('sim-q-total').textContent = total;
@@ -2179,7 +2269,8 @@
         <div class="sim-q-card">
           <div class="sim-q-header">
             <div class="sim-q-type">${q.tipo.toUpperCase()} · QUESTÃO ${qIdx + 1}</div>
-            <div class="sim-q-enunciado">${q.enunciado}</div>
+            ${q.contexto ? `<div class="sim-q-contexto" id="sim-contexto">${q.contexto}</div>` : ''}
+            <div class="sim-q-enunciado" id="sim-enunciado">${q.enunciado}</div>
           </div>
           <div class="sim-q-body">
             ${bodyHtml}
@@ -2442,17 +2533,35 @@
         const badgeCls = isObj ? (acertou ? 'acerto' : 'erro') : (nota >= 80 ? 'acerto' : nota >= 60 ? 'parcial' : 'erro');
         const badgeTxt = isObj ? (acertou ? '✓ Correto' : '✗ Incorreto') : (nota >= 60 ? `${nota}/100 Aprovado` : `${nota}/100 Insuficiente`);
 
+        // Contexto (caso clínico / vinheta)
+        const contextoHtml = q.contexto ? `<div class="rq-contexto">${q.contexto}</div>` : '';
+
         let respostaHtml = '';
-        if (isObj) {
-          respostaHtml = `<div class="rq-section">
-            <div class="rq-section-lbl">Sua resposta</div>
-            <div class="rq-section-val ${acertou ? 'green' : 'red'}">${r.resposta || '(não respondida)'}</div>
-          </div>
-          <div class="rq-section">
-            <div class="rq-section-lbl">Gabarito correto</div>
-            <div class="rq-section-val green">${q.gabarito_correto} — ${q.alternativas?.[q.gabarito_correto] || ''}</div>
-          </div>`;
-        } else {
+        if (isObj && q.alternativas) {
+          const alts = Object.entries(q.alternativas);
+          const expAlts = q.explicacoes_alternativas || {};
+          const altRows = alts.map(([letra, texto]) => {
+            const isCorreta = letra === q.gabarito_correto;
+            const isSelecionada = letra === r.resposta;
+            let cls = 'alt-neutra';
+            let icon = letra;
+            let badge = '';
+            if (isCorreta) { cls = 'alt-correta'; icon = '✓'; badge = `<span class="rq-alt-badge">Alternativa correta</span>`; }
+            else if (isSelecionada && !isCorreta) { cls = 'alt-errada'; icon = '✗'; badge = `<span class="rq-alt-badge">Sua resposta</span>`; }
+            const exp = expAlts[letra] ? `<div class="rq-alt-exp" id="rqexp-${i}-${letra}">${expAlts[letra]}</div>` : '';
+            const hasExp = !!expAlts[letra];
+            return `<div class="rq-alt ${cls}">
+              <div class="rq-alt-header" ${hasExp ? `onclick="toggleAltExp('rqexp-${i}-${letra}')"` : ''}>
+                <div class="rq-alt-icon">${icon}</div>
+                <span class="rq-alt-letra">${letra}.</span>
+                <span class="rq-alt-txt">${texto}</span>
+                ${badge}
+              </div>
+              ${exp}
+            </div>`;
+          }).join('');
+          respostaHtml = `<div class="rq-alts">${altRows}</div>`;
+        } else if (!isObj) {
           respostaHtml = `<div class="rq-section">
             <div class="rq-section-lbl">Sua resposta</div>
             <div class="rq-section-val">${r.resposta || '(não respondida)'}</div>
@@ -2467,6 +2576,12 @@
           </div>`;
         }
 
+        const explicacaoGeralHtml = (q.explicacao_geral || q.explicacao || r.feedback) ? `
+          <div class="rq-explicacao-geral">
+            <strong>Comentário</strong>
+            ${q.explicacao_geral || q.explicacao || ''}${r.feedback ? `${q.explicacao_geral || q.explicacao ? '<br><br>' : ''}🤖 <em>${r.feedback}</em>` : ''}
+          </div>` : '';
+
         return `<div class="rq-item ${resultCls}">
           <div class="rq-item-header" onclick="toggleRQ(${i})">
             <div>
@@ -2476,12 +2591,10 @@
             <span class="rq-result-badge ${badgeCls}">${badgeTxt}</span>
           </div>
           <div class="rq-body" id="rq-body-${i}">
+            ${contextoHtml}
             <div class="rq-enunciado">${q.enunciado}</div>
             ${respostaHtml}
-            ${q.explicacao || r.feedback ? `<div class="rq-section">
-              <div class="rq-section-lbl">Explicação ${r.feedback ? '/ Feedback IA' : ''}</div>
-              <div class="rq-section-val">${q.explicacao || ''}${r.feedback ? `<br><br>🤖 <em>${r.feedback}</em>` : ''}</div>
-            </div>` : ''}
+            ${explicacaoGeralHtml}
           </div>
         </div>`;
       }).join('');
@@ -2494,6 +2607,11 @@
     function toggleRQ(i) {
       const b = document.getElementById('rq-body-' + i);
       if (b) b.classList.toggle('open');
+    }
+
+    function toggleAltExp(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('open');
     }
 
     function voltarDashboard() {
@@ -3202,6 +3320,75 @@ if (rotinaHdr && rotinaWrap) {
     rotinaHdr.scrollLeft = rotinaWrap.scrollLeft;
   });
 }
+
+// ═══════════════ TOOLBAR DE ANOTAÇÃO ═══════════════
+let annotColor = 'y';
+const annotTargetIds = ['sim-enunciado', 'sim-contexto'];
+
+function annotSetColor(c) {
+  annotColor = c;
+  ['y','g','r','b'].forEach(x => {
+    const el = document.getElementById('annot-c-' + x);
+    if (el) el.classList.toggle('sel', x === c);
+  });
+}
+
+function annotApply(type) {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  const range = sel.getRangeAt(0);
+  const isAllowed = annotTargetIds.some(id => {
+    const el = document.getElementById(id);
+    return el && el.contains(range.commonAncestorContainer);
+  });
+  if (!isAllowed) { hideAnnotToolbar(); return; }
+  if (type === 'clear') {
+    const frag = range.extractContents();
+    frag.querySelectorAll('mark, s').forEach(el => {
+      const p = el.parentNode; while (el.firstChild) p.insertBefore(el.firstChild, el); p.removeChild(el);
+    });
+    range.insertNode(frag);
+  } else if (type === 'highlight') {
+    const mark = document.createElement('mark');
+    mark.className = 'hl-' + annotColor;
+    try { range.surroundContents(mark); } catch(e) { const f = range.extractContents(); mark.appendChild(f); range.insertNode(mark); }
+  } else if (type === 'strike') {
+    const s = document.createElement('s');
+    s.className = 'hl-strike';
+    try { range.surroundContents(s); } catch(e) { const f = range.extractContents(); s.appendChild(f); range.insertNode(s); }
+  }
+  sel.removeAllRanges();
+  hideAnnotToolbar();
+}
+
+function hideAnnotToolbar() {
+  const tb = document.getElementById('annot-toolbar');
+  if (tb) tb.classList.remove('show');
+}
+
+document.addEventListener('selectionchange', () => {
+  const sel = window.getSelection();
+  const tb = document.getElementById('annot-toolbar');
+  if (!tb) return;
+  if (!sel || sel.isCollapsed || !sel.toString().trim()) {
+    setTimeout(() => { const s2 = window.getSelection(); if (!s2 || s2.isCollapsed) tb.classList.remove('show'); }, 150);
+    return;
+  }
+  const range = sel.getRangeAt(0);
+  const allowed = annotTargetIds.some(id => {
+    const el = document.getElementById(id); return el && el.contains(range.commonAncestorContainer);
+  });
+  if (!allowed) { tb.classList.remove('show'); return; }
+  const rect = range.getBoundingClientRect();
+  const tbW = 230;
+  let left = rect.left + rect.width / 2 - tbW / 2;
+  let top = rect.top - 52 + window.scrollY;
+  left = Math.max(8, Math.min(left, window.innerWidth - tbW - 8));
+  if (top < window.scrollY + 8) top = rect.bottom + 8 + window.scrollY;
+  tb.style.left = left + 'px';
+  tb.style.top = top + 'px';
+  tb.classList.add('show');
+});
 </script>
 </body>
 </html>
