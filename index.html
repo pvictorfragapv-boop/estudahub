@@ -445,13 +445,17 @@ canvas{width:100%!important}
 .rotina-grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative;background:var(--bg)}
 
 /* Sticky header row (day names) */
+/* DEPOIS */
+./* DEPOIS */
 .rotina-weekly-header{
   display:grid;
   grid-template-columns:var(--tc-w, 52px) repeat(7,1fr);
   min-width:700px;
   background:var(--bg2);
   border-bottom:2px solid var(--border2);
-  position:sticky;top:54px;z-index:20;
+  position:sticky;
+  top:82px;   /* 28px ticker + 54px nav */
+  z-index:30;
 }
 .rgh-cell{
   padding:10px 8px;text-align:center;
@@ -490,10 +494,12 @@ canvas{width:100%!important}
 .rtime-cell.half-hour .rtime-lbl{visibility:hidden} /* keep height, hide label */
 
 /* ── DAY COLUMNS ── */
+/* DEPOIS */
 .rslots-col{
   position:relative;
   border-right:1px solid var(--border2);
   background:var(--bg);
+  overflow:hidden;  /* impede que blocos ultrapassem visualmente a coluna */
 }
 .rslots-col:last-child{border-right:none}
 .rslots-col.today-col{background:rgba(167,139,250,.02)}
