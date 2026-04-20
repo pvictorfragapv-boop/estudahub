@@ -512,10 +512,24 @@ canvas{width:100%!important}
 .rbal-item-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 
 .rotina-grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
-.rotina-weekly-header{display:grid;grid-template-columns:52px repeat(7, 1fr);min-width:800px;background:var(--bg2);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:10;}
+.rotina-weekly-header{display:grid;grid-template-columns:52px repeat(7, 1fr);min-width:800px;background:var(--bg2);border-bottom:1px solid var(--border2);position:sticky;top:54px;z-index:10;}
 .rgh-cell{padding:12px 10px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);border-right:1px solid var(--border2);}
 .rgh-cell:last-child{border-right:none;}
 .rotina-grid{display:grid;grid-template-columns:52px repeat(7, 1fr);min-width:800px;position:relative}
+
+/* Mobile: single day view — no min-width, grid adapts */
+@media(max-width:768px){
+  .rotina-weekly-header{display:none}
+  .rotina-grid{min-width:0!important;grid-template-columns:52px 1fr!important}
+  .r-block-del{opacity:.6!important}
+}
+
+/* Always-visible delete on touch devices */
+@media(hover:none){.r-block-del{opacity:.7!important}}
+
+/* Limpar tudo button */
+.btn-limpar{padding:7px 14px;background:transparent;border:1px solid rgba(240,78,78,.35);color:var(--red);font-family:'Outfit',sans-serif;font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:var(--r);transition:all .18s;white-space:nowrap}
+.btn-limpar:hover{background:var(--r-bg);border-color:var(--red)}
 
 .rtime-col{background:var(--bg2);border-right:1px solid var(--border2);position:sticky;left:0;z-index:3}
 .rtime-cell{height:32px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;border-bottom:1px solid var(--border);position:relative}
@@ -942,7 +956,8 @@ canvas{width:100%!important}
           <div class="dash-title" style="margin-bottom:4px">Rotina</div>
           <div class="dash-date mono">Monte sua grade horária estilo timeblocking e gerencie sua semana</div>
         </div>
-        <button class="btn-gerar" onclick="gerarRotinaBase()">🪄 Gerar Rotina Base</button>
+        <button class="btn-gerar" onclick="gerarRotinaBase()">Gerar Rotina Base</button>
+        <button class="btn-limpar" onclick="limparRotina()">Limpar tudo</button>
       </div>
     </div>
     <div class="rotina-legend" id="rotina-legend"></div>
@@ -1889,14 +1904,15 @@ const RCATS=[
   {id:'outro',    name:'Outro',    color:'#94a3b8',bg:'rgba(148,163,184,.22)'},
 ];
 const START_H=5; // 05:00
-const SLOTS=38;  // 05:00–00:00 = 19h = 38 slots
+const SLOTS=38;  // 05:00–00:00: slot 0=05:00 … slot 37=23:30, plus label row for 00:00
 
 let rotinaState={
   filterCat: 'all',
   editingBlockId: null,
   selectedCat: RCATS[0].id,
   selectedRepeat: 'once',
-  pendingSlot: null, // {day, slotIndex}
+  pendingSlot: null,
+  mobileDayIdx: null, // set on first render to today
 };
 let nowLineInterval=null;
 
@@ -1968,67 +1984,203 @@ function renderRotinaBalance(){
 
 function renderRotinaGrid(){
   const grid=document.getElementById('rotina-grid');if(!grid)return;
-  grid.innerHTML = ''; 
+  grid.innerHTML='';
 
+  const isMobile=window.innerWidth<=768;
+
+  if(!isMobile){
+    // Remove mobile tabs if switching back to desktop
+    const oldTabs=document.getElementById('rotina-mobile-day-tabs');
+    if(oldTabs)oldTabs.remove();
+    // Reset grid style for desktop
+    grid.style.gridTemplateColumns='';
+    grid.style.minWidth='';
+  }
+
+  if(isMobile){
+    // Initialize to today if first visit
+    if(rotinaState.mobileDayIdx===null)rotinaState.mobileDayIdx=new Date().getDay();
+    renderRotinaMobileDayTabs();
+    renderRotinaSingleDay(rotinaState.mobileDayIdx);
+    return;
+  }
+
+  // Desktop: full 7-column weekly grid
   let timeHtml='<div class="rtime-col">';
-  for(let i=0;i<SLOTS;i++){
+  for(let i=0;i<=SLOTS;i++){
     const totalMin=START_H*60+i*30;
     const h=Math.floor(totalMin/60)%24;
     const m=totalMin%60;
     const isFullHour=m===0;
     const timeStr=isFullHour?`${String(h).padStart(2,'0')}:00`:'';
-    timeHtml+=`<div class="rtime-cell${isFullHour?' full-hour':'half-hour'}" data-slot="${i}">
-      <span class="rtime-lbl">${timeStr}</span>
-    </div>`;
+    if(i<SLOTS){
+      timeHtml+=`<div class="rtime-cell${isFullHour?' full-hour':'half-hour'}" data-slot="${i}">
+        <span class="rtime-lbl">${timeStr}</span>
+      </div>`;
+    } else {
+      // Final 00:00 label row (non-clickable, just a label)
+      timeHtml+=`<div class="rtime-cell full-hour" style="border-bottom:none">
+        <span class="rtime-lbl">00:00</span>
+      </div>`;
+    }
   }
   timeHtml+='</div>';
 
-  const weekOrder = [1,2,3,4,5,6,0]; // Seg a Dom
-  let colsHtml = '';
-  
-  weekOrder.forEach(dayIdx => {
-    let slotBg = `<div class="rslots-col" id="rcol-${dayIdx}">`;
-    for(let i=0;i<SLOTS;i++) {
-      const isFull = i%2 === 0;
-      slotBg += `<div class="rslot${isFull?' full-hour':''}" data-slot="${i}" onclick="openRotinaModal(${i}, ${dayIdx})">
+  const weekOrder=[1,2,3,4,5,6,0];
+  let colsHtml='';
+  weekOrder.forEach(dayIdx=>{
+    let slotBg=`<div class="rslots-col" id="rcol-${dayIdx}">`;
+    for(let i=0;i<SLOTS;i++){
+      const isFull=i%2===0;
+      slotBg+=`<div class="rslot${isFull?' full-hour':''}" data-slot="${i}" onclick="openRotinaModal(${i},${dayIdx})">
         <span class="rslot-add-hint">+ bloco</span>
       </div>`;
     }
-    slotBg += `</div>`;
-    colsHtml += slotBg;
+    // Final label row spacer
+    slotBg+=`<div class="rslot" style="border-bottom:none;pointer-events:none;opacity:0"></div>`;
+    slotBg+=`</div>`;
+    colsHtml+=slotBg;
   });
 
-  grid.innerHTML = timeHtml + colsHtml;
+  grid.innerHTML=timeHtml+colsHtml;
 
-  const blocks = getRotinaBlocks().filter(b=>rotinaState.filterCat==='all'||b.catId===rotinaState.filterCat);
-  const slotH = 32; 
-
+  // Render blocks
+  const blocks=getRotinaBlocks().filter(b=>rotinaState.filterCat==='all'||b.catId===rotinaState.filterCat);
+  const slotH=32;
   blocks.forEach(b=>{
     const cat=RCATS.find(c=>c.id===b.catId)||RCATS[0];
     const top=b.startSlot*slotH;
     const height=Math.max(1,b.endSlot-b.startSlot)*slotH-2;
     const tStart=slotToTime(b.startSlot);
     const tEnd=slotToTime(b.endSlot);
-    
-    const divHTML = `<div class="r-block" style="top:${top+1}px;height:${height}px;background:${cat.bg};border-left:3px solid ${cat.color};color:${cat.color}" onclick="editRotinaBlock('${b.id}')">
+    const divHTML=`<div class="r-block" style="top:${top+1}px;height:${height}px;background:${cat.bg};border-left:3px solid ${cat.color};color:${cat.color}" onclick="editRotinaBlock('${b.id}')">
       <div class="r-block-name">${b.name||cat.name}</div>
       ${height>40?`<div class="r-block-time">${tStart}–${tEnd}</div>`:''}
       <button class="r-block-del" onclick="event.stopPropagation();deleteRotinaBlock('${b.id}')">×</button>
     </div>`;
-    
-    let targetDays = [];
-    if(b.repeat === 'daily') targetDays = [0,1,2,3,4,5,6];
-    else if(b.repeat === 'weekdays') targetDays = [1,2,3,4,5];
-    else if(b.repeat === 'weekend') targetDays = [0,6];
-    else targetDays = [Number(b.day)];
-
-    targetDays.forEach(d => {
-        const col = document.getElementById(`rcol-${d}`);
-        if(col) col.insertAdjacentHTML('beforeend', divHTML);
+    let targetDays=[];
+    if(b.repeat==='daily')targetDays=[0,1,2,3,4,5,6];
+    else if(b.repeat==='weekdays')targetDays=[1,2,3,4,5];
+    else if(b.repeat==='weekend')targetDays=[0,6];
+    else targetDays=[Number(b.day)];
+    targetDays.forEach(d=>{
+      const col=document.getElementById(`rcol-${d}`);
+      if(col)col.insertAdjacentHTML('beforeend',divHTML);
     });
   });
 
   renderNowLine();
+}
+
+// Mobile: day tab strip above the grid
+function renderRotinaMobileDayTabs(){
+  let el=document.getElementById('rotina-mobile-day-tabs');
+  if(!el){
+    el=document.createElement('div');
+    el.id='rotina-mobile-day-tabs';
+    el.style.cssText='display:flex;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border2);flex-shrink:0;';
+    el.style.scrollbarWidth='none';
+    const grid=document.getElementById('rotina-grid');
+    grid.parentNode.insertBefore(el,grid);
+  }
+  const DNAMES=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const todayIdx=new Date().getDay();
+  const sel=rotinaState.mobileDayIdx??todayIdx;
+  el.innerHTML=DNAMES.map((d,i)=>`<div onclick="selectMobileDay(${i})" style="
+    flex:1;min-width:44px;padding:10px 4px;text-align:center;cursor:pointer;
+    font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:${i===sel?'var(--a)':'var(--muted2)'};
+    border-bottom:2px solid ${i===sel?'var(--a)':'transparent'};
+    background:${i===sel?'var(--ad)':'transparent'};
+    transition:all .18s;
+  ">
+    <div style="font-size:9px;opacity:.7;margin-bottom:2px">${d}</div>
+    <div style="font-size:16px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:${i===todayIdx?'var(--a)':'inherit'}">${getDayDateNum(i)}</div>
+  </div>`).join('');
+}
+
+function getDayDateNum(dayIdx){
+  const now=new Date();
+  const diff=dayIdx-now.getDay();
+  const dt=new Date(now);dt.setDate(now.getDate()+diff);
+  return dt.getDate();
+}
+
+function selectMobileDay(dayIdx){
+  rotinaState.mobileDayIdx=dayIdx;
+  renderRotinaMobileDayTabs();
+  renderRotinaSingleDay(dayIdx);
+}
+
+function renderRotinaSingleDay(dayIdx){
+  const grid=document.getElementById('rotina-grid');if(!grid)return;
+  // Remove previous single-day content but keep the tabs
+  const tabs=document.getElementById('rotina-mobile-day-tabs');
+  grid.innerHTML='';
+
+  const slotH=36; // slightly taller for mobile touch
+  let timeHtml='<div class="rtime-col">';
+  for(let i=0;i<=SLOTS;i++){
+    const totalMin=START_H*60+i*30;
+    const h=Math.floor(totalMin/60)%24;
+    const m=totalMin%60;
+    const isFullHour=m===0;
+    const timeStr=isFullHour?`${String(h).padStart(2,'0')}:00`:'';
+    if(i<SLOTS){
+      timeHtml+=`<div class="rtime-cell${isFullHour?' full-hour':'half-hour'}" data-slot="${i}" style="height:${slotH}px">
+        <span class="rtime-lbl">${timeStr}</span>
+      </div>`;
+    } else {
+      timeHtml+=`<div class="rtime-cell full-hour" style="height:${slotH}px;border-bottom:none">
+        <span class="rtime-lbl">00:00</span>
+      </div>`;
+    }
+  }
+  timeHtml+='</div>';
+
+  let slotsHtml=`<div class="rslots-col" id="rcol-${dayIdx}" style="flex:1">`;
+  for(let i=0;i<SLOTS;i++){
+    const isFull=i%2===0;
+    slotsHtml+=`<div class="rslot${isFull?' full-hour':''}" data-slot="${i}" style="height:${slotH}px" onclick="openRotinaModal(${i},${dayIdx})">
+      <span class="rslot-add-hint">+ bloco</span>
+    </div>`;
+  }
+  slotsHtml+=`<div class="rslot" style="height:${slotH}px;border-bottom:none;pointer-events:none;opacity:0"></div>`;
+  slotsHtml+=`</div>`;
+
+  // Use a 2-column grid: time + single day
+  grid.style.gridTemplateColumns='52px 1fr';
+  grid.style.minWidth='0';
+  grid.innerHTML=timeHtml+slotsHtml;
+
+  // Render blocks for this day
+  const blocks=getRotinaBlocks().filter(b=>{
+    if(rotinaState.filterCat!=='all'&&b.catId!==rotinaState.filterCat)return false;
+    if(b.repeat==='daily')return true;
+    if(b.repeat==='weekdays')return dayIdx>=1&&dayIdx<=5;
+    if(b.repeat==='weekend')return dayIdx===0||dayIdx===6;
+    return Number(b.day)===dayIdx;
+  });
+
+  const col=document.getElementById(`rcol-${dayIdx}`);
+  if(col){
+    blocks.forEach(b=>{
+      const cat=RCATS.find(c=>c.id===b.catId)||RCATS[0];
+      const top=b.startSlot*slotH;
+      const height=Math.max(1,b.endSlot-b.startSlot)*slotH-2;
+      const tStart=slotToTime(b.startSlot);
+      const tEnd=slotToTime(b.endSlot);
+      const div=document.createElement('div');
+      div.className='r-block';
+      div.style.cssText=`top:${top+1}px;height:${height}px;background:${cat.bg};border-left:3px solid ${cat.color};color:${cat.color}`;
+      div.innerHTML=`<div class="r-block-name">${b.name||cat.name}</div>
+        ${height>44?`<div class="r-block-time">${tStart}–${tEnd}</div>`:''}
+        <button class="r-block-del" style="opacity:.6!important" onclick="event.stopPropagation();deleteRotinaBlock('${b.id}')">×</button>`;
+      div.addEventListener('click',()=>editRotinaBlock(b.id));
+      col.appendChild(div);
+    });
+    renderNowLine();
+  }
 }
 
 function renderNowLine(){
@@ -2147,6 +2299,15 @@ function deleteRotinaBlock(id){
   if(!state.rotinaBlocks)return;
   state.rotinaBlocks=state.rotinaBlocks.filter(b=>b.id!==id);
   save();renderRotinaGrid();renderRotinaBalance();toast('Bloco removido');
+}
+
+function limparRotina(){
+  if(!state.rotinaBlocks||!state.rotinaBlocks.length){toast('Nenhum bloco para remover');return;}
+  // Custom confirm using a simple approach
+  const confirmed=window.confirm(`Remover todos os ${state.rotinaBlocks.length} bloco(s) da rotina? Esta ação não pode ser desfeita.`);
+  if(!confirmed)return;
+  state.rotinaBlocks=[];
+  save();renderRotinaPage();toast('Rotina limpa');
 }
 
 function gerarRotinaBase() {
@@ -2362,7 +2523,12 @@ function renderTourStep(){
 function tourNext(){tStep++;if(tStep>=TOUR.length){tourEnd();return;}renderTourStep();}
 function tourSkip(){tourEnd();}
 function tourEnd(){tActive=false;document.getElementById('tour-spotlight').style.display='none';document.getElementById('tour-tooltip').style.display='none';state.tourDone=true;save();}
-window.addEventListener('resize',()=>{if(tActive)renderTourStep();});
+window.addEventListener('resize',()=>{
+  if(tActive)renderTourStep();
+  // Re-render rotina if it's the active page
+  const rotinaPage=document.getElementById('page-rotina');
+  if(rotinaPage&&rotinaPage.classList.contains('active'))renderRotinaGrid();
+});
 </script>
 </body>
 </html>
