@@ -15,7 +15,8 @@
   --g-bg:rgba(29,184,112,.1);--y-bg:rgba(240,180,41,.1);--r-bg:rgba(240,78,78,.1);
   --sb:env(safe-area-inset-bottom);
   --r:8px;--r2:12px;
-  --slot-h:36px;
+  --slot-h:28px;
+  --tc-w:56px;
 }
 .theme-default{--a:#a78bfa;--a2:#6d28d9;--ag:rgba(167,139,250,.16);--ad:rgba(167,139,250,.07)}
 .theme-blue{--a:#60a5fa;--a2:#1d4ed8;--ag:rgba(96,165,250,.16);--ad:rgba(96,165,250,.07)}
@@ -302,7 +303,7 @@ tr:hover .del-btn{opacity:.4}
 .mat-list{display:flex;flex-direction:column;gap:6px}
 .mat-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r)}
 .mat-item-name{font-size:13px;font-weight:600;flex:1}
-.mat-item-del{font-size:12px;color:var(--red);cursor:pointer;padding:2px 6px;background:none;border:none;opacity:.4;transition:opacity .15s;font-family:'IBM Plex Mono',monospace}
+.mat-item-del{font-size:12px;color:var(--red);cursor:pointer;padding:2px 6px;background:none;border:none;opacity:.4;transition:opacity .15px;font-family:'IBM Plex Mono',monospace}
 .mat-item-del:hover{opacity:1}
 
 /* PROVAS */
@@ -421,46 +422,43 @@ canvas{width:100%!important}
 .btn-limpar{padding:7px 14px;background:transparent;border:1px solid rgba(240,78,78,.35);color:var(--red);font-family:'Outfit',sans-serif;font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:var(--r);transition:all .18s;white-space:nowrap}
 .btn-limpar:hover{background:var(--r-bg);border-color:var(--red)}
 
-.rotina-legend{display:flex;gap:6px;flex-wrap:wrap;padding:12px 36px;border-bottom:1px solid var(--border2);background:var(--bg2)}
+.rotina-legend{display:flex;gap:6px;flex-wrap:wrap;padding:10px 36px;border-bottom:1px solid var(--border2);background:var(--bg2)}
 .rleg-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid transparent;cursor:pointer;transition:all .18s;font-size:10px;font-weight:600;font-family:'Outfit',sans-serif;background:var(--bg3)}
 .rleg-chip.active{border-color:currentColor;background:rgba(0,0,0,.2)}
 .rleg-chip:not(.active){opacity:.45}
 .rleg-chip.filt-all{color:var(--muted2);border-color:var(--border3)}
 .rleg-chip.filt-all.active{color:var(--text);border-color:var(--border3);opacity:1}
-.rleg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rleg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 
-.rotina-balance{padding:12px 36px;border-bottom:1px solid var(--border2);background:var(--bg)}
-.rbal-title{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
-.rbal-bar{height:8px;border-radius:4px;overflow:hidden;background:var(--border2);display:flex;gap:1px}
+.rotina-balance{padding:10px 36px;border-bottom:1px solid var(--border2);background:var(--bg)}
+.rbal-title{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px}
+.rbal-bar{height:6px;border-radius:3px;overflow:hidden;background:var(--border2);display:flex;gap:1px}
 .rbal-seg{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1);min-width:0}
-.rbal-labels{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.rbal-labels{display:flex;gap:10px;flex-wrap:wrap;margin-top:5px}
 .rbal-item{display:flex;align-items:center;gap:4px;font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2)}
-.rbal-item-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.rbal-item-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 
 /* hint banner */
-.rotina-hint{padding:8px 36px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);display:flex;align-items:center;gap:8px}
-.rotina-hint::before{content:'💡';font-size:12px}
+.rotina-hint{padding:6px 36px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);display:flex;align-items:center;gap:8px}
+.rotina-hint::before{content:'💡';font-size:11px}
 
-/* Grid wrapper — allows horizontal scroll, pinned time col */
+/* Grid wrapper */
 .rotina-grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative;background:var(--bg)}
 
-/* ══════════════════════════════════════════════════
-   FIX 1 + FIX 3: sticky header acima dos blocos
-   top: 82px = 28px ticker + 54px nav
-   z-index: 30 > z-index dos blocos (z-index:5)
-   ══════════════════════════════════════════════════ */
+/* Sticky header */
 .rotina-weekly-header{
   display:grid;
-  grid-template-columns:var(--tc-w, 52px) repeat(7,1fr);
+  grid-template-columns:var(--tc-w) repeat(7,1fr);
   min-width:700px;
   background:var(--bg2);
   border-bottom:2px solid var(--border2);
   position:sticky;top:82px;z-index:30;
 }
 .rgh-cell{
-  padding:10px 8px;text-align:center;
-  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:8px 6px;text-align:center;
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   color:var(--muted2);border-right:1px solid var(--border2);
+  white-space:nowrap;
 }
 .rgh-cell:last-child{border-right:none}
 .rgh-cell.today-col{color:var(--a);background:var(--ad)}
@@ -468,7 +466,7 @@ canvas{width:100%!important}
 /* The actual grid */
 .rotina-grid{
   display:grid;
-  grid-template-columns:var(--tc-w, 52px) repeat(7,1fr);
+  grid-template-columns:var(--tc-w) repeat(7,1fr);
   min-width:700px;
   position:relative;
 }
@@ -476,24 +474,43 @@ canvas{width:100%!important}
 /* ── TIME COLUMN ── */
 .rtime-col{
   background:var(--bg2);
-  border-right:1px solid var(--border2);
+  border-right:2px solid var(--border2);
   position:sticky;left:0;z-index:15;
   grid-row:1;grid-column:1;
 }
 .rtime-cell{
   height:var(--slot-h);
   display:flex;align-items:flex-start;justify-content:flex-end;
-  padding:3px 8px 0 0;
+  padding:2px 6px 0 0;
   border-bottom:1px solid var(--border);
-  font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted);
-  letter-spacing:.04em;white-space:nowrap;
   box-sizing:border-box;
 }
-.rtime-cell.full-hour{border-bottom:1px solid var(--border2)}
-.rtime-cell.half-hour .rtime-lbl{visibility:hidden}
+.rtime-cell.full-hour{
+  border-bottom:1px solid var(--border2);
+  background:rgba(255,255,255,.015);
+}
+/* Hora cheia: número grande */
+.rtime-lbl-full{
+  font-size:10px;
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--muted2);
+  letter-spacing:.02em;
+  font-weight:600;
+  line-height:1;
+  white-space:nowrap;
+}
+/* Meia hora: número pequeno e mais apagado */
+.rtime-lbl-half{
+  font-size:8px;
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--muted);
+  opacity:.55;
+  line-height:1;
+  white-space:nowrap;
+  margin-top:1px;
+}
 
 /* ── DAY COLUMNS ── */
-/* FIX 2: overflow:hidden impede blocos de vazarem para o cabeçalho */
 .rslots-col{
   position:relative;
   border-right:1px solid var(--border2);
@@ -501,7 +518,7 @@ canvas{width:100%!important}
   overflow:hidden;
 }
 .rslots-col:last-child{border-right:none}
-.rslots-col.today-col{background:rgba(167,139,250,.02)}
+.rslots-col.today-col{background:rgba(167,139,250,.018)}
 
 /* ── SLOTS (click to add) ── */
 .rslot{
@@ -512,12 +529,14 @@ canvas{width:100%!important}
   position:relative;
   box-sizing:border-box;
 }
-.rslot.full-hour{border-bottom:1px solid var(--border2)}
-.rslot:hover{background:rgba(167,139,250,.06)}
+.rslot.full-hour{
+  border-bottom:1px solid var(--border2);
+}
+.rslot:hover{background:rgba(167,139,250,.07)}
 .rslot:hover::after{
-  content:'+ bloco';
-  position:absolute;left:6px;top:50%;transform:translateY(-50%);
-  font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--a);opacity:.6;
+  content:'＋';
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--a);opacity:.5;
   pointer-events:none;
 }
 
@@ -525,49 +544,48 @@ canvas{width:100%!important}
 .r-block{
   position:absolute;
   left:2px;right:2px;
-  border-radius:5px;
-  padding:4px 8px 4px 10px;
-  font-size:11px;font-weight:700;
+  border-radius:4px;
+  padding:3px 7px 3px 9px;
   overflow:hidden;
   z-index:5;
   display:flex;flex-direction:column;justify-content:center;
-  box-shadow:0 2px 10px rgba(0,0,0,.35);
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
   box-sizing:border-box;
   transition:box-shadow .15s,filter .1s;
   user-select:none;
   cursor:grab;
-  min-height:calc(var(--slot-h) - 2px);
+  min-height:calc(var(--slot-h) - 3px);
 }
 .r-block:active{cursor:grabbing}
 .r-block.dragging{opacity:.85;box-shadow:0 8px 28px rgba(0,0,0,.6);z-index:100;cursor:grabbing}
 .r-block.resizing{cursor:ns-resize}
-.r-block:hover{filter:brightness(1.12)}
+.r-block:hover{filter:brightness(1.1)}
 .r-block-name{
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  line-height:1.2;font-size:10px;pointer-events:none;
+  line-height:1.2;font-size:10px;font-weight:700;pointer-events:none;
 }
 .r-block-time{
-  font-size:9px;font-family:'IBM Plex Mono',monospace;opacity:.75;
-  margin-top:2px;white-space:nowrap;pointer-events:none;
+  font-size:8px;font-family:'IBM Plex Mono',monospace;opacity:.7;
+  margin-top:1px;white-space:nowrap;pointer-events:none;
 }
 .r-block-del{
-  position:absolute;top:3px;right:5px;
-  font-size:13px;line-height:1;
+  position:absolute;top:2px;right:4px;
+  font-size:12px;line-height:1;
   opacity:0;background:none;border:none;cursor:pointer;
-  color:rgba(0,0,0,.7);font-weight:900;padding:0;
+  color:rgba(0,0,0,.8);font-weight:900;padding:0;
   transition:opacity .15s;
 }
-.r-block:hover .r-block-del{opacity:.75}
+.r-block:hover .r-block-del{opacity:.7}
 .r-block-del:hover{opacity:1!important}
 .r-block-resize{
   position:absolute;bottom:0;left:0;right:0;
-  height:8px;cursor:ns-resize;
+  height:6px;cursor:ns-resize;
   display:flex;align-items:center;justify-content:center;
   opacity:0;transition:opacity .15s;
 }
 .r-block:hover .r-block-resize{opacity:1}
 .r-block-resize::after{
-  content:'';width:24px;height:2px;
+  content:'';width:20px;height:2px;
   background:rgba(0,0,0,.4);border-radius:1px;
 }
 
@@ -578,7 +596,7 @@ canvas{width:100%!important}
 }
 .r-now-line::before{
   content:'';position:absolute;left:-1px;top:-4px;
-  width:10px;height:10px;border-radius:50%;background:var(--red);
+  width:8px;height:8px;border-radius:50%;background:var(--red);
 }
 
 /* Category modal grid */
@@ -636,8 +654,8 @@ canvas{width:100%!important}
   .fab{display:flex}
   .provas-header,.rotina-header,.pomo-header{padding:20px 16px 18px}
   .rotina-inner{flex-direction:column;align-items:flex-start}
-  .rotina-legend,.rotina-balance{padding:10px 12px}
-  .rotina-hint{padding:8px 12px}
+  .rotina-legend,.rotina-balance{padding:8px 12px}
+  .rotina-hint{padding:6px 12px}
   .pomo-layout{grid-template-columns:1fr;min-height:auto}
   .pomo-sidebar{border-top:1px solid var(--border2);padding:20px 16px}
   .pomo-main{padding:24px 16px;align-items:center;width:100%}
@@ -653,12 +671,9 @@ canvas{width:100%!important}
   .config-section{margin:12px}
   .toast{bottom:calc(80px + var(--sb));right:12px;left:12px;max-width:100%}
   .tour-tooltip{left:12px!important;right:12px!important;width:auto!important}
-  /* mobile rotina: single-day grid */
-  /* FIX 4: no mobile o header some (display:none), mas definimos top:50px
-     para o caso de ficar visível em tablets borderline */
   .rotina-weekly-header{display:none;top:50px}
   .rotina-grid{
-    grid-template-columns:52px 1fr!important;
+    grid-template-columns:var(--tc-w) 1fr!important;
     min-width:0!important;
   }
   .r-block-del{opacity:.7!important}
@@ -897,7 +912,7 @@ canvas{width:100%!important}
         <div>
           <div class="dash-eyebrow">organização semanal</div>
           <div class="dash-title" style="margin-bottom:4px">Rotina</div>
-          <div class="dash-date mono">Grade horária estilo timeblocking — arraste e redimensione os blocos</div>
+          <div class="dash-date mono">Grade horária 05:00–00:00 · arraste e redimensione os blocos</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn-gerar" onclick="gerarRotinaBase()">Gerar Rotina Base</button>
@@ -914,7 +929,7 @@ canvas{width:100%!important}
     </div>
     <div class="rotina-grid-wrap" id="rotina-grid-wrap">
       <div class="rotina-weekly-header" id="rotina-weekly-header">
-        <div class="rgh-cell" style="border-right:1px solid var(--border2)">H.</div>
+        <div class="rgh-cell" style="border-right:2px solid var(--border2)">H.</div>
         <div class="rgh-cell" id="rgh-1">Seg</div>
         <div class="rgh-cell" id="rgh-2">Ter</div>
         <div class="rgh-cell" id="rgh-3">Qua</div>
@@ -1301,20 +1316,21 @@ document.addEventListener('DOMContentLoaded',()=>{const fill=document.getElement
 //  ROTINA — WEEKLY TIMEBLOCK GRID
 // ═══════════════════════════════════════════════════
 const RCATS=[
-  {id:'estudo',   name:'Estudo',   color:'#a78bfa',bg:'rgba(167,139,250,.25)'},
-  {id:'aula',     name:'Aula',     color:'#60a5fa',bg:'rgba(96,165,250,.25)'},
-  {id:'academia', name:'Academia', color:'#f87171',bg:'rgba(248,113,113,.25)'},
-  {id:'sono',     name:'Sono',     color:'#2dd4bf',bg:'rgba(45,212,191,.25)'},
-  {id:'refeicao', name:'Refeição', color:'#fbbf24',bg:'rgba(251,191,36,.25)'},
-  {id:'descanso', name:'Descanso', color:'#34d399',bg:'rgba(52,211,153,.25)'},
-  {id:'livre',    name:'Livre',    color:'#f9a8d4',bg:'rgba(249,168,212,.25)'},
-  {id:'trabalho', name:'Trabalho', color:'#fb923c',bg:'rgba(251,146,60,.25)'},
-  {id:'outro',    name:'Outro',    color:'#94a3b8',bg:'rgba(148,163,184,.25)'},
+  {id:'estudo',   name:'Estudo',   color:'#a78bfa',bg:'rgba(167,139,250,.22)'},
+  {id:'aula',     name:'Aula',     color:'#60a5fa',bg:'rgba(96,165,250,.22)'},
+  {id:'academia', name:'Academia', color:'#f87171',bg:'rgba(248,113,113,.22)'},
+  {id:'sono',     name:'Sono',     color:'#2dd4bf',bg:'rgba(45,212,191,.22)'},
+  {id:'refeicao', name:'Refeição', color:'#fbbf24',bg:'rgba(251,191,36,.22)'},
+  {id:'descanso', name:'Descanso', color:'#34d399',bg:'rgba(52,211,153,.22)'},
+  {id:'livre',    name:'Livre',    color:'#f9a8d4',bg:'rgba(249,168,212,.22)'},
+  {id:'trabalho', name:'Trabalho', color:'#fb923c',bg:'rgba(251,146,60,.22)'},
+  {id:'outro',    name:'Outro',    color:'#94a3b8',bg:'rgba(148,163,184,.22)'},
 ];
 
-const SLOT_H=36;
-const START_H=5;
-const SLOTS=38;
+// 05:00 → 00:00 = 19h = 38 slots de 30min
+const SLOT_H = 28;   // must match --slot-h CSS var
+const START_H = 5;
+const SLOTS = 38;    // 38 × 30min = 19h → 05:00 + 19h = 00:00 (midnight)
 
 let rotinaFilterCat='all';
 let rotinaEditingId=null;
@@ -1325,8 +1341,14 @@ let rotinaPendingSlot=0;
 let nowLineInterval=null;
 let mobileDayIdx=new Date().getDay();
 
-function slotToTime(i){const tm=START_H*60+i*30,h=Math.floor(tm/60)%24,m=tm%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;}
-function timeToSlot(ts){const[hh,mm]=ts.split(':').map(Number);return Math.round((hh*60+mm-START_H*60)/30);}
+function slotToTime(i){
+  const tm=START_H*60+i*30;
+  const totalMin=tm%1440; // wrap at 24h
+  const h=Math.floor(totalMin/60);
+  const m=totalMin%60;
+  return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+function timeToSlot(ts){const[hh,mm]=ts.split(':').map(Number);let mins=hh*60+mm;if(mins<START_H*60)mins+=1440;return Math.round((mins-START_H*60)/30);}
 function blocksForDay(di){return(state.rotinaBlocks||[]).filter(b=>{if(b.repeat==='daily')return true;if(b.repeat==='weekdays')return di>=1&&di<=5;if(b.repeat==='weekend')return di===0||di===6;return Number(b.day)===di;});}
 function getCat(id){return RCATS.find(c=>c.id===id)||RCATS[RCATS.length-1];}
 
@@ -1352,7 +1374,7 @@ function renderRotinaBalance(){
   for(let d=0;d<7;d++)blocksForDay(d).forEach(b=>{const dur=(b.endSlot-b.startSlot)*.5;if(catH[b.catId]!==undefined)catH[b.catId]+=dur;});
   const total=Object.values(catH).reduce((a,b)=>a+b,0)||1;
   const cats=RCATS.filter(c=>catH[c.id]>0);
-  bar.innerHTML=cats.length?cats.map(c=>`<div class="rbal-seg" style="width:${(catH[c.id]/total*100).toFixed(1)}%;background:${c.color}"></div>`).join(''):'<div style="width:100%;height:100%;background:var(--border2);border-radius:4px"></div>';
+  bar.innerHTML=cats.length?cats.map(c=>`<div class="rbal-seg" style="width:${(catH[c.id]/total*100).toFixed(1)}%;background:${c.color}"></div>`).join(''):'<div style="width:100%;height:100%;background:var(--border2);border-radius:3px"></div>';
   lbls.innerHTML=cats.length?cats.map(c=>`<div class="rbal-item"><div class="rbal-item-dot" style="background:${c.color}"></div>${c.name}: ${catH[c.id].toFixed(1)}h</div>`).join(''):'<div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;color:var(--muted)">sem blocos ainda</div>';
 }
 
@@ -1361,7 +1383,7 @@ function renderRotinaMobileTabs(){
   let tabs=document.getElementById('rotina-mobile-tabs');
   if(!tabs){
     tabs=document.createElement('div');tabs.id='rotina-mobile-tabs';
-    tabs.style.cssText='display:flex;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border2);scrollbar-width:none;position:sticky;top:54px;z-index:25;';
+    tabs.style.cssText='display:flex;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border2);scrollbar-width:none;position:sticky;top:50px;z-index:25;';
     wrap.insertAdjacentElement('beforebegin',tabs);
   }
   const DNAMES=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -1380,21 +1402,41 @@ function renderRotinaGrid(isMobile,days){
   const grid=document.getElementById('rotina-grid');if(!grid)return;
   const todayIdx=new Date().getDay();
 
-  if(isMobile){grid.style.gridTemplateColumns=`52px 1fr`;grid.style.minWidth='0';}
-  else{grid.style.gridTemplateColumns=`52px repeat(${days.length},1fr)`;grid.style.minWidth='700px';}
-
-  let html=`<div class="rtime-col">`;
-  for(let i=0;i<SLOTS;i++){
-    const tm=START_H*60+i*30,h=Math.floor(tm/60)%24,m=tm%60,isFull=m===0;
-    html+=`<div class="rtime-cell${isFull?' full-hour':' half-hour'}"><span class="rtime-lbl">${isFull?String(h).padStart(2,'0')+':00':''}</span></div>`;
+  if(isMobile){
+    grid.style.gridTemplateColumns=`var(--tc-w) 1fr`;
+    grid.style.minWidth='0';
+  } else {
+    grid.style.gridTemplateColumns=`var(--tc-w) repeat(${days.length},1fr)`;
+    grid.style.minWidth='700px';
   }
-  html+=`</div>`;
+
+  // Build time column
+  let timeCellsHtml='';
+  for(let i=0;i<SLOTS;i++){
+    const tm=START_H*60+i*30;
+    const totalMin=tm%1440;
+    const h=Math.floor(totalMin/60);
+    const m=totalMin%60;
+    const isFull=(m===0);
+    if(isFull){
+      const label=h===0?'00:00':`${String(h).padStart(2,'0')}:00`;
+      timeCellsHtml+=`<div class="rtime-cell full-hour"><span class="rtime-lbl-full">${label}</span></div>`;
+    } else {
+      timeCellsHtml+=`<div class="rtime-cell"><span class="rtime-lbl-half">${String(h).padStart(2,'0')}:30</span></div>`;
+    }
+  }
+
+  let html=`<div class="rtime-col">${timeCellsHtml}</div>`;
 
   days.forEach(di=>{
     const isToday=di===todayIdx;
     html+=`<div class="rslots-col${isToday?' today-col':''}" id="rcol-${di}">`;
     for(let i=0;i<SLOTS;i++){
-      const isFull=(i%2===0);
+      const tm=START_H*60+i*30;
+      const m=(tm)%60;
+      // actually check if :00 or :30
+      const mins30=i*30;
+      const isFull=(mins30%60===0);
       html+=`<div class="rslot${isFull?' full-hour':''}" data-day="${di}" data-slot="${i}"></div>`;
     }
     html+=`</div>`;
@@ -1402,6 +1444,7 @@ function renderRotinaGrid(isMobile,days){
 
   grid.innerHTML=html;
 
+  // Bind slot clicks
   grid.querySelectorAll('.rslot').forEach(slot=>{
     slot.addEventListener('click',()=>{
       const di=parseInt(slot.dataset.day),si=parseInt(slot.dataset.slot);
@@ -1409,6 +1452,7 @@ function renderRotinaGrid(isMobile,days){
     });
   });
 
+  // Place blocks
   const allBlocks=state.rotinaBlocks||[];
   const filtered=rotinaFilterCat==='all'?allBlocks:allBlocks.filter(b=>b.catId===rotinaFilterCat);
   filtered.forEach(b=>{
@@ -1441,10 +1485,10 @@ function placeBlock(b,dayIdx){
     ${height>46?`<div class="r-block-time">${tStart}–${tEnd}</div>`:''}
     <div class="r-block-resize"></div>`;
 
-  let dragStarted=false;
-  div.addEventListener('mousedown',e=>{if(e.target.classList.contains('r-block-del')||e.target.classList.contains('r-block-resize'))return;startDrag(e,b,div,col,dayIdx);});
+  let dragMoved=false;
+  div.addEventListener('mousedown',e=>{if(e.target.classList.contains('r-block-del')||e.target.classList.contains('r-block-resize'))return;dragMoved=false;startDrag(e,b,div,col,dayIdx);});
   div.addEventListener('touchstart',e=>{if(e.target.classList.contains('r-block-del')||e.target.classList.contains('r-block-resize'))return;startDragTouch(e,b,div,col,dayIdx);},{passive:false});
-  div.addEventListener('click',e=>{if(!dragStarted&&!e.target.classList.contains('r-block-del'))editRotinaBlock(b.id);});
+  div.addEventListener('click',e=>{if(!dragMoved&&!e.target.classList.contains('r-block-del'))editRotinaBlock(b.id);});
 
   const resizeHandle=div.querySelector('.r-block-resize');
   resizeHandle.addEventListener('mousedown',e=>{e.stopPropagation();startResize(e,b,div,col);});
@@ -1457,7 +1501,6 @@ function startDrag(e,b,div,col,dayIdx){
   e.preventDefault();
   let moved=false;
   const startY=e.clientY;
-  const origTop=parseInt(div.style.top);
   const origStart=b.startSlot,origEnd=b.endSlot;
   const span=origEnd-origStart;
   div.classList.add('dragging');
@@ -1479,7 +1522,7 @@ function startDrag(e,b,div,col,dayIdx){
     const slotDelta=Math.round(dy/SLOT_H);
     const newStart=Math.max(0,Math.min(SLOTS-span,origStart+slotDelta));
     if(newStart!==origStart){b.startSlot=newStart;b.endSlot=newStart+span;save();renderRotinaBalance();renderNowLine([dayIdx]);}
-    else div.style.top=(origTop)+'px';
+    else div.style.top=(origStart*SLOT_H+1)+'px';
   }
   window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);
 }
@@ -1529,7 +1572,6 @@ function startResize(e,b,div,col){
     div.style.height=newH+'px';
     const tLabel=div.querySelector('.r-block-time');
     if(tLabel)tLabel.textContent=`${slotToTime(b.startSlot)}–${slotToTime(newEnd)}`;
-    else if(newH>46){const nl=document.createElement('div');nl.className='r-block-time';nl.textContent=`${slotToTime(b.startSlot)}–${slotToTime(newEnd)}`;div.insertBefore(nl,div.querySelector('.r-block-resize'));}
   }
   function onUp(ev){
     window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);
@@ -1573,10 +1615,15 @@ function renderNowLine(days){
   const now=new Date(),todayIdx=now.getDay();
   if(!days||!days.includes(todayIdx))return;
   const col=document.getElementById('rcol-'+todayIdx);if(!col)return;
-  const tm=now.getHours()*60+now.getMinutes(),startMin=START_H*60,endMin=startMin+SLOTS*30;
-  if(tm<startMin||tm>endMin)return;
+  const tm=now.getHours()*60+now.getMinutes();
+  const startMin=START_H*60;
+  const endMin=startMin+SLOTS*30; // = 24*60 = 1440 at midnight
+  // handle midnight wrap: if now is after midnight (0-5h), add 24h
+  let tmAdj=tm;
+  if(tm<startMin)tmAdj=tm+1440;
+  if(tmAdj<startMin||tmAdj>endMin)return;
   const line=document.createElement('div');line.className='r-now-line';
-  line.style.top=((tm-startMin)/30*SLOT_H)+'px';col.appendChild(line);
+  line.style.top=((tmAdj-startMin)/30*SLOT_H)+'px';col.appendChild(line);
 }
 function startNowLine(){if(nowLineInterval)clearInterval(nowLineInterval);nowLineInterval=setInterval(()=>{const isMobile=window.innerWidth<=768;renderNowLine(isMobile?[mobileDayIdx]:[1,2,3,4,5,6,0]);},60000);}
 
@@ -1613,9 +1660,14 @@ function saveRotinaBlock(){
   const startStr=document.getElementById('rblock-start').value,endStr=document.getElementById('rblock-end').value;
   if(!startStr||!endStr){toast('Defina horário de início e fim');return;}
   const[sh,sm]=startStr.split(':').map(Number),[eh,em]=endStr.split(':').map(Number);
-  if(eh<sh||(eh===sh&&em<=sm)){toast('Horário de fim deve ser após início');return;}
+  // allow end=00:00 as midnight
+  const startMins=sh*60+sm;
+  let endMins=eh*60+em;
+  if(endMins===0)endMins=1440; // midnight
+  if(endMins<=startMins&&endMins!==1440){toast('Horário de fim deve ser após início');return;}
   let startSlot=Math.max(0,Math.min(timeToSlot(startStr),SLOTS-1));
-  let endSlot=Math.max(startSlot+1,Math.min(timeToSlot(endStr),SLOTS));
+  let endSlot=Math.max(startSlot+1,Math.min(SLOTS,timeToSlot(endStr)));
+  if(endStr==='00:00')endSlot=SLOTS;
   const dayVal=rotinaSelectedRepeat==='once'?Number(document.getElementById('rblock-day').value):rotinaPendingDay;
   if(!state.rotinaBlocks)state.rotinaBlocks=[];
   if(rotinaEditingId){const idx=state.rotinaBlocks.findIndex(b=>b.id===rotinaEditingId);if(idx>=0)state.rotinaBlocks[idx]={...state.rotinaBlocks[idx],name,catId:rotinaSelectedCat,startSlot,endSlot,repeat:rotinaSelectedRepeat,day:dayVal};}
@@ -1628,12 +1680,15 @@ function limparRotina(){if(!state.rotinaBlocks?.length){toast('Nenhum bloco para
 function gerarRotinaBase(){
   if(state.rotinaBlocks?.length>0&&!confirm('Isso vai adicionar blocos base por cima da sua rotina. Continuar?'))return;
   const def=[
-    {catId:'sono',name:'Sono',startSlot:37,endSlot:38,repeat:'daily'},
-    {catId:'sono',name:'Sono',startSlot:0,endSlot:2,repeat:'daily'},
-    {catId:'refeicao',name:'Café da Manhã',startSlot:4,endSlot:5,repeat:'daily'},
-    {catId:'refeicao',name:'Almoço',startSlot:14,endSlot:16,repeat:'daily'},
-    {catId:'descanso',name:'Pausa',startSlot:16,endSlot:17,repeat:'daily'},
-    {catId:'refeicao',name:'Jantar',startSlot:28,endSlot:30,repeat:'daily'},
+    {catId:'sono',   name:'Sono',          startSlot:0,  endSlot:4,  repeat:'daily'}, // 05:00–07:00
+    {catId:'refeicao',name:'Café da Manhã',startSlot:4,  endSlot:6,  repeat:'daily'}, // 07:00–08:00
+    {catId:'estudo', name:'Estudo Manhã',  startSlot:6,  endSlot:12, repeat:'weekdays'}, // 08:00–11:00
+    {catId:'refeicao',name:'Almoço',       startSlot:14, endSlot:16, repeat:'daily'}, // 12:00–13:00
+    {catId:'estudo', name:'Estudo Tarde',  startSlot:16, endSlot:22, repeat:'weekdays'}, // 13:00–16:00
+    {catId:'descanso',name:'Pausa',        startSlot:22, endSlot:24, repeat:'daily'}, // 16:00–17:00
+    {catId:'refeicao',name:'Jantar',       startSlot:28, endSlot:30, repeat:'daily'}, // 19:00–20:00
+    {catId:'livre',  name:'Tempo Livre',   startSlot:30, endSlot:34, repeat:'daily'}, // 20:00–22:00
+    {catId:'sono',   name:'Sono',          startSlot:34, endSlot:38, repeat:'daily'}, // 22:00–00:00
   ];
   if(!state.rotinaBlocks)state.rotinaBlocks=[];
   def.forEach(d=>state.rotinaBlocks.push({id:'rb'+Math.random().toString(36).substr(2,9),day:1,...d}));
