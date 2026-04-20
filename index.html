@@ -1486,10 +1486,24 @@ function placeBlock(b,dayIdx){
     ${height>46?`<div class="r-block-time">${tStart}–${tEnd}</div>`:''}
     <div class="r-block-resize"></div>`;
 
-  let dragMoved=false;
-  div.addEventListener('mousedown',e=>{if(e.target.classList.contains('r-block-del')||e.target.classList.contains('r-block-resize'))return;dragMoved=false;startDrag(e,b,div,col,dayIdx);});
-  div.addEventListener('touchstart',e=>{if(e.target.classList.contains('r-block-del')||e.target.classList.contains('r-block-resize'))return;startDragTouch(e,b,div,col,dayIdx);},{passive:false});
-  div.addEventListener('click',e=>{if(!dragMoved&&!e.target.classList.contains('r-block-del'))editRotinaBlock(b.id);});
+  let _dragged = false;
+
+div.addEventListener('mousedown', e => {
+  if (e.target.classList.contains('r-block-del') || e.target.classList.contains('r-block-resize')) return;
+  _dragged = false;
+  startDrag(e, b, div, col, dayIdx, () => { _dragged = true; });
+});
+
+div.addEventListener('touchstart', e => {
+  if (e.target.classList.contains('r-block-del') || e.target.classList.contains('r-block-resize')) return;
+  _dragged = false;
+  startDragTouch(e, b, div, col, dayIdx, () => { _dragged = true; });
+}, { passive: false });
+
+div.addEventListener('click', e => {
+  if (_dragged || e.target.classList.contains('r-block-del')) return;
+  editRotinaBlock(b.id);
+}););
 
   const resizeHandle=div.querySelector('.r-block-resize');
   resizeHandle.addEventListener('mousedown',e=>{e.stopPropagation();startResize(e,b,div,col);});
@@ -1498,37 +1512,44 @@ function placeBlock(b,dayIdx){
   col.appendChild(div);
 }
 
-function startDrag(e,b,div,col,dayIdx){
+function startDrag(e, b, div, col, dayIdx, onMoved) {
   e.preventDefault();
-  let moved=false;
-  const startY=e.clientY;
-  const origStart=b.startSlot,origEnd=b.endSlot;
-  const span=origEnd-origStart;
+  let moved = false;
+  const startY = e.clientY;
+  const origStart = b.startSlot, origEnd = b.endSlot;
+  const span = origEnd - origStart;
   div.classList.add('dragging');
 
-  function onMove(ev){
-    const dy=ev.clientY-startY;
-    const slotDelta=Math.round(dy/SLOT_H);
-    if(slotDelta!==0)moved=true;
-    const newStart=Math.max(0,Math.min(SLOTS-span,origStart+slotDelta));
-    div.style.top=(newStart*SLOT_H+1)+'px';
-    const tLabel=div.querySelector('.r-block-time');
-    if(tLabel)tLabel.textContent=`${slotToTime(newStart)}–${slotToTime(newStart+span)}`;
+  function onMove(ev) {
+    const dy = ev.clientY - startY;
+    const slotDelta = Math.round(dy / SLOT_H);
+    if (slotDelta !== 0 && !moved) {
+      moved = true;
+      if (onMoved) onMoved(); // ← avisa que houve drag real
+    }
+    const newStart = Math.max(0, Math.min(SLOTS - span, origStart + slotDelta));
+    div.style.top = (newStart * SLOT_H + 1) + 'px';
+    const tLabel = div.querySelector('.r-block-time');
+    if (tLabel) tLabel.textContent = `${slotToTime(newStart)}–${slotToTime(newStart + span)}`;
   }
-  function onUp(ev){
-    window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);
+
+  function onUp(ev) {
+    window.removeEventListener('mousemove', onMove);
+    window.removeEventListener('mouseup', onUp);
     div.classList.remove('dragging');
-    if(!moved)return;
-    const dy=ev.clientY-startY;
-    const slotDelta=Math.round(dy/SLOT_H);
-    const newStart=Math.max(0,Math.min(SLOTS-span,origStart+slotDelta));
-    if(newStart!==origStart){b.startSlot=newStart;b.endSlot=newStart+span;save();renderRotinaBalance();renderNowLine([dayIdx]);}
-    else div.style.top=(origStart*SLOT_H+1)+'px';
+    if (!moved) return;
+    const dy = ev.clientY - startY;
+    const slotDelta = Math.round(dy / SLOT_H);
+    const newStart = Math.max(0, Math.min(SLOTS - span, origStart + slotDelta));
+    if (newStart !== origStart) { b.startSlot = newStart; b.endSlot = newStart + span; save(); renderRotinaBalance(); renderNowLine([dayIdx]); }
+    else div.style.top = (origStart * SLOT_H + 1) + 'px';
   }
-  window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);
+
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
 }
 
-function startDragTouch(e,b,div,col,dayIdx){
+function startDragTouch(e,b,div,col,dayIdx,onMoved){
   e.preventDefault();
   const t0=e.touches[0];
   const startY=t0.clientY;
@@ -1540,7 +1561,10 @@ function startDragTouch(e,b,div,col,dayIdx){
   function onMove(ev){
     const dy=ev.touches[0].clientY-startY;
     const slotDelta=Math.round(dy/SLOT_H);
-    if(slotDelta!==0)moved=true;
+    if(slotDelta!==0&&!moved){
+      moved=true;
+      if(onMoved)onMoved(); // ← avisa que houve drag real
+    }
     const newStart=Math.max(0,Math.min(SLOTS-span,origStart+slotDelta));
     div.style.top=(newStart*SLOT_H+1)+'px';
     const tLabel=div.querySelector('.r-block-time');
