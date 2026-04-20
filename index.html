@@ -703,7 +703,6 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- LOGIN -->
 <div id="login-screen" class="screen" style="display:none">
   <div class="login-left">
     <div class="login-brand">
@@ -730,7 +729,6 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- ONBOARDING -->
 <div id="onboard-screen" class="screen" style="display:none">
   <div class="onboard-box">
     <div class="onboard-eyebrow">configuração inicial</div>
@@ -749,7 +747,6 @@ canvas{width:100%!important}
   </div>
 </div>
 
-<!-- APP -->
 <div id="app-screen" class="screen" style="display:none">
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
@@ -787,7 +784,6 @@ canvas{width:100%!important}
     <button class="hamburger" id="hamburger" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
   </nav>
 
-  <!-- PLANILHA -->
   <div id="page-planilha" class="page active">
     <div class="dash-header">
       <div class="dash-inner">
@@ -827,7 +823,6 @@ canvas{width:100%!important}
 
   <button class="fab" id="fab-btn" onclick="openAddTemaModal()" aria-label="Adicionar tema">+</button>
 
-  <!-- POMODORO -->
   <div id="page-pomodoro" class="page">
     <div class="pomo-header"><div class="pomo-inner"><div class="dash-eyebrow">foco e produtividade</div><div class="dash-title" style="margin-bottom:4px">Pomodoro</div><div class="dash-date mono">Rastreie seu tempo de estudo por matéria</div></div></div>
     <div class="pomo-layout">
@@ -887,7 +882,6 @@ canvas{width:100%!important}
     </div>
   </div>
 
-  <!-- PROVAS -->
   <div id="page-provas" class="page">
     <div class="provas-header"><div class="provas-inner"><div class="dash-eyebrow">histórico de provas</div><div class="dash-title" style="margin-bottom:16px">Desempenho</div><button class="btn-add" onclick="openAddProvaModal()">+ Registrar prova</button></div></div>
     <div class="perf-grid" id="charts-area" style="display:none">
@@ -906,7 +900,6 @@ canvas{width:100%!important}
     </div>
   </div>
 
-  <!-- ROTINA -->
   <div id="page-rotina" class="page">
     <div class="rotina-header">
       <div class="rotina-inner">
@@ -943,7 +936,6 @@ canvas{width:100%!important}
     </div>
   </div>
 
-  <!-- CONFIG -->
   <div id="page-configuracoes" class="page">
     <div class="config-header"><div class="dash-eyebrow" style="margin-bottom:8px">personalize</div><div class="dash-title" style="font-size:32px;margin-bottom:0">Configurações</div></div>
     <div class="config-section" style="margin-top:24px">
@@ -989,10 +981,7 @@ canvas{width:100%!important}
     </div>
     <div style="height:40px"></div>
   </div>
-</div><!-- /app-screen -->
-
-<!-- MODALS -->
-<div class="modal-overlay" id="modal-rotina" onclick="handleOvClick(event,'modal-rotina')">
+</div><div class="modal-overlay" id="modal-rotina" onclick="handleOvClick(event,'modal-rotina')">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-hd"><div class="modal-title" id="modal-rotina-title">Novo bloco</div><div class="modal-sub mono">// configure o horário e a categoria</div></div>
@@ -1314,7 +1303,7 @@ function renderPomoStats(){const ts=today(),focusSess=state.pomSessions.filter(s
 document.addEventListener('DOMContentLoaded',()=>{const fill=document.getElementById('timer-ring-fill');if(fill){fill.style.strokeDasharray=CIRC.toFixed(2);fill.style.strokeDashoffset='0';}renderCycleDots();});
 
 // ═══════════════════════════════════════════════════
-//  ROTINA — WEEKLY TIMEBLOCK GRID
+//   ROTINA — WEEKLY TIMEBLOCK GRID
 // ═══════════════════════════════════════════════════
 const RCATS=[
   {id:'estudo',   name:'Estudo',   color:'#a78bfa',bg:'rgba(167,139,250,.22)'},
@@ -1488,22 +1477,22 @@ function placeBlock(b,dayIdx){
 
   let _dragged = false;
 
-div.addEventListener('mousedown', e => {
-  if (e.target.classList.contains('r-block-del') || e.target.classList.contains('r-block-resize')) return;
-  _dragged = false;
-  startDrag(e, b, div, col, dayIdx, () => { _dragged = true; });
-});
+  div.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('r-block-del') || e.target.classList.contains('r-block-resize')) return;
+    _dragged = false;
+    startDrag(e, b, div, col, dayIdx, () => { _dragged = true; });
+  });
 
-div.addEventListener('touchstart', e => {
-  if (e.target.classList.contains('r-block-del') || e.target.classList.contains('r-block-resize')) return;
-  _dragged = false;
-  startDragTouch(e, b, div, col, dayIdx, () => { _dragged = true; });
-}, { passive: false });
+  div.addEventListener('touchstart', e => {
+    if (e.target.classList.contains('r-block-del') || e.target.classList.contains('r-block-resize')) return;
+    _dragged = false;
+    startDragTouch(e, b, div, col, dayIdx, () => { _dragged = true; });
+  }, { passive: false });
 
-div.addEventListener('click', e => {
-  if (_dragged || e.target.classList.contains('r-block-del')) return;
-  editRotinaBlock(b.id);
-});
+  div.addEventListener('click', e => {
+    if (_dragged || e.target.classList.contains('r-block-del')) return;
+    editRotinaBlock(b.id);
+  });
 
   const resizeHandle=div.querySelector('.r-block-resize');
   resizeHandle.addEventListener('mousedown',e=>{e.stopPropagation();startResize(e,b,div,col);});
@@ -1525,7 +1514,7 @@ function startDrag(e, b, div, col, dayIdx, onMoved) {
     const slotDelta = Math.round(dy / SLOT_H);
     if (slotDelta !== 0 && !moved) {
       moved = true;
-      if (onMoved) onMoved(); // ← avisa que houve drag real
+      if (onMoved) onMoved();
     }
     const newStart = Math.max(0, Math.min(SLOTS - span, origStart + slotDelta));
     div.style.top = (newStart * SLOT_H + 1) + 'px';
@@ -1563,7 +1552,7 @@ function startDragTouch(e,b,div,col,dayIdx,onMoved){
     const slotDelta=Math.round(dy/SLOT_H);
     if(slotDelta!==0&&!moved){
       moved=true;
-      if(onMoved)onMoved(); // ← avisa que houve drag real
+      if(onMoved)onMoved();
     }
     const newStart=Math.max(0,Math.min(SLOTS-span,origStart+slotDelta));
     div.style.top=(newStart*SLOT_H+1)+'px';
@@ -1642,8 +1631,7 @@ function renderNowLine(days){
   const col=document.getElementById('rcol-'+todayIdx);if(!col)return;
   const tm=now.getHours()*60+now.getMinutes();
   const startMin=START_H*60;
-  const endMin=startMin+SLOTS*30; // = 24*60 = 1440 at midnight
-  // handle midnight wrap: if now is after midnight (0-5h), add 24h
+  const endMin=startMin+SLOTS*30; 
   let tmAdj=tm;
   if(tm<startMin)tmAdj=tm+1440;
   if(tmAdj<startMin||tmAdj>endMin)return;
@@ -1685,10 +1673,9 @@ function saveRotinaBlock(){
   const startStr=document.getElementById('rblock-start').value,endStr=document.getElementById('rblock-end').value;
   if(!startStr||!endStr){toast('Defina horário de início e fim');return;}
   const[sh,sm]=startStr.split(':').map(Number),[eh,em]=endStr.split(':').map(Number);
-  // allow end=00:00 as midnight
   const startMins=sh*60+sm;
   let endMins=eh*60+em;
-  if(endMins===0)endMins=1440; // midnight
+  if(endMins===0)endMins=1440; 
   if(endMins<=startMins&&endMins!==1440){toast('Horário de fim deve ser após início');return;}
   let startSlot=Math.max(0,Math.min(timeToSlot(startStr),SLOTS-1));
   let endSlot=Math.max(startSlot+1,Math.min(SLOTS,timeToSlot(endStr)));
@@ -1705,15 +1692,15 @@ function limparRotina(){if(!state.rotinaBlocks?.length){toast('Nenhum bloco para
 function gerarRotinaBase(){
   if(state.rotinaBlocks?.length>0&&!confirm('Isso vai adicionar blocos base por cima da sua rotina. Continuar?'))return;
   const def=[
-    {catId:'sono',   name:'Sono',          startSlot:0,  endSlot:4,  repeat:'daily'}, // 05:00–07:00
-    {catId:'refeicao',name:'Café da Manhã',startSlot:4,  endSlot:6,  repeat:'daily'}, // 07:00–08:00
-    {catId:'estudo', name:'Estudo Manhã',  startSlot:6,  endSlot:12, repeat:'weekdays'}, // 08:00–11:00
-    {catId:'refeicao',name:'Almoço',       startSlot:14, endSlot:16, repeat:'daily'}, // 12:00–13:00
-    {catId:'estudo', name:'Estudo Tarde',  startSlot:16, endSlot:22, repeat:'weekdays'}, // 13:00–16:00
-    {catId:'descanso',name:'Pausa',        startSlot:22, endSlot:24, repeat:'daily'}, // 16:00–17:00
-    {catId:'refeicao',name:'Jantar',       startSlot:28, endSlot:30, repeat:'daily'}, // 19:00–20:00
-    {catId:'livre',  name:'Tempo Livre',   startSlot:30, endSlot:34, repeat:'daily'}, // 20:00–22:00
-    {catId:'sono',   name:'Sono',          startSlot:34, endSlot:38, repeat:'daily'}, // 22:00–00:00
+    {catId:'sono',   name:'Sono',          startSlot:0,  endSlot:4,  repeat:'daily'},
+    {catId:'refeicao',name:'Café da Manhã',startSlot:4,  endSlot:6,  repeat:'daily'},
+    {catId:'estudo', name:'Estudo Manhã',  startSlot:6,  endSlot:12, repeat:'weekdays'},
+    {catId:'refeicao',name:'Almoço',       startSlot:14, endSlot:16, repeat:'daily'},
+    {catId:'estudo', name:'Estudo Tarde',  startSlot:16, endSlot:22, repeat:'weekdays'},
+    {catId:'descanso',name:'Pausa',        startSlot:22, endSlot:24, repeat:'daily'},
+    {catId:'refeicao',name:'Jantar',       startSlot:28, endSlot:30, repeat:'daily'},
+    {catId:'livre',  name:'Tempo Livre',   startSlot:30, endSlot:34, repeat:'daily'},
+    {catId:'sono',   name:'Sono',          startSlot:34, endSlot:38, repeat:'daily'},
   ];
   if(!state.rotinaBlocks)state.rotinaBlocks=[];
   def.forEach(d=>state.rotinaBlocks.push({id:'rb'+Math.random().toString(36).substr(2,9),day:1,...d}));
@@ -1722,7 +1709,7 @@ function gerarRotinaBase(){
 
 // ═══════════════ TELEGRAM ═══════════════
 function connectTelegram(){const v=document.getElementById('tg-token').value.trim();if(!v){toast('Insira seu Chat ID');return;}state.tgChatId=v;save();document.getElementById('tg-connected').classList.add('show');toast('Telegram conectado');}
-async function dispararNotificacaoTelegram(){if(!state.tgChatId){toast('Conecte o Telegram primeiro');return;}const revs=getTodayRevisions();let m=`🚀 *ESTUDAHUB — REVISÕES DE HOJE*\n_${new Date().toLocaleDateString('pt-BR')}_\n\n`;if(revs.length){revs.forEach((r,i)=>{m+=`${i+1}. *${r.materia}*\n    └ ${r.tema}\n    └ ${r.revType}\n\n`;});m+=`🎯 *Bons estudos!*`;}else m+=`✅ *Tudo em dia! Sem revisões pendentes.*`;try{const res=await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:state.tgChatId,text:m,parse_mode:'Markdown'})});if(res.ok)toast('Mensagem enviada');else{const e=await res.json();toast('Erro: '+e.description);}}catch(e){toast('Erro de rede');}}
+async function dispararNotificacaoTelegram(){if(!state.tgChatId){toast('Conecte o Telegram primeiro');return;}const revs=getTodayRevisions();let m=`🚀 *ESTUDAHUB — REVISÕES DE HOJE*\n_${new Date().toLocaleDateString('pt-BR')}_\n\n`;if(revs.length){revs.forEach((r,i)=>{m+=`${i+1}. *${r.materia}*\n  └ ${r.tema}\n  └ ${r.revType}\n\n`;});m+=`🎯 *Bons estudos!*`;}else m+=`✅ *Tudo em dia! Sem revisões pendentes.*`;try{const res=await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:state.tgChatId,text:m,parse_mode:'Markdown'})});if(res.ok)toast('Mensagem enviada');else{const e=await res.json();toast('Erro: '+e.description);}}catch(e){toast('Erro de rede');}}
 let schedTO=null;
 function scheduleInit(){scheduleClear();if(state.tgSchedEn&&state.tgChatId){scheduleNext();updateSchedStatus();}}
 function scheduleClear(){if(schedTO){clearTimeout(schedTO);schedTO=null;}}
