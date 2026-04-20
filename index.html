@@ -1503,7 +1503,7 @@ div.addEventListener('touchstart', e => {
 div.addEventListener('click', e => {
   if (_dragged || e.target.classList.contains('r-block-del')) return;
   editRotinaBlock(b.id);
-}););
+});
 
   const resizeHandle=div.querySelector('.r-block-resize');
   resizeHandle.addEventListener('mousedown',e=>{e.stopPropagation();startResize(e,b,div,col);});
