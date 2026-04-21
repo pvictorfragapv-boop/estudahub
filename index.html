@@ -584,15 +584,12 @@
     .sim-q-body { padding: 20px 24px; }
     .sim-alts { display: flex; flex-direction: column; gap: 8px; }
     .sim-alt { display: flex; flex-direction: column; border: 1.5px solid var(--border2); border-radius: 12px; cursor: pointer; transition: all .18s; background: var(--bg3); font-size: 13px; line-height: 1.6; position: relative; overflow: hidden; margin-bottom: 2px; }
-    .sim-alt.correct { border-color: rgba(29,184,112,.6)!important; background: rgba(29,184,112,.08)!important; box-shadow: 0 0 0 2px rgba(29,184,112,.2); }
-    .sim-alt.wrong { border-color: rgba(240,78,78,.7)!important; background: rgba(240,78,78,.08)!important; box-shadow: 0 0 0 2px rgba(240,78,78,.2); }
-    .sim-alt.other-wrong { border-color: rgba(240,78,78,.25)!important; background: rgba(240,78,78,.04)!important; opacity: 1; }
-    .sim-alt.other-wrong .sim-alt-exp { color: rgba(240,78,78,.65); }
-    .sim-alt-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; }
-    .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
-    .sim-alt.correct .sim-alt-letter { background: var(--green); color: #fff; }
-    .sim-alt.wrong .sim-alt-letter { background: var(--red); color: #fff; }
-    .sim-alt.other-wrong .sim-alt-letter { background: rgba(240,78,78,.3); color: var(--red); }
+    .sim-alt.correct { border-color: rgba(29,184,112,.3)!important; background: rgba(29,184,112,.12)!important; }
+    .sim-alt.wrong { border-color: rgba(240,78,78,.3)!important; background: rgba(240,78,78,.12)!important; }
+    .sim-alt.other-wrong { border-color: rgba(240,78,78,.3)!important; background: rgba(240,78,78,.12)!important; }
+    .sim-alt.correct.highlight { border-color: rgba(29,184,112,.9)!important; border-width: 2.5px!important; box-shadow: 0 0 0 3px rgba(29,184,112,.2); }
+    .sim-alt.wrong { border-color: rgba(240,78,78,.9)!important; border-width: 2.5px!important; box-shadow: 0 0 0 3px rgba(240,78,78,.2); }
+    .sim-alt.other-wrong { border-color: rgba(240,78,78,.3)!important; border-width: 1.5px!important; box-shadow: none; }
     @keyframes correctPulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.01);} }
     .sim-alt-letter { width: 26px; height: 26px; border-radius: 50%; background: var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; margin-top: 1px; }
     .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
@@ -2471,7 +2468,7 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
             const isCorrect = letter === q.gabarito_correto;
             const isChosen  = letter === resp.resposta;
             if (isCorrect) {
-              cls = 'correct highlight';
+            cls = isChosen ? 'correct highlight' : 'correct';
               badge = `<span class="sim-alt-result-badge badge-correta">✓ Correta</span>`;
               const exp = q.explicacoes_alternativas?.[letter] || q.explicacao_geral || '';
               if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
