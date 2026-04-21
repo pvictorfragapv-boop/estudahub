@@ -1386,7 +1386,7 @@ body.sim-light .annot-sep       { background: #e8e8e8; }
     </div>
 
     <div class="sim-main-area">
-      <<div class="sim-topbar-new">
+      <div class="sim-topbar-new">
   <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
   <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">
     ✏️ Marca Texto
@@ -1397,7 +1397,7 @@ body.sim-light .annot-sep       { background: #e8e8e8; }
     </div>
 
     <div class="sim-actions-new" id="sim-actions-new">
-      <<button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
+      <button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
       <div class="sim-btn-spacer"></div>
       <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
       <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
@@ -1406,22 +1406,16 @@ body.sim-light .annot-sep       { background: #e8e8e8; }
   </div>
 
   <div id="annot-toolbar">
-    <div class="annot-color annot-color-y sel" id="annot-c-y" title="Amarelo" onclick="annotSetColor('y')"></div>
-    <div class="annot-color annot-color-g" id="annot-c-g" title="Verde" onclick="annotSetColor('g')"></div>
-    <div class="annot-color annot-color-r" id="annot-c-r" title="Vermelho" onclick="annotSetColor('r')"></div>
-    <div class="annot-color annot-color-b" id="annot-c-b" title="Azul" onclick="annotSetColor('b')"></div>
-    <div id="annot-toolbar">
-      <button class="annot-btn" style="width:auto;padding:4px 12px;gap:6px;display:flex;align-items:center" title="Marca-texto" onclick="annotApply('highlight')">🖊 Marca Texto</button>
-      <div class="annot-sep"></div>
-      <button class="annot-btn" style="width:auto;padding:4px 12px" title="Riscar texto" onclick="annotApply('strike')"><s>A</s></button>
-      <div class="annot-sep"></div>
-      <div class="annot-color annot-color-y sel" id="annot-c-y" onclick="annotSetColor('y')"></div>
-      <div class="annot-color annot-color-g" id="annot-c-g" onclick="annotSetColor('g')"></div>
-      <div class="annot-color annot-color-r" id="annot-c-r" onclick="annotSetColor('r')"></div>
-      <div class="annot-color annot-color-b" id="annot-c-b" onclick="annotSetColor('b')"></div>
-      <div class="annot-sep"></div>
-      <button class="annot-btn" title="Limpar" onclick="annotApply('clear')">✕</button>
-    </div>
+  <div class="annot-color annot-color-y sel" id="annot-c-y" onclick="annotSetColor('y')"></div>
+  <div class="annot-color annot-color-g" id="annot-c-g" onclick="annotSetColor('g')"></div>
+  <div class="annot-color annot-color-r" id="annot-c-r" onclick="annotSetColor('r')"></div>
+  <div class="annot-color annot-color-b" id="annot-c-b" onclick="annotSetColor('b')"></div>
+  <button class="annot-btn" style="width:auto;padding:4px 12px;gap:6px;display:flex;align-items:center" title="Marca-texto" onclick="annotApply('highlight')">🖊 Marca Texto</button>
+  <div class="annot-sep"></div>
+  <button class="annot-btn" style="width:auto;padding:4px 12px" title="Riscar texto" onclick="annotApply('strike')"><s>A</s></button>
+  <div class="annot-sep"></div>
+  <button class="annot-btn" title="Limpar" onclick="annotApply('clear')">✕</button>
+</div>
 
   <div id="grading-screen">
     <div class="grading-orb">🤖</div>
