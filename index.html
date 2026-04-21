@@ -1240,18 +1240,21 @@
     </div>
 
     <div class="sim-main-area">
-      <div class="sim-topbar-new">
-        <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
-        <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">✕ Sair</button>
-      </div>
+      <<div class="sim-topbar-new">
+  <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
+  <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">
+    ✏️ Marca Texto
+  </button>
+  <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
+</div>
       <div class="sim-body-scroll" id="sim-body"></div>
     </div>
 
     <div class="sim-actions-new" id="sim-actions-new">
-      <button class="sim-btn sim-btn-ghost" id="sim-btn-prev" onclick="simAnterior()">← Anterior</button>
+      <<button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
       <div class="sim-btn-spacer"></div>
-      <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Responder</button>
-      <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">Próxima →</button>
+      <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
+      <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
       <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
     </div>
   </div>
@@ -3775,6 +3778,17 @@ function annotSetColor(c) {
     const el = document.getElementById('annot-c-' + x);
     if (el) el.classList.toggle('sel', x === c);
   });
+}
+
+function toggleAnnotToolbar() {
+  const tb = document.getElementById('annot-toolbar');
+  if (!tb) return;
+  tb.classList.toggle('show');
+  if (tb.classList.contains('show')) {
+    tb.style.top = '64px';
+    tb.style.left = '50%';
+    tb.style.transform = 'translateX(-50%)';
+  }
 }
 
 function annotApply(type) {
