@@ -1211,7 +1211,7 @@
         <div class="modal-sub mono">// powered by Google Gemini</div>
       </div>
       <div class="modal-bd">
-        <div id="byok-key-section"><!-- rendered by renderByokKeySection() --></div>
+        <div id="byok-key-section" style="margin-bottom:0"><!-- rendered by renderByokKeySection() --></div>
         <div class="mf">
           <label>Upload da prova (PDF ou imagem)</label>
           <div class="upzone" id="upzone"
@@ -1611,14 +1611,14 @@
       if (keys.length === 0) {
         // No keys saved — show input + link
         html = `
-          <div class="byok-info"><div class="byok-info-icon">🔑</div><div>Você precisa de uma <strong>API Key do Gemini</strong>. Obtenha gratuitamente em <strong>aistudio.google.com</strong>.</div></div>
+          <div class="byok-info" style="margin-bottom:12px"><div class="byok-info-icon">🔑</div><div>Você precisa de uma <strong>API Key do Gemini</strong>. Obtenha gratuitamente em <strong>aistudio.google.com</strong>.</div></div>
           <div class="mf">
             <label>Google Gemini API Key</label>
             <input type="password" id="byok-key-input" placeholder="AIzaSy..." autocomplete="off"/>
           </div>`;
       } else {
         // Keys exist — show them with delete + add more button
-        html = `<div class="mf" style="margin-bottom:0">
+        html = `<div class="mf">
           <label style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
             <span>API Keys Gemini</span>
             <span style="font-size:9px;color:var(--green);font-family:'IBM Plex Mono',monospace">✓ ${keys.length} chave${keys.length>1?'s':''} ativa${keys.length>1?'s':''}</span>
