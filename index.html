@@ -583,7 +583,7 @@
     .sim-q-contexto { font-size: 13px; line-height: 1.75; color: var(--text); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 12px; }
     .sim-q-body { padding: 20px 24px; }
     .sim-alts { display: flex; flex-direction: column; gap: 8px; }
-    .sim-alt { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; border: 1.5px solid var(--border2); border-radius: var(--r); cursor: pointer; transition: all .18s; background: var(--bg3); font-size: 13px; line-height: 1.6; position: relative; overflow: hidden; }
+    .sim-alt { display: flex; flex-direction: column; border: 1.5px solid var(--border2); border-radius: var(--r); cursor: pointer; transition: all .18s; background: var(--bg3); font-size: 13px; line-height: 1.6; position: relative; overflow: hidden; }
     .sim-alt::before { content: ''; position: absolute; inset: 0; background: var(--ag); opacity: 0; transition: opacity .18s; }
     .sim-alt:hover::before { opacity: 1; }
     .sim-alt:hover { border-color: var(--a); }
@@ -632,15 +632,29 @@
     .sim-ai-loading.show { display: flex; }
     .sim-ai-spinner { width: 16px; height: 16px; border: 2px solid var(--border2); border-top-color: var(--a); border-radius: 50%; flex-shrink: 0; animation: spin .7s linear infinite; }
     @keyframes spin { to{transform:rotate(360deg);} }
-    .sim-actions { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(7,7,11,.96); border-top: 1px solid var(--border2); padding: 16px 28px calc(16px + var(--sb)); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(20px); z-index: 10; }
-    .sim-btn-respond { padding: 12px 28px; background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 20px var(--ag); transition: all .18s; }
+    .sim-actions { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(7,7,11,.97); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
+    .sim-btn-nav { padding: 11px 20px; background: transparent; border: 1.5px solid var(--border3); color: var(--muted2); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border-radius: var(--r); transition: all .18s; white-space: nowrap; }
+    .sim-btn-nav:hover:not(:disabled) { border-color: var(--a); color: var(--a); background: var(--ad); }
+    .sim-btn-nav:disabled { opacity: .3; cursor: not-allowed; }
+    .sim-btn-nav-right { margin-left: auto; }
+    .sim-btn-respond { padding: 11px 32px; background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 20px var(--ag); transition: all .18s; flex: 1; max-width: 260px; }
     .sim-btn-respond:hover { opacity: .9; transform: translateY(-1px); }
     .sim-btn-respond:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-    .sim-btn-next { padding: 12px 28px; background: transparent; border: 1.5px solid var(--border3); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; border-radius: var(--r); transition: all .18s; display: flex; align-items: center; gap: 8px; }
-    .sim-btn-next:hover { border-color: var(--a); color: var(--a); }
+    .sim-btn-next { padding: 11px 20px; background: var(--ad); border: 1.5px solid var(--a); color: var(--a); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border-radius: var(--r); transition: all .18s; white-space: nowrap; display: none; }
+    .sim-btn-next:hover:not(:disabled) { background: var(--ag); }
     .sim-btn-next:disabled { opacity: .35; cursor: not-allowed; }
-    .sim-btn-finish { padding: 12px 28px; background: linear-gradient(135deg,#b45309,#fbbf24); color: #000; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 20px rgba(251,191,36,.35); transition: all .18s; display: none; }
-    .sim-btn-finish:hover { opacity: .9; transform: translateY(-1px); }
+    .sim-btn-finish { padding: 11px 20px; background: linear-gradient(135deg,#b45309,#fbbf24); color: #000; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); transition: all .18s; display: none; white-space: nowrap; }
+    .sim-btn-finish:hover { opacity: .9; }
+    /* per-alt explanation panel */
+    .sim-alt-exp { display: none; font-size: 12px; line-height: 1.65; padding: 10px 14px 10px 54px; border-top: 1px solid transparent; animation: feedIn .2s ease; }
+    .sim-alt-exp.open { display: block; }
+    .sim-alt.correct .sim-alt-exp { color: rgba(29,184,112,.9); border-top-color: rgba(29,184,112,.15); background: rgba(29,184,112,.04); }
+    .sim-alt.wrong .sim-alt-exp { color: rgba(240,78,78,.85); border-top-color: rgba(240,78,78,.12); background: rgba(240,78,78,.03); }
+    .sim-alt.other-wrong .sim-alt-exp { color: var(--muted2); border-top-color: var(--border); background: rgba(255,255,255,.015); }
+    .sim-alt.other-wrong { border-color: var(--border2)!important; background: var(--bg3)!important; opacity: .7; }
+    .sim-alt-result-badge { font-size: 9px; font-weight: 700; letter-spacing: .1em; padding: 2px 8px; border-radius: 20px; margin-left: auto; flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; white-space: nowrap; }
+    .badge-correta { background: var(--g-bg); color: var(--green); border: 1px solid rgba(29,184,112,.3); }
+    .badge-errada  { background: var(--r-bg); color: var(--red);   border: 1px solid rgba(240,78,78,.3); }
 
     /* GRADING SCREEN */
     #grading-screen { position: fixed; inset: 0; z-index: 600; background: var(--bg); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
@@ -791,7 +805,7 @@
       .sim-body { padding: 20px 12px 110px; }
       .sim-q-header,.sim-q-body { padding: 14px 16px; }
       .sim-actions { padding: 12px 16px calc(12px + var(--sb)); flex-wrap: wrap; gap: 8px; }
-      .sim-btn-respond,.sim-btn-next,.sim-btn-finish { font-size: 10px; padding: 11px 18px; }
+      .sim-btn-respond,.sim-btn-next,.sim-btn-finish,.sim-btn-nav { font-size: 10px; padding: 10px 14px; }
       .mode-cards { grid-template-columns: 1fr; }
       .revisao-body { padding: 16px 16px 40px; }
       .revisao-topbar,.revisao-footer { padding-left: 16px; padding-right: 16px; }
@@ -1151,11 +1165,10 @@
     </div>
     <div class="sim-body" id="sim-body"></div>
     <div class="sim-actions">
+      <button class="sim-btn-nav" id="sim-btn-prev" onclick="simAnterior()">← Anterior</button>
       <button class="sim-btn-respond" id="sim-btn-respond" onclick="simResponder()">Responder</button>
-      <div style="display:flex;gap:8px">
-        <button class="sim-btn-next" id="sim-btn-next" onclick="simProxima()" disabled>Próxima ➔</button>
-        <button class="sim-btn-finish" id="sim-btn-finish" onclick="finalizarSimulado()">Finalizar Simulado ✓</button>
-      </div>
+      <button class="sim-btn-nav sim-btn-nav-right" id="sim-btn-next" onclick="simProxima()" disabled>Próxima →</button>
+      <button class="sim-btn-finish" id="sim-btn-finish" onclick="finalizarSimulado()">Finalizar ✓</button>
     </div>
   </div>
 
@@ -2354,25 +2367,50 @@
       const isObj = q.tipo === 'objetiva';
       const isLast = qIdx === total - 1;
 
+      // ── Build alternatives / textarea ──────────────────────────────────────
       let bodyHtml = '';
       if (isObj) {
         const alts = q.alternativas || {};
+        const showFeedback = respondida && modo === 'tutor';
         bodyHtml = `<div class="sim-alts" id="sim-alts">`;
         for (const [letter, text] of Object.entries(alts)) {
           if (!text) continue;
           let cls = '';
-          if (respondida && modo === 'tutor') {
-            if (letter === q.gabarito_correto) cls = 'correct highlight';
-            else if (letter === resp.resposta) cls = 'wrong';
-          } else if (resp.resposta === letter && !respondida) {
-            cls = 'selected';
-          } else if (resp.resposta === letter) {
-            cls = 'selected';
+          let badge = '';
+          let expHtml = '';
+          if (showFeedback) {
+            const isCorrect = letter === q.gabarito_correto;
+            const isChosen  = letter === resp.resposta;
+            if (isCorrect) {
+              cls = 'correct highlight';
+              badge = `<span class="sim-alt-result-badge badge-correta">✓ Correta</span>`;
+              const exp = q.explicacoes_alternativas?.[letter] || q.explicacao_geral || '';
+              if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
+            } else if (isChosen) {
+              cls = 'wrong';
+              badge = `<span class="sim-alt-result-badge badge-errada">✗ Incorreta</span>`;
+              const exp = q.explicacoes_alternativas?.[letter] || '';
+              if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
+            } else {
+              cls = 'other-wrong';
+              const exp = q.explicacoes_alternativas?.[letter] || '';
+              if (exp) expHtml = `<div class="sim-alt-exp" id="exp-${letter}">${exp}</div>`;
+            }
+          } else {
+            if (resp.resposta === letter) cls = 'selected';
           }
-          bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="simSelecionarAlt('${letter}')">
-            <div class="sim-alt-letter">${letter}</div>
-            <div class="sim-alt-text">${text}</div>
+          bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${showFeedback ? `simToggleAltExp('${letter}')` : `simSelecionarAlt('${letter}')`}">
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 18px">
+              <div class="sim-alt-letter">${letter}</div>
+              <div class="sim-alt-text" id="alt-txt-${letter}">${text}</div>
+              ${badge}
+            </div>
+            ${expHtml}
           </div>`;
+        }
+        // Explicação geral (tutor mode, after reveal)
+        if (showFeedback && q.explicacao_geral) {
+          bodyHtml += `<div style="margin-top:12px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);font-size:12px;line-height:1.7;color:var(--muted2)"><strong style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);display:block;margin-bottom:4px;font-family:'IBM Plex Mono',monospace">💡 Comentário geral</strong>${q.explicacao_geral}</div>`;
         }
         bodyHtml += `</div>`;
       } else {
@@ -2384,47 +2422,39 @@
         </div>`;
       }
 
-      // Feedback block
+      // ── Discursiva feedback ─────────────────────────────────────────────────
       let feedbackHtml = '';
-      if (respondida && modo === 'tutor') {
-        if (isObj) {
-          const acertou = resp.resposta === q.gabarito_correto;
-          feedbackHtml = `<div class="sim-feedback ${acertou ? 'correct' : 'wrong'} show">
-            <div class="sim-feedback-label">${acertou ? '✓ CORRETO' : '✗ INCORRETO'}</div>
-            <div class="sim-feedback-text">Gabarito: <strong>${q.gabarito_correto}</strong><br>${q.explicacao || ''}</div>
-          </div>`;
-        } else {
-          const notaVal = resp.nota;
-          const notaCls = notaVal === null ? '' : notaVal >= 80 ? 'disc-nota-green' : notaVal >= 60 ? 'disc-nota-yellow' : 'disc-nota-red';
-          feedbackHtml = `
-          <div class="sim-ai-loading ${notaVal === null ? 'show' : ''}" id="sim-ai-loading">
-            <div class="sim-ai-spinner"></div> Avaliando com IA…
+      if (respondida && modo === 'tutor' && !isObj) {
+        const notaVal = resp.nota;
+        const notaCls = notaVal === null ? '' : notaVal >= 80 ? 'disc-nota-green' : notaVal >= 60 ? 'disc-nota-yellow' : 'disc-nota-red';
+        feedbackHtml = `
+        <div class="sim-ai-loading ${notaVal === null ? 'show' : ''}" id="sim-ai-loading">
+          <div class="sim-ai-spinner"></div> Avaliando com IA…
+        </div>
+        ${notaVal !== null ? `
+        <div class="disc-fb-card">
+          <div class="disc-fb-nota-row">
+            <span class="disc-fb-nota-lbl">NOTA</span>
+            <span class="disc-fb-nota ${notaCls}">${notaVal}<span class="disc-fb-nota-max">/100</span></span>
           </div>
-          ${notaVal !== null ? `
-          <div class="disc-fb-card">
-            <div class="disc-fb-nota-row">
-              <span class="disc-fb-nota-lbl">NOTA</span>
-              <span class="disc-fb-nota ${notaCls}">${notaVal}<span class="disc-fb-nota-max">/100</span></span>
-            </div>
-            <div class="disc-fb-section">
-              <div class="disc-fb-section-lbl">✦ Resposta esperada</div>
-              <div class="disc-fb-section-body">${resp.resposta_ideal || ''}</div>
-            </div>
-            ${resp.o_que_faltou ? `<div class="disc-fb-section disc-fb-faltou">
-              <div class="disc-fb-section-lbl">⚠ O que faltou / estava errado</div>
-              <div class="disc-fb-section-body">${resp.o_que_faltou}</div>
-            </div>` : `<div class="disc-fb-section disc-fb-ok">
-              <div class="disc-fb-section-lbl">✓ Resposta completa</div>
-              <div class="disc-fb-section-body">Sua resposta contemplou todos os pontos esperados.</div>
-            </div>`}
-          </div>` : ''}`;
-        }
+          <div class="disc-fb-section">
+            <div class="disc-fb-section-lbl">✦ Resposta esperada</div>
+            <div class="disc-fb-section-body">${resp.resposta_ideal || ''}</div>
+          </div>
+          ${resp.o_que_faltou ? `<div class="disc-fb-section disc-fb-faltou">
+            <div class="disc-fb-section-lbl">⚠ O que faltou / estava errado</div>
+            <div class="disc-fb-section-body">${resp.o_que_faltou}</div>
+          </div>` : `<div class="disc-fb-section disc-fb-ok">
+            <div class="disc-fb-section-lbl">✓ Resposta completa</div>
+            <div class="disc-fb-section-body">Sua resposta contemplou todos os pontos esperados.</div>
+          </div>`}
+        </div>` : ''}`;
       }
 
       document.getElementById('sim-body').innerHTML = `
         <div class="sim-q-card">
           <div class="sim-q-header">
-            <div class="sim-q-type">${q.tipo.toUpperCase()} · QUESTÃO ${qIdx + 1}</div>
+            <div class="sim-q-type">${q.tipo.toUpperCase()} · QUESTÃO ${qIdx + 1} DE ${total}</div>
             ${q.contexto ? `<div class="sim-q-contexto" id="sim-contexto">${q.contexto}</div>` : ''}
             <div class="sim-q-enunciado" id="sim-enunciado">${q.enunciado}</div>
           </div>
@@ -2433,39 +2463,47 @@
             ${feedbackHtml}
           </div>
         </div>`;
-        
-      // Buttons
-      const btnResp = document.getElementById('sim-btn-respond');
-      const btnNext = document.getElementById('sim-btn-next');
+
+      // ── Annotation targets: enunciado + contexto + alt texts ───────────────
+      annotTargetIds = ['sim-enunciado', 'sim-contexto'];
+      Object.keys(q.alternativas || {}).forEach(l => { if (!respondida || modo !== 'tutor') annotTargetIds.push('alt-txt-' + l); });
+
+      // ── Button states ───────────────────────────────────────────────────────
+      const btnPrev   = document.getElementById('sim-btn-prev');
+      const btnResp   = document.getElementById('sim-btn-respond');
+      const btnNext   = document.getElementById('sim-btn-next');
       const btnFinish = document.getElementById('sim-btn-finish');
+
+      // Prev always shown, disabled on first question
+      btnPrev.disabled = (qIdx === 0);
 
       if (respondida) {
         btnResp.style.display = 'none';
-        btnNext.disabled = false;
-        if (modo === 'tutor') {
-          btnNext.style.display = 'inline-flex';
-          btnNext.textContent = isLast ? 'Finalizar Simulado' : 'Próxima ➔';
-          if (isLast) { btnNext.onclick = finalizarSimulado; }
-          else { btnNext.onclick = simProxima; }
-        } else {
-          // simulado mode — also just advance
-          btnNext.style.display = 'inline-flex';
-          btnNext.textContent = isLast ? 'Finalizar Simulado' : 'Próxima ➔';
-          if (isLast) { btnNext.onclick = finalizarSimulado; }
-          else { btnNext.onclick = simProxima; }
-        }
         btnFinish.style.display = 'none';
+        btnNext.style.display = 'inline-flex';
+        btnNext.disabled = false;
+        btnNext.textContent = isLast ? 'Finalizar ✓' : 'Próxima →';
+        btnNext.onclick = isLast ? finalizarSimulado : simProxima;
       } else {
         btnResp.style.display = 'inline-flex';
         btnResp.disabled = false;
         btnNext.style.display = 'none';
-        // Show finish button if simulado mode
-        if (modo === 'simulado' && qIdx > 0) {
-          btnFinish.style.display = 'inline-flex';
-        } else {
-          btnFinish.style.display = 'none';
-        }
+        btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'inline-flex' : 'none';
       }
+    }
+
+    function simToggleAltExp(letter) {
+      // In tutor revealed mode, clicking an "other-wrong" alt toggles its explanation
+      const exp = document.getElementById('exp-' + letter);
+      if (exp) exp.classList.toggle('open');
+    }
+
+    function simAnterior() {
+      if (simuladoCorrente.qIdx === 0) return;
+      simuladoCorrente.qIdx--;
+      simuladoCorrente.respondida = !!(simuladoCorrente.respostas[simuladoCorrente.qIdx]?.resposta);
+      renderSimQuestao();
+      document.getElementById('sim-body').scrollTop = 0;
     }
 
     function simSelecionarAlt(letter) {
@@ -3580,7 +3618,7 @@ function confirmarNomeSimulado() {
 
 // ═══════════════ TOOLBAR DE ANOTAÇÃO ═══════════════
 let annotColor = 'y';
-const annotTargetIds = ['sim-enunciado', 'sim-contexto'];
+let annotTargetIds = ['sim-enunciado', 'sim-contexto'];
 
 function annotSetColor(c) {
   annotColor = c;
