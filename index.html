@@ -1654,7 +1654,7 @@
 
     function getMaterias(){return[...new Set([...state.materias,...state.temas.map(t=>t.materia)])].filter(Boolean);}
     function addMateria(){const inp=document.getElementById('new-mat-input'),v=inp.value.trim();if(!v){toast('Insira um nome');return;}if(!state.materias.includes(v)){state.materias.push(v);save();}inp.value='';renderMatManage();renderPomoSubjectSelect();toast('Matéria adicionada');}
-    ffunction deleteMateria(m) {
+    function deleteMateria(m) {
   if (state.temas.some(t => t.materia === m)) {
     toast('Esta matéria tem temas cadastrados');
     return;
@@ -1964,13 +1964,6 @@ IMPORTANTE:
       document.getElementById('sim-body').scrollTop = 0;
       renderSimQuestao();
     }
-
-    // ── CORRIGIDO: renderSimQuestao — removidas referências a elementos inexistentes ──
-    function renderSimQuestao() {
-      const { questoes, qIdx, modo, respostas, respondida } = simuladoCorrente;
-      const q = questoes[qIdx];
-      const total = questoes.length;
-      const resp = respostas[qIdx];
 
       // Fix V/F normalization
       if (q.alternativas && typeof q.alternativas === 'object') {
@@ -2433,13 +2426,12 @@ IMPORTANTE:
           if (q.tipo === 'objetiva') { respostas[i].acertou = (respostas[i].resposta === q.gabarito_correto); respostas[i].nota = respostas[i].acertou ? 100 : 0; }
           // Discursivas already graded in tutor mode
         });
-        function fecharSimulado() {
+      }
+function fecharSimulado() {
   simTimerStop();
   document.getElementById('simulado-screen').classList.remove('open');
   document.body.style.overflow = '';
 }
-      }
-
       exibirRevisao();
     }
 
