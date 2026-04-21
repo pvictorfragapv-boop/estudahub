@@ -3080,41 +3080,6 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
         renderSimQuestao();
       }
     }
-      
-      // For discursiva, grab textarea value
-      if (q.tipo === 'discursiva') {
-        const ta = document.getElementById('sim-disc-ta');
-        if (ta) resp.resposta = ta.value;
-      }
-
-      if (!resp.resposta && q.tipo === 'objetiva') { toast('Selecione uma alternativa'); return; }
-      if (q.tipo === 'discursiva' && (!resp.resposta || resp.resposta.trim().length < 5)) { toast('Escreva sua resposta antes de enviar'); return; }
-
-      simuladoCorrente.respondida = true;
-      
-      if (modo === 'tutor') {
-        if (q.tipo === 'objetiva') {
-          resp.acertou = (resp.resposta === q.gabarito_correto);
-          resp.nota = resp.acertou ? 100 : 0;
-          renderSimQuestao();
-        } else {
-          // discursiva — call AI for grading
-          renderSimQuestao();
-          // show loading state
-          const resultado = await avaliarDiscursivaIA(q, resp.resposta);
-          resp.nota = resultado.nota;
-          resp.resposta_ideal = resultado.resposta_ideal;
-          resp.o_que_faltou = resultado.o_que_faltou;
-          resp.acertou = resultado.nota >= 60;
-          renderSimQuestao();
-        }
-      } else {
-        // simulado mode — just mark as answered, no feedback
-        if (q.tipo === 'objetiva') resp.acertou = null;
-        // graded at the end
-        renderSimQuestao();
-      }
-    }
 
     function simProxima() {
       const { questoes, qIdx } = simuladoCorrente;
@@ -3129,59 +3094,56 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
 
     // --- STEP 6: Evaluate discursiva with AI ---
     async function avaliarDiscursivaIA(questao,respostaUsuario){
-    if(!getAllGeminiKeys().length)return{nota:0,feedback:'Chave de API não encontrada.'};
-  
-    // Sanitize inputs to avoid breaking JSON inside the prompt
-    const sanitize = s => (s||'').replace(/[\u201c\u201d\u2018\u2019]/g, '"').replace(/\r?\n/g,' ').replace(/\\/g,'\\\\').trim();
-    const enunciado = sanitize(questao.enunciado);
-    const padrao = sanitize(questao.padrao_esperado||'');
-    const resposta = sanitize(respostaUsuario);
+      if(!getAllGeminiKeys().length)return{nota:0,feedback:'Chave de API não encontrada.'};
+      
+      const sanitize = s => (s||'').replace(/[\u201c\u201d\u2018\u2019]/g, '"').replace(/\r?\n/g,' ').replace(/\\/g,'\\\\').trim();
+      const enunciado = sanitize(questao.enunciado);
+      const padrao = sanitize(questao.padrao_esperado||'');
+      const resposta = sanitize(respostaUsuario);
 
-    const prompt=`Você é um professor avaliador de medicina.
-  Leia a questão, o padrão esperado e a resposta do aluno. Retorne ESTRITAMENTE em JSON puro (sem markdown, sem crases, sem texto adicional):
-  {"nota": 80, "resposta_ideal": "A resposta completa e correta que o professor esperava, em 2-4 frases objetivas.", "o_que_faltou": "Liste de forma direta os pontos que estavam ausentes, incompletos ou incorretos na resposta do aluno. Se a resposta estava correta, escreva null."}
-  
-  QUESTÃO: ${enunciado}
-  PADRÃO ESPERADO: ${padrao}
-  RESPOSTA DO ALUNO: ${resposta}
-  
-  REGRAS: nota de 0 a 100. resposta_ideal deve ser a resposta modelo independente do que o aluno escreveu. o_que_faltou deve ser null se nota >= 95.`;
-  
-    try {
-      const response = await geminiRequest({
-            contents:[{parts:[{text:prompt}]}],
-            generationConfig:{maxOutputTokens:8192}
-          }, null);
-  
-      const data=await response.json();
-      // Gemini 3: join all text parts (thought signatures + response)
-      const _parts=data.candidates?.[0]?.content?.parts||[];
-      let raw=_parts.map(p=>p.text||'').join('');
-      raw=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
-      raw=raw.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
-      // Extract outermost JSON object
-      let _d=0,_s=-1,_e=-1;
-      for(let i=0;i<raw.length;i++){if(raw[i]==='{'){if(_s===-1)_s=i;_d++;}else if(raw[i]==='}'){_d--;if(_d===0){_e=i;break;}}}
-      if(_s>=0&&_e>_s)raw=raw.slice(_s,_e+1);
-      let parsed;
-      try{parsed=JSON.parse(raw);}
-      catch(parseErr){
-        try{parsed=JSON.parse(raw.replace(/,\s*([}\]])/g,'$1'));}
-        catch(e2){
-          const notaMatch=raw.match(/"nota"\s*:\s*(\d+)/);
-          parsed={nota:notaMatch?parseInt(notaMatch[1]):0,resposta_ideal:'Não foi possível interpretar a resposta da IA.',o_que_faltou:null};
+      const prompt=`Você é um professor avaliador de medicina.
+      Leia a questão, o padrão esperado e a resposta do aluno. Retorne ESTRITAMENTE em JSON puro (sem markdown, sem crases, sem texto adicional):
+      {"nota": 80, "resposta_ideal": "A resposta completa e correta que o professor esperava, em 2-4 frases objetivas.", "o_que_faltou": "Liste de forma direta os pontos que estavam ausentes, incompletos ou incorretos na resposta do aluno. Se a resposta estava correta, escreva null."}
+      
+      QUESTÃO: ${enunciado}
+      PADRÃO ESPERADO: ${padrao}
+      RESPOSTA DO ALUNO: ${resposta}
+      
+      REGRAS: nota de 0 a 100. resposta_ideal deve ser a resposta modelo independente do que o aluno escreveu. o_que_faltou deve ser null se nota >= 95.`;
+      
+      try {
+        const response = await geminiRequest({
+              contents:[{parts:[{text:prompt}]}],
+              generationConfig:{maxOutputTokens:8192}
+            }, null);
+      
+        const data=await response.json();
+        const _parts=data.candidates?.[0]?.content?.parts||[];
+        let raw=_parts.map(p=>p.text||'').join('');
+        raw=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+        raw=raw.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
+        let _d=0,_s=-1,_e=-1;
+        for(let i=0;i<raw.length;i++){if(raw[i]==='{'){if(_s===-1)_s=i;_d++;}else if(raw[i]==='}'){_d--;if(_d===0){_e=i;break;}}}
+        if(_s>=0&&_e>_s)raw=raw.slice(_s,_e+1);
+        let parsed;
+        try{parsed=JSON.parse(raw);}
+        catch(parseErr){
+          try{parsed=JSON.parse(raw.replace(/,\s*([}\]])/g,'$1'));}
+          catch(e2){
+            const notaMatch=raw.match(/"nota"\s*:\s*(\d+)/);
+            parsed={nota:notaMatch?parseInt(notaMatch[1]):0,resposta_ideal:'Não foi possível interpretar a resposta da IA.',o_que_faltou:null};
+          }
         }
+        return{nota:Math.min(100,Math.max(0,parseInt(parsed.nota)||0)),resposta_ideal:parsed.resposta_ideal||'',o_que_faltou:parsed.o_que_faltou||null};
+      
+      } catch(e) {
+        console.error(e);
+        return{nota:0,resposta_ideal:'Erro ao avaliar com IA: '+e.message,o_que_faltou:null};
       }
-      return{nota:Math.min(100,Math.max(0,parseInt(parsed.nota)||0)),resposta_ideal:parsed.resposta_ideal||'',o_que_faltou:parsed.o_que_faltou||null};
-  
-    } catch(e) {
-      console.error(e);
-      return{nota:0,resposta_ideal:'Erro ao avaliar com IA: '+e.message,o_que_faltou:null};
     }
-  }
 
     // --- STEP 7: Finalize ---
-   async function finalizarSimulado() {
+    async function finalizarSimulado() {
       const { questoes, respostas, modo, titulo } = simuladoCorrente;
       const discursivas = questoes.map((q, i) => ({ q, i, r: respostas[i] })).filter(x => x.q.tipo === 'discursiva' && x.r.resposta && x.r.nota === null);
       
@@ -3220,46 +3182,6 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
 
       exibirRevisao();
     }
-      
-      if (modo === 'simulado' && discursivas.length > 0) {
-        // Show grading screen
-        fecharSimulado();
-        const gs = document.getElementById('grading-screen');
-        gs.classList.add('open');
-        document.getElementById('grading-sub').textContent = `Corrigindo ${discursivas.length} resposta(s) discursiva(s)…`;
-        document.getElementById('grading-prog-fill').style.width = '0%';
-        document.getElementById('grading-prog-txt').textContent = `0 / ${discursivas.length}`;
-
-        let done = 0;
-        await Promise.all(discursivas.map(async ({ q, i, r }) => {
-          const resultado = await avaliarDiscursivaIA(q, r.resposta);
-          respostas[i].nota = resultado.nota;
-          respostas[i].resposta_ideal = resultado.resposta_ideal;
-          respostas[i].o_que_faltou = resultado.o_que_faltou;
-          respostas[i].acertou = resultado.nota >= 60;
-          done++;
-          const pct = Math.round(done / discursivas.length * 100);
-          document.getElementById('grading-prog-fill').style.width = pct + '%';
-          document.getElementById('grading-prog-txt').textContent = `${done} / ${discursivas.length}`;
-        }));
-        
-        // Also grade objetivas
-        questoes.forEach((q, i) => {
-          if (q.tipo === 'objetiva') { respostas[i].acertou = (respostas[i].resposta === q.gabarito_correto); respostas[i].nota = respostas[i].acertou ? 100 : 0; }
-        });
-
-        gs.classList.remove('open');
-      } else {
-        // Grade objetivas
-        questoes.forEach((q, i) => {
-          if (q.tipo === 'objetiva') { respostas[i].acertou = (respostas[i].resposta === q.gabarito_correto); respostas[i].nota = respostas[i].acertou ? 100 : 0; }
-          // Discursivas already graded in tutor mode
-        });
-        fecharSimulado();
-      }
-
-      exibirRevisao();
-    }
 
     // --- STEP 8: Show revisão screen ---
     function exibirRevisao() {
@@ -3290,32 +3212,13 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       const body = document.getElementById('revisao-body');
       body.innerHTML = questoes.map((q, i) => {
         const r = respostas[i];
-        const isObj = q.tipo !== 'discursiva'; // <-- MUDANÇA AQUI
-        
-        // ... (o restante da função exibirRevisao permanece exatamente igual) ...
-      const discTotal = questoes.filter(q => q.tipo === 'discursiva').length;
-
-      // Populate hero
-      document.getElementById('revisao-titulo-sim').textContent = titulo;
-      document.getElementById('revisao-nota-value').textContent = notaFinal;
-      document.getElementById('revisao-nota-sub').textContent = `de 10.0 · ${media.toFixed(0)}% de aproveitamento`;
-      document.getElementById('rev-stat-acertos').textContent = acertos;
-      document.getElementById('rev-stat-erros').textContent = erros;
-      document.getElementById('rev-stat-disc').textContent = discTotal;
-      document.getElementById('rev-stat-total').textContent = total;
-
-      // Render question reviews
-      const body = document.getElementById('revisao-body');
-      body.innerHTML = questoes.map((q, i) => {
-        const r = respostas[i];
-        const isObj = q.tipo === 'objetiva';
+        const isObj = q.tipo !== 'discursiva';
         const nota = r.nota !== null ? r.nota : (isObj ? (r.acertou ? 100 : 0) : 0);
         const acertou = isObj ? (r.resposta === q.gabarito_correto) : (nota >= 60);
         const resultCls = acertou ? 'acerto' : 'erro';
         const badgeCls = isObj ? (acertou ? 'acerto' : 'erro') : (nota >= 80 ? 'acerto' : nota >= 60 ? 'parcial' : 'erro');
         const badgeTxt = isObj ? (acertou ? '✓ Correto' : '✗ Incorreto') : (nota >= 60 ? `${nota}/100 Aprovado` : `${nota}/100 Insuficiente`);
 
-        // Contexto (caso clínico / vinheta)
         const contextoHtml = q.contexto ? `<div class="rq-contexto">${q.contexto}</div>` : '';
 
         let respostaHtml = '';
@@ -3391,7 +3294,6 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
         </div>`;
       }).join('');
 
-      // Show revisão screen
       document.getElementById('revisao-screen').classList.add('open');
       marcarConcluido();
       if (parseFloat(notaFinal) >= 7) celebrate();
