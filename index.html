@@ -538,6 +538,17 @@
     .disc-fb-ok .disc-fb-section-lbl { color: var(--green); }
     .byok-info { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); margin-bottom: 16px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); line-height: 1.7; }
     .byok-info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .byok-key-row { display:flex; align-items:center; gap:8px; padding:9px 12px; background:var(--bg3); border:1px solid var(--border2); border-radius:var(--r); margin-bottom:5px; }
+    .byok-key-num { font-size:9px; font-family:'IBM Plex Mono',monospace; color:var(--a); min-width:20px; font-weight:700; }
+    .byok-key-val { font-size:11px; font-family:'IBM Plex Mono',monospace; color:var(--muted2); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .byok-key-del { font-size:12px; color:var(--red); background:none; border:none; cursor:pointer; padding:2px 6px; opacity:.5; line-height:1; transition:opacity .15s; }
+    .byok-key-del:hover { opacity:1; }
+    .byok-key-add-btn { display:flex; align-items:center; gap:6px; padding:8px 12px; background:transparent; border:1px dashed var(--border3); color:var(--muted2); font-size:11px; font-family:'IBM Plex Mono',monospace; cursor:pointer; border-radius:var(--r); width:100%; transition:all .18s; margin-top:4px; }
+    .byok-key-add-btn:hover { border-color:var(--a); color:var(--a); background:var(--ad); }
+    .byok-key-add-form { display:none; margin-top:8px; }
+    .byok-key-add-form.open { display:flex; gap:8px; }
+    .byok-key-add-form input { flex:1; background:var(--bg3); border:1px solid var(--a); color:var(--text); padding:9px 12px; font-family:'IBM Plex Mono',monospace; font-size:12px; outline:none; border-radius:var(--r); }
+    .byok-key-add-form button { padding:9px 14px; background:var(--a2); color:#fff; border:none; border-radius:var(--r); cursor:pointer; font-size:11px; font-weight:700; white-space:nowrap; }
     .mode-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
     .mode-card { padding: 20px 16px; border: 2px solid var(--border2); border-radius: var(--r2); cursor: pointer; transition: all .22s; background: var(--bg3); text-align: center; position: relative; overflow: hidden; }
     .mode-card::before { content: ''; position: absolute; inset: 0; background: var(--ag); opacity: 0; transition: opacity .22s; }
@@ -1200,11 +1211,7 @@
         <div class="modal-sub mono">// powered by Google Gemini</div>
       </div>
       <div class="modal-bd">
-        <div class="byok-info"><div class="byok-info-icon">🔑</div><div>Você precisa de uma <strong>API Key do Gemini</strong>. Obtenha gratuitamente em <strong>aistudio.google.com</strong>.</div></div>
-        <div class="mf">
-          <label>Google Gemini API Key</label>
-          <input type="password" id="byok-key-input" placeholder="AIzaSy..." autocomplete="off"/>
-        </div>
+        <div id="byok-key-section"><!-- rendered by renderByokKeySection() --></div>
         <div class="mf">
           <label>Upload da prova (PDF ou imagem)</label>
           <div class="upzone" id="upzone"
@@ -1592,6 +1599,78 @@
       if (el && k) el.value = k;
       const statusEl = document.getElementById('gemini-key-status');
       if (statusEl) statusEl.style.display = getAllGeminiKeys().length ? 'block' : 'none';
+      renderMultiKeyList();
+    }
+
+    // ═══ BYOK MODAL KEY SECTION ═══
+    function renderByokKeySection() {
+      const container = document.getElementById('byok-key-section');
+      if (!container) return;
+      const keys = getAllGeminiKeys();
+      let html = '';
+      if (keys.length === 0) {
+        // No keys saved — show input + link
+        html = `
+          <div class="byok-info"><div class="byok-info-icon">🔑</div><div>Você precisa de uma <strong>API Key do Gemini</strong>. Obtenha gratuitamente em <strong>aistudio.google.com</strong>.</div></div>
+          <div class="mf">
+            <label>Google Gemini API Key</label>
+            <input type="password" id="byok-key-input" placeholder="AIzaSy..." autocomplete="off"/>
+          </div>`;
+      } else {
+        // Keys exist — show them with delete + add more button
+        html = `<div class="mf" style="margin-bottom:0">
+          <label style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
+            <span>API Keys Gemini</span>
+            <span style="font-size:9px;color:var(--green);font-family:'IBM Plex Mono',monospace">✓ ${keys.length} chave${keys.length>1?'s':''} ativa${keys.length>1?'s':''}</span>
+          </label>
+          ${keys.map((k, i) => `
+            <div class="byok-key-row">
+              <span class="byok-key-num">#${i+1}</span>
+              <span class="byok-key-val">${k.slice(0,10)}••••${k.slice(-4)}</span>
+              <button class="byok-key-del" onclick="byokRemoveKey(${i})" title="Remover">✕</button>
+            </div>`).join('')}
+          <button class="byok-key-add-btn" onclick="byokToggleAddForm()">
+            <span style="font-size:14px;line-height:1">＋</span> Adicionar outra chave
+          </button>
+          <div class="byok-key-add-form" id="byok-add-form">
+            <input type="password" id="byok-key-new-modal" placeholder="AIzaSy..." autocomplete="off" onkeydown="if(event.key==='Enter')byokAddKey()"/>
+            <button onclick="byokAddKey()">Salvar</button>
+          </div>
+          <input type="hidden" id="byok-key-input" value=""/>
+        </div>`;
+      }
+      container.innerHTML = html;
+    }
+    function byokToggleAddForm() {
+      const form = document.getElementById('byok-add-form');
+      if (!form) return;
+      form.classList.toggle('open');
+      if (form.classList.contains('open')) {
+        const inp = document.getElementById('byok-key-new-modal');
+        if (inp) setTimeout(() => inp.focus(), 50);
+      }
+    }
+    function byokAddKey() {
+      const inp = document.getElementById('byok-key-new-modal');
+      if (!inp) return;
+      const v = inp.value.trim();
+      if (!v || !v.startsWith('AIza')) { toast('Chave inválida (deve começar com AIza)'); return; }
+      const keys = getAllGeminiKeys();
+      if (keys.includes(v)) { toast('Chave já cadastrada'); return; }
+      keys.push(v);
+      saveGeminiKeys(keys);
+      localStorage.setItem('gemini_api_key', keys[0]);
+      renderByokKeySection();
+      renderMultiKeyList();
+      toast('Chave adicionada ✓');
+    }
+    function byokRemoveKey(idx) {
+      const keys = getAllGeminiKeys();
+      keys.splice(idx, 1);
+      saveGeminiKeys(keys);
+      if (keys.length) localStorage.setItem('gemini_api_key', keys[0]);
+      else localStorage.removeItem('gemini_api_key');
+      renderByokKeySection();
       renderMultiKeyList();
     }
 
@@ -2049,6 +2128,7 @@
       upClear();
       document.getElementById('byok-processing').style.display = 'none';
       document.getElementById('byok-btn-extrair').disabled = false;
+      renderByokKeySection();
       document.getElementById('modal-simulado-byok').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -2080,7 +2160,7 @@
 
     // --- STEP 2: Extract questions from PDF/image using Gemini ---
     async function extrairProvaIA(){
-    const keyInp=document.getElementById('byok-key-input').value.trim();
+    const keyInp=(document.getElementById('byok-key-input')||{}).value?.trim()||'';
     const fileInp=document.getElementById('byok-file-input');
 
     // If user typed a key inline, add it to the pool
@@ -2119,7 +2199,7 @@
               {inline_data:{mime_type:mimeType,data:base64}},
               {text:prompt}
             ]}],
-            generationConfig:{maxOutputTokens:8192,responseMimeType:"application/json"}
+            generationConfig:{maxOutputTokens:16384}
           }, txt => { document.getElementById('byok-proc-txt').textContent = txt; });
 
     const data=await response.json();
@@ -2146,9 +2226,17 @@
     let parsed;
     try{parsed=JSON.parse(jsonStr);}
     catch(e){
-      // Last resort: try to fix common Gemini 3 JSON issues (trailing commas, unescaped chars)
+      console.warn('[EstudaHub] JSON parse falhou, tentando limpeza...', jsonStr.slice(0,300));
+      // Try: fix trailing commas
       try{parsed=JSON.parse(jsonStr.replace(/,\s*([}\]])/g,'$1'));}
-      catch(e2){throw new Error('JSON inválido retornado pela IA. Tente novamente ou use outro arquivo.');}
+      catch(e2){
+        // Try: remove control characters
+        try{parsed=JSON.parse(jsonStr.replace(/[\x00-\x1F\x7F]/g,' '));}
+        catch(e3){
+          console.error('[EstudaHub] rawText completo:', rawText.slice(0,1000));
+          throw new Error('JSON inválido retornado pela IA. Tente novamente ou use outro arquivo.');
+        }
+      }
     }
     if(!parsed.questoes||!parsed.questoes.length)throw new Error('Nenhuma questão extraída');
 
@@ -2470,7 +2558,7 @@
     try {
       const response = await geminiRequest({
             contents:[{parts:[{text:prompt}]}],
-            generationConfig:{maxOutputTokens:8192,responseMimeType:"application/json"}
+            generationConfig:{maxOutputTokens:8192}
           }, null);
   
       const data=await response.json();
