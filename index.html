@@ -574,37 +574,35 @@
     .sim-exit-btn { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); cursor: pointer; background: none; border: 1px solid var(--border2); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
     .sim-exit-btn:hover { border-color: var(--red); color: var(--red); }
     .sim-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 40px 24px 120px; }
-    .sim-q-card { width: 100%; max-width: 780px; margin: 0 auto; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--r2); overflow: hidden; position: relative; animation: simcardIn .3s cubic-bezier(.4,0,.2,1); }
-    @keyframes simcardIn { from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);} }
-    .sim-q-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--a2), var(--a)); }
-    .sim-q-header { padding: 18px 24px 14px; border-bottom: 1px solid var(--border); }
-    .sim-q-type { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--a); margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
-    .sim-q-enunciado { font-size: 15px; line-height: 1.75; color: var(--text); font-weight: 500; }
-    .sim-q-contexto { font-size: 13px; line-height: 1.75; color: var(--text); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 12px; }
-    .sim-q-body { padding: 20px 24px; }
+    .sim-q-card { width: 100%; max-width: 780px; margin: 0 auto; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; position: relative; animation: simcardIn .3s cubic-bezier(.4,0,.2,1); color: #1a1a1a; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+    .sim-q-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+    .sim-q-header { padding: 18px 24px 14px; border-bottom: 1px solid #f3f4f6; }
+    .sim-q-type { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #6366f1; margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
+    .sim-q-enunciado { font-size: 15px; line-height: 1.75; color: #111827; font-weight: 500; }
+    .sim-q-contexto { font-size: 13px; line-height: 1.75; color: #374151; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; }
+    .sim-q-body { padding: 20px 24px; background: #f9fafb; }
     .sim-alts { display: flex; flex-direction: column; gap: 8px; }
-    .sim-alt { display: flex; flex-direction: column; border: 1.5px solid var(--border2); border-radius: 16px; cursor: pointer; transition: all .18s; background: var(--bg2); font-size: 14px; line-height: 1.6; overflow: hidden; margin-bottom: 10px; }
-    .sim-alt:hover { border-color: var(--border3); background: var(--bg3); }
-    .sim-alt.selected { border-color: var(--a); background: var(--ad); }
-    .sim-alt.correct,
-    .sim-alt.correct.highlight { background: rgba(29,184,112,.12)!important; }
-    .sim-alt.correct { border-color: rgba(29,184,112,.5)!important; }
-    .sim-alt.correct.highlight { border-color: #1db870!important; border-width: 2px!important; }
-    .sim-alt.wrong,
-    .sim-alt.other-wrong { background: rgba(240,78,78,.1)!important; }
-    .sim-alt.wrong { border-color: #f04e4e!important; border-width: 2px!important; }
-    .sim-alt.other-wrong { border-color: rgba(240,78,78,.35)!important; }
-    .sim-alt-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; }
-    .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
-    .sim-alt.correct .sim-alt-letter { background: #1db870; color: #fff; }
-    .sim-alt.wrong .sim-alt-letter { background: #f04e4e; color: #fff; }
-    .sim-alt.other-wrong .sim-alt-letter { background: rgba(240,78,78,.4); color: #fff; }
-    .sim-alt-text { flex: 1; }
-    .sim-alt-exp { display: none; font-size: 12px; line-height: 1.65; padding: 4px 14px 12px 56px; }
-    .sim-alt-exp.open { display: block; }
-    .sim-alt.correct .sim-alt-exp { color: #1db870; }
-    .sim-alt.wrong .sim-alt-exp,
-    .sim-alt.other-wrong .sim-alt-exp { color: #f04e4e; }
+    .sim-alt { display: flex; flex-direction: column; border: 2px solid #d1d5db; border-radius: 12px; cursor: pointer; transition: all .18s; background: #ffffff; font-size: 14px; line-height: 1.6; overflow: hidden; margin-bottom: 10px; color: #1a1a1a; }
+    .sim-alt:hover { border-color: #6366f1; background: #f5f3ff; }
+    .sim-alt.selected { border-color: #6366f1; background: #ede9fe; }
+    .sim-alt.correct { border: 2.5px solid #16a34a !important; background: #dcfce7 !important; }
+    .sim-alt.correct.highlight { border: 2.5px solid #16a34a !important; background: #dcfce7 !important; }
+    .sim-alt.wrong { border: 2.5px solid #dc2626 !important; background: #fee2e2 !important; }
+    .sim-alt.other-wrong { border: 2px solid #fca5a5 !important; background: #fff5f5 !important; opacity: 1; }
+    .sim-alt-letter { width: 30px; height: 30px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: #374151; flex-shrink: 0; transition: all .18s; }
+    .sim-alt.selected .sim-alt-letter { background: #6366f1; color: #fff; }
+    .sim-alt.correct .sim-alt-letter { background: #16a34a; color: #fff; }
+    .sim-alt.wrong .sim-alt-letter { background: #dc2626; color: #fff; }
+    .sim-alt.other-wrong .sim-alt-letter { background: #f87171; color: #fff; }
+    .sim-alt-text { flex: 1; position: relative; z-index: 1; color: #1a1a1a; font-weight: 500; }
+    .sim-alt.correct .sim-alt-text { color: #14532d; font-weight: 600; }
+    .sim-alt.wrong .sim-alt-text { color: #7f1d1d; font-weight: 600; }
+    .sim-alt.other-wrong .sim-alt-text { color: #7f1d1d; }
+    .sim-alt.correct .sim-alt-exp { color: #15803d; border-top-color: #86efac; background: #f0fdf4; padding: 10px 18px 12px 56px; font-size: 13px; }
+    .sim-alt.wrong .sim-alt-exp { color: #b91c1c; border-top-color: #fca5a5; background: #fff1f2; padding: 10px 18px 12px 56px; font-size: 13px; }
+    .sim-alt.other-wrong .sim-alt-exp { color: #b91c1c; padding: 10px 18px 12px 56px; font-size: 13px; }
+    .badge-correta { background: #dcfce7; color: #15803d; border: 1px solid #86efac; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; }
+    .badge-errada { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; }
     .sim-alt-text { flex: 1; position: relative; z-index: 1; }
     .sim-alt-text { flex: 1; position: relative; z-index: 1; }
     #annot-toolbar { position: fixed; z-index: 9999; display: none; background: var(--bg3); border: 1px solid var(--border3); border-radius: 8px; padding: 4px 10px; gap: 4px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
@@ -852,7 +850,7 @@
     .sim-q-counter-new strong { color: var(--a); }
     .sim-exit-btn-new { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); cursor: pointer; background: none; border: 1px solid var(--border2); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
     .sim-exit-btn-new:hover { border-color: rgba(240,78,78,.5); color: #f04e4e; }
-    .sim-body-scroll { flex: 1; overflow-y: auto; padding: 24px 28px 110px; display:flex; flex-direction:column; align-items:center; }
+    .sim-body-scroll { flex: 1; overflow-y: auto; padding: 24px 28px 110px; display:flex; flex-direction:column; align-items:center; background: #f3f4f6; }
     .sim-actions-new { position: absolute; bottom: 0; left: 210px; right: 0; background: rgba(7,7,11,.97); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
     .sim-btn { padding: 10px 20px; border-radius: var(--r); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .18s; white-space: nowrap; border: none; }
     .sim-btn-ghost { background: transparent; border: 1.5px solid var(--border3); color: var(--muted2); }
