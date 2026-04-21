@@ -574,7 +574,7 @@
     .sim-exit-btn { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); cursor: pointer; background: none; border: 1px solid var(--border2); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
     .sim-exit-btn:hover { border-color: var(--red); color: var(--red); }
     .sim-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 40px 24px 120px; }
-    .sim-q-card { width: 100%; max-width: 780px; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--r2); overflow: hidden; position: relative; animation: simcardIn .3s cubic-bezier(.4,0,.2,1); }
+    .sim-q-card { width: 100%; max-width: 780px; margin: 0 auto; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--r2); overflow: hidden; position: relative; animation: simcardIn .3s cubic-bezier(.4,0,.2,1); }
     @keyframes simcardIn { from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);} }
     .sim-q-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--a2), var(--a)); }
     .sim-q-header { padding: 18px 24px 14px; border-bottom: 1px solid var(--border); }
@@ -598,9 +598,9 @@
     .sim-alt.correct .sim-alt-letter { background: var(--green); color: #fff; }
     .sim-alt.wrong .sim-alt-letter { background: var(--red); color: #fff; }
     .sim-alt-text { flex: 1; position: relative; z-index: 1; }
-    #annot-toolbar { position: fixed; z-index: 9999; display: none; background: var(--bg3); border: 1px solid var(--border3); border-radius: 8px; padding: 4px 6px; gap: 4px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
+    #annot-toolbar { position: fixed; z-index: 9999; display: none; background: var(--bg3); border: 1px solid var(--border3); border-radius: 8px; padding: 4px 10px; gap: 4px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
     #annot-toolbar.show { display: flex; }
-    .annot-btn { width: 30px; height: 28px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all .15s; color: var(--text); }
+    .annot-btn { height: 28px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .15s; color: var(--text); }
     .annot-btn:hover { background: var(--bg4); border-color: var(--a); }
     .annot-sep { width: 1px; height: 18px; background: var(--border2); margin: 0 2px; }
     mark.hl-yellow { background: rgba(240,180,41,.35); color: inherit; border-radius: 2px; padding: 0 1px; }
@@ -843,10 +843,13 @@
     .sim-q-counter-new strong { color: var(--a); }
     .sim-exit-btn-new { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); cursor: pointer; background: none; border: 1px solid var(--border2); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
     .sim-exit-btn-new:hover { border-color: rgba(240,78,78,.5); color: #f04e4e; }
-    .sim-body-scroll { flex: 1; overflow-y: auto; padding: 24px 28px 110px; }
+    .sim-body-scroll { flex: 1; overflow-y: auto; padding: 24px 28px 110px; display:flex; flex-direction:column; align-items:center; }
     .sim-actions-new { position: absolute; bottom: 0; left: 210px; right: 0; background: rgba(7,7,11,.97); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
     .sim-btn { padding: 10px 20px; border-radius: var(--r); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .18s; white-space: nowrap; border: none; }
     .sim-btn-ghost { background: transparent; border: 1.5px solid var(--border3); color: var(--muted2); }
+    #sim-btn-prev { border-color: rgba(240,78,78,.5); color: var(--red); background: rgba(240,78,78,.1); border-radius: 50px; }
+    .sim-btn-next-rev { border-radius: 50px; }
+    .sim-btn-ghost { border-radius: 50px; }
     .sim-btn-ghost:hover:not(:disabled) { border-color: var(--a); color: var(--a); background: var(--ad); }
     .sim-btn-ghost:disabled { opacity: .3; cursor: not-allowed; }
     .sim-btn-primary { background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; box-shadow: 0 4px 20px var(--ag); }
@@ -1224,7 +1227,7 @@
       </div>
       <div class="sim-sb-q-title">Questões</div>
       <div class="sim-sb-q-grid" id="sim-sb-q-grid"></div>
-      <button class="sim-sb-finish" onclick="finalizarSimulado()">Finalizar Prova</button>
+      <button class="sim-sb-finish" onclick="confirmarFinalizarComPendentes()">Finalizar Prova</button>
     </div>
 
     <div class="sim-main-area">
@@ -1249,12 +1252,18 @@
     <div class="annot-color annot-color-g" id="annot-c-g" title="Verde" onclick="annotSetColor('g')"></div>
     <div class="annot-color annot-color-r" id="annot-c-r" title="Vermelho" onclick="annotSetColor('r')"></div>
     <div class="annot-color annot-color-b" id="annot-c-b" title="Azul" onclick="annotSetColor('b')"></div>
-    <div class="annot-sep"></div>
-    <button class="annot-btn" title="Marca-texto" onclick="annotApply('highlight')">🖊</button>
-    <button class="annot-btn" title="Riscar texto" onclick="annotApply('strike')"><s>A</s></button>
-    <div class="annot-sep"></div>
-    <button class="annot-btn" title="Limpar" onclick="annotApply('clear')">✕</button>
-  </div>
+    <div id="annot-toolbar">
+      <button class="annot-btn" style="width:auto;padding:4px 12px;gap:6px;display:flex;align-items:center" title="Marca-texto" onclick="annotApply('highlight')">🖊 Marca Texto</button>
+      <div class="annot-sep"></div>
+      <button class="annot-btn" style="width:auto;padding:4px 12px" title="Riscar texto" onclick="annotApply('strike')"><s>A</s></button>
+      <div class="annot-sep"></div>
+      <div class="annot-color annot-color-y sel" id="annot-c-y" onclick="annotSetColor('y')"></div>
+      <div class="annot-color annot-color-g" id="annot-c-g" onclick="annotSetColor('g')"></div>
+      <div class="annot-color annot-color-r" id="annot-c-r" onclick="annotSetColor('r')"></div>
+      <div class="annot-color annot-color-b" id="annot-c-b" onclick="annotSetColor('b')"></div>
+      <div class="annot-sep"></div>
+      <button class="annot-btn" title="Limpar" onclick="annotApply('clear')">✕</button>
+    </div>
 
   <div id="grading-screen">
     <div class="grading-orb">🤖</div>
@@ -2277,7 +2286,7 @@
   - Se a questão tiver um caso clínico, vinheta ou texto introdutório ANTES da pergunta, coloque esse texto em 'contexto' e apenas a pergunta em 'enunciado'.
   - Para questões objetivas: preencha 'alternativas', 'gabarito_correto', e 'explicacoes_alternativas' com comentário para cada opção.
   - Para questões discursivas: alternativas deve ser null, gabarito_correto deve ser null, explicacoes_alternativas deve ser null, preencha 'padrao_esperado' com critérios detalhados.
-  - Retorne APENAS o JSON puro, sem nenhum texto antes ou depois.`;
+  - MUITO IMPORTANTE: Revise o gabarito duas vezes antes de retornar. O gabarito_correto deve ser a letra EXATA da alternativa correta. Nunca invente gabarito. Retorne APENAS o JSON puro, sem nenhum texto antes ou depois.`;
   
       const response = await geminiRequest({
             contents:[{parts:[
@@ -2394,10 +2403,19 @@
         if (confirm('Descartar o progresso e sair?')) fecharSimulado();
       }
     }
-    
+    function confirmarFinalizarComPendentes() {
+      const nr = simuladoCorrente.respostas
+        .map((r,i) => r.resposta === null ? i+1 : null)
+        .filter(Boolean);
+      if (nr.length) {
+        if (!confirm(`Você ainda não respondeu ${nr.length} questão(ões):\nQuestões: ${nr.join(', ')}\n\nDeseja finalizar mesmo assim?`)) return;
+      }
+      finalizarSimulado();
+    }
     function fecharSimulado() {
       document.getElementById('simulado-screen').classList.remove('open');
       document.body.style.overflow = '';
+      renderSimuladosPage(); // ← adicionar esta linha
     }
 
     // --- STEP 5: Render question card ---
@@ -2464,7 +2482,7 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
             } else {
               cls = 'other-wrong';
               const exp = q.explicacoes_alternativas?.[letter] || '';
-              if (exp) expHtml = `<div class="sim-alt-exp" id="exp-${letter}">${exp}</div>`;
+              if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
             }
           } else {
             if (resp.resposta === letter) cls = 'selected';
