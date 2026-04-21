@@ -2417,20 +2417,202 @@
     function selectSimMode(m){simModoSelecionado=m;document.getElementById('mode-card-tutor').classList.toggle('selected',m==='tutor');document.getElementById('mode-card-simulado').classList.toggle('selected',m==='simulado');}
 
     // ✅ CORRIGIDO: sem sim-mode-badge
-    function iniciarSimulado(){
-      simuladoCorrente.modo=simModoSelecionado;
-      simuladoCorrente.qIdx=0;
-      simuladoCorrente.respondida=false;
-      closeModals();
-      const tutorOpt=document.getElementById('sim-sb-tutor-opt');
-      const simOpt=document.getElementById('sim-sb-sim-opt');
-      if(tutorOpt)tutorOpt.classList.toggle('active',simuladoCorrente.modo==='tutor');
-      if(simOpt)simOpt.classList.toggle('active',simuladoCorrente.modo==='simulado');
-      document.getElementById('simulado-screen').classList.add('open');
-      document.body.style.overflow='hidden';
-      simTimerStart();
-      renderSimQuestao();
+    function iniciarSimulado() {
+  simuladoCorrente.modo = simModoSelecionado;
+  simuladoCorrente.qIdx = 0;
+  simuladoCorrente.respondida = false;
+  closeModals();
+ 
+  // Sidebar: modo do teste
+  const tuOpt = document.getElementById('sim-sb-tutor-opt');
+  const siOpt = document.getElementById('sim-sb-sim-opt');
+  if (tuOpt) tuOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
+  if (siOpt) siOpt.classList.toggle('active', simuladoCorrente.modo === 'simulado');
+ 
+  document.getElementById('simulado-screen').classList.add('open');
+  document.body.style.overflow = 'hidden';
+ 
+  simTimerStart();
+  function renderSimSidebarQGrid() {
+  const grid = document.getElementById('sim-sb-q-grid');
+  if (!grid) return;
+  const { questoes, respostas, qIdx, modo } = simuladoCorrente;
+  grid.innerHTML = questoes.map((q, i) => {
+    const r = respostas[i];
+    const isCur = i === qIdx;
+    let cls = isCur ? 'sq-active' : '';
+    if (!isCur && r && r.resposta !== null) {
+      if (modo === 'tutor') {
+        cls = r.acertou ? 'sq-correct' : r.acertou === false ? 'sq-wrong' : 'sq-answered';
+      } else {
+        cls = 'sq-answered';
+      }
     }
+    return `<div class="sim-sb-q-num ${cls}" onclick="simJumpTo(${i})">${i + 1}</div>`;
+  }).join('');
+}
+  function renderSimQuestao() {
+  const { questoes, qIdx, modo, respostas, respondida } = simuladoCorrente;
+  const q = questoes[qIdx];
+  const total = questoes.length;
+  const resp = respostas[qIdx];
+ 
+  // Fix V/F normalization
+  if (q.alternativas && typeof q.alternativas === 'object') {
+    const keys = Object.keys(q.alternativas);
+    const needsNorm = keys.some(k => k.length > 1 && /verdadeiro|falso|true|false|certo|errado/i.test(k));
+    if (needsNorm) {
+      const newAlts = {};
+      keys.forEach(k => {
+        const norm = /verdadeiro|true|certo/i.test(k) ? 'V' : /falso|false|errado/i.test(k) ? 'F' : k[0].toUpperCase();
+        newAlts[norm] = q.alternativas[k];
+      });
+      if (q.gabarito_correto && q.gabarito_correto.length > 1) {
+        q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
+      }
+      q.alternativas = newAlts;
+    }
+    if (q.gabarito_correto && q.gabarito_correto.length > 1 && keys.includes('V')) {
+      q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
+    }
+  }
+ 
+  // Update header
+  document.getElementById('sim-q-cur').textContent = qIdx + 1;
+  document.getElementById('sim-q-total').textContent = total;
+ 
+  // Update sidebar question grid
+  renderSimSidebarQGrid();
+ 
+  // Build card
+  const isObj = q.tipo === 'objetiva';
+  const isLast = qIdx === total - 1;
+ 
+  // Build alternatives / textarea
+  let bodyHtml = '';
+  if (isObj) {
+    const alts = q.alternativas || {};
+    const showFeedback = respondida && modo === 'tutor';
+    bodyHtml = `<div class="sim-alts" id="sim-alts">`;
+    for (const [letter, text] of Object.entries(alts)) {
+      if (!text) continue;
+      let cls = '';
+      let badge = '';
+      let expHtml = '';
+      if (showFeedback) {
+        const isCorrect = letter === q.gabarito_correto;
+        const isChosen = letter === resp.resposta;
+        if (isCorrect) {
+          cls = 'correct highlight';
+          badge = `<span class="sim-alt-result-badge badge-correta">✓ Correta</span>`;
+          const exp = q.explicacoes_alternativas?.[letter] || q.explicacao_geral || '';
+          if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
+        } else if (isChosen) {
+          cls = 'wrong';
+          badge = `<span class="sim-alt-result-badge badge-errada">✗ Incorreta</span>`;
+          const exp = q.explicacoes_alternativas?.[letter] || '';
+          if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
+        } else {
+          cls = 'other-wrong';
+          const exp = q.explicacoes_alternativas?.[letter] || '';
+          if (exp) expHtml = `<div class="sim-alt-exp" id="exp-${letter}">${exp}</div>`;
+        }
+      } else {
+        if (resp.resposta === letter) cls = 'selected';
+      }
+      bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${showFeedback ? `simToggleAltExp('${letter}')` : `simSelecionarAlt('${letter}')`}">
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 18px">
+          <div class="sim-alt-letter">${letter}</div>
+          <div class="sim-alt-text" id="alt-txt-${letter}">${text}</div>
+          ${badge}
+        </div>
+        ${expHtml}
+      </div>`;
+    }
+    if (showFeedback && q.explicacao_geral) {
+      bodyHtml += `<div style="margin-top:12px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);font-size:12px;line-height:1.7;color:var(--muted2)"><strong style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);display:block;margin-bottom:4px;font-family:'IBM Plex Mono',monospace">💡 Comentário geral</strong>${q.explicacao_geral}</div>`;
+    }
+    bodyHtml += `</div>`;
+  } else {
+    const taVal = resp.resposta || '';
+    const disabled = respondida && modo === 'tutor' ? 'disabled' : '';
+    bodyHtml = `<div class="sim-disc-wrap">
+      <textarea class="sim-disc-textarea" id="sim-disc-ta" placeholder="Escreva sua resposta aqui…" ${disabled} oninput="simDiscChar(this)">${taVal}</textarea>
+      <div class="sim-disc-char" id="sim-disc-char">${taVal.length} caracteres</div>
+    </div>`;
+  }
+ 
+  // Discursiva feedback
+  let feedbackHtml = '';
+  if (respondida && modo === 'tutor' && !isObj) {
+    const notaVal = resp.nota;
+    const notaCls = notaVal === null ? '' : notaVal >= 80 ? 'disc-nota-green' : notaVal >= 60 ? 'disc-nota-yellow' : 'disc-nota-red';
+    feedbackHtml = `
+    <div class="sim-ai-loading ${notaVal === null ? 'show' : ''}" id="sim-ai-loading">
+      <div class="sim-ai-spinner"></div> Avaliando com IA…
+    </div>
+    ${notaVal !== null ? `
+    <div class="disc-fb-card">
+      <div class="disc-fb-nota-row">
+        <span class="disc-fb-nota-lbl">NOTA</span>
+        <span class="disc-fb-nota ${notaCls}">${notaVal}<span class="disc-fb-nota-max">/100</span></span>
+      </div>
+      <div class="disc-fb-section">
+        <div class="disc-fb-section-lbl">✦ Resposta esperada</div>
+        <div class="disc-fb-section-body">${resp.resposta_ideal || ''}</div>
+      </div>
+      ${resp.o_que_faltou ? `<div class="disc-fb-section disc-fb-faltou">
+        <div class="disc-fb-section-lbl">⚠ O que faltou / estava errado</div>
+        <div class="disc-fb-section-body">${resp.o_que_faltou}</div>
+      </div>` : `<div class="disc-fb-section disc-fb-ok">
+        <div class="disc-fb-section-lbl">✓ Resposta completa</div>
+        <div class="disc-fb-section-body">Sua resposta contemplou todos os pontos esperados.</div>
+      </div>`}
+    </div>` : ''}`;
+  }
+ 
+  document.getElementById('sim-body').innerHTML = `
+    <div class="sim-q-card">
+      <div class="sim-q-header">
+        <div class="sim-q-type">${q.tipo.toUpperCase()} · QUESTÃO ${qIdx + 1} DE ${total}</div>
+        ${q.contexto ? `<div class="sim-q-contexto" id="sim-contexto">${q.contexto}</div>` : ''}
+        <div class="sim-q-enunciado" id="sim-enunciado">${q.enunciado}</div>
+      </div>
+      <div class="sim-q-body">
+        ${bodyHtml}
+        ${feedbackHtml}
+      </div>
+    </div>`;
+ 
+  // Annotation targets
+  annotTargetIds = ['sim-enunciado', 'sim-contexto'];
+  Object.keys(q.alternativas || {}).forEach(l => {
+    if (!respondida || modo !== 'tutor') annotTargetIds.push('alt-txt-' + l);
+  });
+ 
+  // Button states
+  const btnPrev   = document.getElementById('sim-btn-prev');
+  const btnResp   = document.getElementById('sim-btn-respond');
+  const btnNext   = document.getElementById('sim-btn-next');
+  const btnFinish = document.getElementById('sim-btn-finish');
+ 
+  btnPrev.disabled = (qIdx === 0);
+ 
+  if (respondida) {
+    btnResp.style.display = 'none';
+    btnFinish.style.display = 'none';
+    btnNext.style.display = 'inline-flex';
+    btnNext.disabled = false;
+    btnNext.textContent = isLast ? 'Finalizar ✓' : 'Próxima →';
+    btnNext.onclick = isLast ? finalizarSimulado : simProxima;
+  } else {
+    btnResp.style.display = 'inline-flex';
+    btnResp.disabled = false;
+    btnNext.style.display = 'none';
+    btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'inline-flex' : 'none';
+  }
+}
+}
 
     function confirmarSairSimulado(){
       const{questoes,qIdx,respostas,titulo,modo}=simuladoCorrente;
@@ -2563,12 +2745,18 @@
     }
 
     function simAnterior() {
-      if (simuladoCorrente.qIdx === 0) return;
-      simuladoCorrente.qIdx--;
-      simuladoCorrente.respondida = !!(simuladoCorrente.respostas[simuladoCorrente.qIdx]?.resposta);
-      renderSimQuestao();
-      document.getElementById('sim-body').scrollTop = 0;
-    }
+  if (simuladoCorrente.qIdx === 0) return;
+  simuladoCorrente.qIdx--;
+  simuladoCorrente.respondida = !!(simuladoCorrente.respostas[simuladoCorrente.qIdx]?.resposta);
+  renderSimQuestao();
+  document.getElementById('sim-body').scrollTop = 0;
+}
+    function simJumpTo(i) {
+  simuladoCorrente.qIdx = i;
+  simuladoCorrente.respondida = !!(simuladoCorrente.respostas[i]?.resposta);
+  renderSimQuestao();
+  document.getElementById('sim-body').scrollTop = 0;
+}
 
     function simSelecionarAlt(letter) {
       if (simuladoCorrente.respondida) return;
@@ -2627,15 +2815,15 @@
     }
 
     function simProxima() {
-      const { questoes, qIdx } = simuladoCorrente;
-      if (qIdx < questoes.length - 1) {
-        simuladoCorrente.qIdx++;
-        simuladoCorrente.respondida = !!simuladoCorrente.respostas[simuladoCorrente.qIdx].resposta;
-        document.getElementById('sim-body').scrollTop = 0;
-        renderSimQuestao();
-        window.scrollTo({ top: 0 });
-      }
-    }
+  const { questoes, qIdx } = simuladoCorrente;
+  if (qIdx < questoes.length - 1) {
+    simuladoCorrente.qIdx++;
+    simuladoCorrente.respondida = !!simuladoCorrente.respostas[simuladoCorrente.qIdx].resposta;
+    document.getElementById('sim-body').scrollTop = 0;
+    renderSimQuestao();
+    window.scrollTo({ top: 0 });
+  }
+}
 
     // --- STEP 6: Evaluate discursiva with AI ---
     async function avaliarDiscursivaIA(questao,respostaUsuario){
@@ -2691,6 +2879,7 @@
   }
 
     // --- STEP 7: Finalize ---
+      simTimerStop()
     async function finalizarSimulado() {
       const { questoes, respostas, modo, titulo } = simuladoCorrente;
       const discursivas = questoes.map((q, i) => ({ q, i, r: respostas[i] })).filter(x => x.q.tipo === 'discursiva' && x.r.resposta && x.r.nota === null);
@@ -2729,7 +2918,11 @@
           if (q.tipo === 'objetiva') { respostas[i].acertou = (respostas[i].resposta === q.gabarito_correto); respostas[i].nota = respostas[i].acertou ? 100 : 0; }
           // Discursivas already graded in tutor mode
         });
-        fecharSimulado();
+        function fecharSimulado() {
+  simTimerStop();
+  document.getElementById('simulado-screen').classList.remove('open');
+  document.body.style.overflow = '';
+}
       }
 
       exibirRevisao();
@@ -2894,109 +3087,43 @@
     }
 
     // ── Biblioteca de Simulados (Rascunhos) ──────────────────────────────
-    window.carregarRascunho = function(i) {
-      const draft = state.simuladosDraft[i];
-      if (!draft) return;
-      closeModals();
-      if (draft.concluido) {
-        simuladoCorrente = { ...draft };
-        exibirRevisao();
-        return;
-      }
-      simuladoCorrente = {
-        apiKey: draft.apiKey || getGeminiKey(),
-        questoes: draft.questoes,
-        titulo: draft.titulo,
-        modo: draft.modo || 'tutor',
-        qIdx: draft.qIdx || 0,
-        respostas: draft.respostas,
-        respondida: !!(draft.respostas[draft.qIdx || 0]?.resposta),
-      };
-      if (!draft.modo) {
-        document.getElementById('modal-mode-title').textContent = `"${draft.titulo}"`;
-        document.getElementById('modal-mode-sub').textContent = `// ${draft.questoes.length} questão(ões) · escolha o modo`;
-        document.getElementById('modal-simulado-mode').classList.add('open');
-        document.body.style.overflow = 'hidden';
-      } else {
-        const tutorOpt2 = document.getElementById('sim-sb-tutor-opt');
-        const simOpt2 = document.getElementById('sim-sb-sim-opt');
-        if (tutorOpt2) tutorOpt2.classList.toggle('active', simuladoCorrente.modo === 'tutor');
-        if (simOpt2) simOpt2.classList.toggle('active', simuladoCorrente.modo === 'simulado');
-        document.getElementById('simulado-screen').classList.add('open');
-        document.body.style.overflow = 'hidden';
-        simTimerStart();
-        renderSimQuestao();
-      }
-    };
-
-    function renderSimLib() {
-      const list = document.getElementById('simlib-list');
-      if (!list) return;
-      const drafts = state.simuladosDraft || [];
-      if (!drafts.length) {
-        list.innerHTML = '<div class="simlib-empty">// nenhum simulado salvo ainda</div>';
-        return;
-      }
-      list.innerHTML = drafts.map((d, i) => {
-        const total = d.questoes ? d.questoes.length : 0;
-        const resp = d.respostas ? d.respostas.filter(r => r.resposta !== null).length : 0;
-        const pct = total ? Math.round(resp / total * 100) : 0;
-        const isDone = d.concluido;
-        const statusCls = isDone ? 'done' : resp > 0 ? 'prog' : 'new';
-        const statusTxt = isDone ? '✓ Concluído' : resp > 0 ? `${resp}/${total} feitas` : 'Não iniciado';
-        const modeIcon = d.modo === 'tutor' ? '🎓' : '🏆';
-        const date = d.savedAt ? new Date(d.savedAt).toLocaleDateString('pt-BR', {day:'2-digit',month:'short'}) : '';
-        return `<div class="simlib-item" onclick="carregarRascunho(${i})">
-          <div class="simlib-icon">${modeIcon}</div>
-          <div class="simlib-info">
-            <div class="simlib-title">${d.titulo || 'Simulado sem nome'}</div>
-            <div class="simlib-meta">${total} questões · ${d.modo === 'tutor' ? 'Tutor' : 'Simulado'}${date ? ' · ' + date : ''}</div>
-            <div class="simlib-progress"><div class="simlib-progress-fill" style="width:${pct}%"></div></div>
-          </div>
-          <span class="simlib-badge ${statusCls}">${statusTxt}</span>
-          <button class="simlib-del" onclick="event.stopPropagation();deletarRascunho(${i})" title="Remover">🗑</button>
-        </div>`;
-      }).join('');
-    }
-
-    function salvarRascunho() {
-      if (!state.simuladosDraft) state.simuladosDraft = [];
-      const { questoes, titulo, modo, qIdx, respostas, apiKey } = simuladoCorrente;
-      // Update existing draft if same titulo, otherwise add new
-      const idx = state.simuladosDraft.findIndex(d => d.titulo === titulo && !d.concluido);
-      const draft = { titulo, modo, questoes, respostas, qIdx, apiKey: apiKey || '', savedAt: Date.now(), concluido: false };
-      if (idx >= 0) state.simuladosDraft[idx] = draft;
-      else state.simuladosDraft.unshift(draft);
-      // Cap at 20 drafts
-      if (state.simuladosDraft.length > 20) state.simuladosDraft = state.simuladosDraft.slice(0, 20);
-      save();
-    }
-
-    function marcarConcluido() {
-      if (!state.simuladosDraft) return;
-      const idx = state.simuladosDraft.findIndex(d => d.titulo === simuladoCorrente.titulo && !d.concluido);
-      if (idx >= 0) { state.simuladosDraft[idx].concluido = true; save(); }
-    }
-
-    function deletarRascunho(i) {
-      if (!confirm('Remover este simulado?')) return;
-      state.simuladosDraft.splice(i, 1);
-      save();
-      renderSimLib();
-    }
-
-    function confirmarNomeSimulado() {
-      const inp = document.getElementById('sim-name-input');
-      const nome = inp ? inp.value.trim() : '';
-      if (!nome) { toast('Digite um nome para o simulado'); return; }
-      simuladoCorrente.titulo = nome;
-      // Show mode selector
-      closeModals();
-      document.getElementById('modal-mode-title').textContent = `"${nome}"`;
-      document.getElementById('modal-mode-sub').textContent = `// ${simuladoCorrente.questoes.length} questão(ões) extraída(s) · como quer fazer?`;
-      document.getElementById('modal-simulado-mode').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
+    function carregarRascunho(i) {
+  const draft = state.simuladosDraft[i];
+  if (!draft) return;
+  closeModals();
+  if (draft.concluido) {
+    simuladoCorrente = { ...draft };
+    exibirRevisao();
+    return;
+  }
+  simuladoCorrente = {
+    apiKey: draft.apiKey || getGeminiKey(),
+    questoes: draft.questoes,
+    titulo: draft.titulo,
+    modo: draft.modo || 'tutor',
+    qIdx: draft.qIdx || 0,
+    respostas: draft.respostas,
+    respondida: !!(draft.respostas?.[draft.qIdx || 0]?.resposta),
+  };
+  if (!draft.modo) {
+    document.getElementById('modal-mode-title').textContent = `"${draft.titulo}"`;
+    document.getElementById('modal-mode-sub').textContent = `// ${draft.questoes.length} questão(ões) · escolha o modo`;
+    document.getElementById('modal-simulado-mode').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    // Update sidebar mode badges
+    const tuOpt = document.getElementById('sim-sb-tutor-opt');
+    const siOpt = document.getElementById('sim-sb-sim-opt');
+    if (tuOpt) tuOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
+    if (siOpt) siOpt.classList.toggle('active', simuladoCorrente.modo === 'simulado');
+ 
+    document.getElementById('simulado-screen').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    simTimerStart();
+    renderSimSidebarQGrid();
+    renderSimQuestao();
+  }
+}
 
     // ═══════════════ TOOLBAR DE ANOTAÇÃO ═══════════════
     let annotColor = 'y';
