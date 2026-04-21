@@ -650,8 +650,8 @@
     .sim-alt-exp.open { display: block; }
     .sim-alt.correct .sim-alt-exp { color: rgba(29,184,112,.9); border-top-color: rgba(29,184,112,.15); background: rgba(29,184,112,.04); }
     .sim-alt.wrong .sim-alt-exp { color: rgba(240,78,78,.85); border-top-color: rgba(240,78,78,.12); background: rgba(240,78,78,.03); }
-    .sim-alt.other-wrong .sim-alt-exp { color: var(--muted2); border-top-color: var(--border); background: rgba(255,255,255,.015); }
-    .sim-alt.other-wrong { border-color: var(--border2)!important; background: var(--bg3)!important; opacity: .7; }
+    .sim-alt.other-wrong { border-color: rgba(240,78,78,.3)!important; background: rgba(240,78,78,.04)!important; opacity: 1; }
+    .sim-alt.other-wrong .sim-alt-exp { color: rgba(240,78,78,.7); }
     .sim-alt-result-badge { font-size: 9px; font-weight: 700; letter-spacing: .1em; padding: 2px 8px; border-radius: 20px; margin-left: auto; flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; white-space: nowrap; }
     .badge-correta { background: var(--g-bg); color: var(--green); border: 1px solid rgba(29,184,112,.3); }
     .badge-errada  { background: var(--r-bg); color: var(--red);   border: 1px solid rgba(240,78,78,.3); }
@@ -2480,7 +2480,7 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
               const exp = q.explicacoes_alternativas?.[letter] || '';
               if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
             } else {
-              cls = 'wrong';
+              cls = 'other-wrong';
               const exp = q.explicacoes_alternativas?.[letter] || '';
               if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
             }
