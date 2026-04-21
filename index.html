@@ -2430,7 +2430,8 @@
       // Update header
       document.getElementById('sim-q-cur').textContent = qIdx + 1;
       document.getElementById('sim-q-total').textContent = total;
-      document.getElementById('sim-progress-fill').style.width = ((qIdx + 1) / total * 100) + '%';
+      const progFill = document.getElementById('sim-progress-fill');
+if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
 
       // Build card
       const isObj = q.tipo === 'objetiva';
@@ -3680,13 +3681,13 @@ function carregarRascunho(i) {
   const draft = state.simuladosDraft[i];
   if (!draft) return;
   closeModals();
+
   if (draft.concluido) {
-    // Re-show revisão
     simuladoCorrente = { ...draft };
     exibirRevisao();
     return;
   }
-  // Load into simuladoCorrente and show mode selector if not started, else jump in
+
   simuladoCorrente = {
     apiKey: draft.apiKey || getGeminiKey(),
     questoes: draft.questoes,
@@ -3694,22 +3695,20 @@ function carregarRascunho(i) {
     modo: draft.modo || 'tutor',
     qIdx: draft.qIdx || 0,
     respostas: draft.respostas,
-    respondida: !!(draft.respostas[draft.qIdx || 0]?.resposta),
+    respondida: !!(draft.respostas && draft.respostas[draft.qIdx || 0]?.resposta),
   };
+
   if (!draft.modo) {
-    // Hasn't picked mode yet — show mode selector
     document.getElementById('modal-mode-title').textContent = `"${draft.titulo}"`;
     document.getElementById('modal-mode-sub').textContent = `// ${draft.questoes.length} questão(ões) · escolha o modo`;
     document.getElementById('modal-simulado-mode').classList.add('open');
     document.body.style.overflow = 'hidden';
   } else {
-    // Already in progress — jump back in
-    const badge = document.getElementById('sim-mode-badge');
-    badge.textContent = simuladoCorrente.modo === 'tutor' ? 'Modo Tutor' : 'Modo Simulado';
-    badge.className = 'sim-mode-badge ' + simuladoCorrente.modo;
     document.getElementById('simulado-screen').classList.add('open');
     document.body.style.overflow = 'hidden';
+    simTimerStart();          // ← estava faltando
     renderSimQuestao();
+    renderSimSidebar();       // ← estava faltando
   }
 }
 
