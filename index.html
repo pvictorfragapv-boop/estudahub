@@ -3085,7 +3085,7 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       const { questoes, qIdx } = simuladoCorrente;
       if (qIdx < questoes.length - 1) {
         simuladoCorrente.qIdx++;
-        simuladoCorrente.respondida = !!simuladoCorrente.respostas[simuladoCorrente.qIdx].resposta;
+        simuladoCorrente.respondida = !!simuladoCorrente.respostas[simuladoCorrente.qIdx]?.resposta;
         document.getElementById('sim-body').scrollTop = 0;
         renderSimQuestao();
         window.scrollTo({ top: 0 });
@@ -3298,7 +3298,7 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       marcarConcluido();
       if (parseFloat(notaFinal) >= 7) celebrate();
     }
-
+    
     function toggleRQ(i) {
       const b = document.getElementById('rq-body-' + i);
       if (b) b.classList.toggle('open');
@@ -3334,7 +3334,6 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       toast('Simulado salvo em Provas!');
       celebrate();
     }
-
 
     // ═══ SIMULADO TIMER & SIDEBAR ═══
     let simTimerInterval = null, simTimerSecs = 0;
