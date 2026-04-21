@@ -879,7 +879,151 @@
       .sim-actions-new { left: 0; padding: 10px 14px calc(10px + var(--sb)); flex-wrap: wrap; }
       .sim-btn { font-size: 10px; padding: 9px 14px; }
     }
+/* ══════════════════════════════════════════════════════
+   SIMULADO — TEMA CLARO (ativado por body.sim-light)
+   Cole antes do </style>
+   ══════════════════════════════════════════════════════ */
 
+body.sim-light #simulado-screen  { background: #f0f2f5; }
+body.sim-light .sim-sidebar      { background: #fff; border-right: 1px solid #e8e8e8; box-shadow: 2px 0 8px rgba(0,0,0,.06); }
+body.sim-light .sim-sb-timer     { background: #f8f9fa; border: 1px solid #e8e8e8; border-radius: 10px; color: #333; font-size: 15px; }
+body.sim-light .sim-sb-mode      { background: #f8f9fa; border: 1px solid #e8e8e8; border-radius: 10px; }
+body.sim-light .sim-sb-mode-lbl  { color: #999; }
+body.sim-light .sim-sb-mode-opt  { border: 1px solid #ddd; color: #999; background: transparent; }
+body.sim-light .sim-sb-mode-opt.active { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
+body.sim-light .sim-sb-q-title   { color: #bbb; }
+body.sim-light .sim-sb-q-num     { background: #f5f5f5; border: 1px solid #e0e0e0; color: #999; border-radius: 6px; }
+body.sim-light .sim-sb-q-num:hover { border-color: #1565c0; color: #1565c0; }
+body.sim-light .sim-sb-q-num.sq-active   { background: #e3f2fd; border-color: #1565c0; color: #1565c0; }
+body.sim-light .sim-sb-q-num.sq-correct  { background: #e8f5e9; border-color: #43a047; color: #2e7d32; }
+body.sim-light .sim-sb-q-num.sq-wrong    { background: #ffebee; border-color: #e53935; color: #c62828; }
+body.sim-light .sim-sb-q-num.sq-answered { background: #f5f5f5; border-color: #ccc; color: #aaa; }
+body.sim-light .sim-sb-finish    { background: #1b5e20; color: #fff; border-color: #1b5e20; box-shadow: 0 4px 12px rgba(27,94,32,.3); }
+body.sim-light .sim-sb-finish:hover { background: #2e7d32; }
+
+body.sim-light .sim-topbar-new   { background: #fff; border-bottom: 1px solid #e8e8e8; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+body.sim-light .sim-q-counter-new { color: #666; }
+body.sim-light .sim-q-counter-new strong { color: #1565c0; }
+body.sim-light .sim-annot-btn    { background: #f8f9fa; border: 1px solid #e0e0e0; color: #555; }
+body.sim-light .sim-annot-btn:hover { border-color: #1565c0; color: #1565c0; background: #e3f2fd; }
+body.sim-light .sim-exit-btn-new { background: #f5f5f5; border: 1px solid #e0e0e0; color: #999; }
+body.sim-light .sim-exit-btn-new:hover { border-color: #e53935; color: #c62828; background: #ffebee; }
+
+body.sim-light .sim-q-card       { background: #fff; border: 1px solid #e8e8e8; border-top: 2px solid #1565c0; box-shadow: 0 2px 12px rgba(0,0,0,.08); border-radius: 16px; }
+body.sim-light .sim-q-header     { border-bottom: 1px solid #f0f0f0; }
+body.sim-light .sim-q-type       { color: #1565c0; }
+body.sim-light .sim-q-contexto   { background: #f8f9fa; border: 1px solid #e8e8e8; border-radius: 10px; color: #555; }
+body.sim-light .sim-q-enunciado  { color: #1a1a1a; font-weight: 600; }
+
+body.sim-light .sim-alt          { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 12px; }
+body.sim-light .sim-alt:hover:not(.correct):not(.wrong):not(.other-wrong) { border-color: #90caf9; background: #f8fbff; }
+body.sim-light .sim-alt.selected { border-color: #1565c0; background: #e3f2fd; }
+body.sim-light .sim-alt.correct,
+body.sim-light .sim-alt.correct.highlight { border: 1.5px solid #43a047 !important; background: #f1f8e9 !important; }
+body.sim-light .sim-alt.wrong    { border: 1.5px solid #e53935 !important; background: #fff5f5 !important; }
+body.sim-light .sim-alt.other-wrong { border: 1px solid #ffcdd2 !important; background: #fff8f8 !important; }
+body.sim-light .sim-alt-letter   { background: #f0f0f0; color: #888; }
+body.sim-light .sim-alt.selected    .sim-alt-letter { background: #1565c0; color: #fff; }
+body.sim-light .sim-alt.correct     .sim-alt-letter { background: #43a047; color: #fff; }
+body.sim-light .sim-alt.wrong       .sim-alt-letter { background: #e53935; color: #fff; }
+body.sim-light .sim-alt.other-wrong .sim-alt-letter { background: #ef9a9a; color: #fff; }
+body.sim-light .sim-alt-text { color: #333; }
+body.sim-light .sim-alt.correct  .sim-alt-exp { color: #2e7d32; border-top-color: #c8e6c9; background: #f1f8e9; }
+body.sim-light .sim-alt.wrong    .sim-alt-exp { color: #c62828; border-top-color: #ffcdd2; background: #fff5f5; }
+body.sim-light .sim-alt.other-wrong .sim-alt-exp { color: #b71c1c; }
+body.sim-light .badge-correta { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+body.sim-light .badge-errada  { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+
+body.sim-light .sim-comentario-geral { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px; color: #555; }
+body.sim-light .sim-comentario-geral strong { color: #f57f17; }
+
+body.sim-light .sim-disc-textarea { background: #f8f9fa; border: 1.5px solid #e0e0e0; color: #333; }
+body.sim-light .sim-disc-textarea:focus { border-color: #1565c0; box-shadow: 0 0 0 3px rgba(21,101,192,.1); }
+body.sim-light .sim-disc-char { color: #ccc; }
+body.sim-light .sim-ai-loading { background: #f8f9fa; border: 1px solid #e0e0e0; color: #888; }
+body.sim-light .sim-ai-spinner { border: 2px solid #e0e0e0; border-top-color: #1565c0; }
+
+body.sim-light .disc-fb-card       { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px; }
+body.sim-light .disc-fb-nota-lbl   { color: #999; }
+body.sim-light .disc-nota-green    { color: #2e7d32; }
+body.sim-light .disc-nota-yellow   { color: #f57f17; }
+body.sim-light .disc-nota-red      { color: #c62828; }
+body.sim-light .disc-fb-section-body { color: #444; }
+body.sim-light .disc-fb-faltou .disc-fb-section-lbl { color: #e65100; }
+body.sim-light .disc-fb-ok     .disc-fb-section-lbl { color: #2e7d32; }
+
+body.sim-light .sim-actions-new  { background: rgba(255,255,255,.97); border-top: 1px solid #e8e8e8; box-shadow: 0 -2px 12px rgba(0,0,0,.06); }
+body.sim-light #sim-btn-prev     { color: #888; }
+body.sim-light #sim-btn-prev:hover:not(:disabled) { color: #333; background: #f5f5f5; }
+body.sim-light .sim-btn-dash     { background: #c62828; }
+body.sim-light #sim-btn-respond  { border-color: #2e7d32; color: #2e7d32; }
+body.sim-light #sim-btn-respond:hover:not(:disabled) { background: #e8f5e9; }
+body.sim-light #sim-btn-next     { border-color: #1565c0; color: #1565c0; }
+body.sim-light #sim-btn-next:hover:not(:disabled)  { background: #e3f2fd; }
+body.sim-light #sim-btn-finish   { border-color: #2e7d32; color: #2e7d32; }
+body.sim-light #sim-btn-finish:hover { background: #e8f5e9; }
+
+body.sim-light #grading-screen   { background: #f0f2f5; }
+body.sim-light .grading-orb      { background: #e3f2fd; border-color: #90caf9; }
+body.sim-light .grading-title    { color: #1a1a1a; }
+body.sim-light .grading-sub      { color: #888; }
+body.sim-light .grading-prog-bar { background: #e0e0e0; }
+body.sim-light .grading-prog-fill { background: linear-gradient(90deg, #1565c0, #42a5f5); }
+body.sim-light .grading-prog-txt  { color: #bbb; }
+
+body.sim-light #revisao-screen   { background: #f0f2f5; }
+body.sim-light .revisao-topbar   { background: #fff; border-bottom: 1px solid #e8e8e8; }
+body.sim-light .revisao-topbar-title { color: #1a1a1a; }
+body.sim-light .revisao-hero     { background: #fff; border-bottom: 1px solid #e8e8e8; }
+body.sim-light .revisao-hero::before { display: none; }
+body.sim-light .revisao-hero::after  { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg,#1565c0,#42a5f5); opacity:1; }
+body.sim-light .revisao-nota-label   { color: #999; }
+body.sim-light .revisao-nota-value   { background: none; -webkit-text-fill-color: #1a1a1a; color: #1a1a1a; }
+body.sim-light .revisao-nota-sub     { color: #999; }
+body.sim-light .revisao-stats        { background: #e8e8e8; border-radius: 10px; }
+body.sim-light .revisao-stat         { background: #f8f9fa; }
+body.sim-light .revisao-stat-val     { color: #1565c0; }
+body.sim-light .revisao-stat-lbl     { color: #999; }
+body.sim-light .revisao-footer       { background: #fff; border-top: 1px solid #e8e8e8; }
+body.sim-light .btn-voltar-dash      { background: #1565c0; border: none; border-radius: 50px; box-shadow: 0 4px 16px rgba(21,101,192,.4); }
+
+body.sim-light .rq-item         { background: #fff; border: 1px solid #e8e8e8; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
+body.sim-light .rq-item.acerto  { border-left: 3px solid #43a047; }
+body.sim-light .rq-item.erro    { border-left: 3px solid #e53935; }
+body.sim-light .rq-item-header:hover { background: #f9f9f9; }
+body.sim-light .rq-num          { color: #888; }
+body.sim-light .rq-tipo         { color: #bbb; }
+body.sim-light .rq-result-badge.acerto  { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+body.sim-light .rq-result-badge.erro    { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+body.sim-light .rq-result-badge.parcial { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+body.sim-light .rq-enunciado    { color: #333; }
+body.sim-light .rq-contexto     { color: #555; background: #f8f9fa; border: 1px solid #e8e8e8; }
+body.sim-light .rq-section-lbl  { color: #aaa; }
+body.sim-light .rq-section-val  { color: #444; background: #f5f5f5; border: 1px solid #e8e8e8; }
+body.sim-light .rq-alt          { border: 1px solid #e8e8e8; }
+body.sim-light .rq-alt-header:hover { background: #f9f9f9; }
+body.sim-light .rq-alt.alt-correta { border-color: #a5d6a7; background: #f1f8e9; }
+body.sim-light .rq-alt.alt-correta .rq-alt-icon  { background: #c8e6c9; color: #2e7d32; }
+body.sim-light .rq-alt.alt-correta .rq-alt-letra { color: #2e7d32; }
+body.sim-light .rq-alt.alt-errada  { border-color: #ef9a9a; background: #fff8f8; }
+body.sim-light .rq-alt.alt-errada  .rq-alt-icon  { background: #ffcdd2; color: #c62828; }
+body.sim-light .rq-alt.alt-errada  .rq-alt-letra { color: #c62828; }
+body.sim-light .rq-alt.alt-neutra  { border-color: #e8e8e8; }
+body.sim-light .rq-alt.alt-neutra  .rq-alt-icon  { background: #f5f5f5; color: #999; }
+body.sim-light .rq-alt.alt-neutra  .rq-alt-letra { color: #999; }
+body.sim-light .rq-alt-txt      { color: #333; }
+body.sim-light .rq-alt.alt-correta .rq-alt-badge { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+body.sim-light .rq-alt.alt-errada  .rq-alt-badge { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+body.sim-light .rq-alt.alt-correta .rq-alt-exp { color: #2e7d32; border-top-color: #c8e6c9; background: #f1f8e9; }
+body.sim-light .rq-alt.alt-errada  .rq-alt-exp { color: #c62828; border-top-color: #ffcdd2; background: #fff8f8; }
+body.sim-light .rq-alt.alt-neutra  .rq-alt-exp { color: #888; }
+body.sim-light .rq-explicacao-geral { color: #666; background: #f5f5f5; border: 1px solid #e8e8e8; }
+body.sim-light .rq-explicacao-geral strong { color: #1565c0; }
+
+body.sim-light #annot-toolbar   { background: #fff; border: 1px solid #e0e0e0; box-shadow: 0 4px 20px rgba(0,0,0,.15); }
+body.sim-light .annot-btn       { border: 1px solid #e8e8e8; color: #555; }
+body.sim-light .annot-btn:hover { background: #f0f0f0; border-color: #1565c0; color: #1565c0; }
+body.sim-light .annot-sep       { background: #e8e8e8; }
   </style>
 </head>
 <body class="theme-default">
@@ -1170,18 +1314,20 @@
         </div>
       </div>
       <div class="config-section">
-        <div class="config-section-header"><div class="config-section-title">Tema de cores</div></div>
-        <div class="config-body">
-          <div class="color-grid" id="settings-color-grid">
-            <div class="color-opt c-default" onclick="selectThemeApp(this,'theme-default')"><div class="ck"></div><span>PADRÃO</span></div>
-            <div class="color-opt c-blue" onclick="selectThemeApp(this,'theme-blue')"><div class="ck"></div><span>AZUL</span></div>
-            <div class="color-opt c-green" onclick="selectThemeApp(this,'theme-green')"><div class="ck"></div><span>VERDE</span></div>
-            <div class="color-opt c-amber" onclick="selectThemeApp(this,'theme-amber')"><div class="ck"></div><span>ÂMBAR</span></div>
-            <div class="color-opt c-red" onclick="selectThemeApp(this,'theme-red')"><div class="ck"></div><span>RUBI</span></div>
-            <div class="color-opt c-purple" onclick="selectThemeApp(this,'theme-purple')"><div class="ck"></div><span>ROXO</span></div>
-          </div>
-        </div>
+  <div class="config-section-header"><div class="config-section-title">Tema do Simulado</div></div>
+  <div class="config-body">
+    <div class="tg-sched" style="gap:16px">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">Tema claro no simulado</div>
+        <div class="tg-sched-text">Fundo branco com cards claros durante a resolução de simulados</div>
       </div>
+      <label class="toggle-sw">
+        <input type="checkbox" id="sim-theme-toggle" onchange="toggleSimTheme(this.checked)"/>
+        <span class="toggle-sl"></span>
+      </label>
+    </div>
+  </div>
+</div>
       <div class="config-section">
         <div class="config-section-header"><div class="config-section-title">Gerenciar matérias</div></div>
         <div class="config-body">
@@ -1809,12 +1955,15 @@
       document.getElementById('settings-email').textContent = state.user||'—';
       const av=document.getElementById('nav-avatar'), ini=document.getElementById('nav-initials'), saw=document.getElementById('settings-av-wrap');
       if (state.photoURL) {
+        const simT = document.getElementById('sim-theme-toggle');
+if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
         av.src=state.photoURL; av.style.display='block'; ini.style.display='none';
         saw.innerHTML=`<img src="${state.photoURL}"/>`;
       } else {
         const i=(state.displayName||state.user||'U')[0].toUpperCase();
         ini.textContent=i; ini.style.display='flex'; saw.textContent=i;
       }
+      
       if (state.tgChatId) { document.getElementById('tg-connected').classList.add('show'); document.getElementById('tg-token').value=state.tgChatId; }
       document.getElementById('tg-sched-toggle').checked=state.tgSchedEn||false;
       updateSchedStatus();
@@ -3847,6 +3996,24 @@ document.addEventListener('selectionchange', () => {
   tb.style.top = top + 'px';
   tb.classList.add('show');
 });
+
+  // ── TEMA DO SIMULADO ──────────────────────────
+function toggleSimTheme(light) {
+  document.body.classList.toggle('sim-light', light);
+  localStorage.setItem('sim_theme', light ? 'light' : 'dark');
+}
+
+// Restaurar preferência ao carregar
+(function() {
+  if (localStorage.getItem('sim_theme') === 'light') {
+    document.body.classList.add('sim-light');
+    // Marcar o toggle depois que o DOM carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      const t = document.getElementById('sim-theme-toggle');
+      if (t) t.checked = true;
+    });
+  }
+})();
   </script>
 </body>
 </html>
