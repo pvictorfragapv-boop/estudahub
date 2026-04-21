@@ -2119,25 +2119,37 @@
               {inline_data:{mime_type:mimeType,data:base64}},
               {text:prompt}
             ]}],
-            generationConfig:{temperature:0.1,maxOutputTokens:8192,responseMimeType:"application/json"}
+            generationConfig:{maxOutputTokens:8192,responseMimeType:"application/json"}
           }, txt => { document.getElementById('byok-proc-txt').textContent = txt; });
 
     const data=await response.json();
-    const rawText=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    // Gemini 3 returns multiple parts (thought signatures + actual text). Collect all text parts.
+    const parts=data.candidates?.[0]?.content?.parts||[];
+    const rawText=parts.map(p=>p.text||'').join('');
 
-    // Parse JSON — strip any markdown fences and normalize smart quotes
-    let cleanText=rawText.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
-    cleanText=cleanText.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
-
-    // Find JSON object
-    const jsonStart=cleanText.indexOf('{');
-    const jsonEnd=cleanText.lastIndexOf('}');
-    if(jsonStart===-1||jsonEnd===-1)throw new Error('IA não retornou JSON válido');
-    cleanText=cleanText.slice(jsonStart,jsonEnd+1);
+    // Parse JSON — strip markdown fences, normalize smart quotes
+    function extractJSON(raw) {
+      let s=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+      s=s.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
+      // Find outermost { }
+      let depth=0, start=-1, end=-1;
+      for(let i=0;i<s.length;i++){
+        if(s[i]==='{'){if(start===-1)start=i;depth++;}
+        else if(s[i]==='}'){depth--;if(depth===0){end=i;break;}}
+      }
+      if(start===-1||end===-1)return null;
+      return s.slice(start,end+1);
+    }
+    const jsonStr=extractJSON(rawText);
+    if(!jsonStr)throw new Error('IA não retornou JSON válido. Tente novamente.');
 
     let parsed;
-    try{parsed=JSON.parse(cleanText);}
-    catch(e){throw new Error('JSON inválido retornado pela IA. Tente novamente ou use outro arquivo.');}
+    try{parsed=JSON.parse(jsonStr);}
+    catch(e){
+      // Last resort: try to fix common Gemini 3 JSON issues (trailing commas, unescaped chars)
+      try{parsed=JSON.parse(jsonStr.replace(/,\s*([}\]])/g,'$1'));}
+      catch(e2){throw new Error('JSON inválido retornado pela IA. Tente novamente ou use outro arquivo.');}
+    }
     if(!parsed.questoes||!parsed.questoes.length)throw new Error('Nenhuma questão extraída');
 
     simuladoCorrente.questoes=parsed.questoes;
@@ -2458,21 +2470,27 @@
     try {
       const response = await geminiRequest({
             contents:[{parts:[{text:prompt}]}],
-            generationConfig:{temperature:0.1,maxOutputTokens:8192,responseMimeType:"application/json"}
+            generationConfig:{maxOutputTokens:8192,responseMimeType:"application/json"}
           }, null);
   
       const data=await response.json();
-      let raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
+      // Gemini 3: join all text parts (thought signatures + response)
+      const _parts=data.candidates?.[0]?.content?.parts||[];
+      let raw=_parts.map(p=>p.text||'').join('');
       raw=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
       raw=raw.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
-      const js=raw.indexOf('{'),je=raw.lastIndexOf('}');
-      if(js>=0&&je>js)raw=raw.slice(js,je+1);
+      // Extract outermost JSON object
+      let _d=0,_s=-1,_e=-1;
+      for(let i=0;i<raw.length;i++){if(raw[i]==='{'){if(_s===-1)_s=i;_d++;}else if(raw[i]==='}'){_d--;if(_d===0){_e=i;break;}}}
+      if(_s>=0&&_e>_s)raw=raw.slice(_s,_e+1);
       let parsed;
       try{parsed=JSON.parse(raw);}
       catch(parseErr){
-        const notaMatch=raw.match(/"nota"\s*:\s*(\d+)/);
-        const feedMatch=raw.match(/"feedback"\s*:\s*"([^"]{0,1000})"/);
-        parsed={nota:notaMatch?parseInt(notaMatch[1]):0,resposta_ideal:'Não foi possível interpretar a resposta da IA.',o_que_faltou:null};
+        try{parsed=JSON.parse(raw.replace(/,\s*([}\]])/g,'$1'));}
+        catch(e2){
+          const notaMatch=raw.match(/"nota"\s*:\s*(\d+)/);
+          parsed={nota:notaMatch?parseInt(notaMatch[1]):0,resposta_ideal:'Não foi possível interpretar a resposta da IA.',o_que_faltou:null};
+        }
       }
       return{nota:Math.min(100,Math.max(0,parseInt(parsed.nota)||0)),resposta_ideal:parsed.resposta_ideal||'',o_que_faltou:parsed.o_que_faltou||null};
   
