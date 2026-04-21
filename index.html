@@ -583,27 +583,27 @@
     .sim-q-contexto { font-size: 13px; line-height: 1.75; color: var(--text); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 12px; }
     .sim-q-body { padding: 20px 24px; }
     .sim-alts { display: flex; flex-direction: column; gap: 8px; }
-    ..sim-alt { display: flex; flex-direction: column; border: 1.5px solid transparent; border-radius: 12px; cursor: pointer; transition: all .18s; background: var(--bg3); font-size: 14px; line-height: 1.6; overflow: hidden; margin-bottom: 8px; }
+    .sim-alt { display: flex; flex-direction: column; border: 1.5px solid transparent; border-radius: 12px; cursor: pointer; transition: all .18s; background: var(--bg3); font-size: 14px; line-height: 1.6; overflow: hidden; margin-bottom: 8px; }
     .sim-alt.selected { border-color: var(--a); background: var(--ad); }
-    .sim-alt.correct,
-    .sim-alt.correct.highlight { background: rgba(29,184,112,.22)!important; }
-    .sim-alt.correct { border-color: rgba(29,184,112,.5)!important; border-width: 1.5px!important; }
-    .sim-alt.correct.highlight { border-color: #1db870!important; border-width: 2.5px!important; box-shadow: 0 0 0 3px rgba(29,184,112,.18); }
-    .sim-alt.wrong,
-    .sim-alt.other-wrong { background: rgba(240,78,78,.2)!important; }
-    .sim-alt.wrong { border-color: #f04e4e!important; border-width: 2.5px!important; box-shadow: 0 0 0 3px rgba(240,78,78,.12); }
-    .sim-alt.other-wrong { border-color: rgba(240,78,78,.4)!important; border-width: 1.5px!important; box-shadow: none!important; }
+    .sim-alt.correct { border-color: rgba(29,184,112,.5)!important; border-width: 1.5px!important; background: rgba(29,184,112,.22)!important; }
+    .sim-alt.correct.highlight { border-color: #1db870!important; border-width: 2.5px!important; background: rgba(29,184,112,.28)!important; box-shadow: 0 0 0 3px rgba(29,184,112,.18); }
+    .sim-alt.wrong { border-color: #f04e4e!important; border-width: 2.5px!important; background: rgba(240,78,78,.2)!important; box-shadow: 0 0 0 3px rgba(240,78,78,.12); }
+    .sim-alt.other-wrong { border-color: rgba(240,78,78,.4)!important; border-width: 1.5px!important; background: rgba(240,78,78,.2)!important; box-shadow: none!important; }
+    .sim-alt.correct .sim-alt-exp { color: #4ade80; }
+    .sim-alt.wrong .sim-alt-exp { color: #f87171; }
+    .sim-alt.other-wrong .sim-alt-exp { color: #f87171; }
+    .sim-alt-exp { display: none; font-size: 12px; line-height: 1.65; padding: 4px 14px 12px 56px; animation: feedIn .2s ease; }
+    .sim-alt-exp.open { display: block; }
+    .sim-alt.correct .sim-alt-exp { color: rgba(29,184,112,.9); }
+    .sim-alt.wrong .sim-alt-exp { color: rgba(240,78,78,.85); }
+    .sim-alt.other-wrong .sim-alt-exp { color: rgba(240,78,78,.7); }
+    @keyframes correctPulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.01);} }
     .sim-alt-letter { width: 26px; height: 26px; border-radius: 50%; background: var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; margin-top: 1px; }
     .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
     .sim-alt.correct .sim-alt-letter { background: var(--green); color: #fff; }
     .sim-alt.wrong .sim-alt-letter { background: var(--red); color: #fff; }
     .sim-alt.other-wrong .sim-alt-letter { background: rgba(240,78,78,.4); color: #fff; }
     .sim-alt-text { flex: 1; position: relative; z-index: 1; }
-    .sim-alt-exp { display: none; font-size: 12px; line-height: 1.65; padding: 4px 14px 12px 56px; animation: feedIn .2s ease; }
-    .sim-alt-exp.open { display: block; }
-    .sim-alt.correct .sim-alt-exp { color: #4ade80; }
-    .sim-alt.wrong .sim-alt-exp { color: #f87171; }
-    .sim-alt.other-wrong .sim-alt-exp { color: #f87171; }
     .sim-alt-text { flex: 1; position: relative; z-index: 1; }
     #annot-toolbar { position: fixed; z-index: 9999; display: none; background: var(--bg3); border: 1px solid var(--border3); border-radius: 8px; padding: 4px 10px; gap: 4px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
     #annot-toolbar.show { display: flex; }
