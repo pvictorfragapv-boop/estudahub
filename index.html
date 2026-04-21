@@ -1316,73 +1316,107 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-    const cfg = {
-      apiKey: "AIzaSyDhqCjtURR6WZvLbHb-hbWzrP1fMxK0Dnk",
-      authDomain: "estudahub-20436.firebaseapp.com",
-      projectId: "estudahub-20436",
-      storageBucket: "estudahub-20436.firebasestorage.app",
-      messagingSenderId: "957089244219",
-      appId: "1:957089244219:web:3cdc5c31261fab9843e81e"
-    };
+  const cfg = {
+    apiKey: "AIzaSyDhqCjtURR6WZvLbHb-hbWzrP1fMxK0Dnk",
+    authDomain: "estudahub-20436.firebaseapp.com",
+    projectId: "estudahub-20436",
+    storageBucket: "estudahub-20436.firebasestorage.app",
+    messagingSenderId: "957089244219",
+    appId: "1:957089244219:web:3cdc5c31261fab9843e81e"
+  };
 
-    const app = initializeApp(cfg), auth = getAuth(app), db = getFirestore(app), prov = new GoogleAuthProvider();
-    let cu = null;
+  const app = initializeApp(cfg);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const prov = new GoogleAuthProvider();
 
-    async function s2c() {
-      if (!cu) return;
-      try {
-        await setDoc(doc(db,'users',cu.uid,'data','state'), {
-          theme: state.theme, isNewUser: state.isNewUser, temas: state.temas,
-          materias: state.materias, provas: state.provas,
-          tgChatId: state.tgChatId||null, tgSchedEn: state.tgSchedEn||false,
-          tourDone: state.tourDone||false, activityMap: state.activityMap||{},
-          pomSessions: state.pomSessions||[], rotinaBlocks: state.rotinaBlocks||[],
-          simuladosDraft: state.simuladosDraft||[],
-          createdAt: state.createdAt||Date.now(), updatedAt: Date.now()
-        });
-      } catch(e) { console.error(e); }
+  let cu = null;
+
+  // FUNÇÕES DE SINCRONIZAÇÃO
+  async function s2c() {
+    if (!auth.currentUser) return;
+    try {
+      await setDoc(doc(db, 'users', auth.currentUser.uid, 'data', 'state'), {
+        theme: state.theme,
+        isNewUser: state.isNewUser,
+        temas: state.temas,
+        materias: state.materias,
+        provas: state.provas,
+        tgChatId: state.tgChatId || null,
+        tgSchedEn: state.tgSchedEn || false,
+        tourDone: state.tourDone || false,
+        activityMap: state.activityMap || {},
+        pomSessions: state.pomSessions || [],
+        rotinaBlocks: state.rotinaBlocks || [],
+        simuladosDraft: state.simuladosDraft || [],
+        createdAt: state.createdAt || Date.now(),
+        updatedAt: Date.now()
+      });
+    } catch (e) { console.error("Erro ao salvar:", e); }
+  }
+
+  async function lfc(uid) {
+    try {
+      const sn = await getDoc(doc(db, 'users', uid, 'data', 'state'));
+      if (sn.exists()) {
+        const d = sn.data();
+        Object.assign(state, d);
+      }
+    } catch (e) { console.error("Erro ao carregar:", e); }
+  }
+
+  // EXPOR PARA O GLOBAL (Necessário para o onclick do HTML)
+  window.loginGoogle = async () => {
+    try { 
+      await signInWithPopup(auth, prov); 
+    } catch (e) { 
+      if (e.code !== 'auth/popup-closed-by-user') toast('Erro ao entrar'); 
     }
+  };
 
-    async function lfc(uid) {
-      try {
-        const sn = await getDoc(doc(db,'users',uid,'data','state'));
-        if (sn.exists()) {
-          const d = sn.data();
-          state.theme = d.theme||'theme-default';
-          state.isNewUser = d.isNewUser!==undefined?d.isNewUser:true;
-          state.temas = d.temas||[]; state.materias = d.materias||[];
-          state.provas = d.provas||[]; state.tgChatId = d.tgChatId||null;
-          state.tgSchedEn = d.tgSchedEn||false; state.tourDone = d.tourDone||false;
-          state.activityMap = d.activityMap||{}; state.pomSessions = d.pomSessions||[];
-          state.rotinaBlocks = d.rotinaBlocks||[]; state.simuladosDraft = d.simuladosDraft||[];
-          state.createdAt = d.createdAt||Date.now();
-        }
-      } catch(e) { console.error(e); }
+  window.logout = async () => {
+    try {
+      await signOut(auth);
+      location.reload(); // Recarrega para limpar o estado
+    } catch (e) { console.error(e); }
+  };
+
+  window._s2c = s2c; 
+
+  // OBSERVAR ESTADO DE AUTENTICAÇÃO
+  onAuthStateChanged(auth, async u => {
+    const loader = document.getElementById('loading-screen');
+    const ticker = document.getElementById('main-ticker');
+    
+    if (u) {
+      cu = u;
+      state.user = u.email;
+      state.displayName = u.displayName;
+      state.photoURL = u.photoURL;
+      
+      await lfc(u.uid);
+      
+      if (loader) loader.style.display = 'none';
+      if (ticker) ticker.style.display = 'flex';
+      
+      if (state.isNewUser) {
+        showScreen('onboard');
+      } else {
+        enterApp();
+        if (!state.tourDone) setTimeout(startTour, 900);
+      }
+    } else {
+      cu = null;
+      if (loader) loader.style.display = 'none';
+      if (ticker) ticker.style.display = 'none';
+      showScreen('login');
     }
-
-    window._s2c = s2c; window._lfc = lfc;
-
-    onAuthStateChanged(auth, async u => {
-      document.getElementById('loading-screen').style.display = 'none';
-      document.getElementById('main-ticker').style.display = '';
-      if (u) {
-        cu = u; state.user = u.email; state.displayName = u.displayName; state.photoURL = u.photoURL;
-        await lfc(u.uid);
-        if (state.isNewUser) showScreen('onboard');
-        else { enterApp(); if (!state.tourDone) setTimeout(startTour,900); }
-      } else { cu = null; showScreen('login'); }
-    });
-
-    window.loginGoogle = async () => {
-      try { await signInWithPopup(auth,prov); }
-      catch(e) { if (e.code!=='auth/popup-closed-by-user') toast('Erro ao entrar'); }
-    };
-    window.logoutFB = async () => signOut(auth);
-  </script>
+  });
+</script>
 
   <script>
     const TG_TOKEN = '8776004938:AAE0GyD9yu5FzpALcExwrFK5AwyjqK6-w3o';
