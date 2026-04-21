@@ -2496,7 +2496,8 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
           } else {
             if (resp.resposta === letter) cls = 'selected';
           }
-          bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${showFeedback ? `` : `simSelecionarAlt('${letter}')`}">
+          const clickFn = showFeedback ? '' : `simSelecionarAlt('${letter}')`;
+bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}">
             <div style="display:flex;align-items:center;gap:14px;padding:14px 18px">
               <div class="sim-alt-letter">${letter}</div>
               <div class="sim-alt-text" id="alt-txt-${letter}" style="flex:1;font-weight:500">${text}</div>
