@@ -589,8 +589,8 @@
     .sim-alt:hover { border-color: var(--a); }
     .sim-alt.selected { border-color: var(--a); background: var(--ad); }
     .sim-alt.selected::before { opacity: 0; }
-    .sim-alt.correct { border-color: var(--green)!important; background: var(--g-bg)!important; }
-    .sim-alt.wrong { border-color: var(--red)!important; background: var(--r-bg)!important; }
+    .sim-alt.correct { border-color: var(--green)!important; border-width: 2.5px!important; background: var(--g-bg)!important; box-shadow: 0 0 0 2px rgba(29,184,112,.25); }
+    .sim-alt.wrong { border-color: var(--red)!important; border-width: 2.5px!important; background: var(--r-bg)!important; box-shadow: 0 0 0 2px rgba(240,78,78,.25); }
     .sim-alt.highlight { border-color: var(--green)!important; background: var(--g-bg)!important; animation: correctPulse .4s ease; }
     @keyframes correctPulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.01);} }
     .sim-alt-letter { width: 26px; height: 26px; border-radius: 50%; background: var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; margin-top: 1px; }
@@ -2483,6 +2483,10 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
               cls = 'other-wrong';
               const exp = q.explicacoes_alternativas?.[letter] || '';
               if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
+            }
+            // Se o usuário escolheu esta alternativa E ela não é a correta, forçar wrong
+            if (letter === resp.resposta && letter !== q.gabarito_correto) {
+              cls = 'wrong';
             }
           } else {
             if (resp.resposta === letter) cls = 'selected';
