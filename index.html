@@ -1934,6 +1934,27 @@
       if (simOpt) simOpt.classList.toggle('active', simuladoCorrente.modo === 'simulado');
       simTimerStart();
       renderSimQuestao();
+      // Popular grid lateral
+      const _grid = document.getElementById('sim-sb-q-grid');
+      if (_grid && questoes) {
+        _grid.innerHTML = questoes.map((q, i) => {
+          const r = respostas[i];
+          let cls = '';
+          if (i === qIdx) cls = 'sq-active';
+          else if (r && r.resposta) {
+            if (modo === 'tutor' && r.acertou !== null) cls = r.acertou ? 'sq-correct' : 'sq-wrong';
+            else cls = 'sq-answered';
+          }
+          return `<div class="sim-sb-q-num ${cls}" onclick="simIrPara(${i})">${i + 1}</div>`;
+        }).join('');
+      }
+      function simIrPara(i) {
+      if (i < 0 || i >= simuladoCorrente.questoes.length) return;
+      simuladoCorrente.qIdx = i;
+      simuladoCorrente.respondida = !!(simuladoCorrente.respostas[i] && simuladoCorrente.respostas[i].resposta);
+      document.getElementById('sim-body').scrollTop = 0;
+      renderSimQuestao();
+    }
     }
 
     function confirmarSairSimulado() {
@@ -1987,7 +2008,7 @@
       // Update header
       document.getElementById('sim-q-cur').textContent = qIdx + 1;
       document.getElementById('sim-q-total').textContent = total;
-      document.getElementById('sim-progress-fill').style.width = ((qIdx + 1) / total * 100) + '%';
+      const _pf = document.getElementById('sim-progress-fill'); if (_pf) _pf.style.width = ((qIdx + 1) / total * 100) + '%';
 
       // Build card
       const isObj = q.tipo === 'objetiva';
