@@ -583,15 +583,16 @@
     .sim-q-contexto { font-size: 13px; line-height: 1.75; color: var(--text); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 12px; }
     .sim-q-body { padding: 20px 24px; }
     .sim-alts { display: flex; flex-direction: column; gap: 8px; }
-    .sim-alt { display: flex; flex-direction: column; border: 1.5px solid var(--border2); border-radius: var(--r); cursor: pointer; transition: all .18s; background: var(--bg3); font-size: 13px; line-height: 1.6; position: relative; overflow: hidden; }
-    .sim-alt::before { content: ''; position: absolute; inset: 0; background: var(--ag); opacity: 0; transition: opacity .18s; }
-    .sim-alt:hover::before { opacity: 1; }
-    .sim-alt:hover { border-color: var(--a); }
-    .sim-alt.selected { border-color: var(--a); background: var(--ad); }
-    .sim-alt.selected::before { opacity: 0; }
-    .sim-alt.correct { border-color: var(--green)!important; border-width: 2.5px!important; background: var(--g-bg)!important; box-shadow: 0 0 0 2px rgba(29,184,112,.25); }
-    .sim-alt.wrong { border-color: var(--red)!important; border-width: 2.5px!important; background: var(--r-bg)!important; box-shadow: 0 0 0 2px rgba(240,78,78,.25); }
-    .sim-alt.highlight { border-color: var(--green)!important; background: var(--g-bg)!important; animation: correctPulse .4s ease; }
+    .sim-alt { display: flex; flex-direction: column; border: 1.5px solid var(--border2); border-radius: 12px; cursor: pointer; transition: all .18s; background: var(--bg3); font-size: 13px; line-height: 1.6; position: relative; overflow: hidden; margin-bottom: 2px; }
+    .sim-alt.correct { border-color: rgba(29,184,112,.6)!important; background: rgba(29,184,112,.08)!important; box-shadow: 0 0 0 2px rgba(29,184,112,.2); }
+    .sim-alt.wrong { border-color: rgba(240,78,78,.7)!important; background: rgba(240,78,78,.08)!important; box-shadow: 0 0 0 2px rgba(240,78,78,.2); }
+    .sim-alt.other-wrong { border-color: rgba(240,78,78,.25)!important; background: rgba(240,78,78,.04)!important; opacity: 1; }
+    .sim-alt.other-wrong .sim-alt-exp { color: rgba(240,78,78,.65); }
+    .sim-alt-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; }
+    .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
+    .sim-alt.correct .sim-alt-letter { background: var(--green); color: #fff; }
+    .sim-alt.wrong .sim-alt-letter { background: var(--red); color: #fff; }
+    .sim-alt.other-wrong .sim-alt-letter { background: rgba(240,78,78,.3); color: var(--red); }
     @keyframes correctPulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.01);} }
     .sim-alt-letter { width: 26px; height: 26px; border-radius: 50%; background: var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; margin-top: 1px; }
     .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
@@ -2491,13 +2492,13 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
           } else {
             if (resp.resposta === letter) cls = 'selected';
           }
-          bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${showFeedback ? `simToggleAltExp('${letter}')` : `simSelecionarAlt('${letter}')`}">
-            <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 18px">
+          bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${showFeedback ? `` : `simSelecionarAlt('${letter}')`}">
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 18px">
               <div class="sim-alt-letter">${letter}</div>
-              <div class="sim-alt-text" id="alt-txt-${letter}">${text}</div>
+              <div class="sim-alt-text" id="alt-txt-${letter}" style="flex:1">${text}</div>
               ${badge}
             </div>
-            ${expHtml}
+            ${expHtml ? `<div style="padding:0 18px 14px 56px;font-size:12px;line-height:1.65">${expHtml.replace('<div class="sim-alt-exp open">','').replace('</div>','')}</div>` : ''}
           </div>`;
         }
         // Explicação geral (tutor mode, after reveal)
