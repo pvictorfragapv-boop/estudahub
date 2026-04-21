@@ -3402,7 +3402,8 @@ window.carregarRascunho = function(i) {
       tutorOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
       simOpt.classList.toggle('active',   simuladoCorrente.modo === 'simulado');
     }
-    document.getElementById('simulado-screen').classList.add('open');
+    const _pf = document.getElementById('sim-progress-fill');
+    if (_pf) _pf.style.width = ((qIdx + 1) / total * 100) + '%';
     document.body.style.overflow = 'hidden';
     simTimerStart();
     renderSimQuestao();
