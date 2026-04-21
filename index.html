@@ -1320,6 +1320,24 @@
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
   import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
+  window.state = {
+    user: null, 
+    displayName: null, 
+    photoURL: null, 
+    theme: 'theme-default',
+    isNewUser: true, 
+    materias: [], 
+    temas: [], 
+    provas: [],
+    tgChatId: null, 
+    tgSchedEn: false, 
+    tourDone: false,
+    activityMap: {}, 
+    pomSessions: [], 
+    rotinaBlocks: [], 
+    simuladosDraft: [],
+    createdAt: Date.now()
+  };
   const cfg = {
     apiKey: "AIzaSyDhqCjtURR6WZvLbHb-hbWzrP1fMxK0Dnk",
     authDomain: "estudahub-20436.firebaseapp.com",
@@ -1636,7 +1654,17 @@
 
     function getMaterias(){return[...new Set([...state.materias,...state.temas.map(t=>t.materia)])].filter(Boolean);}
     function addMateria(){const inp=document.getElementById('new-mat-input'),v=inp.value.trim();if(!v){toast('Insira um nome');return;}if(!state.materias.includes(v)){state.materias.push(v);save();}inp.value='';renderMatManage();renderPomoSubjectSelect();toast('Matéria adicionada');}
-    function deleteMateria(m){if(state.temas.some(t=>t.materia===m)){toast('Esta matéria tem temas cadastrados');return;}state.materias=state.materias.filter(x=>x!==m);save();renderMatManage();renderPomoSubjectSelect();toast('Matéria removida');}
+    ffunction deleteMateria(m) {
+  if (state.temas.some(t => t.materia === m)) {
+    toast('Esta matéria tem temas cadastrados');
+    return;
+  }
+  state.materias = state.materias.filter(x => x !== m);
+  save();
+  renderMatManage();
+  renderPomoSubjectSelect();
+  toast('Matéria removida');
+}
     function renderMatManage(){const list=document.getElementById('mat-manage-list');if(!list)return;const mats=getMaterias();if(!mats.length){list.innerHTML='<div style="font-size:11px;font-family:\'IBM Plex Mono\',monospace;color:var(--muted);padding:8px 0">Nenhuma matéria cadastrada ainda.</div>';return;}list.innerHTML=mats.map(m=>{const count=state.temas.filter(t=>t.materia===m).length;return`<div class="mat-item"><div class="mat-item-name">${m}</div><div style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2)">${count} tema${count!==1?'s':''}</div><button class="mat-item-del" onclick="deleteMateria('${m.replace(/'/g,"\\'")}')">remover</button></div>`;}).join('');}
 
     let selectedMateria='';
