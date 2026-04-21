@@ -2474,13 +2474,13 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
               badge = `<span class="sim-alt-result-badge badge-correta">✓ Correta</span>`;
               const exp = q.explicacoes_alternativas?.[letter] || q.explicacao_geral || '';
               if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
-            } else if (isChosen) {
+            } else if (isChosen && !isCorrect) {
               cls = 'wrong';
               badge = `<span class="sim-alt-result-badge badge-errada">✗ Incorreta</span>`;
               const exp = q.explicacoes_alternativas?.[letter] || '';
               if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
             } else {
-              cls = 'other-wrong';
+              cls = 'wrong';
               const exp = q.explicacoes_alternativas?.[letter] || '';
               if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
             }
