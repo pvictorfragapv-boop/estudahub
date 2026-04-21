@@ -1986,8 +1986,7 @@
       // Update header
       document.getElementById('sim-q-cur').textContent = qIdx + 1;
       document.getElementById('sim-q-total').textContent = total;
-      document.getElementById('sim-progress-fill').style.width = ((qIdx + 1) / total * 100) + '%';
-
+     const _pf = document.getElementById('sim-progress-fill'); if (_pf) _pf.style.width = ((qIdx + 1) / total * 100) + '%';
       // Build card
       const isObj = q.tipo === 'objetiva';
       const isLast = qIdx === total - 1;
