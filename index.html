@@ -585,13 +585,13 @@
     .sim-alts { display: flex; flex-direction: column; gap: 8px; }
     .sim-alt { display: flex; flex-direction: column; border: 1.5px solid transparent; border-radius: 12px; cursor: pointer; transition: all .18s; background: var(--bg3); font-size: 14px; line-height: 1.6; overflow: hidden; margin-bottom: 8px; }
     .sim-alt.selected { border-color: var(--a); background: var(--ad); }
-    .sim-alt.correct { border-color: rgba(29,184,112,.4)!important; background: rgba(29,184,112,.1)!important; }
-    .sim-alt.correct.highlight { border-color: rgba(29,184,112,.8)!important; border-width: 2px!important; background: rgba(29,184,112,.15)!important; }
-    .sim-alt.wrong { border-color: rgba(240,78,78,.8)!important; border-width: 2px!important; background: rgba(240,78,78,.12)!important; }
-    .sim-alt.other-wrong { border-color: rgba(240,78,78,.3)!important; background: rgba(240,78,78,.08)!important; }
-    .sim-alt.correct .sim-alt-letter { background: var(--green); color: #fff; }
-    .sim-alt.wrong .sim-alt-letter { background: var(--red); color: #fff; }
-    .sim-alt.other-wrong .sim-alt-letter { background: rgba(240,78,78,.25); color: var(--red); }
+    .sim-alt.correct { border-color: rgba(29,184,112,.7)!important; border-width: 2px!important; background: rgba(29,184,112,.18)!important; }
+    .sim-alt.correct.highlight { border-color: #1db870!important; border-width: 2.5px!important; background: rgba(29,184,112,.25)!important; box-shadow: 0 0 0 3px rgba(29,184,112,.15); }
+    .sim-alt.wrong { border-color: #f04e4e!important; border-width: 2.5px!important; background: rgba(240,78,78,.22)!important; box-shadow: 0 0 0 3px rgba(240,78,78,.12); }
+    .sim-alt.other-wrong { border-color: rgba(240,78,78,.5)!important; border-width: 1.5px!important; background: rgba(240,78,78,.15)!important; }
+    .sim-alt.correct .sim-alt-exp { color: #4ade80; }
+    .sim-alt.wrong .sim-alt-exp { color: #f87171; }
+    .sim-alt.other-wrong .sim-alt-exp { color: #f87171; }
     .sim-alt-exp { display: none; font-size: 12px; line-height: 1.65; padding: 4px 14px 12px 56px; animation: feedIn .2s ease; }
     .sim-alt-exp.open { display: block; }
     .sim-alt.correct .sim-alt-exp { color: rgba(29,184,112,.9); }
