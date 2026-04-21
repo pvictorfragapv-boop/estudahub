@@ -1477,35 +1477,15 @@
   <div id="simulado-screen">
   <div class="sim-content-wrapper">
     
-    <div class="sim-sidebar-card">
-      <div class="sim-sb-q-grid" id="sim-sb-q-grid">
-        <div class="sim-sb-q-num sq-correct">1</div>
-        <div class="sim-sb-q-num sq-wrong">2</div>
-        <div class="sim-sb-q-num sq-correct">3</div>
-        <div class="sim-sb-q-num sq-wrong">4</div>
-        <div class="sim-sb-q-num">5</div>
-        <div class="sim-sb-q-num">6</div>
-        <div class="sim-sb-q-num">7</div>
-        <div class="sim-sb-q-num">8</div>
-        <div class="sim-sb-q-num">9</div>
-        <div class="sim-sb-q-num">10</div>
+    <div class="sim-sidebar-card" id="sim-sidebar-container">
       </div>
-
-      <div class="sim-sb-dropdown">
-        <span>Modo do Teste : Tutor</span> <span>▾</span>
-      </div>
-
-      <div class="sim-sidebar-spacer"></div>
-
-      <button class="sim-btn-finalizar" onclick="confirmarFinalizarComPendentes()">Finalizar Provas</button>
-    </div>
 
     <div class="sim-main-card">
       
       <div class="sim-main-toolbar">
         <div class="sim-timer-pill">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          <span id="sim-sb-timer-val">03:42</span>
+          <span id="sim-sb-timer-val">00:00</span>
         </div>
         <button class="sim-marca-texto" onclick="annotApply('highlight')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
@@ -1514,65 +1494,11 @@
       </div>
 
       <div class="sim-q-body-new" id="sim-body">
-        <div class="sim-q-enunciado-wrap">
-          <p class="sim-q-enunciado">Mulher de 23 anos de idade procurou pronto-socorro por dor em hipocôndrio direito, com irradiação para o dorso ipsilateralmente há dois dias. Ao exame físico, encontra-se em bom estado geral, anictérica, temperatura de 37,8°C, estável hemodinamicamente. Abdome globoso, doloroso à palpação de hipocôndrio direito e com pausa da inspiração durante palpação profunda de hipocôndrio direito. Os exames laboratoriais revelaram leucócitos 14.500/mm³ (VR: 4.000 - 11.000/mm3), PCR 30 mg/dL (VR < 1 mg/dL) e bilirrubinas totais 0,9 mg/dL (VR: 0,20 a 1,10 mg/dL), sem outras alterações. Considerando a principal hipótese diagnóstica para essa paciente, os achados ultrassonográficos mais frequentemente encontrados seriam:</p>
-          <a href="#" class="sim-q-stats-link">Essa questão já foi respondida 292 vezes</a>
         </div>
-
-        <div class="sim-alts-new">
-          <div class="sim-alt-card correct">
-            <div class="alt-header">
-              <div class="alt-icon">✓</div>
-              <div class="alt-text">Vesícula biliar hiperdistendida, com paredes delaminadas, sem dilatação de vias biliares.</div>
-            </div>
-            <div class="alt-feedback">
-              <strong>Alternativa correta! ✓</strong>
-              <p>A vesícula biliar hiperdistendida (distensão pela obstrução do ducto cístico) com paredes delaminadas (espessadas e edemaciadas) e sem dilatação de vias biliares é o padrão ultrassonográfico clássico da <a href="#">colecistite aguda</a> sem colestase.</p>
-              <span class="alt-pct">73.29% escolheram esta alternativa</span>
-            </div>
-          </div>
-
-          <div class="sim-alt-card wrong">
-            <div class="alt-header">
-              <div class="alt-icon">✕</div>
-              <div class="alt-text">Vesícula biliar hipodistendida, com paredes adelgaçadas, sem dilatação de vias biliares.</div>
-            </div>
-            <div class="alt-feedback">
-              <strong>Alternativa incorreta! ✕</strong>
-              <p>Vesícula hipodistendida e com paredes adelgaçadas não condiz com processo inflamatório agudo, mas sim com vesícula sem distensão nem processo inflamatório (padrão normal ou vesícula contraída pós-prandial).</p>
-              <span class="alt-pct">4.45% escolheram esta alternativa</span>
-            </div>
-          </div>
-
-          <div class="sim-alt-card wrong">
-            <div class="alt-header">
-              <div class="alt-icon">✕</div>
-              <div class="alt-text">Vesícula biliar hipodistendida, com paredes adelgaçadas, com dilatação das vias biliares.</div>
-            </div>
-            <div class="alt-feedback">
-              <strong>Alternativa incorreta! ✕</strong>
-              <p>A presença de dilatação de vias biliares (como o colédoco >6 mm) sugeriria colestase, o que não está presente neste caso, já que a bilirrubina está normal. Além disso, a vesícula hipodistendida também não é compatível com o quadro clínico de <a href="#">colecistite</a>.</p>
-              <span class="alt-pct">0.88% escolheram esta alternativa</span>
-            </div>
-          </div>
-
-          <div class="sim-alt-card wrong">
-            <div class="alt-header">
-              <div class="alt-icon">✕</div>
-              <div class="alt-text">Vesícula biliar hiperdistendida, com paredes delaminadas, com dilatação das vias biliares.</div>
-            </div>
-            <div class="alt-feedback">
-              <strong>Alternativa incorreta! ✕</strong>
-              <p>Apesar de a descrição da vesícula hiperdistendida e com paredes delaminadas ser compatível com <a href="#">colecistite</a>, a presença de dilatação das vias biliares não se aplica neste caso, pois não há evidência de colestase no exame laboratorial.</p>
-              <span class="alt-pct">21.58% escolheram esta alternativa</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
 
       <div class="sim-main-footer">
         <button class="sim-btn-validar" id="sim-btn-respond" onclick="simResponder()">Validar</button>
+        <button class="sim-btn-validar" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none; background:#1db870; color:#fff; border:none;">Finalizar ✓</button>
         <div class="sim-nav-arrows">
           <button class="arrow-btn" id="sim-btn-prev" onclick="simAnterior()">‹</button>
           <button class="arrow-btn" id="sim-btn-next" onclick="simProxima()">›</button>
@@ -2755,11 +2681,162 @@
     }
 
     // --- STEP 5: Render question card ---
-    function renderSimQuestao() {
+   function renderSimQuestao() {
       const { questoes, qIdx, modo, respostas, respondida } = simuladoCorrente;
       const q = questoes[qIdx];
       const total = questoes.length;
       const resp = respostas[qIdx];
+      
+      if (q.alternativas && typeof q.alternativas === 'object') {
+        const keys = Object.keys(q.alternativas);
+        const needsNorm = keys.some(k => k.length > 1 && /verdadeiro|falso|true|false|certo|errado/i.test(k));
+        if (needsNorm) {
+          const newAlts = {};
+          keys.forEach(k => {
+            const norm = /verdadeiro|true|certo/i.test(k) ? 'V' : /falso|false|errado/i.test(k) ? 'F' : k[0].toUpperCase();
+            newAlts[norm] = q.alternativas[k];
+          });
+          if (q.gabarito_correto && q.gabarito_correto.length > 1) {
+            q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
+          }
+          q.alternativas = newAlts;
+        }
+        if (q.gabarito_correto && q.gabarito_correto.length > 1 && keys.includes('V')) {
+          q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
+        }
+      }
+      
+      const isObj = q.tipo === 'objetiva';
+      const isLast = qIdx === total - 1;
+
+      let bodyHtml = '';
+      if (isObj) {
+        const alts = q.alternativas || {};
+        const showFeedback = respondida && modo === 'tutor';
+        bodyHtml = `<div class="sim-alts-new" id="sim-alts">`;
+        
+        for (const [letter, text] of Object.entries(alts)) {
+          if (!text) continue;
+          let cardCls = '';
+          let icon = letter;
+          let feedbackHtml = '';
+          
+          if (showFeedback) {
+            const isCorrect = letter === q.gabarito_correto;
+            const isChosen  = letter === resp.resposta;
+            
+            if (isCorrect) {
+              cardCls = 'correct';
+              icon = '✓';
+              const exp = q.explicacoes_alternativas?.[letter] || q.explicacao_geral || '';
+              feedbackHtml = exp ? `<div class="alt-feedback"><strong>Alternativa correta! ✓</strong><p>${exp}</p></div>` : '';
+            } else if (isChosen && !isCorrect) {
+              cardCls = 'wrong';
+              icon = '✕';
+              const exp = q.explicacoes_alternativas?.[letter] || '';
+              feedbackHtml = exp ? `<div class="alt-feedback"><strong>Alternativa incorreta! ✕</strong><p>${exp}</p></div>` : '';
+            } else {
+              cardCls = 'wrong';
+              icon = '✕';
+              const exp = q.explicacoes_alternativas?.[letter] || '';
+              feedbackHtml = exp ? `<div class="alt-feedback" style="opacity:0.7"><strong>Alternativa incorreta! ✕</strong><p>${exp}</p></div>` : '';
+            }
+          } else {
+            if (resp.resposta === letter) cardCls = 'selected';
+          }
+          
+          const clickFn = showFeedback ? '' : `simSelecionarAlt('${letter}')`;
+          
+          bodyHtml += `
+            <div class="sim-alt-card ${cardCls}" id="alt-${letter}" onclick="${clickFn}">
+              <div class="alt-header">
+                <div class="alt-icon">${icon}</div>
+                <div class="alt-text" id="alt-txt-${letter}">${text}</div>
+              </div>
+              ${feedbackHtml}
+            </div>`;
+        }
+        
+        if (showFeedback && q.explicacao_geral) {
+           bodyHtml += `<div style="margin-top:16px;padding:16px;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;font-size:12px;color:var(--text);line-height:1.6"><strong>💡 Comentário geral:</strong><br>${q.explicacao_geral}</div>`;
+        }
+        bodyHtml += `</div>`;
+      } else {
+        const taVal = resp.resposta || '';
+        const disabled = respondida && modo === 'tutor' ? 'disabled' : '';
+        bodyHtml = `<div class="sim-disc-wrap">
+          <textarea class="sim-disc-textarea" id="sim-disc-ta" placeholder="Escreva sua resposta aqui…" ${disabled} oninput="simDiscChar(this)">${taVal}</textarea>
+          <div class="sim-disc-char" id="sim-disc-char">${taVal.length} caracteres</div>
+        </div>`;
+        
+        if (respondida && modo === 'tutor') {
+           const notaVal = resp.nota;
+           const notaCls = notaVal === null ? '' : notaVal >= 80 ? 'disc-nota-green' : notaVal >= 60 ? 'disc-nota-yellow' : 'disc-nota-red';
+           bodyHtml += `
+           <div class="sim-ai-loading ${notaVal === null ? 'show' : ''}" id="sim-ai-loading">
+             <div class="sim-ai-spinner"></div> Avaliando com IA…
+           </div>
+           ${notaVal !== null ? `
+           <div class="disc-fb-card" style="margin-top:16px; background:var(--bg3); border:1px solid var(--border2); border-radius:12px;">
+             <div class="disc-fb-nota-row">
+               <span class="disc-fb-nota-lbl">NOTA</span>
+               <span class="disc-fb-nota ${notaCls}">${notaVal}<span class="disc-fb-nota-max">/100</span></span>
+             </div>
+             <div class="disc-fb-section">
+               <div class="disc-fb-section-lbl">✦ Resposta esperada</div>
+               <div class="disc-fb-section-body">${resp.resposta_ideal || ''}</div>
+             </div>
+             ${resp.o_que_faltou ? `<div class="disc-fb-section disc-fb-faltou">
+               <div class="disc-fb-section-lbl">⚠ O que faltou / estava errado</div>
+               <div class="disc-fb-section-body">${resp.o_que_faltou}</div>
+             </div>` : `<div class="disc-fb-section disc-fb-ok">
+               <div class="disc-fb-section-lbl">✓ Resposta completa</div>
+               <div class="disc-fb-section-body">Sua resposta contemplou todos os pontos esperados.</div>
+             </div>`}
+           </div>` : ''}`;
+        }
+      }
+
+      document.getElementById('sim-body').innerHTML = `
+        <div class="sim-q-enunciado-wrap">
+          <div style="font-size:10px; font-weight:700; color:var(--muted2); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid var(--border2); padding-bottom:8px;">
+            QUESTÃO ${qIdx + 1} DE ${total}
+          </div>
+          ${q.contexto ? `<div class="sim-q-contexto" id="sim-contexto" style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px dashed var(--border2);">${q.contexto}</div>` : ''}
+          <p class="sim-q-enunciado" id="sim-enunciado">${q.enunciado}</p>
+        </div>
+        ${bodyHtml}
+      `;
+
+      annotTargetIds = ['sim-enunciado', 'sim-contexto'];
+      Object.keys(q.alternativas || {}).forEach(l => { if (!respondida || modo !== 'tutor') annotTargetIds.push('alt-txt-' + l); });
+
+      const btnPrev   = document.getElementById('sim-btn-prev');
+      const btnResp   = document.getElementById('sim-btn-respond');
+      const btnNext   = document.getElementById('sim-btn-next');
+      const btnFinish = document.getElementById('sim-btn-finish');
+
+      btnPrev.disabled = (qIdx === 0);
+      btnPrev.style.opacity = (qIdx === 0) ? '0.3' : '1';
+
+      renderSimSidebar();
+
+      if (respondida) {
+        btnResp.style.display = 'none';
+        
+        if (isLast) {
+          btnNext.style.display = 'none';
+          btnFinish.style.display = 'block';
+        } else {
+          btnFinish.style.display = 'none';
+          btnNext.style.display = 'flex';
+        }
+      } else {
+        btnResp.style.display = 'block';
+        btnNext.style.display = 'flex'; 
+        btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'block' : 'none';
+      }
+    }
       
       // --- Fix V/F normalization ---
       if (q.alternativas && typeof q.alternativas === 'object') {
@@ -3278,15 +3355,11 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
 
     function renderSimSidebar() {
       const { questoes, qIdx, modo, respostas } = simuladoCorrente;
-      // mode badges
-      const to = document.getElementById('sim-sb-tutor-opt');
-      const so = document.getElementById('sim-sb-sim-opt');
-      if (to) to.classList.toggle('active', modo === 'tutor');
-      if (so) so.classList.toggle('active', modo === 'simulado');
-      // question grid
-      const grid = document.getElementById('sim-sb-q-grid');
-      if (!grid || !questoes) return;
-      grid.innerHTML = questoes.map((q, i) => {
+      const gridContainer = document.getElementById('sim-sidebar-container');
+      if (!gridContainer || !questoes) return;
+
+      let gridHtml = '<div class="sim-sb-q-grid" id="sim-sb-q-grid">';
+      gridHtml += questoes.map((q, i) => {
         const r = respostas[i];
         let cls = '';
         if (i === qIdx) cls = 'sq-active';
@@ -3296,6 +3369,17 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
         }
         return `<div class="sim-sb-q-num ${cls}" onclick="simIrPara(${i})">${i + 1}</div>`;
       }).join('');
+      gridHtml += '</div>';
+
+      gridHtml += `
+        <div class="sim-sb-dropdown">
+          <span>Modo do Teste: ${modo === 'tutor' ? 'Tutor' : 'Simulado'}</span> <span>▾</span>
+        </div>
+        <div class="sim-sidebar-spacer"></div>
+        <button class="sim-btn-finalizar" onclick="confirmarFinalizarComPendentes()">Finalizar Prova</button>
+      `;
+
+      gridContainer.innerHTML = gridHtml;
     }
 
     function simIrPara(i) {
