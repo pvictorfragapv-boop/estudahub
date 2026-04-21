@@ -2555,14 +2555,15 @@
       document.getElementById('byok-proc-txt').textContent='Extraindo questões com IA…';
   
       const prompt=`Você é um professor de medicina. Leia a prova em anexo.
-  Extraia as questões e classifique como 'objetiva' ou 'discursiva'. Retorne ESTRITAMENTE em JSON neste formato (sem markdown, sem crases, sem texto adicional):
-  {"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva ou discursiva", "contexto": "Texto introdutório, caso clínico ou vinheta que precede a pergunta (deixe como string vazia se não houver)", "enunciado": "Apenas a pergunta em si, sem repetir o contexto", "alternativas": {"A": "Texto A", "B": "Texto B", "C": "Texto C", "D": "Texto D", "E": "Texto E"}, "gabarito_correto": "A", "padrao_esperado": "O que o aluno deve responder para acertar a questão (rubrica de correção detalhada)", "explicacao_geral": "Explicação geral do tema da questão", "explicacoes_alternativas": {"A": "Por que A está correta ou incorreta", "B": "Por que B está correta ou incorreta", "C": "Por que C está correta ou incorreta", "D": "Por que D está correta ou incorreta", "E": "Por que E está correta ou incorreta"}}]}
-  
-  IMPORTANTE:
-  - Se a questão tiver um caso clínico, vinheta ou texto introdutório ANTES da pergunta, coloque esse texto em 'contexto' e apenas a pergunta em 'enunciado'.
-  - Para questões objetivas: preencha 'alternativas', 'gabarito_correto', e 'explicacoes_alternativas' com comentário para cada opção.
-  - Para questões discursivas: alternativas deve ser null, gabarito_correto deve ser null, explicacoes_alternativas deve ser null, preencha 'padrao_esperado' com critérios detalhados.
-  - MUITO IMPORTANTE: Revise o gabarito duas vezes antes de retornar. O gabarito_correto deve ser a letra EXATA da alternativa correta. Nunca invente gabarito. Retorne APENAS o JSON puro, sem nenhum texto antes ou depois.`;
+      Extraia as questões e classifique-as. Retorne ESTRITAMENTE em JSON neste formato (sem markdown, sem crases, sem texto adicional):
+      {"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva", "contexto": "Texto introdutório (se houver)", "enunciado": "Apenas a pergunta", "alternativas": {"A": "Texto A", "B": "Texto B"}, "gabarito_correto": "A", "padrao_esperado": "...", "explicacao_geral": "...", "explicacoes_alternativas": {"A": "..."}}]}
+      
+      IMPORTANTE:
+      - O campo "tipo" deve ser classificado como "objetiva", "discursiva" ou "verdadeiro_falso".
+      - Para questões "verdadeiro_falso", crie rigorosamente as alternativas no formato {"V": "Verdadeiro", "F": "Falso"} e o gabarito_correto como "V" ou "F".
+      - Se a questão tiver um caso clínico, coloque no 'contexto' e a pergunta no 'enunciado'.
+      - Para discursivas: alternativas, gabarito_correto e explicacoes_alternativas devem ser null, preencha apenas 'padrao_esperado'.
+      - MUITO IMPORTANTE: Revise o gabarito antes de retornar. O gabarito_correto deve ser a letra EXATA. Retorne APENAS o JSON puro.`;
   
       const response = await geminiRequest({
             contents:[{parts:[
@@ -2715,12 +2716,10 @@
           }
           q.alternativas = newAlts;
         }
-        if (q.gabarito_correto && q.gabarito_correto.length > 1 && keys.includes('V')) {
-          q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
-        }
       }
       
-      const isObj = q.tipo === 'objetiva';
+      // Reconhece V/F e Objetivas como a mesma estrutura
+      const isObj = q.tipo !== 'discursiva';
       const isLast = qIdx === total - 1;
 
       let bodyHtml = '';
@@ -2811,10 +2810,13 @@
         }
       }
 
+      // Nome do cabeçalho
+      let tipoDisplay = q.tipo === 'verdadeiro_falso' || q.tipo === 'v_f' ? 'VERDADEIRO OU FALSO' : q.tipo.toUpperCase();
+
       document.getElementById('sim-body').innerHTML = `
         <div class="sim-q-enunciado-wrap">
           <div style="font-size:10px; font-weight:700; color:var(--muted2); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid var(--border2); padding-bottom:8px;">
-            QUESTÃO ${qIdx + 1} DE ${total}
+            ${tipoDisplay} · QUESTÃO ${qIdx + 1} DE ${total}
           </div>
           ${q.contexto ? `<div class="sim-q-contexto" id="sim-contexto" style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px dashed var(--border2);">${q.contexto}</div>` : ''}
           <p class="sim-q-enunciado" id="sim-enunciado">${q.enunciado}</p>
@@ -2837,7 +2839,6 @@
 
       if (respondida) {
         btnResp.style.display = 'none';
-        
         if (isLast) {
           btnNext.style.display = 'none';
           btnFinish.style.display = 'block';
@@ -3050,6 +3051,36 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       const q = questoes[qIdx];
       const resp = respostas[qIdx];
       
+      if (q.tipo === 'discursiva') {
+        const ta = document.getElementById('sim-disc-ta');
+        if (ta) resp.resposta = ta.value;
+      }
+
+      if (!resp.resposta && q.tipo !== 'discursiva') { toast('Selecione uma alternativa'); return; }
+      if (q.tipo === 'discursiva' && (!resp.resposta || resp.resposta.trim().length < 5)) { toast('Escreva sua resposta antes de enviar'); return; }
+
+      simuladoCorrente.respondida = true;
+      
+      if (modo === 'tutor') {
+        if (q.tipo !== 'discursiva') {
+          resp.acertou = (resp.resposta === q.gabarito_correto);
+          resp.nota = resp.acertou ? 100 : 0;
+          renderSimQuestao();
+        } else {
+          renderSimQuestao();
+          const resultado = await avaliarDiscursivaIA(q, resp.resposta);
+          resp.nota = resultado.nota;
+          resp.resposta_ideal = resultado.resposta_ideal;
+          resp.o_que_faltou = resultado.o_que_faltou;
+          resp.acertou = resultado.nota >= 60;
+          renderSimQuestao();
+        }
+      } else {
+        if (q.tipo !== 'discursiva') resp.acertou = null;
+        renderSimQuestao();
+      }
+    }
+      
       // For discursiva, grab textarea value
       if (q.tipo === 'discursiva') {
         const ta = document.getElementById('sim-disc-ta');
@@ -3150,9 +3181,45 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
   }
 
     // --- STEP 7: Finalize ---
-    async function finalizarSimulado() {
+   async function finalizarSimulado() {
       const { questoes, respostas, modo, titulo } = simuladoCorrente;
       const discursivas = questoes.map((q, i) => ({ q, i, r: respostas[i] })).filter(x => x.q.tipo === 'discursiva' && x.r.resposta && x.r.nota === null);
+      
+      if (modo === 'simulado' && discursivas.length > 0) {
+        fecharSimulado();
+        const gs = document.getElementById('grading-screen');
+        gs.classList.add('open');
+        document.getElementById('grading-sub').textContent = `Corrigindo ${discursivas.length} resposta(s) discursiva(s)…`;
+        document.getElementById('grading-prog-fill').style.width = '0%';
+        document.getElementById('grading-prog-txt').textContent = `0 / ${discursivas.length}`;
+
+        let done = 0;
+        await Promise.all(discursivas.map(async ({ q, i, r }) => {
+          const resultado = await avaliarDiscursivaIA(q, r.resposta);
+          respostas[i].nota = resultado.nota;
+          respostas[i].resposta_ideal = resultado.resposta_ideal;
+          respostas[i].o_que_faltou = resultado.o_que_faltou;
+          respostas[i].acertou = resultado.nota >= 60;
+          done++;
+          const pct = Math.round(done / discursivas.length * 100);
+          document.getElementById('grading-prog-fill').style.width = pct + '%';
+          document.getElementById('grading-prog-txt').textContent = `${done} / ${discursivas.length}`;
+        }));
+        
+        questoes.forEach((q, i) => {
+          if (q.tipo !== 'discursiva') { respostas[i].acertou = (respostas[i].resposta === q.gabarito_correto); respostas[i].nota = respostas[i].acertou ? 100 : 0; }
+        });
+
+        gs.classList.remove('open');
+      } else {
+        questoes.forEach((q, i) => {
+          if (q.tipo !== 'discursiva') { respostas[i].acertou = (respostas[i].resposta === q.gabarito_correto); respostas[i].nota = respostas[i].acertou ? 100 : 0; }
+        });
+        fecharSimulado();
+      }
+
+      exibirRevisao();
+    }
       
       if (modo === 'simulado' && discursivas.length > 0) {
         // Show grading screen
@@ -3199,18 +3266,33 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       const { questoes, respostas, titulo } = simuladoCorrente;
       const total = questoes.length;
       
-      // Calculate nota
       const notas = respostas.map((r, i) => {
         if (r.nota !== null) return r.nota;
-        if (questoes[i].tipo === 'objetiva') return r.acertou ? 100 : 0;
+        if (questoes[i].tipo !== 'discursiva') return r.acertou ? 100 : 0;
         return 0;
       });
       
       const media = notas.length ? notas.reduce((a, b) => a + b, 0) / notas.length : 0;
       const notaFinal = (media / 10).toFixed(1);
 
-      const acertos = respostas.filter((r, i) => questoes[i].tipo === 'objetiva' && r.acertou).length;
-      const erros = respostas.filter((r, i) => questoes[i].tipo === 'objetiva' && !r.acertou && r.resposta).length;
+      const acertos = respostas.filter((r, i) => questoes[i].tipo !== 'discursiva' && r.acertou).length;
+      const erros = respostas.filter((r, i) => questoes[i].tipo !== 'discursiva' && !r.acertou && r.resposta).length;
+      const discTotal = questoes.filter(q => q.tipo === 'discursiva').length;
+
+      document.getElementById('revisao-titulo-sim').textContent = titulo;
+      document.getElementById('revisao-nota-value').textContent = notaFinal;
+      document.getElementById('revisao-nota-sub').textContent = `de 10.0 · ${media.toFixed(0)}% de aproveitamento`;
+      document.getElementById('rev-stat-acertos').textContent = acertos;
+      document.getElementById('rev-stat-erros').textContent = erros;
+      document.getElementById('rev-stat-disc').textContent = discTotal;
+      document.getElementById('rev-stat-total').textContent = total;
+
+      const body = document.getElementById('revisao-body');
+      body.innerHTML = questoes.map((q, i) => {
+        const r = respostas[i];
+        const isObj = q.tipo !== 'discursiva'; // <-- MUDANÇA AQUI
+        
+        // ... (o restante da função exibirRevisao permanece exatamente igual) ...
       const discTotal = questoes.filter(q => q.tipo === 'discursiva').length;
 
       // Populate hero
@@ -3326,11 +3408,10 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
     }
 
     function voltarDashboard() {
-      // Save as prova
       const { questoes, respostas, titulo } = simuladoCorrente;
       const notas = respostas.map((r, i) => {
         if (r.nota !== null) return r.nota;
-        return questoes[i].tipo === 'objetiva' ? (r.acertou ? 100 : 0) : 0;
+        return questoes[i].tipo !== 'discursiva' ? (r.acertou ? 100 : 0) : 0;
       });
       const media = notas.length ? notas.reduce((a, b) => a + b, 0) / notas.length : 0;
       const acertos = Math.round(media / 100 * questoes.length);
