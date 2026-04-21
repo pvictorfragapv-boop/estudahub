@@ -1928,10 +1928,11 @@
       document.getElementById('simulado-screen').classList.add('open');
       document.body.style.overflow = 'hidden';
       
-      // Setup badge
-      const badge = document.getElementById('sim-mode-badge');
-      badge.textContent = simuladoCorrente.modo === 'tutor' ? 'Modo Tutor' : 'Modo Simulado';
-      badge.className = 'sim-mode-badge ' + (simuladoCorrente.modo === 'tutor' ? 'tutor' : 'simulado');
+      const tutorOpt = document.getElementById('sim-sb-tutor-opt');
+      const simOpt = document.getElementById('sim-sb-sim-opt');
+      if (tutorOpt) tutorOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
+      if (simOpt) simOpt.classList.toggle('active', simuladoCorrente.modo === 'simulado');
+      simTimerStart();
       renderSimQuestao();
     }
 
@@ -3211,12 +3212,13 @@ function carregarRascunho(i) {
     document.getElementById('modal-simulado-mode').classList.add('open');
     document.body.style.overflow = 'hidden';
   } else {
-    // Already in progress — jump back in
-    const badge = document.getElementById('sim-mode-badge');
-    badge.textContent = simuladoCorrente.modo === 'tutor' ? 'Modo Tutor' : 'Modo Simulado';
-    badge.className = 'sim-mode-badge ' + simuladoCorrente.modo;
+    const tutorOpt2 = document.getElementById('sim-sb-tutor-opt');
+    const simOpt2 = document.getElementById('sim-sb-sim-opt');
+    if (tutorOpt2) tutorOpt2.classList.toggle('active', simuladoCorrente.modo === 'tutor');
+    if (simOpt2) simOpt2.classList.toggle('active', simuladoCorrente.modo === 'simulado');
     document.getElementById('simulado-screen').classList.add('open');
     document.body.style.overflow = 'hidden';
+    simTimerStart();
     renderSimQuestao();
   }
 }
