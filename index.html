@@ -559,594 +559,76 @@
     .mode-card-title { font-size: 13px; font-weight: 800; margin-bottom: 6px; letter-spacing: -.01em; }
     .mode-card-desc { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); line-height: 1.7; }
 
-    /* ══ SIMULADO FULLSCREEN ══ */
-    #simulado-screen { position: fixed; inset: 0; z-index: 500; background: var(--bg); display: none; flex-direction: column; overflow: hidden; }
+    /* ══ SIMULADO FULLSCREEN — LAYOUT SIMPLIFICADO ══ */
+    #simulado-screen { position: fixed; inset: 0; z-index: 500; background: var(--bg); display: none; justify-content: center; align-items: flex-start; overflow-y: auto; padding: 40px 20px; }
     #simulado-screen.open { display: flex; }
-    .sim-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 54px; background: rgba(7,7,11,.95); border-bottom: 1px solid var(--border2); flex-shrink: 0; backdrop-filter: blur(20px); position: relative; }
-    .sim-topbar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--a), transparent); opacity: .4; }
-    .sim-progress-track { position: absolute; bottom: 0; left: 0; height: 2px; background: var(--border2); width: 100%; }
-    .sim-progress-fill { height: 100%; background: linear-gradient(90deg, var(--a2), var(--a)); transition: width .4s cubic-bezier(.4,0,.2,1); }
-    .sim-q-counter { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .1em; }
-    .sim-q-counter strong { color: var(--a); }
-    .sim-mode-badge { font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border3); color: var(--muted2); }
-    .sim-mode-badge.tutor { border-color: var(--blue); color: var(--blue); background: rgba(77,158,245,.08); }
-    .sim-mode-badge.simulado { border-color: var(--yellow); color: var(--yellow); background: rgba(240,180,41,.08); }
-    .sim-exit-btn { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); cursor: pointer; background: none; border: 1px solid var(--border2); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
-    .sim-exit-btn:hover { border-color: var(--red); color: var(--red); }
-    .sim-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 40px 24px 120px; }
-    .sim-q-card { width: 100%; max-width: 780px; margin: 0 auto; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--r2); overflow: hidden; position: relative; animation: simcardIn .3s cubic-bezier(.4,0,.2,1); }
-    @keyframes simcardIn { from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);} }
-    .sim-q-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--a2), var(--a)); }
-    .sim-q-header { padding: 18px 24px 14px; border-bottom: 1px solid var(--border); }
-    .sim-q-type { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--a); margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
-    .sim-q-enunciado { font-size: 15px; line-height: 1.75; color: var(--text); font-weight: 500; }
-    .sim-q-contexto { font-size: 13px; line-height: 1.75; color: var(--text); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 12px; }
-    .sim-q-body { padding: 20px 24px; }
-    .sim-alts { display: flex; flex-direction: column; gap: 8px; }
-    .sim-alt { display: flex; flex-direction: column; border: 1.5px solid var(--border2); border-radius: 16px; cursor: pointer; transition: all .18s; background: var(--bg2); font-size: 14px; line-height: 1.6; overflow: hidden; margin-bottom: 10px; }
-    .sim-alt:hover { border-color: var(--border3); background: var(--bg3); }
-    .sim-alt.selected { border-color: var(--a); background: var(--ad); }
-    .sim-alt.correct,
-    .sim-alt.correct.highlight { background: rgba(29,184,112,.12)!important; }
-    .sim-alt.correct { border-color: rgba(29,184,112,.5)!important; }
-    .sim-alt.correct.highlight { border-color: #1db870!important; border-width: 2px!important; }
-    .sim-alt.wrong,
-    .sim-alt.other-wrong { background: rgba(240,78,78,.1)!important; }
-    .sim-alt.wrong { border-color: #f04e4e!important; border-width: 2px!important; }
-    .sim-alt.other-wrong { border-color: rgba(240,78,78,.35)!important; }
-    .sim-alt-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; }
-    .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
-    .sim-alt.correct .sim-alt-letter { background: #1db870; color: #fff; }
-    .sim-alt.wrong .sim-alt-letter { background: #f04e4e; color: #fff; }
-    .sim-alt.other-wrong .sim-alt-letter { background: rgba(240,78,78,.4); color: #fff; }
-    .sim-alt-text { flex: 1; }
-    .sim-alt-exp { display: none; font-size: 12px; line-height: 1.65; padding: 4px 14px 12px 56px; }
-    .sim-alt-exp.open { display: block; }
-    .sim-alt.correct .sim-alt-exp { color: #1db870; }
-    .sim-alt.wrong .sim-alt-exp,
-    .sim-alt.other-wrong .sim-alt-exp { color: #f04e4e; }
-    .sim-alt-text { flex: 1; position: relative; z-index: 1; }
-    .sim-alt-text { flex: 1; position: relative; z-index: 1; }
-    #annot-toolbar { position: fixed; z-index: 9999; display: none; background: var(--bg3); border: 1px solid var(--border3); border-radius: 8px; padding: 4px 10px; gap: 4px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
-    #annot-toolbar.show { display: flex; }
-    .annot-btn { height: 28px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .15s; color: var(--text); }
-    .annot-btn:hover { background: var(--bg4); border-color: var(--a); }
-    .annot-sep { width: 1px; height: 18px; background: var(--border2); margin: 0 2px; }
-    mark.hl-yellow { background: rgba(240,180,41,.35); color: inherit; border-radius: 2px; padding: 0 1px; }
-    mark.hl-green  { background: rgba(29,184,112,.3);  color: inherit; border-radius: 2px; padding: 0 1px; }
-    mark.hl-red    { background: rgba(240,78,78,.3);   color: inherit; border-radius: 2px; padding: 0 1px; }
-    mark.hl-blue   { background: rgba(77,158,245,.3);  color: inherit; border-radius: 2px; padding: 0 1px; }
-    s.hl-strike { color: var(--muted2); text-decoration: line-through; }
-    .annot-color { width: 16px; height: 16px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform .15s; flex-shrink: 0; }
-    .annot-color:hover { transform: scale(1.2); }
-    .annot-color.sel { border-color: #fff; }
-    .annot-color-y { background: rgba(240,180,41,.8); }
-    .annot-color-g { background: rgba(29,184,112,.8); }
-    .annot-color-r { background: rgba(240,78,78,.8); }
-    .annot-color-b { background: rgba(77,158,245,.8); }
-    .sim-disc-wrap { position: relative; }
-    .sim-disc-textarea { width: 100%; min-height: 180px; background: var(--bg3); border: 1.5px solid var(--border2); border-radius: var(--r); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.75; padding: 16px 18px; resize: vertical; outline: none; transition: border-color .18s, box-shadow .18s; }
-    .sim-disc-textarea:focus { border-color: var(--a); box-shadow: 0 0 0 3px var(--ad); }
-    .sim-disc-textarea:disabled { opacity: .7; cursor: not-allowed; border-color: var(--border2); }
-    .sim-disc-char { position: absolute; bottom: 10px; right: 14px; font-size: 9px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); pointer-events: none; }
-    .sim-feedback { margin-top: 14px; padding: 16px 18px; border-radius: var(--r); font-size: 12px; font-family: 'IBM Plex Mono', monospace; line-height: 1.8; display: none; animation: feedIn .25s ease; }
-    @keyframes feedIn { from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);} }
-    .sim-feedback.show { display: block; }
-    .sim-feedback.correct { background: rgba(29,184,112,.08); border: 1px solid rgba(29,184,112,.25); color: var(--green); }
-    .sim-feedback.wrong { background: rgba(240,78,78,.08); border: 1px solid rgba(240,78,78,.25); color: var(--red); }
-    .sim-feedback.neutral { background: var(--bg3); border: 1px solid var(--border2); color: var(--muted2); }
-    .sim-feedback-label { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-    .sim-feedback-text { color: var(--text); font-size: 12px; }
-    .sim-ai-loading { display: none; align-items: center; gap: 12px; padding: 14px 18px; margin-top: 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); }
-    .sim-ai-loading.show { display: flex; }
-    .sim-ai-spinner { width: 16px; height: 16px; border: 2px solid var(--border2); border-top-color: var(--a); border-radius: 50%; flex-shrink: 0; animation: spin .7s linear infinite; }
-    @keyframes spin { to{transform:rotate(360deg);} }
-    .sim-actions { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(7,7,11,.97); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
-    .sim-btn-nav { padding: 11px 20px; background: transparent; border: 1.5px solid var(--border3); color: var(--muted2); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border-radius: var(--r); transition: all .18s; white-space: nowrap; }
-    .sim-btn-nav:hover:not(:disabled) { border-color: var(--a); color: var(--a); background: var(--ad); }
-    .sim-btn-nav:disabled { opacity: .3; cursor: not-allowed; }
-    .sim-btn-nav-right { margin-left: auto; }
-    .sim-btn-respond { padding: 11px 32px; background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 20px var(--ag); transition: all .18s; flex: 1; max-width: 260px; }
-    .sim-btn-respond:hover { opacity: .9; transform: translateY(-1px); }
-    .sim-btn-respond:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-    .sim-btn-next { padding: 11px 20px; background: var(--ad); border: 1.5px solid var(--a); color: var(--a); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border-radius: var(--r); transition: all .18s; white-space: nowrap; display: none; }
-    .sim-btn-next:hover:not(:disabled) { background: var(--ag); }
-    .sim-btn-next:disabled { opacity: .35; cursor: not-allowed; }
-    .sim-btn-finish { padding: 11px 20px; background: linear-gradient(135deg,#b45309,#fbbf24); color: #000; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); transition: all .18s; display: none; white-space: nowrap; }
-    .sim-btn-finish:hover { opacity: .9; }
-    /* per-alt explanation panel */
-    .sim-alt-exp { display: none; font-size: 12px; line-height: 1.65; padding: 10px 14px 10px 54px; border-top: 1px solid transparent; animation: feedIn .2s ease; }
-    .sim-alt-exp.open { display: block; }
-    .sim-alt.correct .sim-alt-exp { color: rgba(29,184,112,.9); border-top-color: rgba(29,184,112,.15); background: rgba(29,184,112,.04); }
-    .sim-alt.wrong .sim-alt-exp { color: rgba(240,78,78,.85); border-top-color: rgba(240,78,78,.12); background: rgba(240,78,78,.03); }
-    .sim-alt.other-wrong { border-color: rgba(240,78,78,.3)!important; background: rgba(240,78,78,.04)!important; opacity: 1; }
-    .sim-alt.other-wrong .sim-alt-exp { color: rgba(240,78,78,.7); }
-    .sim-alt-result-badge { font-size: 9px; font-weight: 700; letter-spacing: .1em; padding: 2px 8px; border-radius: 20px; margin-left: auto; flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; white-space: nowrap; }
-    .badge-correta { background: var(--g-bg); color: var(--green); border: 1px solid rgba(29,184,112,.3); }
-    .badge-errada  { background: var(--r-bg); color: var(--red);   border: 1px solid rgba(240,78,78,.3); }
+    .sim-content-wrapper { display: flex; gap: 20px; width: 100%; max-width: 1200px; margin: 0 auto; }
+    .sim-sb-q-num.sq-active { border-color: var(--a); color: var(--a); background: var(--ad); }
+    .sim-alt-card.selected { border-color: var(--a); background: var(--ad); }
+    .sim-alt-card.selected .alt-icon { background: var(--a); color: #fff; border-color: var(--a); }
 
-    /* GRADING SCREEN */
-    #grading-screen { position: fixed; inset: 0; z-index: 600; background: var(--bg); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
-    #grading-screen.open { display: flex; }
-    .grading-orb { width: 80px; height: 80px; border-radius: 50%; background: var(--ad); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 32px; animation: gradingPulse 1.5s ease-in-out infinite; }
-    @keyframes gradingPulse { 0%,100%{box-shadow:0 0 0 0 var(--ag);}50%{box-shadow:0 0 0 20px transparent;} }
-    .grading-title { font-size: 16px; font-weight: 800; letter-spacing: .06em; }
-    .grading-sub { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); }
-    .grading-prog-wrap { width: 240px; }
-    .grading-prog-bar { height: 2px; background: var(--border2); border-radius: 1px; overflow: hidden; }
-    .grading-prog-fill { height: 100%; background: linear-gradient(90deg, var(--a2), var(--a)); transition: width .4s ease; border-radius: 1px; }
-    .grading-prog-txt { font-size: 9px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); text-align: center; margin-top: 6px; }
+    /* SIDEBAR ESQUERDA MINIMALISTA */
+    .sim-sidebar-card { width: 240px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 24px; flex-shrink: 0; box-shadow: 0 4px 24px rgba(0,0,0,0.15); height: fit-content; position: sticky; top: 40px; }
+    .sim-sb-q-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .sim-sb-q-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; background: var(--bg3); color: var(--muted2); cursor: pointer; border: 1.5px solid transparent; font-family: 'IBM Plex Mono', monospace; margin: 0 auto; }
+    .sim-sb-q-num.sq-correct { background: #1db870; color: #fff; border-color: #1db870; }
+    .sim-sb-q-num.sq-wrong { background: #f04e4e; color: #fff; border-color: #f04e4e; }
+    .sim-sb-q-num.sq-answered { background: var(--border3); color: var(--text); }
+    .sim-sb-dropdown { background: var(--bg); padding: 12px 16px; border-radius: 20px; border: 1px solid var(--border2); font-size: 11px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--text); }
+    .sim-sidebar-spacer { flex: 1; min-height: 40px; }
+    .sim-btn-finalizar { background: #1db870; color: #fff; border: none; padding: 14px; border-radius: 24px; font-weight: 800; font-size: 11px; cursor: pointer; transition: opacity 0.2s; width: 100%; }
+    .sim-btn-finalizar:hover { opacity: 0.9; }
 
-    /* REVISÃO SCREEN */
-    #revisao-screen { position: fixed; inset: 0; z-index: 600; background: var(--bg); display: none; flex-direction: column; overflow: hidden; }
-    #revisao-screen.open { display: flex; }
-    .revisao-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 54px; background: rgba(7,7,11,.95); border-bottom: 1px solid var(--border2); flex-shrink: 0; }
-    .revisao-topbar-title { font-size: 13px; font-weight: 800; letter-spacing: .06em; }
-    .revisao-hero { padding: 36px 28px 28px; text-align: center; background: linear-gradient(180deg, var(--bg2), var(--bg)); border-bottom: 1px solid var(--border2); flex-shrink: 0; position: relative; overflow: hidden; }
-    .revisao-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 40px 40px; opacity: .2; pointer-events: none; }
-    .revisao-hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--a), transparent); opacity: .5; }
-    .revisao-nota-label { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .2em; text-transform: uppercase; margin-bottom: 10px; position: relative; z-index: 1; }
-    .revisao-nota-value { font-size: 72px; font-weight: 900; font-family: 'IBM Plex Mono', monospace; background: linear-gradient(135deg,#fff 30%, var(--a)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 6px; position: relative; z-index: 1; animation: notaReveal .6s cubic-bezier(.4,0,.2,1); }
-    @keyframes notaReveal { from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);} }
-    .revisao-nota-sub { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); position: relative; z-index: 1; }
-    .revisao-stats { display: flex; gap: 1px; background: var(--border2); margin-top: 20px; border-radius: var(--r); overflow: hidden; position: relative; z-index: 1; }
-    .revisao-stat { flex: 1; background: var(--bg); padding: 12px 16px; text-align: center; }
-    .revisao-stat-val { font-size: 20px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--a); }
-    .revisao-stat-lbl { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted2); margin-top: 3px; }
-    .revisao-body { flex: 1; overflow-y: auto; padding: 20px 28px 40px; }
-    .rq-item { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--r2); margin-bottom: 14px; overflow: hidden; }
-    .rq-item.acerto { border-left: 3px solid var(--green); }
-    .rq-item.erro { border-left: 3px solid var(--red); }
-    .rq-item-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--border); cursor: pointer; }
-    .rq-item-header:hover { background: rgba(255,255,255,.02); }
-    .rq-num { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); font-weight: 600; }
-    .rq-tipo { font-size: 9px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
-    .rq-result-badge { padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
-    .rq-result-badge.acerto { background: var(--g-bg); color: var(--green); border: 1px solid rgba(29,184,112,.3); }
-    .rq-result-badge.erro { background: var(--r-bg); color: var(--red); border: 1px solid rgba(240,78,78,.3); }
-    .rq-result-badge.parcial { background: var(--y-bg); color: var(--yellow); border: 1px solid rgba(240,180,41,.3); }
-    .rq-body { padding: 16px 18px; display: none; }
-    .rq-body.open { display: block; animation: rqopen .2s ease; }
-    @keyframes rqopen { from{opacity:0;}to{opacity:1;} }
-    .rq-enunciado { font-size: 13px; line-height: 1.7; color: var(--text); margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-    .rq-contexto { font-size: 12px; line-height: 1.75; color: var(--text); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 12px; }
-    .rq-section { margin-bottom: 12px; }
-    .rq-section-lbl { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--muted2); margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
-    .rq-section-val { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--text); line-height: 1.7; padding: 10px 12px; background: var(--bg3); border-radius: var(--r); border: 1px solid var(--border); }
-    .rq-alts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
-    .rq-alt { border-radius: var(--r); border: 1px solid var(--border2); overflow: hidden; }
-    .rq-alt-header { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; cursor: pointer; transition: background .15s; }
-    .rq-alt-header:hover { background: rgba(255,255,255,.03); }
-    .rq-alt-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
-    .rq-alt.alt-correta { border-color: rgba(29,184,112,.35); background: rgba(29,184,112,.06); }
-    .rq-alt.alt-correta .rq-alt-icon { background: rgba(29,184,112,.2); color: var(--green); }
-    .rq-alt.alt-errada { border-color: rgba(240,78,78,.25); background: rgba(240,78,78,.04); }
-    .rq-alt.alt-errada .rq-alt-icon { background: rgba(240,78,78,.15); color: var(--red); }
-    .rq-alt.alt-neutra { border-color: var(--border2); }
-    .rq-alt.alt-neutra .rq-alt-icon { background: var(--bg4); color: var(--muted2); }
-    .rq-alt-letra { font-size: 10px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; width: 14px; margin-top: 2px; flex-shrink: 0; }
-    .rq-alt.alt-correta .rq-alt-letra { color: var(--green); }
-    .rq-alt.alt-errada .rq-alt-letra { color: var(--red); }
-    .rq-alt.alt-neutra .rq-alt-letra { color: var(--muted2); }
-    .rq-alt-txt { font-size: 13px; line-height: 1.6; flex: 1; }
-    .rq-alt-badge { font-size: 9px; font-weight: 700; letter-spacing: .08em; padding: 2px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 3px; font-family: 'IBM Plex Mono', monospace; }
-    .rq-alt.alt-correta .rq-alt-badge { background: var(--g-bg); color: var(--green); border: 1px solid rgba(29,184,112,.3); }
-    .rq-alt.alt-errada .rq-alt-badge { background: var(--r-bg); color: var(--red); border: 1px solid rgba(240,78,78,.3); }
-    .rq-alt-exp { display: none; padding: 8px 14px 10px 48px; font-size: 12px; line-height: 1.65; border-top: 1px solid var(--border); }
-    .rq-alt.alt-correta .rq-alt-exp { color: rgba(29,184,112,.9); border-top-color: rgba(29,184,112,.15); background: rgba(29,184,112,.04); }
-    .rq-alt.alt-errada .rq-alt-exp { color: rgba(240,78,78,.85); border-top-color: rgba(240,78,78,.12); background: rgba(240,78,78,.03); }
-    .rq-alt.alt-neutra .rq-alt-exp { color: var(--muted2); }
-    .rq-alt-exp.open { display: block; }
-    .rq-explicacao-geral { font-size: 12px; line-height: 1.7; color: var(--muted2); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 10px 14px; margin-top: 10px; }
-    .rq-explicacao-geral strong { color: var(--a); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: 4px; font-family: 'IBM Plex Mono', monospace; }
-    .revisao-footer { padding: 14px 28px calc(14px + var(--sb)); border-top: 1px solid var(--border2); background: rgba(7,7,11,.95); flex-shrink: 0; }
-    .btn-voltar-dash { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 16px var(--ag); transition: all .18s; }
-    .btn-voltar-dash:hover { opacity: .9; }
+    /* ÁREA PRINCIPAL DA QUESTÃO */
+    .sim-main-card { flex: 1; background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 4px 24px rgba(0,0,0,0.15); overflow: hidden; min-width: 0; }
 
-    /* EMPTY / TOAST / CONFETTI / TOUR */
-    .empty-state { padding: 52px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .empty-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--ad); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; color: var(--a); font-size: 24px; }
-    .empty-title { font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted2); }
-    .empty-sub { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); line-height: 1.8; max-width: 280px; text-align: center; }
-    .toast { position: fixed; bottom: calc(28px + var(--sb)); right: 20px; background: var(--bg3); border: 1px solid var(--border3); padding: 11px 18px; font-size: 10px; font-family: 'IBM Plex Mono', monospace; z-index: 700; opacity: 0; transform: translateY(8px) scale(.98); transition: all .22s; pointer-events: none; max-width: 300px; border-left: 2px solid var(--a); border-radius: var(--r); }
-    .toast.show { opacity: 1; transform: translateY(0) scale(1); }
-    .confetti-piece { position: fixed; top: -10px; z-index: 9999; width: 8px; height: 8px; border-radius: 1px; pointer-events: none; animation: confetti-fall linear forwards; }
-    @keyframes confetti-fall { 0%{transform:translateX(0) rotate(0deg);opacity:1;}100%{transform:translateX(var(--dx)) translateY(105vh) rotate(720deg);opacity:0;} }
-    .tour-spotlight { position: fixed; z-index: 801; outline: 9999px solid rgba(0,0,6,.85); border: 1.5px solid var(--a); pointer-events: none; transition: all .32s cubic-bezier(.4,0,.2,1); box-shadow: 0 0 0 4px var(--ag); border-radius: var(--r); }
-    .tour-tooltip { position: fixed; z-index: 802; background: var(--bg2); border: 1px solid var(--border2); padding: 20px 22px; width: 290px; pointer-events: all; animation: ttin .22s ease; border-radius: var(--r2); box-shadow: 0 24px 64px rgba(0,0,0,.75), 0 0 0 1px var(--ag); }
-    @keyframes ttin { from{opacity:0;transform:scale(.93);}to{opacity:1;transform:scale(1);} }
-    .tour-slbl { font-size: 9px; font-family: 'IBM Plex Mono', monospace; color: var(--a); letter-spacing: .2em; margin-bottom: 7px; text-transform: uppercase; }
-    .tour-title { font-size: 13px; font-weight: 800; margin-bottom: 8px; color: var(--text); line-height: 1.3; }
-    .tour-desc { font-size: 11px; color: var(--muted2); font-family: 'IBM Plex Mono', monospace; line-height: 1.75; margin-bottom: 16px; }
-    .tour-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .tour-btn-next { padding: 8px 16px; background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; border: none; cursor: pointer; border-radius: 5px; }
-    .tour-btn-skip { font-size: 10px; color: var(--muted2); cursor: pointer; background: none; border: none; font-family: 'IBM Plex Mono', monospace; text-decoration: underline; }
-    .tour-prog { display: flex; gap: 5px; align-items: center; }
-    .tour-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border3); transition: all .25px; }
-    .tour-dot.active { background: var(--a); box-shadow: 0 0 5px var(--ag); }
+    /* TOOLBAR MINIMALISTA */
+    .sim-main-toolbar { display: flex; align-items: center; gap: 16px; padding: 16px 32px; border-bottom: 1px solid var(--border); background: var(--bg2); }
+    .sim-timer-pill { background: var(--blue); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; display: flex; align-items: center; gap: 8px; }
+    .sim-marca-texto { background: var(--bg); border: 1px solid var(--border2); color: var(--text); padding: 8px 16px; border-radius: 20px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s; }
+    .sim-marca-texto:hover { background: var(--bg3); border-color: var(--border3); }
 
-    /* RESPONSIVE */
-    @media(max-width:768px) {
-      nav { padding: 0 16px; height: 50px; }
-      .nav-tabs,.nav-right { display: none; }
-      .hamburger { display: flex; }
-      .nav-logo { font-size: 13px; }
-      .dash-header { padding: 20px 16px 0; }
-      .dash-title { font-size: 26px; }
-      .dash-date { margin-bottom: 20px; }
-      .stats-row { flex-wrap: wrap; }
-      .stat-card { flex: 1 1 calc(50% - 1px); padding: 15px 16px; }
-      .stat-val { font-size: 24px; }
-      .sec-hdr { padding: 18px 16px 12px; }
-      .heatmap-wrap { margin: 0 16px 0; }
-      .rev-wrap { margin: 0 16px 0; }
-      .table-container { padding: 0 0 calc(80px + var(--sb)); }
-      .table-toolbar { padding: 12px 16px 10px; }
-      .table-toolbar .btn-add { display: none; }
-      .subj-header { display: none; }
-      #subjects-table-wrap { display: none; }
-      .card-list { display: flex; }
-      .fab { display: flex; }
-      .provas-header,.rotina-header,.pomo-header,.sim-page-header { padding: 20px 16px 18px; }
-      .rotina-inner { flex-direction: column; align-items: flex-start; }
-      .rotina-legend,.rotina-balance { padding: 8px 12px; }
-      .rotina-hint { padding: 6px 12px; }
-      .pomo-layout { grid-template-columns: 1fr; min-height: auto; }
-      .pomo-sidebar { border-top: 1px solid var(--border2); padding: 20px 16px; }
-      .pomo-main { padding: 24px 16px; align-items: center; width: 100%; }
-      .timer-ring-wrap { width: 180px; height: 180px; margin-bottom: 24px; }
-      .timer-ring-svg { width: 180px!important; height: 180px!important; }
-      .timer-time { font-size: 36px; }
-      .pomo-mode-tabs { width: 100%; max-width: 360px; }
-      .pomo-controls { width: 100%; max-width: 360px; justify-content: center; }
-      .pomo-subject-sel { max-width: 100%!important; }
-      .pomo-stats-grid { max-width: 100%!important; width: 100%!important; }
-      .pomo-preset-grid { grid-template-columns: 1fr 1fr!important; }
-      .config-header { padding: 20px 16px 16px; }
-      .config-section { margin: 12px; }
-      .toast { bottom: calc(80px + var(--sb)); right: 12px; left: 12px; max-width: 100%; }
-      .tour-tooltip { left: 12px!important; right: 12px!important; width: auto!important; }
-      .rotina-weekly-header { display: none; top: 50px; }
-      .rotina-grid { grid-template-columns: var(--tc-w) 1fr!important; min-width: 0!important; }
-      .r-block-del { opacity: .7!important; }
-      .perf-grid { grid-template-columns: 1fr; }
-      .sim-topbar { padding: 0 16px; }
-      .sim-body { padding: 20px 12px 110px; }
-      .sim-q-header,.sim-q-body { padding: 14px 16px; }
-      .sim-actions { padding: 12px 16px calc(12px + var(--sb)); flex-wrap: wrap; gap: 8px; }
-      .sim-btn-respond,.sim-btn-next,.sim-btn-finish,.sim-btn-nav { font-size: 10px; padding: 10px 14px; }
-      .mode-cards { grid-template-columns: 1fr; }
-      .revisao-body { padding: 16px 16px 40px; }
-      .revisao-topbar,.revisao-footer { padding-left: 16px; padding-right: 16px; }
-      .revisao-nota-value { font-size: 52px; }
-      .simlib-del { opacity: .5; }
+    /* CORPO DA QUESTÃO E ALTERNATIVAS */
+    .sim-q-body-new { padding: 32px; flex: 1; }
+    .sim-q-enunciado-wrap { background: var(--bg3); padding: 24px; border-radius: 12px; border: 1px solid var(--border2); margin-bottom: 24px; }
+    .sim-q-enunciado { font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 12px; }
+    .sim-q-stats-link { font-size: 10px; color: var(--blue); text-decoration: none; font-family: 'IBM Plex Mono', monospace; }
+
+    /* ALTERNATIVAS (Cores e Bordas Mapeadas) */
+    .sim-alts-new { display: flex; flex-direction: column; gap: 16px; }
+    .sim-alt-card { border: 1.5px solid var(--border2); border-radius: 12px; background: var(--bg); overflow: hidden; transition: all 0.2s; cursor: pointer; }
+    .sim-alt-card.correct { background: rgba(29,184,112,.08); border-color: rgba(29,184,112,.4); }
+    .sim-alt-card.wrong { background: rgba(240,78,78,.08); border-color: rgba(240,78,78,.4); }
+    .alt-header { display: flex; align-items: flex-start; gap: 12px; padding: 16px; }
+    .alt-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; border: 1.5px solid var(--border3); flex-shrink: 0; margin-top: 1px; }
+    .sim-alt-card.correct .alt-icon { background: #1db870; border-color: #1db870; color: #fff; }
+    .sim-alt-card.wrong .alt-icon { background: #f04e4e; border-color: #f04e4e; color: #fff; }
+    .alt-text { font-size: 13px; line-height: 1.5; color: var(--text); font-weight: 500; }
+    .alt-feedback { padding: 16px; font-size: 12px; line-height: 1.6; }
+    .sim-alt-card.correct .alt-feedback { background: rgba(29,184,112,.12); color: var(--text); }
+    .sim-alt-card.correct .alt-feedback strong { color: #1db870; display: block; margin-bottom: 6px; }
+    .sim-alt-card.wrong .alt-feedback { background: rgba(240,78,78,.12); color: var(--text); }
+    .sim-alt-card.wrong .alt-feedback strong { color: #f04e4e; display: block; margin-bottom: 6px; }
+    .alt-feedback a { color: var(--blue); text-decoration: underline; }
+    .alt-pct { display: block; font-size: 9px; margin-top: 10px; color: var(--blue); background: rgba(77,158,245,.1); padding: 4px 8px; border-radius: 4px; width: fit-content; }
+
+    /* BARRA DE AÇÕES INFERIOR */
+    .sim-main-footer { display: flex; justify-content: flex-end; align-items: center; padding: 24px 32px; gap: 16px; border-top: 1px solid var(--border); background: var(--bg2); }
+    .sim-btn-validar { background: var(--border2); border: none; padding: 10px 32px; border-radius: 24px; color: var(--muted2); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; transition: all 0.2s; }
+    .sim-btn-validar:hover { background: var(--border3); color: var(--text); }
+    .sim-nav-arrows { display: flex; gap: 10px; }
+    .arrow-btn { width: 34px; height: 34px; border-radius: 50%; background: #f04e4e; border: none; color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; }
+    .arrow-btn:hover { opacity: 0.9; }
+
+    /* RESPONSIVIDADE */
+    @media(max-width: 900px) {
+      .sim-content-wrapper { flex-direction: column; padding: 0; }
+      .sim-sidebar-card { width: 100%; order: 2; position: relative; top: 0; border-radius: 0; }
+      .sim-main-card { order: 1; border-radius: 0; border-left: none; border-right: none; border-top: none; }
+      .sim-q-body-new { padding: 20px; }
+      .sim-main-toolbar { padding: 16px 20px; }
+      .sim-main-footer { padding: 20px; }
     }
-    @media(max-width:480px) {
-      .stat-card { flex: 1 1 100%; }
-      .tg-row { flex-direction: column; }
-    }
-  
-    /* ══ SIMULADO FULLSCREEN — NEW LAYOUT ══ */
-   /* ══ SIMULADO FULLSCREEN — LAYOUT SIMPLIFICADO ══ */
-#simulado-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  background: var(--bg);
-  display: none;
-  justify-content: center;
-  align-items: flex-start;
-  overflow-y: auto;
-  padding: 40px 20px;
-}
-#simulado-screen.open {
-  display: flex;
-}
-.sim-content-wrapper {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.sim-sb-q-num.sq-active {
-  border-color: var(--a);
-  color: var(--a);
-  background: var(--ad);
-}
-.sim-alt-card.selected {
-  border-color: var(--a);
-  background: var(--ad);
-}
-.sim-alt-card.selected .alt-icon {
-  background: var(--a);
-  color: #fff;
-  border-color: var(--a);
-}
-
-/* SIDEBAR ESQUERDA MINIMALISTA */
-.sim-sidebar-card {
-  width: 240px;
-  background: var(--bg2);
-  border: 1px solid var(--border2);
-  border-radius: 16px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  flex-shrink: 0;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-  height: fit-content;
-  position: sticky;
-  top: 40px;
-}
-.sim-sb-q-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-}
-.sim-sb-q-num {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  background: var(--bg3);
-  color: var(--muted2);
-  cursor: pointer;
-  border: 1.5px solid transparent;
-  font-family: 'IBM Plex Mono', monospace;
-  margin: 0 auto;
-}
-.sim-sb-q-num.sq-correct { background: #1db870; color: #fff; border-color: #1db870; }
-.sim-sb-q-num.sq-wrong { background: #f04e4e; color: #fff; border-color: #f04e4e; }
-.sim-sb-q-num.sq-answered { background: var(--border3); color: var(--text); }
-
-.sim-sb-dropdown {
-  background: var(--bg);
-  padding: 12px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--border2);
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  color: var(--text);
-}
-.sim-sidebar-spacer {
-  flex: 1;
-  min-height: 40px;
-}
-.sim-btn-finalizar {
-  background: #1db870;
-  color: #fff;
-  border: none;
-  padding: 14px;
-  border-radius: 24px;
-  font-weight: 800;
-  font-size: 11px;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  width: 100%;
-}
-.sim-btn-finalizar:hover { opacity: 0.9; }
-
-/* ÁREA PRINCIPAL DA QUESTÃO */
-.sim-main-card {
-  flex: 1;
-  background: var(--bg2);
-  border: 1px solid var(--border2);
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-  overflow: hidden;
-  min-width: 0;
-}
-
-/* TOOLBAR MINIMALISTA */
-.sim-main-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 32px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-}
-.sim-timer-pill {
-  background: var(--blue);
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  font-family: 'IBM Plex Mono', monospace;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.sim-marca-texto {
-  background: var(--bg);
-  border: 1px solid var(--border2);
-  color: var(--text);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.sim-marca-texto:hover {
-  background: var(--bg3);
-  border-color: var(--border3);
-}
-
-/* CORPO DA QUESTÃO E ALTERNATIVAS */
-.sim-q-body-new {
-  padding: 32px;
-  flex: 1;
-}
-.sim-q-enunciado-wrap {
-  background: var(--bg3);
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid var(--border2);
-  margin-bottom: 24px;
-}
-.sim-q-enunciado {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-.sim-q-stats-link {
-  font-size: 10px;
-  color: var(--blue);
-  text-decoration: none;
-  font-family: 'IBM Plex Mono', monospace;
-}
-
-/* ALTERNATIVAS (Cores e Bordas Mapeadas) */
-.sim-alts-new {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.sim-alt-card {
-  border: 1.5px solid var(--border2);
-  border-radius: 12px;
-  background: var(--bg);
-  overflow: hidden;
-  transition: all 0.2s;
-  cursor: pointer;
-}
-.sim-alt-card.correct {
-  background: rgba(29,184,112,.08);
-  border-color: rgba(29,184,112,.4);
-}
-.sim-alt-card.wrong {
-  background: rgba(240,78,78,.08);
-  border-color: rgba(240,78,78,.4);
-}
-.alt-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 16px;
-}
-.alt-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 800;
-  border: 1.5px solid var(--border3);
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.sim-alt-card.correct .alt-icon { background: #1db870; border-color: #1db870; color: #fff; }
-.sim-alt-card.wrong .alt-icon { background: #f04e4e; border-color: #f04e4e; color: #fff; }
-.alt-text {
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--text);
-  font-weight: 500;
-}
-.alt-feedback {
-  padding: 16px;
-  font-size: 12px;
-  line-height: 1.6;
-}
-.sim-alt-card.correct .alt-feedback { 
-  background: rgba(29,184,112,.12); 
-  color: var(--text); 
-}
-.sim-alt-card.correct .alt-feedback strong { color: #1db870; display: block; margin-bottom: 6px; }
-
-.sim-alt-card.wrong .alt-feedback { 
-  background: rgba(240,78,78,.12); 
-  color: var(--text); 
-}
-.sim-alt-card.wrong .alt-feedback strong { color: #f04e4e; display: block; margin-bottom: 6px; }
-
-.alt-feedback a { color: var(--blue); text-decoration: underline; }
-
-.alt-pct {
-  display: block;
-  font-size: 9px;
-  margin-top: 10px;
-  color: var(--blue);
-  background: rgba(77,158,245,.1);
-  padding: 4px 8px;
-  border-radius: 4px;
-  width: fit-content;
-}
-
-/* BARRA DE AÇÕES INFERIOR */
-.sim-main-footer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 24px 32px;
-  gap: 16px;
-  border-top: 1px solid var(--border);
-  background: var(--bg2);
-}
-.sim-btn-validar {
-  background: var(--border2);
-  border: none;
-  padding: 10px 32px;
-  border-radius: 24px;
-  color: var(--muted2);
-  font-weight: 700;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.sim-btn-validar:hover { background: var(--border3); color: var(--text); }
-.sim-nav-arrows {
-  display: flex;
-  gap: 10px;
-}
-.arrow-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #f04e4e;
-  border: none;
-  color: #fff;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s;
-}
-.arrow-btn:hover { opacity: 0.9; }
-
-/* RESPONSIVIDADE */
-@media(max-width: 900px) {
-  .sim-content-wrapper { flex-direction: column; padding: 0; }
-  .sim-sidebar-card { width: 100%; order: 2; position: relative; top: 0; border-radius: 0; }
-  .sim-main-card { order: 1; border-radius: 0; border-left: none; border-right: none; border-top: none; }
-  .sim-q-body-new { padding: 20px; }
-  .sim-main-toolbar { padding: 16px 20px; }
-  .sim-main-footer { padding: 20px; }
-}
-
   </style>
 </head>
 <body class="theme-default">
@@ -1487,8 +969,7 @@
       <div style="height:40px"></div>
     </div>
 
-  </div>  <!-- SIMULADO FULLSCREEN -->
-  <div id="simulado-screen">
+  </div>  <div id="simulado-screen">
   <div class="sim-content-wrapper">
     
     <div class="sim-sidebar-card" id="sim-sidebar-container">
@@ -1581,7 +1062,7 @@
         <div class="modal-sub mono">// powered by Google Gemini</div>
       </div>
       <div class="modal-bd">
-        <div id="byok-key-section" style="margin-bottom:0"><!-- rendered by renderByokKeySection() --></div>
+        <div id="byok-key-section" style="margin-bottom:0"></div>
         <div class="mf">
           <label>Upload da prova (PDF ou imagem)</label>
           <div class="upzone" id="upzone"
@@ -2540,20 +2021,20 @@
     if(!fileInp.files||!fileInp.files[0]){toast('Selecione um arquivo');return;}
 
     simuladoCorrente.apiKey=getGeminiKey();
-  
+    
     const file=fileInp.files[0];
     const proc=document.getElementById('byok-processing');
     const btn=document.getElementById('byok-btn-extrair');
     proc.style.display='flex';
     document.getElementById('byok-proc-txt').textContent='Lendo arquivo…';
     btn.disabled=true;
-  
+    
     try {
       // Read file as base64
       const base64=await readFileBase64(file);
       const mimeType=file.type||'application/pdf';
       document.getElementById('byok-proc-txt').textContent='Extraindo questões com IA…';
-  
+      
       const prompt=`Você é um professor de medicina. Leia a prova em anexo.
       Extraia as questões e classifique-as. Retorne ESTRITAMENTE em JSON neste formato (sem markdown, sem crases, sem texto adicional):
       {"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva", "contexto": "Texto introdutório (se houver)", "enunciado": "Apenas a pergunta", "alternativas": {"A": "Texto A", "B": "Texto B"}, "gabarito_correto": "A", "padrao_esperado": "...", "explicacao_geral": "...", "explicacoes_alternativas": {"A": "..."}}]}
@@ -2696,7 +2177,7 @@
     }
 
     // --- STEP 5: Render question card ---
-   function renderSimQuestao() {
+    function renderSimQuestao() {
       const { questoes, qIdx, modo, respostas, respondida } = simuladoCorrente;
       const q = questoes[qIdx];
       const total = questoes.length;
@@ -2852,172 +2333,8 @@
         btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'block' : 'none';
       }
     }
-      
-      // --- Fix V/F normalization ---
-      if (q.alternativas && typeof q.alternativas === 'object') {
-        const keys = Object.keys(q.alternativas);
-        const needsNorm = keys.some(k => k.length > 1 && /verdadeiro|falso|true|false|certo|errado/i.test(k));
-        if (needsNorm) {
-          const newAlts = {};
-          keys.forEach(k => {
-            const norm = /verdadeiro|true|certo/i.test(k) ? 'V' : /falso|false|errado/i.test(k) ? 'F' : k[0].toUpperCase();
-            newAlts[norm] = q.alternativas[k];
-          });
-          if (q.gabarito_correto && q.gabarito_correto.length > 1) {
-            q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
-          }
-          q.alternativas = newAlts;
-        }
-        if (q.gabarito_correto && q.gabarito_correto.length > 1 && keys.includes('V')) {
-          q.gabarito_correto = /verdadeiro|true|certo/i.test(q.gabarito_correto) ? 'V' : 'F';
-        }
-      }
-      
-      // Update header
-      document.getElementById('sim-q-cur').textContent = qIdx + 1;
-      document.getElementById('sim-q-total').textContent = total;
-      const progFill = document.getElementById('sim-progress-fill');
-if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
-
-      // Build card
-      const isObj = q.tipo === 'objetiva';
-      const isLast = qIdx === total - 1;
-
-      // ── Build alternatives / textarea ──────────────────────────────────────
-      let bodyHtml = '';
-      if (isObj) {
-        const alts = q.alternativas || {};
-        const showFeedback = respondida && modo === 'tutor';
-        bodyHtml = `<div class="sim-alts" id="sim-alts">`;
-        for (const [letter, text] of Object.entries(alts)) {
-          if (!text) continue;
-          let cls = '';
-          let badge = '';
-          let expHtml = '';
-          if (showFeedback) {
-            const isCorrect = letter === q.gabarito_correto;
-            const isChosen  = letter === resp.resposta;
-            if (isCorrect) {
-            cls = isChosen ? 'correct highlight' : 'correct';
-              badge = `<span class="sim-alt-result-badge badge-correta">✓ Correta</span>`;
-              const exp = q.explicacoes_alternativas?.[letter] || q.explicacao_geral || '';
-              if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
-            } else if (isChosen && !isCorrect) {
-              cls = 'wrong';
-              badge = `<span class="sim-alt-result-badge badge-errada">✗ Incorreta</span>`;
-              const exp = q.explicacoes_alternativas?.[letter] || '';
-              if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
-            } else {
-              cls = 'other-wrong';
-              const exp = q.explicacoes_alternativas?.[letter] || '';
-              if (exp) expHtml = `<div class="sim-alt-exp open">${exp}</div>`;
-            }
-            // Se o usuário escolheu esta alternativa E ela não é a correta, forçar wrong
-            if (letter === resp.resposta && letter !== q.gabarito_correto) {
-              cls = 'wrong';
-            }
-          } else {
-            if (resp.resposta === letter) cls = 'selected';
-          }
-          const clickFn = showFeedback ? '' : `simSelecionarAlt('${letter}')`;
-          const expContent = expHtml ? expHtml.replace('<div class="sim-alt-exp open">', '').replace('</div>', '') : '';
-          bodyHtml += '<div class="sim-alt ' + cls + '" id="alt-' + letter + '" onclick="' + clickFn + '">';
-          bodyHtml += '<div style="display:flex;align-items:center;gap:14px;padding:14px 18px">';
-          bodyHtml += '<div class="sim-alt-letter">' + letter + '</div>';
-          bodyHtml += '<div class="sim-alt-text" id="alt-txt-' + letter + '" style="flex:1;font-weight:500">' + text + '</div>';
-          bodyHtml += badge;
-          bodyHtml += '</div>';
-          if (expContent) bodyHtml += '<div class="sim-alt-exp open" style="padding:4px 18px 12px 56px">' + expContent + '</div>';
-          bodyHtml += '</div>';
-        }
-        // Explicação geral (tutor mode, after reveal)
-        if (showFeedback && q.explicacao_geral) {
-          bodyHtml += `<div style="margin-top:12px;padding:12px 16px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:var(--r);font-size:12px;line-height:1.7;color:var(--text)"><strong style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);display:block;margin-bottom:4px;font-family:'IBM Plex Mono',monospace">💡 Comentário geral</strong>${q.explicacao_geral}</div>`;
-        }
-        bodyHtml += `</div>`;
-      } else {
-        const taVal = resp.resposta || '';
-        const disabled = respondida && modo === 'tutor' ? 'disabled' : '';
-        bodyHtml = `<div class="sim-disc-wrap">
-          <textarea class="sim-disc-textarea" id="sim-disc-ta" placeholder="Escreva sua resposta aqui…" ${disabled} oninput="simDiscChar(this)">${taVal}</textarea>
-          <div class="sim-disc-char" id="sim-disc-char">${taVal.length} caracteres</div>
-        </div>`;
-      }
-
-      // ── Discursiva feedback ─────────────────────────────────────────────────
-      let feedbackHtml = '';
-      if (respondida && modo === 'tutor' && !isObj) {
-        const notaVal = resp.nota;
-        const notaCls = notaVal === null ? '' : notaVal >= 80 ? 'disc-nota-green' : notaVal >= 60 ? 'disc-nota-yellow' : 'disc-nota-red';
-        feedbackHtml = `
-        <div class="sim-ai-loading ${notaVal === null ? 'show' : ''}" id="sim-ai-loading">
-          <div class="sim-ai-spinner"></div> Avaliando com IA…
-        </div>
-        ${notaVal !== null ? `
-        <div class="disc-fb-card">
-          <div class="disc-fb-nota-row">
-            <span class="disc-fb-nota-lbl">NOTA</span>
-            <span class="disc-fb-nota ${notaCls}">${notaVal}<span class="disc-fb-nota-max">/100</span></span>
-          </div>
-          <div class="disc-fb-section">
-            <div class="disc-fb-section-lbl">✦ Resposta esperada</div>
-            <div class="disc-fb-section-body">${resp.resposta_ideal || ''}</div>
-          </div>
-          ${resp.o_que_faltou ? `<div class="disc-fb-section disc-fb-faltou">
-            <div class="disc-fb-section-lbl">⚠ O que faltou / estava errado</div>
-            <div class="disc-fb-section-body">${resp.o_que_faltou}</div>
-          </div>` : `<div class="disc-fb-section disc-fb-ok">
-            <div class="disc-fb-section-lbl">✓ Resposta completa</div>
-            <div class="disc-fb-section-body">Sua resposta contemplou todos os pontos esperados.</div>
-          </div>`}
-        </div>` : ''}`;
-      }
-
-      document.getElementById('sim-body').innerHTML = `
-        <div class="sim-q-card">
-          <div class="sim-q-header">
-            <div class="sim-q-type">${q.tipo.toUpperCase()} · QUESTÃO ${qIdx + 1} DE ${total}</div>
-            ${q.contexto ? `<div class="sim-q-contexto" id="sim-contexto">${q.contexto}</div>` : ''}
-            <div class="sim-q-enunciado" id="sim-enunciado">${q.enunciado}</div>
-          </div>
-          <div class="sim-q-body">
-            ${bodyHtml}
-            ${feedbackHtml}
-          </div>
-        </div>`;
-
-      // ── Annotation targets: enunciado + contexto + alt texts ───────────────
-      annotTargetIds = ['sim-enunciado', 'sim-contexto'];
-      Object.keys(q.alternativas || {}).forEach(l => { if (!respondida || modo !== 'tutor') annotTargetIds.push('alt-txt-' + l); });
-
-      // ── Button states ───────────────────────────────────────────────────────
-      const btnPrev   = document.getElementById('sim-btn-prev');
-      const btnResp   = document.getElementById('sim-btn-respond');
-      const btnNext   = document.getElementById('sim-btn-next');
-      const btnFinish = document.getElementById('sim-btn-finish');
-
-      // Prev always shown, disabled on first question
-      btnPrev.disabled = (qIdx === 0);
-      // Update sidebar question grid
-      renderSimSidebar();
-
-      if (respondida) {
-        btnResp.style.display = 'none';
-        btnFinish.style.display = 'none';
-        btnNext.style.display = 'inline-flex';
-        btnNext.disabled = false;
-        btnNext.textContent = isLast ? 'Finalizar ✓' : 'Próxima →';
-        btnNext.onclick = isLast ? finalizarSimulado : simProxima;
-      } else {
-        btnResp.style.display = 'inline-flex';
-        btnResp.disabled = false;
-        btnNext.style.display = 'none';
-        btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'inline-flex' : 'none';
-      }
-    }
 
     function simToggleAltExp(letter) {
-      // In tutor revealed mode, clicking an "other-wrong" alt toggles its explanation
       const exp = document.getElementById('exp-' + letter);
       if (exp) exp.classList.toggle('open');
     }
@@ -3034,8 +2351,7 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       if (simuladoCorrente.respondida) return;
       simuladoCorrente.respostas[simuladoCorrente.qIdx].resposta = letter;
       
-      // Update UI
-      document.querySelectorAll('.sim-alt').forEach(el => el.classList.remove('selected'));
+      document.querySelectorAll('.sim-alt-card').forEach(el => el.classList.remove('selected'));
       const el = document.getElementById('alt-' + letter);
       if (el) el.classList.add('selected');
     }
@@ -3297,16 +2613,6 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       document.getElementById('revisao-screen').classList.add('open');
       marcarConcluido();
       if (parseFloat(notaFinal) >= 7) celebrate();
-    }
-    
-    function toggleRQ(i) {
-      const b = document.getElementById('rq-body-' + i);
-      if (b) b.classList.toggle('open');
-    }
-
-    function toggleAltExp(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.toggle('open');
     }
 
     function voltarDashboard() {
