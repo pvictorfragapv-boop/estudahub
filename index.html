@@ -3310,5 +3310,120 @@ document.addEventListener('selectionchange', () => {
   tb.classList.add('show');
 });
   </script>
+// ═══════════════════════════════════════════════════════════════
+//  PATCH — Correções do Simulado IA  (cole antes de </body>)
+// ═══════════════════════════════════════════════════════════════
+
+// ---------- helpers internos reusados ----------
+function _renderSbQGrid() {
+  const { questoes, qIdx, respostas, modo } = simuladoCorrente;
+  const grid = document.getElementById('sim-sb-q-grid');
+  if (!grid || !questoes) return;
+  grid.innerHTML = questoes.map((q, i) => {
+    const r = respostas[i];
+    let cls = '';
+    if (i === qIdx) cls = 'sq-active';
+    else if (r && r.resposta) {
+      if (modo === 'tutor' && r.acertou !== null) cls = r.acertou ? 'sq-correct' : 'sq-wrong';
+      else cls = 'sq-answered';
+    }
+    return `<div class="sim-sb-q-num ${cls}" onclick="simIrPara(${i})">${i + 1}</div>`;
+  }).join('');
+}
+
+// Navegar direto para uma questão pelo grid lateral
+window.simIrPara = function(i) {
+  if (i < 0 || i >= simuladoCorrente.questoes.length) return;
+  simuladoCorrente.qIdx = i;
+  simuladoCorrente.respondida = !!(simuladoCorrente.respostas[i]?.resposta);
+  document.getElementById('sim-body').scrollTop = 0;
+  renderSimQuestao();
+};
+
+// ---------- iniciarSimulado corrigido ----------
+window.iniciarSimulado = function() {
+  simuladoCorrente.modo = simModoSelecionado;
+  simuladoCorrente.qIdx = 0;
+  simuladoCorrente.respondida = false;
+
+  closeModals();
+
+  // Atualiza sidebar: modo
+  const tutorOpt = document.getElementById('sim-sb-tutor-opt');
+  const simOpt   = document.getElementById('sim-sb-sim-opt');
+  if (tutorOpt && simOpt) {
+    tutorOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
+    simOpt.classList.toggle('active',   simuladoCorrente.modo === 'simulado');
+  }
+
+  // Abre tela fullscreen
+  document.getElementById('simulado-screen').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  simTimerStart();
+  renderSimQuestao();
+};
+
+// ---------- carregarRascunho corrigido ----------
+window.carregarRascunho = function(i) {
+  const draft = (state.simuladosDraft || [])[i];
+  if (!draft) return;
+  closeModals();
+
+  if (draft.concluido) {
+    simuladoCorrente = { ...draft };
+    exibirRevisao();
+    return;
+  }
+
+  simuladoCorrente = {
+    apiKey:      draft.apiKey || getGeminiKey(),
+    questoes:    draft.questoes,
+    titulo:      draft.titulo,
+    modo:        draft.modo || 'tutor',
+    qIdx:        draft.qIdx || 0,
+    respostas:   draft.respostas,
+    respondida:  !!(draft.respostas[draft.qIdx || 0]?.resposta),
+  };
+
+  if (!draft.modo) {
+    // Ainda não escolheu modo
+    const titleEl = document.getElementById('modal-mode-title');
+    const subEl   = document.getElementById('modal-mode-sub');
+    if (titleEl) titleEl.textContent = `"${draft.titulo}"`;
+    if (subEl)   subEl.textContent   = `// ${draft.questoes.length} questão(ões) · escolha o modo`;
+    document.getElementById('modal-simulado-mode').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    // Retomar onde parou
+    const tutorOpt = document.getElementById('sim-sb-tutor-opt');
+    const simOpt   = document.getElementById('sim-sb-sim-opt');
+    if (tutorOpt && simOpt) {
+      tutorOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
+      simOpt.classList.toggle('active',   simuladoCorrente.modo === 'simulado');
+    }
+    document.getElementById('simulado-screen').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    simTimerStart();
+    renderSimQuestao();
+  }
+};
+
+// ---------- renderSimQuestao corrigido (wrap) ----------
+// Guardamos a original e envolvemos para sempre atualizar o grid lateral e o total
+(function() {
+  const _original = window.renderSimQuestao;
+  window.renderSimQuestao = function() {
+    // Atualiza totais no header
+    const totalEl = document.getElementById('sim-q-total');
+    if (totalEl && simuladoCorrente.questoes) {
+      totalEl.textContent = simuladoCorrente.questoes.length;
+    }
+    // Chama original
+    _original.apply(this, arguments);
+    // Atualiza grid lateral após renderizar
+    _renderSbQGrid();
+  };
+})();
 </body>
 </html>
