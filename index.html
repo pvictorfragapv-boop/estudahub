@@ -296,7 +296,7 @@
     .mat-list { display: flex; flex-direction: column; gap: 6px; }
     .mat-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); }
     .mat-item-name { font-size: 13px; font-weight: 600; flex: 1; }
-    .mat-item-del { font-size: 12px; color: var(--red); cursor: pointer; padding: 2px 6px; background: none; border: none; opacity: .4; transition: opacity .15px; font-family: 'IBM Plex Mono', monospace; }
+    .mat-item-del { font-size: 12px; color: var(--red); cursor: pointer; padding: 2px 6px; background: none; border: none; opacity: .4; transition: opacity .15s; font-family: 'IBM Plex Mono', monospace; }
     .mat-item-del:hover { opacity: 1; }
 
     /* PROVAS */
@@ -434,7 +434,7 @@
     .rgh-cell:last-child { border-right: none; }
     .rgh-cell.today-col { color: var(--a); background: var(--ad); }
     .rotina-grid { display: grid; grid-template-columns: var(--tc-w) repeat(7,1fr); min-width: 700px; position: relative; }
-    .rtime-col { background: var(--bg2); border-right: 2px solid var(--border2); position: sticky; left: 0; z-index: 15; }
+    .rtime-col { background: var(--bg2); border-right: 2px solid var(--border2); position: sticky; left: 0; z-index: 15; grid-row: 1; grid-column: 1; }
     .rtime-cell { height: var(--slot-h); display: flex; align-items: flex-start; justify-content: flex-end; padding: 2px 6px 0 0; border-bottom: 1px solid var(--border); box-sizing: border-box; }
     .rtime-cell.full-hour { border-bottom: 1px solid var(--border2); background: rgba(255,255,255,.015); }
     .rtime-lbl-full { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .02em; font-weight: 600; line-height: 1; white-space: nowrap; }
@@ -483,8 +483,9 @@
     .upzone-prev-icon { font-size: 20px; }
     .upzone-prev-name { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--text); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .upzone-prev-del { background: none; border: none; color: var(--red); cursor: pointer; font-size: 14px; padding: 2px 6px; opacity: .6; transition: opacity .15s; }
+    .upzone-prev-del:hover { opacity: 1; }
     .simlib-list { display: flex; flex-direction: column; gap: 1px; background: var(--border2); border: 1px solid var(--border2); border-radius: var(--r); overflow: hidden; }
-    .simlib-item { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--bg2); cursor: pointer; transition: background .14s; }
+    .simlib-item { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--bg2); cursor: pointer; transition: background .14s; position: relative; }
     .simlib-item:hover { background: var(--bg3); }
     .simlib-icon { font-size: 20px; flex-shrink: 0; }
     .simlib-info { flex: 1; min-width: 0; }
@@ -498,6 +499,7 @@
     .simlib-badge.new  { background: var(--ad); color: var(--a); border: 1px solid var(--ag); }
     .simlib-del { background: none; border: none; cursor: pointer; color: var(--red); font-size: 14px; padding: 4px 6px; opacity: 0; transition: opacity .15s; flex-shrink: 0; }
     .simlib-item:hover .simlib-del { opacity: .5; }
+    .simlib-del:hover { opacity: 1!important; }
     .simlib-empty { padding: 40px 20px; text-align: center; font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); }
     .byok-info { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); margin-bottom: 16px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); line-height: 1.7; }
     .byok-info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
@@ -666,11 +668,13 @@
     .rq-alts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
     .rq-alt { border-radius: var(--r); border: 1px solid var(--border2); overflow: hidden; }
     .rq-alt-header { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; cursor: pointer; transition: background .15s; }
+    .rq-alt-header:hover { background: rgba(255,255,255,.03); }
     .rq-alt-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
     .rq-alt.alt-correta { border-color: rgba(29,184,112,.35); background: rgba(29,184,112,.06); }
     .rq-alt.alt-correta .rq-alt-icon { background: rgba(29,184,112,.2); color: var(--green); }
     .rq-alt.alt-errada { border-color: rgba(240,78,78,.25); background: rgba(240,78,78,.04); }
     .rq-alt.alt-errada .rq-alt-icon { background: rgba(240,78,78,.15); color: var(--red); }
+    .rq-alt.alt-neutra { border-color: var(--border2); }
     .rq-alt.alt-neutra .rq-alt-icon { background: var(--bg4); color: var(--muted2); }
     .rq-alt-letra { font-size: 10px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; width: 14px; margin-top: 2px; flex-shrink: 0; }
     .rq-alt.alt-correta .rq-alt-letra { color: var(--green); }
@@ -709,7 +713,7 @@
     .tour-btn-next { padding: 8px 16px; background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; border: none; cursor: pointer; border-radius: 5px; }
     .tour-btn-skip { font-size: 10px; color: var(--muted2); cursor: pointer; background: none; border: none; font-family: 'IBM Plex Mono', monospace; text-decoration: underline; }
     .tour-prog { display: flex; gap: 5px; align-items: center; }
-    .tour-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border3); }
+    .tour-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border3); transition: all .25px; }
     .tour-dot.active { background: var(--a); box-shadow: 0 0 5px var(--ag); }
 
     /* MOBILE */
@@ -764,6 +768,7 @@
       .revisao-body { padding: 16px 16px 40px; }
       .revisao-topbar,.revisao-footer { padding-left: 16px; padding-right: 16px; }
       .revisao-nota-value { font-size: 52px; }
+      .simlib-del { opacity: .5; }
     }
     @media(max-width:480px) {
       .stat-card { flex: 1 1 100%; }
@@ -1110,7 +1115,6 @@
     </div>
   </div>
 
-  <!-- SIMULADO FULLSCREEN -->
   <div id="simulado-screen">
     <div class="sim-sidebar" id="sim-sidebar">
       <div class="sim-sb-timer">
@@ -1146,7 +1150,6 @@
     </div>
   </div>
 
-  <!-- ANNOTATION TOOLBAR -->
   <div id="annot-toolbar" style="position:fixed;z-index:9999;display:none;background:var(--bg3);border:1px solid var(--border3);border-radius:8px;padding:4px 6px;gap:4px;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,.5)">
     <div style="width:16px;height:16px;border-radius:50%;background:rgba(240,180,41,.8);border:2px solid transparent;cursor:pointer" id="annot-c-y" onclick="annotSetColor('y')"></div>
     <div style="width:16px;height:16px;border-radius:50%;background:rgba(29,184,112,.8);border:2px solid transparent;cursor:pointer" id="annot-c-g" onclick="annotSetColor('g')"></div>
@@ -1159,7 +1162,6 @@
     <button style="width:30px;height:28px;border-radius:6px;border:1px solid var(--border2);background:transparent;cursor:pointer;color:var(--text);font-size:13px" onclick="annotApply('clear')">✕</button>
   </div>
 
-  <!-- GRADING SCREEN -->
   <div id="grading-screen">
     <div class="grading-orb">🤖</div>
     <div class="grading-title">Corrigindo com IA…</div>
@@ -1169,8 +1171,6 @@
       <div class="grading-prog-txt" id="grading-prog-txt">0 / 0</div>
     </div>
   </div>
-
-  <!-- REVISÃO SCREEN -->
   <div id="revisao-screen">
     <div class="revisao-topbar">
       <div class="revisao-topbar-title">Revisão do Simulado</div>
@@ -1193,7 +1193,6 @@
     </div>
   </div>
 
-  <!-- MODALS -->
   <div class="modal-overlay" id="modal-simulado-byok" onclick="handleOvClick(event,'modal-simulado-byok')">
     <div class="modal" style="max-width:560px">
       <div class="modal-handle"></div>
@@ -1715,9 +1714,7 @@
         const est = temas.filter(t => t.estudado).length, pp = Math.round(est / temas.length * 100);
         const gk = 'g' + btoa(encodeURIComponent(mat)).replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);
         html += `<div><div class="cg-header" onclick="toggleCG('${gk}')"><div class="cg-dot"></div><div class="cg-name">${mat}</div><div class="cg-pbar"><div class="cg-pbar-fill" style="width:${pp}%"></div></div><div class="cg-count mono">${est}/${temas.length}</div><div class="cg-arr open" id="cgarr-${gk}">▾</div></div>
-        <div class="cg-body" id="cgbody-${gk}">${temas.map(t => { const p = getPct(t), rv = getRevisions(t), pend = rv.filter(r => r.status === 'due' || r.status === 'overdue'), cid = 'c' + t.id; return `<div class="tc"><div class="tc-top" onclick="toggleTC('${cid}')"><div class="tc-chk ${t.estudado ? 'checked' : ''}" onclick="event.stopPropagation();toggleCheck(${t.id})"></div><div class="tc-info"><div class="tc-name">${t.tema}</div><div class="tc-meta">${p !== null ? `<span class="pct-badge ${pctCls(p)}">${p}%</span>` : ''}${pend.length ? `<span class="tc-rev">⏰ ${pend.map(r => r.label).join(' · ')}</span>` : ''}${t.estudado && p === null ? `<span style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted)">sem questões
-
-</span>` : ''}</div></div><div class="tc-chev" id="${cid}-chev">▾</div></div>
+        <div class="cg-body" id="cgbody-${gk}">${temas.map(t => { const p = getPct(t), rv = getRevisions(t), pend = rv.filter(r => r.status === 'due' || r.status === 'overdue'), cid = 'c' + t.id; return `<div class="tc"><div class="tc-top" onclick="toggleTC('${cid}')"><div class="tc-chk ${t.estudado ? 'checked' : ''}" onclick="event.stopPropagation();toggleCheck(${t.id})"></div><div class="tc-info"><div class="tc-name">${t.tema}</div><div class="tc-meta">${p !== null ? `<span class="pct-badge ${pctCls(p)}">${p}%</span>` : ''}${pend.length ? `<span class="tc-rev">⏰ ${pend.map(r => r.label).join(' · ')}</span>` : ''}${t.estudado && p === null ? `<span style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted)">sem questões</span>` : ''}</div></div><div class="tc-chev" id="${cid}-chev">▾</div></div>
         <div class="tc-body" id="${cid}"><div class="cf"><div class="cf-lbl">Tema</div><input class="cf-inp" value="${t.tema.replace(/"/g, '&quot;')}" onblur="updateField(${t.id},'tema',this.value)"/></div><div class="cf-row"><div class="cf"><div class="cf-lbl">Questões</div><input class="cf-inp" type="number" inputmode="numeric" value="${t.questoes || ''}" placeholder="0" onblur="updateField(${t.id},'questoes',this.value)"/></div><div class="cf"><div class="cf-lbl">Acertos</div><input class="cf-inp" type="number" inputmode="numeric" value="${t.acertos || ''}" placeholder="0" onblur="updateField(${t.id},'acertos',this.value)"/></div></div><div class="cf"><div class="cf-lbl">Data estudada</div><input class="cf-inp" type="date" value="${t.dataEstudo || ''}" onchange="updateField(${t.id},'dataEstudo',this.value)"/></div>${rv.length ? `<div class="cf"><div class="cf-lbl">Revisões espaçadas</div><div class="cf-chips">${rv.map(r => `<div class="cf-chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')">${r.label}<br><span style="font-size:9px;opacity:.6">${r.date}</span></div>`).join('')}</div></div>` : ''}
         <button class="tc-del" onclick="deleteTema(${t.id})">Remover tema</button></div></div>`;
         }).join('')}</div></div>`;
@@ -1918,22 +1915,28 @@
     }
 
     // --- STEP 4: Start simulado ---
-    function iniciarSimulado() {
+    window.iniciarSimulado = function() {
       simuladoCorrente.modo = simModoSelecionado;
       simuladoCorrente.qIdx = 0;
       simuladoCorrente.respondida = false;
+
       closeModals();
-      
-      // Show simulado screen
+
+      // Atualiza sidebar: modo
+      const tutorOpt = document.getElementById('sim-sb-tutor-opt');
+      const simOpt   = document.getElementById('sim-sb-sim-opt');
+      if (tutorOpt && simOpt) {
+        tutorOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
+        simOpt.classList.toggle('active',   simuladoCorrente.modo === 'simulado');
+      }
+
+      // Abre tela fullscreen
       document.getElementById('simulado-screen').classList.add('open');
       document.body.style.overflow = 'hidden';
-      
-      // Setup badge
-      const badge = document.getElementById('sim-mode-badge');
-      badge.textContent = simuladoCorrente.modo === 'tutor' ? 'Modo Tutor' : 'Modo Simulado';
-      badge.className = 'sim-mode-badge ' + (simuladoCorrente.modo === 'tutor' ? 'tutor' : 'simulado');
+
+      simTimerStart();
       renderSimQuestao();
-    }
+    };
 
     function confirmarSairSimulado() {
       const { questoes, qIdx, respostas, titulo, modo } = simuladoCorrente;
@@ -1956,8 +1959,34 @@
       document.body.style.overflow = '';
     }
 
+    // ---------- helpers internos reusados ----------
+    function _renderSbQGrid() {
+      const { questoes, qIdx, respostas, modo } = simuladoCorrente;
+      const grid = document.getElementById('sim-sb-q-grid');
+      if (!grid || !questoes) return;
+      grid.innerHTML = questoes.map((q, i) => {
+        const r = respostas[i];
+        let cls = '';
+        if (i === qIdx) cls = 'sq-active';
+        else if (r && r.resposta) {
+          if (modo === 'tutor' && r.acertou !== null) cls = r.acertou ? 'sq-correct' : 'sq-wrong';
+          else cls = 'sq-answered';
+        }
+        return `<div class="sim-sb-q-num ${cls}" onclick="simIrPara(${i})">${i + 1}</div>`;
+      }).join('');
+    }
+
+    // Navegar direto para uma questão pelo grid lateral
+    window.simIrPara = function(i) {
+      if (i < 0 || i >= simuladoCorrente.questoes.length) return;
+      simuladoCorrente.qIdx = i;
+      simuladoCorrente.respondida = !!(simuladoCorrente.respostas[i]?.resposta);
+      document.getElementById('sim-body').scrollTop = 0;
+      renderSimQuestao();
+    };
+
     // --- STEP 5: Render question card ---
-    function renderSimQuestao() {
+    window.renderSimQuestao = function() {
       const { questoes, qIdx, modo, respostas, respondida } = simuladoCorrente;
       const q = questoes[qIdx];
       const total = questoes.length;
@@ -1985,8 +2014,11 @@
       
       // Update header
       document.getElementById('sim-q-cur').textContent = qIdx + 1;
-      document.getElementById('sim-q-total').textContent = total;
-     const _pf = document.getElementById('sim-progress-fill'); if (_pf) _pf.style.width = ((qIdx + 1) / total * 100) + '%';
+      const totalEl = document.getElementById('sim-q-total');
+      if (totalEl) totalEl.textContent = total;
+      
+      const _pf = document.getElementById('sim-progress-fill'); if (_pf) _pf.style.width = ((qIdx + 1) / total * 100) + '%';
+      
       // Build card
       const isObj = q.tipo === 'objetiva';
       const isLast = qIdx === total - 1;
@@ -2114,7 +2146,9 @@
         btnNext.style.display = 'none';
         btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'inline-flex' : 'none';
       }
-    }
+      
+      _renderSbQGrid();
+    };
 
     function simToggleAltExp(letter) {
       // In tutor revealed mode, clicking an "other-wrong" alt toggles its explanation
@@ -2453,978 +2487,180 @@
       celebrate();
     }
 
-    // ═══════════════ POMODORO ═══════════════
-    const PRESETS = {
-      classic: { focusMin: 25, breakMin: 5, longBreakMin: 15, cyclesBeforeLong: 4 },
-      deep: { focusMin: 45, breakMin: 15, longBreakMin: 30, cyclesBeforeLong: 0 },
-      short: { focusMin: 15, breakMin: 3, longBreakMin: 10, cyclesBeforeLong: 0 },
-      custom: { focusMin: 30, breakMin: 10, longBreakMin: 20, cyclesBeforeLong: 4 }
-    };
-    
-    const pomoCfg = { preset: 'classic', mode: 'focus', sound: true };
-    let pomoTimer = { running: false, remaining: 25 * 60, total: 25 * 60, interval: null };
-    let pomoCycleCount = 0;
-    const CIRC = 2 * Math.PI * 110;
-    
-    function getCurrentPreset() {
-      if (pomoCfg.preset === 'custom') return {
-        focusMin: parseInt(document.getElementById('custom-focus')?.value) || 30,
-        breakMin: parseInt(document.getElementById('custom-break')?.value) || 10,
-        longBreakMin: parseInt(document.getElementById('custom-long-break')?.value) || 20,
-        cyclesBeforeLong: parseInt(document.getElementById('custom-cycles')?.value) || 4
-      };
-      return PRESETS[pomoCfg.preset];
-    }
-    
-    function applyPreset(name, el) {
-      if (pomoTimer.running) return;
-      pomoCfg.preset = name;
-      document.querySelectorAll('.pomo-preset').forEach(p => p.classList.remove('active'));
-      if (el) el.classList.add('active');
-      const cr = document.getElementById('pomo-custom-row');
-      if (cr) cr.style.display = name === 'custom' ? 'flex' : 'none';
-      pomoCycleCount = 0;
-      setPomoMode('focus', document.querySelector('.pomo-mode-tab[data-mode="focus"]'));
-      renderCycleDots();
-    }
-    
-    function updateCustomPreset() {
-      if (pomoCfg.preset === 'custom' && !pomoTimer.running) setPomoMode('focus', document.querySelector('.pomo-mode-tab[data-mode="focus"]'));
-    }
-    
-    function renderCycleDots() {
-      const el = document.getElementById('cycle-dots');
-      if (!el) return;
-      const p = getCurrentPreset(), cycles = p.cyclesBeforeLong;
-      if (!cycles) { el.innerHTML = ''; return; }
-      el.innerHTML = Array.from({ length: cycles }, (_, i) => {
-        const cls = i < pomoCycleCount ? 'done' : i === pomoCycleCount && pomoCfg.mode === 'focus' ? 'current' : '';
-        return `<div class="cycle-dot ${cls}"></div>`;
-      }).join('');
-    }
-    
-    function setPomoMode(mode, el) {
-      if (pomoTimer.running) return;
-      pomoCfg.mode = mode;
-      document.querySelectorAll('.pomo-mode-tab').forEach(t => t.classList.remove('active'));
-      if (el) el.classList.add('active');
-      const p = getCurrentPreset(), mins = mode === 'focus' ? p.focusMin : mode === 'long' ? p.longBreakMin : p.breakMin;
-      pomoTimer.remaining = mins * 60;
-      pomoTimer.total = mins * 60;
-      updateTimerDisplay();
-      const lbl = { focus: 'FOCO', short: 'PAUSA CURTA', long: 'PAUSA LONGA' };
-      const ml = document.getElementById('timer-mode-lbl');
-      if (ml) ml.textContent = lbl[mode];
-      renderCycleDots();
-    }
-    
-    function togglePomoTimer() {
-      if (pomoTimer.running) pausePomoTimer();
-      else startPomoTimer();
-    }
-    
-    function startPomoTimer() {
-      pomoTimer.running = true;
-      document.getElementById('pomo-start-btn').textContent = 'Pausar';
-      pomoTimer.interval = setInterval(() => {
-        pomoTimer.remaining--;
-        updateTimerDisplay();
-        if (pomoTimer.remaining <= 0) {
-          clearInterval(pomoTimer.interval);
-          pomoTimer.running = false;
-          onPomoComplete();
-        }
-      }, 1000);
-    }
-    
-    function pausePomoTimer() {
-      clearInterval(pomoTimer.interval);
-      pomoTimer.running = false;
-      document.getElementById('pomo-start-btn').textContent = 'Continuar';
-    }
-    
-    function resetPomoTimer() {
-      clearInterval(pomoTimer.interval);
-      pomoTimer.running = false;
-      pomoCycleCount = 0;
-      const ft = document.querySelector('.pomo-mode-tab[data-mode="focus"]');
-      if (ft) ft.click(); else setPomoMode('focus', null);
-      document.getElementById('pomo-start-btn').textContent = 'Iniciar';
-    }
-    
-    function updateTimerDisplay() {
-      const m = Math.floor(pomoTimer.remaining / 60), s = pomoTimer.remaining % 60;
-      const ts = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-      document.getElementById('timer-display').textContent = ts;
-      const fill = document.getElementById('timer-ring-fill');
-      if (fill) {
-        const ratio = pomoTimer.total > 0 ? pomoTimer.remaining / pomoTimer.total : 1;
-        fill.style.strokeDashoffset = (CIRC * (1 - ratio)).toFixed(2);
-      }
-      document.title = pomoTimer.running ? `${ts} — EstudaHub` : 'EstudaHub';
-    }
-    
-    function onPomoComplete() {
-      document.getElementById('pomo-start-btn').textContent = 'Iniciar';
-      if (pomoCfg.sound) playBeep();
-      const sub = document.getElementById('pomo-subject-sel')?.value || '', p = getCurrentPreset();
-      
-      if (pomoCfg.mode === 'focus') {
-        state.pomSessions.unshift({ id: Date.now(), type: 'focus', subject: sub, startedAt: new Date().toISOString(), durationMin: p.focusMin });
-        if (state.pomSessions.length > 200) state.pomSessions = state.pomSessions.slice(0, 200);
-        const d = today();
-        state.activityMap[d] = (state.activityMap[d] || 0) + 1;
-        save();
-        celebrate();
-        renderPomoSessions();
-        renderPomoStats();
-        renderHeatmap();
-        
-        pomoCycleCount++;
-        const useLong = p.cyclesBeforeLong > 0 && pomoCycleCount >= p.cyclesBeforeLong;
-        if (useLong) pomoCycleCount = 0;
-        const nextMode = useLong ? 'long' : 'short';
-        
-        toast(`Foco concluído! ${useLong ? 'Hora da pausa longa.' : 'Hora da pausa curta.'}`);
-        const tab = document.querySelector(`.pomo-mode-tab[data-mode="${nextMode}"]`);
-        setPomoMode(nextMode, tab);
-      } else {
-        state.pomSessions.unshift({ id: Date.now(), type: 'break', subject: sub, startedAt: new Date().toISOString(), durationMin: pomoCfg.mode === 'long' ? p.longBreakMin : p.breakMin });
-        if (state.pomSessions.length > 200) state.pomSessions = state.pomSessions.slice(0, 200);
-        save();
-        renderPomoSessions();
-        toast('Pausa concluída! Hora de focar.');
-        const tab = document.querySelector('.pomo-mode-tab[data-mode="focus"]');
-        setPomoMode('focus', tab);
-      }
-    }
-    
-    function playBeep() {
-      try {
-        const ac = new (window.AudioContext || window.webkitAudioContext)();
-        [880, 1100, 880].forEach((freq, i) => {
-          const osc = ac.createOscillator(), g = ac.createGain();
-          osc.connect(g); g.connect(ac.destination);
-          osc.type = 'sine'; osc.frequency.value = freq;
-          const t0 = ac.currentTime + i * .18;
-          g.gain.setValueAtTime(.3, t0);
-          g.gain.exponentialRampToValueAtTime(.001, t0 + .3);
-          osc.start(t0); osc.stop(t0 + .32);
-        });
-      } catch(e) {}
-    }
-    
-    function renderPomoSubjectSelect() {
-      const sel = document.getElementById('pomo-subject-sel');
-      if (!sel) return;
-      const mats = getMaterias(), cur = sel.value;
-      sel.innerHTML = `<option value="">— Selecione uma matéria —</option>` + mats.map(m => `<option value="${m}"${m === cur ? ' selected' : ''}>${m}</option>`).join('');
-    }
-    
-    function renderPomoSessions() {
-      const log = document.getElementById('sessions-log');
-      if (!log) return;
-      const ts = today(), sess = state.pomSessions.filter(s => s.startedAt && s.startedAt.startsWith(ts));
-      if (!sess.length) {
-        log.innerHTML = `<div class="empty-state" style="padding:24px 0"><div class="empty-title" style="font-size:11px">SEM SESSÕES HOJE</div><div class="empty-sub" style="font-size:10px">// inicie um pomodoro</div></div>`;
+    // ── Biblioteca de Simulados (Rascunhos) ──────────────────────────────
+    window.carregarRascunho = function(i) {
+      const draft = state.simuladosDraft[i];
+      if (!draft) return;
+      closeModals();
+      if (draft.concluido) {
+        simuladoCorrente = { ...draft };
+        exibirRevisao();
         return;
       }
-      log.innerHTML = sess.slice(0, 20).map(s => {
-        const t = new Date(s.startedAt), hm = `${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}`, isFocus = s.type === 'focus';
-        return `<div class="session-item"><div class="session-dot ${isFocus ? 'focus' : 'break'}"></div><div class="session-info"><div class="session-subj">${s.subject || 'Matéria não selecionada'}</div><div class="session-time">${hm} · ${isFocus ? 'Foco' : 'Pausa'}</div></div><div class="session-dur">${s.durationMin}min</div></div>`;
+      simuladoCorrente = {
+        apiKey: draft.apiKey || getGeminiKey(),
+        questoes: draft.questoes,
+        titulo: draft.titulo,
+        modo: draft.modo || 'tutor',
+        qIdx: draft.qIdx || 0,
+        respostas: draft.respostas,
+        respondida: !!(draft.respostas[draft.qIdx || 0]?.resposta),
+      };
+      if (!draft.modo) {
+        document.getElementById('modal-mode-title').textContent = `"${draft.titulo}"`;
+        document.getElementById('modal-mode-sub').textContent = `// ${draft.questoes.length} questão(ões) · escolha o modo`;
+        document.getElementById('modal-simulado-mode').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      } else {
+        const tutorOpt2 = document.getElementById('sim-sb-tutor-opt');
+        const simOpt2 = document.getElementById('sim-sb-sim-opt');
+        if (tutorOpt2) tutorOpt2.classList.toggle('active', simuladoCorrente.modo === 'tutor');
+        if (simOpt2) simOpt2.classList.toggle('active', simuladoCorrente.modo === 'simulado');
+        document.getElementById('simulado-screen').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        simTimerStart();
+        renderSimQuestao();
+      }
+    };
+
+    function renderSimLib() {
+      const list = document.getElementById('simlib-list');
+      if (!list) return;
+      const drafts = state.simuladosDraft || [];
+      if (!drafts.length) {
+        list.innerHTML = '<div class="simlib-empty">// nenhum simulado salvo ainda</div>';
+        return;
+      }
+      list.innerHTML = drafts.map((d, i) => {
+        const total = d.questoes ? d.questoes.length : 0;
+        const resp = d.respostas ? d.respostas.filter(r => r.resposta !== null).length : 0;
+        const pct = total ? Math.round(resp / total * 100) : 0;
+        const isDone = d.concluido;
+        const statusCls = isDone ? 'done' : resp > 0 ? 'prog' : 'new';
+        const statusTxt = isDone ? '✓ Concluído' : resp > 0 ? `${resp}/${total} feitas` : 'Não iniciado';
+        const modeIcon = d.modo === 'tutor' ? '🎓' : '🏆';
+        const date = d.savedAt ? new Date(d.savedAt).toLocaleDateString('pt-BR', {day:'2-digit',month:'short'}) : '';
+        return `<div class="simlib-item" onclick="carregarRascunho(${i})">
+          <div class="simlib-icon">${modeIcon}</div>
+          <div class="simlib-info">
+            <div class="simlib-title">${d.titulo || 'Simulado sem nome'}</div>
+            <div class="simlib-meta">${total} questões · ${d.modo === 'tutor' ? 'Tutor' : 'Simulado'}${date ? ' · ' + date : ''}</div>
+            <div class="simlib-progress"><div class="simlib-progress-fill" style="width:${pct}%"></div></div>
+          </div>
+          <span class="simlib-badge ${statusCls}">${statusTxt}</span>
+          <button class="simlib-del" onclick="event.stopPropagation();deletarRascunho(${i})" title="Remover">🗑</button>
+        </div>`;
       }).join('');
     }
-    
-    function renderPomoStats() {
-      const ts = today(), focusSess = state.pomSessions.filter(s => s.startedAt && s.startedAt.startsWith(ts) && s.type === 'focus');
-      const totalMin = focusSess.reduce((a, s) => a + s.durationMin, 0);
-      let streak = 0, d = new Date();
-      
-      while (streak < 366) {
-        const ds = d.toISOString().split('T')[0];
-        if (!state.pomSessions.some(s => s.type === 'focus' && s.startedAt?.startsWith(ds)) && ds !== ts) break;
-        if (state.pomSessions.some(s => s.type === 'focus' && s.startedAt?.startsWith(ds))) streak++;
-        d.setDate(d.getDate() - 1);
-      }
-      
-      document.getElementById('pomo-sessions-count').textContent = focusSess.length;
-      document.getElementById('pomo-focus-min').textContent = totalMin;
-      document.getElementById('pomo-streak-days').textContent = streak;
-    }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-      const fill = document.getElementById('timer-ring-fill');
-      if (fill) { fill.style.strokeDasharray = CIRC.toFixed(2); fill.style.strokeDashoffset = '0'; }
-      renderCycleDots();
-    });
 
-    // ═══════════════════════════════════════════════════
-    //  ROTINA — WEEKLY TIMEBLOCK GRID
-    // ═══════════════════════════════════════════════════
-    const RCATS = [
-      { id: 'estudo',   name: 'Estudo',   color: '#a78bfa', bg: 'rgba(167,139,250,.22)' },
-      { id: 'aula',     name: 'Aula',     color: '#60a5fa', bg: 'rgba(96,165,250,.22)' },
-      { id: 'academia', name: 'Academia', color: '#f87171', bg: 'rgba(248,113,113,.22)' },
-      { id: 'sono',     name: 'Sono',     color: '#2dd4bf', bg: 'rgba(45,212,191,.22)' },
-      { id: 'refeicao', name: 'Refeição', color: '#fbbf24', bg: 'rgba(251,191,36,.22)' },
-      { id: 'descanso', name: 'Descanso', color: '#34d399', bg: 'rgba(52,211,153,.22)' },
-      { id: 'livre',    name: 'Livre',    color: '#f9a8d4', bg: 'rgba(249,168,212,.22)' },
-      { id: 'trabalho', name: 'Trabalho', color: '#fb923c', bg: 'rgba(251,146,60,.22)' },
-      { id: 'outro',    name: 'Outro',    color: '#94a3b8', bg: 'rgba(148,163,184,.22)' },
-    ];
-    
-    const SLOT_H = 28; const START_H = 5; const SLOTS = 38;
-    let rotinaFilterCat = 'all'; let rotinaEditingId = null; let rotinaSelectedCat = RCATS[0].id;
-    let rotinaSelectedRepeat = 'once'; let rotinaPendingDay = 1; let rotinaPendingSlot = 0;
-    let nowLineInterval = null; let mobileDayIdx = new Date().getDay();
-    
-    function slotToTime(i) {
-      const tm = START_H * 60 + i * 30;
-      const totalMin = tm % 1440;
-      const h = Math.floor(totalMin / 60);
-      const m = totalMin % 60;
-      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    function salvarRascunho() {
+      if (!state.simuladosDraft) state.simuladosDraft = [];
+      const { questoes, titulo, modo, qIdx, respostas, apiKey } = simuladoCorrente;
+      // Update existing draft if same titulo, otherwise add new
+      const idx = state.simuladosDraft.findIndex(d => d.titulo === titulo && !d.concluido);
+      const draft = { titulo, modo, questoes, respostas, qIdx, apiKey: apiKey || '', savedAt: Date.now(), concluido: false };
+      if (idx >= 0) state.simuladosDraft[idx] = draft;
+      else state.simuladosDraft.unshift(draft);
+      // Cap at 20 drafts
+      if (state.simuladosDraft.length > 20) state.simuladosDraft = state.simuladosDraft.slice(0, 20);
+      save();
     }
-    
-    function timeToSlot(ts) {
-      const [hh, mm] = ts.split(':').map(Number);
-      let mins = hh * 60 + mm;
-      if (mins < START_H * 60) mins += 1440;
-      return Math.round((mins - START_H * 60) / 30);
+
+    function marcarConcluido() {
+      if (!state.simuladosDraft) return;
+      const idx = state.simuladosDraft.findIndex(d => d.titulo === simuladoCorrente.titulo && !d.concluido);
+      if (idx >= 0) { state.simuladosDraft[idx].concluido = true; save(); }
     }
-    
-    function blocksForDay(di) {
-      return (state.rotinaBlocks || []).filter(b => {
-        if (b.repeat === 'daily') return true;
-        if (b.repeat === 'weekdays') return di >= 1 && di <= 5;
-        if (b.repeat === 'weekend') return di === 0 || di === 6;
-        return Number(b.day) === di;
+
+    function deletarRascunho(i) {
+      if (!confirm('Remover este simulado?')) return;
+      state.simuladosDraft.splice(i, 1);
+      save();
+      renderSimLib();
+    }
+
+    function confirmarNomeSimulado() {
+      const inp = document.getElementById('sim-name-input');
+      const nome = inp ? inp.value.trim() : '';
+      if (!nome) { toast('Digite um nome para o simulado'); return; }
+      simuladoCorrente.titulo = nome;
+      // Show mode selector
+      closeModals();
+      document.getElementById('modal-mode-title').textContent = `"${nome}"`;
+      document.getElementById('modal-mode-sub').textContent = `// ${simuladoCorrente.questoes.length} questão(ões) extraída(s) · como quer fazer?`;
+      document.getElementById('modal-simulado-mode').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // ═══════════════ TOOLBAR DE ANOTAÇÃO ═══════════════
+    let annotColor = 'y';
+    let annotTargetIds = ['sim-enunciado', 'sim-contexto'];
+
+    function annotSetColor(c) {
+      annotColor = c;
+      ['y','g','r','b'].forEach(x => {
+        const el = document.getElementById('annot-c-' + x);
+        if (el) el.classList.toggle('sel', x === c);
       });
     }
-    
-    function getCat(id) { return RCATS.find(c => c.id === id) || RCATS[RCATS.length - 1]; }
 
-    function renderRotinaPage() {
-      renderRotinaLegend();
-      renderRotinaBalance();
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        renderRotinaMobileTabs();
-        renderRotinaGrid(true, [mobileDayIdx]);
-      } else {
-        renderRotinaGrid(false, [1, 2, 3, 4, 5, 6, 0]);
-      }
-      startNowLine();
-    }
-
-    function renderRotinaLegend() {
-      const el = document.getElementById('rotina-legend');
-      if (!el) return;
-      let html = `<div class="rleg-chip filt-all${rotinaFilterCat === 'all' ? ' active' : ''}" onclick="filterRotinaCat('all')"><div class="rleg-dot" style="background:var(--muted2)"></div>Todas</div>`;
-      html += RCATS.map(c => `<div class="rleg-chip${rotinaFilterCat === c.id ? ' active' : ''}" style="color:${c.color}" onclick="filterRotinaCat('${c.id}')"><div class="rleg-dot" style="background:${c.color}"></div>${c.name}</div>`).join('');
-      el.innerHTML = html;
-    }
-    
-    function filterRotinaCat(id) {
-      rotinaFilterCat = id;
-      renderRotinaLegend();
-      renderRotinaPage();
-    }
-
-    function renderRotinaBalance() {
-      const bar = document.getElementById('rbal-bar'), lbls = document.getElementById('rbal-labels');
-      if (!bar || !lbls) return;
-      const catH = {};
-      RCATS.forEach(c => { catH[c.id] = 0; });
-      for (let d = 0; d < 7; d++) {
-        blocksForDay(d).forEach(b => {
-          const dur = (b.endSlot - b.startSlot) * .5;
-          if (catH[b.catId] !== undefined) catH[b.catId] += dur;
+    function annotApply(type) {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed) return;
+      const range = sel.getRangeAt(0);
+      const isAllowed = annotTargetIds.some(id => {
+        const el = document.getElementById(id);
+        return el && el.contains(range.commonAncestorContainer);
+      });
+      if (!isAllowed) { hideAnnotToolbar(); return; }
+      if (type === 'clear') {
+        const frag = range.extractContents();
+        frag.querySelectorAll('mark, s').forEach(el => {
+          const p = el.parentNode; while (el.firstChild) p.insertBefore(el.firstChild, el); p.removeChild(el);
         });
+        range.insertNode(frag);
+      } else if (type === 'highlight') {
+        const mark = document.createElement('mark');
+        mark.className = 'hl-' + annotColor;
+        try { range.surroundContents(mark); } catch(e) { const f = range.extractContents(); mark.appendChild(f); range.insertNode(mark); }
+      } else if (type === 'strike') {
+        const s = document.createElement('s');
+        s.className = 'hl-strike';
+        try { range.surroundContents(s); } catch(e) { const f = range.extractContents(); s.appendChild(f); range.insertNode(s); }
       }
-      const total = Object.values(catH).reduce((a, b) => a + b, 0) || 1;
-      const cats = RCATS.filter(c => catH[c.id] > 0);
-      bar.innerHTML = cats.length ? cats.map(c => `<div class="rbal-seg" style="width:${(catH[c.id] / total * 100).toFixed(1)}%;background:${c.color}"></div>`).join('') : '<div style="width:100%;height:100%;background:var(--border2);border-radius:3px"></div>';
-      lbls.innerHTML = cats.length ? cats.map(c => `<div class="rbal-item"><div class="rbal-item-dot" style="background:${c.color}"></div>${c.name}: ${catH[c.id].toFixed(1)}h</div>`).join('') : '<div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;color:var(--muted)">sem blocos ainda</div>';
+      sel.removeAllRanges();
+      hideAnnotToolbar();
     }
 
-    function renderRotinaMobileTabs() {
-      const wrap = document.getElementById('rotina-grid-wrap');
-      let tabs = document.getElementById('rotina-mobile-tabs');
-      if (!tabs) {
-        tabs = document.createElement('div');
-        tabs.id = 'rotina-mobile-tabs';
-        tabs.style.cssText = 'display:flex;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border2);scrollbar-width:none;position:sticky;top:50px;z-index:25;';
-        wrap.insertAdjacentElement('beforebegin', tabs);
+    function hideAnnotToolbar() {
+      const tb = document.getElementById('annot-toolbar');
+      if (tb) tb.classList.remove('show');
+    }
+
+    document.addEventListener('selectionchange', () => {
+      const sel = window.getSelection();
+      const tb = document.getElementById('annot-toolbar');
+      if (!tb) return;
+      if (!sel || sel.isCollapsed || !sel.toString().trim()) {
+        setTimeout(() => { const s2 = window.getSelection(); if (!s2 || s2.isCollapsed) tb.classList.remove('show'); }, 150);
+        return;
       }
-      const DNAMES = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-      const todayIdx = new Date().getDay();
-      tabs.innerHTML = DNAMES.map((d, i) => {
-        const isSel = i === mobileDayIdx, isToday = i === todayIdx;
-        return `<div onclick="selectMobileRotinaDay(${i})" style="flex:1;min-width:44px;padding:10px 4px;text-align:center;cursor:pointer;border-bottom:2px solid ${isSel ? 'var(--a)' : 'transparent'};background:${isSel ? 'var(--ad)' : 'transparent'};transition:all .15s"><div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${isSel ? 'var(--a)' : 'var(--muted2)'};margin-bottom:2px">${d}</div><div style="font-size:15px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:${isToday ? 'var(--a)' : isSel ? 'var(--text)' : 'var(--muted2)'}">${getDayNum(i)}</div></div>`;
-      }).join('');
-    }
-    
-    function getDayNum(dayIdx) {
-      const now = new Date(), diff = dayIdx - now.getDay(), dt = new Date(now);
-      dt.setDate(now.getDate() + diff);
-      return dt.getDate();
-    }
-    
-    function selectMobileRotinaDay(di) {
-      mobileDayIdx = di;
-      renderRotinaPage();
-    }
-
-function renderRotinaGrid(isMobile,days){
-  const grid=document.getElementById('rotina-grid');if(!grid)return;
-  const todayIdx=new Date().getDay();
-
-  if(isMobile){
-    grid.style.gridTemplateColumns=`var(--tc-w) 1fr`;
-    grid.style.minWidth='0';
-  } else {
-    grid.style.gridTemplateColumns=`var(--tc-w) repeat(${days.length},1fr)`;
-    grid.style.minWidth='700px';
-  }
-
-  // Build time column
-  let timeCellsHtml='';
-  for(let i=0;i<SLOTS;i++){
-    const tm=START_H*60+i*30;
-    const totalMin=tm%1440;
-    const h=Math.floor(totalMin/60);
-    const m=totalMin%60;
-    const isFull=(m===0);
-    if(isFull){
-      const label=h===0?'00:00':`${String(h).padStart(2,'0')}:00`;
-      timeCellsHtml+=`<div class="rtime-cell full-hour"><span class="rtime-lbl-full">${label}</span></div>`;
-    } else {
-      timeCellsHtml+=`<div class="rtime-cell"><span class="rtime-lbl-half">${String(h).padStart(2,'0')}:30</span></div>`;
-    }
-  }
-
-  let html=`<div class="rtime-col">${timeCellsHtml}</div>`;
-
-  days.forEach(di=>{
-    const isToday=di===todayIdx;
-    html+=`<div class="rslots-col${isToday?' today-col':''}" id="rcol-${di}">`;
-    for(let i=0;i<SLOTS;i++){
-      const tm=START_H*60+i*30;
-      const m=(tm)%60;
-      // actually check if :00 or :30
-      const mins30=i*30;
-      const isFull=(mins30%60===0);
-      html+=`<div class="rslot${isFull?' full-hour':''}" data-day="${di}" data-slot="${i}"></div>`;
-    }
-    html+=`</div>`;
-  });
-
-  grid.innerHTML=html;
-
-  // Bind slot clicks
-  grid.querySelectorAll('.rslot').forEach(slot=>{
-    slot.addEventListener('click',()=>{
-      const di=parseInt(slot.dataset.day),si=parseInt(slot.dataset.slot);
-      openRotinaModal(si,di);
+      const range = sel.getRangeAt(0);
+      const allowed = annotTargetIds.some(id => {
+        const el = document.getElementById(id); return el && el.contains(range.commonAncestorContainer);
+      });
+      if (!allowed) { tb.classList.remove('show'); return; }
+      const rect = range.getBoundingClientRect();
+      const tbW = 230;
+      let left = rect.left + rect.width / 2 - tbW / 2;
+      let top = rect.top - 52 + window.scrollY;
+      left = Math.max(8, Math.min(left, window.innerWidth - tbW - 8));
+      if (top < window.scrollY + 8) top = rect.bottom + 8 + window.scrollY;
+      tb.style.left = left + 'px';
+      tb.style.top = top + 'px';
+      tb.classList.add('show');
     });
-  });
 
-  // Place blocks
-  const allBlocks=state.rotinaBlocks||[];
-  const filtered=rotinaFilterCat==='all'?allBlocks:allBlocks.filter(b=>b.catId===rotinaFilterCat);
-  filtered.forEach(b=>{
-    let targetDays=[];
-    if(b.repeat==='daily')targetDays=[...days];
-    else if(b.repeat==='weekdays')targetDays=days.filter(d=>d>=1&&d<=5);
-    else if(b.repeat==='weekend')targetDays=days.filter(d=>d===0||d===6);
-    else{const dd=Number(b.day);if(days.includes(dd))targetDays=[dd];}
-    targetDays.forEach(di=>placeBlock(b,di));
-  });
-
-  renderNowLine(days);
-}
-
-function placeBlock(b,dayIdx){
-  const col=document.getElementById('rcol-'+dayIdx);if(!col)return;
-  const cat=getCat(b.catId);
-  const top=b.startSlot*SLOT_H+1;
-  const height=Math.max(1,b.endSlot-b.startSlot)*SLOT_H-2;
-  const tStart=slotToTime(b.startSlot),tEnd=slotToTime(b.endSlot);
-
-  const div=document.createElement('div');
-  div.className='r-block';
-  div.dataset.bid=b.id;
-  div.dataset.day=dayIdx;
-  div.style.cssText=`top:${top}px;height:${height}px;background:${cat.bg};border-left:3px solid ${cat.color};color:${cat.color}`;
-  div.innerHTML=`
-    <div class="r-block-del" onclick="event.stopPropagation();deleteRotinaBlock('${b.id}')">×</div>
-    <div class="r-block-name">${b.name||cat.name}</div>
-    ${height>46?`<div class="r-block-time">${tStart}–${tEnd}</div>`:''}
-    <div class="r-block-resize"></div>`;
-
-  let _dragged = false;
-
-  div.addEventListener('mousedown', e => {
-    if (e.target.classList.contains('r-block-del') || e.target.classList.contains('r-block-resize')) return;
-    _dragged = false;
-    startDrag(e, b, div, col, dayIdx, () => { _dragged = true; });
-  });
-
-  div.addEventListener('touchstart', e => {
-    if (e.target.classList.contains('r-block-del') || e.target.classList.contains('r-block-resize')) return;
-    _dragged = false;
-    startDragTouch(e, b, div, col, dayIdx, () => { _dragged = true; });
-  }, { passive: false });
-
-  div.addEventListener('click', e => {
-    if (_dragged || e.target.classList.contains('r-block-del')) return;
-    editRotinaBlock(b.id);
-  });
-
-  const resizeHandle=div.querySelector('.r-block-resize');
-  resizeHandle.addEventListener('mousedown',e=>{e.stopPropagation();startResize(e,b,div,col);});
-  resizeHandle.addEventListener('touchstart',e=>{e.stopPropagation();startResizeTouch(e,b,div,col);},{passive:false});
-
-  col.appendChild(div);
-}
-
-function startDrag(e, b, div, col, dayIdx, onMoved) {
-  e.preventDefault();
-  let moved = false;
-  const startY = e.clientY;
-  const origStart = b.startSlot, origEnd = b.endSlot;
-  const span = origEnd - origStart;
-  div.classList.add('dragging');
-
-  function onMove(ev) {
-    const dy = ev.clientY - startY;
-    const slotDelta = Math.round(dy / SLOT_H);
-    if (slotDelta !== 0 && !moved) {
-      moved = true;
-      if (onMoved) onMoved();
-    }
-    const newStart = Math.max(0, Math.min(SLOTS - span, origStart + slotDelta));
-    div.style.top = (newStart * SLOT_H + 1) + 'px';
-    const tLabel = div.querySelector('.r-block-time');
-    if (tLabel) tLabel.textContent = `${slotToTime(newStart)}–${slotToTime(newStart + span)}`;
-  }
-
-  function onUp(ev) {
-    window.removeEventListener('mousemove', onMove);
-    window.removeEventListener('mouseup', onUp);
-    div.classList.remove('dragging');
-    if (!moved) return;
-    const dy = ev.clientY - startY;
-    const slotDelta = Math.round(dy / SLOT_H);
-    const newStart = Math.max(0, Math.min(SLOTS - span, origStart + slotDelta));
-    if (newStart !== origStart) { b.startSlot = newStart; b.endSlot = newStart + span; save(); renderRotinaBalance(); renderNowLine([dayIdx]); }
-    else div.style.top = (origStart * SLOT_H + 1) + 'px';
-  }
-
-  window.addEventListener('mousemove', onMove);
-  window.addEventListener('mouseup', onUp);
-}
-
-function startDragTouch(e,b,div,col,dayIdx,onMoved){
-  e.preventDefault();
-  const t0=e.touches[0];
-  const startY=t0.clientY;
-  const origStart=b.startSlot,origEnd=b.endSlot;
-  const span=origEnd-origStart;
-  let moved=false;
-  div.classList.add('dragging');
-
-  function onMove(ev){
-    const dy=ev.touches[0].clientY-startY;
-    const slotDelta=Math.round(dy/SLOT_H);
-    if(slotDelta!==0&&!moved){
-      moved=true;
-      if(onMoved)onMoved();
-    }
-    const newStart=Math.max(0,Math.min(SLOTS-span,origStart+slotDelta));
-    div.style.top=(newStart*SLOT_H+1)+'px';
-    const tLabel=div.querySelector('.r-block-time');
-    if(tLabel)tLabel.textContent=`${slotToTime(newStart)}–${slotToTime(newStart+span)}`;
-  }
-  function onEnd(ev){
-    window.removeEventListener('touchmove',onMove);window.removeEventListener('touchend',onEnd);
-    div.classList.remove('dragging');
-    if(!moved)return;
-    const dy=ev.changedTouches[0].clientY-startY;
-    const slotDelta=Math.round(dy/SLOT_H);
-    const newStart=Math.max(0,Math.min(SLOTS-span,origStart+slotDelta));
-    b.startSlot=newStart;b.endSlot=newStart+span;save();renderRotinaBalance();renderNowLine([dayIdx]);
-  }
-  window.addEventListener('touchmove',onMove,{passive:false});
-  window.addEventListener('touchend',onEnd);
-}
-
-function startResize(e,b,div,col){
-  e.preventDefault();e.stopPropagation();
-  const startY=e.clientY;
-  const origEnd=b.endSlot;
-  div.classList.add('resizing');
-
-  function onMove(ev){
-    const dy=ev.clientY-startY;
-    const slotDelta=Math.round(dy/SLOT_H);
-    const newEnd=Math.max(b.startSlot+1,Math.min(SLOTS,origEnd+slotDelta));
-    const newH=Math.max(1,newEnd-b.startSlot)*SLOT_H-2;
-    div.style.height=newH+'px';
-    const tLabel=div.querySelector('.r-block-time');
-    if(tLabel)tLabel.textContent=`${slotToTime(b.startSlot)}–${slotToTime(newEnd)}`;
-  }
-  function onUp(ev){
-    window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);
-    div.classList.remove('resizing');
-    const dy=ev.clientY-startY;
-    const slotDelta=Math.round(dy/SLOT_H);
-    const newEnd=Math.max(b.startSlot+1,Math.min(SLOTS,origEnd+slotDelta));
-    b.endSlot=newEnd;save();renderRotinaBalance();
-  }
-  window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);
-}
-
-function startResizeTouch(e,b,div,col){
-  e.preventDefault();e.stopPropagation();
-  const startY=e.touches[0].clientY;
-  const origEnd=b.endSlot;
-  div.classList.add('resizing');
-
-  function onMove(ev){
-    const dy=ev.touches[0].clientY-startY;
-    const slotDelta=Math.round(dy/SLOT_H);
-    const newEnd=Math.max(b.startSlot+1,Math.min(SLOTS,origEnd+slotDelta));
-    div.style.height=(Math.max(1,newEnd-b.startSlot)*SLOT_H-2)+'px';
-    const tLabel=div.querySelector('.r-block-time');
-    if(tLabel)tLabel.textContent=`${slotToTime(b.startSlot)}–${slotToTime(newEnd)}`;
-  }
-  function onEnd(ev){
-    window.removeEventListener('touchmove',onMove);window.removeEventListener('touchend',onEnd);
-    div.classList.remove('resizing');
-    const dy=ev.changedTouches[0].clientY-startY;
-    const slotDelta=Math.round(dy/SLOT_H);
-    const newEnd=Math.max(b.startSlot+1,Math.min(SLOTS,origEnd+slotDelta));
-    b.endSlot=newEnd;save();renderRotinaBalance();
-  }
-  window.addEventListener('touchmove',onMove,{passive:false});
-  window.addEventListener('touchend',onEnd);
-}
-
-function renderNowLine(days){
-  document.querySelectorAll('.r-now-line').forEach(l=>l.remove());
-  const now=new Date(),todayIdx=now.getDay();
-  if(!days||!days.includes(todayIdx))return;
-  const col=document.getElementById('rcol-'+todayIdx);if(!col)return;
-  const tm=now.getHours()*60+now.getMinutes();
-  const startMin=START_H*60;
-  const endMin=startMin+SLOTS*30; 
-  let tmAdj=tm;
-  if(tm<startMin)tmAdj=tm+1440;
-  if(tmAdj<startMin||tmAdj>endMin)return;
-  const line=document.createElement('div');line.className='r-now-line';
-  line.style.top=((tmAdj-startMin)/30*SLOT_H)+'px';col.appendChild(line);
-}
-function startNowLine(){if(nowLineInterval)clearInterval(nowLineInterval);nowLineInterval=setInterval(()=>{const isMobile=window.innerWidth<=768;renderNowLine(isMobile?[mobileDayIdx]:[1,2,3,4,5,6,0]);},60000);}
-
-function openRotinaModal(slotIdx,dayIdx){
-  rotinaEditingId=null;rotinaPendingDay=dayIdx;rotinaPendingSlot=slotIdx;
-  document.getElementById('modal-rotina-title').textContent='Novo bloco';
-  document.getElementById('rblock-name').value='';
-  document.getElementById('rblock-start').value=slotToTime(slotIdx);
-  document.getElementById('rblock-end').value=slotToTime(Math.min(slotIdx+2,SLOTS));
-  document.getElementById('rblock-day').value=dayIdx;
-  rotinaSelectedCat=RCATS[0].id;rotinaSelectedRepeat='once';
-  renderRcatGrid();renderRepeatOpts();
-  document.getElementById('modal-rotina').classList.add('open');document.body.style.overflow='hidden';
-  setTimeout(()=>document.getElementById('rblock-name').focus(),200);
-}
-function editRotinaBlock(id){
-  const b=(state.rotinaBlocks||[]).find(x=>x.id===id);if(!b)return;
-  rotinaEditingId=id;
-  document.getElementById('modal-rotina-title').textContent='Editar bloco';
-  document.getElementById('rblock-name').value=b.name||'';
-  document.getElementById('rblock-start').value=slotToTime(b.startSlot);
-  document.getElementById('rblock-end').value=slotToTime(b.endSlot);
-  document.getElementById('rblock-day').value=b.day;
-  rotinaSelectedCat=b.catId;rotinaSelectedRepeat=b.repeat||'once';
-  renderRcatGrid();renderRepeatOpts();
-  document.getElementById('modal-rotina').classList.add('open');document.body.style.overflow='hidden';
-}
-function renderRcatGrid(){const el=document.getElementById('rcat-grid');if(!el)return;el.innerHTML=RCATS.map(c=>`<div class="rcat-opt${rotinaSelectedCat===c.id?' selected':''}" style="background:${c.bg};color:${c.color}" onclick="selectRcat('${c.id}')"><div class="rleg-dot" style="background:${c.color};width:10px;height:10px;border-radius:50%"></div><span>${c.name}</span></div>`).join('');}
-function selectRcat(id){rotinaSelectedCat=id;renderRcatGrid();}
-function renderRepeatOpts(){document.querySelectorAll('#repeat-opts .repeat-opt').forEach(el=>el.classList.toggle('selected',el.dataset.r===rotinaSelectedRepeat));document.getElementById('mf-dia-semana').style.display=rotinaSelectedRepeat==='once'?'block':'none';}
-function selectRepeat(el){rotinaSelectedRepeat=el.dataset.r;renderRepeatOpts();}
-function saveRotinaBlock(){
-  const name=document.getElementById('rblock-name').value.trim();
-  const startStr=document.getElementById('rblock-start').value,endStr=document.getElementById('rblock-end').value;
-  if(!startStr||!endStr){toast('Defina horário de início e fim');return;}
-  const[sh,sm]=startStr.split(':').map(Number),[eh,em]=endStr.split(':').map(Number);
-  const startMins=sh*60+sm;
-  let endMins=eh*60+em;
-  if(endMins===0)endMins=1440; 
-  if(endMins<=startMins&&endMins!==1440){toast('Horário de fim deve ser após início');return;}
-  let startSlot=Math.max(0,Math.min(timeToSlot(startStr),SLOTS-1));
-  let endSlot=Math.max(startSlot+1,Math.min(SLOTS,timeToSlot(endStr)));
-  if(endStr==='00:00')endSlot=SLOTS;
-  const dayVal=rotinaSelectedRepeat==='once'?Number(document.getElementById('rblock-day').value):rotinaPendingDay;
-  if(!state.rotinaBlocks)state.rotinaBlocks=[];
-  if(rotinaEditingId){const idx=state.rotinaBlocks.findIndex(b=>b.id===rotinaEditingId);if(idx>=0)state.rotinaBlocks[idx]={...state.rotinaBlocks[idx],name,catId:rotinaSelectedCat,startSlot,endSlot,repeat:rotinaSelectedRepeat,day:dayVal};}
-  else state.rotinaBlocks.push({id:'rb'+Date.now(),day:dayVal,catId:rotinaSelectedCat,name,startSlot,endSlot,repeat:rotinaSelectedRepeat});
-  save();closeModals();renderRotinaPage();toast('Bloco salvo');
-}
-function deleteRotinaBlock(id){if(!state.rotinaBlocks)return;state.rotinaBlocks=state.rotinaBlocks.filter(b=>b.id!==id);save();renderRotinaPage();toast('Bloco removido');}
-function limparRotina(){if(!state.rotinaBlocks?.length){toast('Nenhum bloco para remover');return;}if(!confirm(`Remover todos os ${state.rotinaBlocks.length} bloco(s)?`))return;state.rotinaBlocks=[];save();renderRotinaPage();toast('Rotina limpa');}
-
-function gerarRotinaBase(){
-  if(state.rotinaBlocks?.length>0&&!confirm('Isso vai adicionar blocos base por cima da sua rotina. Continuar?'))return;
-  const def=[
-    {catId:'sono',   name:'Sono',          startSlot:0,  endSlot:4,  repeat:'daily'},
-    {catId:'refeicao',name:'Café da Manhã',startSlot:4,  endSlot:6,  repeat:'daily'},
-    {catId:'estudo', name:'Estudo Manhã',  startSlot:6,  endSlot:12, repeat:'weekdays'},
-    {catId:'refeicao',name:'Almoço',       startSlot:14, endSlot:16, repeat:'daily'},
-    {catId:'estudo', name:'Estudo Tarde',  startSlot:16, endSlot:22, repeat:'weekdays'},
-    {catId:'descanso',name:'Pausa',        startSlot:22, endSlot:24, repeat:'daily'},
-    {catId:'refeicao',name:'Jantar',       startSlot:28, endSlot:30, repeat:'daily'},
-    {catId:'livre',  name:'Tempo Livre',   startSlot:30, endSlot:34, repeat:'daily'},
-    {catId:'sono',   name:'Sono',          startSlot:34, endSlot:38, repeat:'daily'},
-  ];
-  if(!state.rotinaBlocks)state.rotinaBlocks=[];
-  def.forEach(d=>state.rotinaBlocks.push({id:'rb'+Math.random().toString(36).substr(2,9),day:1,...d}));
-  save();renderRotinaPage();toast('Rotina base gerada!');
-}
-
-// ═══════════════ TELEGRAM ═══════════════
-function connectTelegram(){const v=document.getElementById('tg-token').value.trim();if(!v){toast('Insira seu Chat ID');return;}state.tgChatId=v;save();document.getElementById('tg-connected').classList.add('show');toast('Telegram conectado');}
-async function dispararNotificacaoTelegram(){if(!state.tgChatId){toast('Conecte o Telegram primeiro');return;}const revs=getTodayRevisions();let m=`🚀 *ESTUDAHUB — REVISÕES DE HOJE*\n_${new Date().toLocaleDateString('pt-BR')}_\n\n`;if(revs.length){revs.forEach((r,i)=>{m+=`${i+1}. *${r.materia}*\n  └ ${r.tema}\n  └ ${r.revType}\n\n`;});m+=`🎯 *Bons estudos!*`;}else m+=`✅ *Tudo em dia! Sem revisões pendentes.*`;try{const res=await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:state.tgChatId,text:m,parse_mode:'Markdown'})});if(res.ok)toast('Mensagem enviada');else{const e=await res.json();toast('Erro: '+e.description);}}catch(e){toast('Erro de rede');}}
-let schedTO=null;
-function scheduleInit(){scheduleClear();if(state.tgSchedEn&&state.tgChatId){scheduleNext();updateSchedStatus();}}
-function scheduleClear(){if(schedTO){clearTimeout(schedTO);schedTO=null;}}
-function scheduleNext(){const now=new Date(),next=new Date();next.setHours(3,0,0,0);if(now>=next)next.setDate(next.getDate()+1);schedTO=setTimeout(()=>{dispararNotificacaoTelegram();schedTO=setTimeout(function l(){dispararNotificacaoTelegram();schedTO=setTimeout(l,86400000);},86400000);},next-now);}
-function toggleSchedule(en){state.tgSchedEn=en;save();scheduleClear();if(en){if(!state.tgChatId){toast('Conecte o Telegram antes');document.getElementById('tg-sched-toggle').checked=false;state.tgSchedEn=false;save();return;}scheduleNext();toast('Agendamento ativo — 03:00');}else toast('Agendamento desativado');updateSchedStatus();}
-function updateSchedStatus(){const d=document.getElementById('sched-status'),t=document.getElementById('sched-status-text');if(state.tgSchedEn&&state.tgChatId){d.style.display='flex';const next=new Date();next.setHours(3,0,0,0);if(new Date()>=next)next.setDate(next.getDate()+1);t.innerHTML=`Próximo: <strong>${next.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})} às 03:00</strong>`;}else d.style.display='none';}
-
-// ═══════════════ PROVAS ═══════════════
-function addProva(){const nome=document.getElementById('prova-nome').value.trim(),ano=document.getElementById('prova-ano').value,total=parseInt(document.getElementById('prova-total').value)||0,ac=parseInt(document.getElementById('prova-acertos').value)||0;if(!nome||!total){toast('Preencha nome e questões');return;}if(ac>total){toast('Acertos > total');return;}state.provas.push({id:Date.now(),nome,ano:ano||new Date().getFullYear(),total,acertos:ac});save();closeModals();['prova-nome','prova-ano','prova-total','prova-acertos'].forEach(id=>document.getElementById(id).value='');renderProvas();toast('Prova registrada');}
-function deleteProva(id){state.provas=state.provas.filter(p=>p.id!==id);save();renderProvas();toast('Prova removida');}
-let cEv=null,cPr=null;
-function renderProvas(){const t=state.provas.length,tq=state.provas.reduce((a,p)=>a+p.total,0);const avgs=state.provas.map(p=>Math.round(p.acertos/p.total*100));const avg=t?Math.round(avgs.reduce((a,b)=>a+b,0)/t):null,best=t?Math.max(...avgs):null;document.getElementById('pstat-total').textContent=t;document.getElementById('pstat-avg').textContent=avg!==null?avg+'%':'—';document.getElementById('pstat-best').textContent=best!==null?best+'%':'—';document.getElementById('pstat-q').textContent=tq;const c=document.getElementById('provas-container');if(!state.provas.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Nenhuma prova</div><div class="empty-sub">// adicione simulados para acompanhar sua evolução</div></div>`;document.getElementById('charts-area').style.display='none';return;}document.getElementById('charts-area').style.display='grid';const R=19,circ2=2*Math.PI*R;c.innerHTML=state.provas.map(p=>{const pct=Math.round(p.acertos/p.total*100),off=circ2*(1-pct/100),sc=pct>=80?'#1db870':pct>=70?'#f0b429':'#f04e4e';return`<div class="prova-card"><div class="prova-ring"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="${R}" fill="none" stroke="var(--border2)" stroke-width="3.5"/><circle cx="22" cy="22" r="${R}" fill="none" stroke="${sc}" stroke-width="3.5" stroke-dasharray="${circ2.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" stroke-linecap="round" transform="rotate(-90 22 22)"/></svg><div class="prova-pct-lbl">${pct}%</div></div><div class="prova-info"><div class="prova-name">${p.nome}</div><div class="prova-meta mono">${p.total} questões · ${p.acertos} acertos · ${p.ano}</div></div><button class="prova-del" onclick="deleteProva(${p.id})">× remover</button></div>`;}).join('');renderCharts();}
-function renderCharts(){const ac=getComputedStyle(document.body).getPropertyValue('--a').trim()||'#a78bfa',mu='#42425a',gr='rgba(255,255,255,.04)';const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#888',bodyColor:'#555',borderColor:'rgba(255,255,255,.08)',borderWidth:1,cornerRadius:6}},scales:{x:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9}},grid:{color:gr},border:{color:'transparent'}},y:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9},callback:v=>v+'%'},grid:{color:gr},min:0,max:100,border:{color:'transparent'}}}};const labels=state.provas.map(p=>p.nome.length>14?p.nome.slice(0,13)+'…':p.nome),pcts=state.provas.map(p=>Math.round(p.acertos/p.total*100)),cols=pcts.map(p=>p>=80?'rgba(29,184,112,.7)':p>=70?'rgba(240,180,41,.7)':'rgba(240,78,78,.7)');if(cEv)cEv.destroy();cEv=new Chart(document.getElementById('chart-evolucao').getContext('2d'),{type:'line',data:{labels,datasets:[{data:pcts,borderColor:ac,backgroundColor:ac+'18',pointBackgroundColor:ac,tension:.35,borderWidth:1.5,pointRadius:5,fill:true}]},options:base});if(cPr)cPr.destroy();cPr=new Chart(document.getElementById('chart-provas').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:pcts,backgroundColor:cols,borderWidth:0,borderRadius:4}]},options:base});}
-
-// ═══════════════ TOUR ═══════════════
-const TOUR=[{t:'tour-stat-total',title:'Painel de controle',desc:'Resumo em tempo real: temas, progresso, média de acertos e revisões pendentes hoje.'},{t:'tour-btn-add',title:'Adicionar temas',desc:'Selecione uma matéria existente ou crie uma nova — sem precisar digitar toda vez.'},{t:'tour-table',title:'Planilha de estudos',desc:'Temas por matéria com barra de progresso. Marque como estudado, lance questões e gerencie revisões 24h · 1S · 1M.'},{t:'dt-pomodoro',title:'Pomodoro',desc:'Timer com rastreio de sessões por matéria. Veja histórico, streaks e minutos de foco do dia.'},{t:'dt-configuracoes',title:'Configurações',desc:'Tema, gerenciar matérias, Telegram para alertas diários às 03h.'}];
-let tStep=0,tActive=false;
-function retakeTour(){state.tourDone=false;switchPage('planilha');setTimeout(startTour,300);}
-function startTour(){tStep=0;tActive=true;renderTourStep();}
-function renderTourStep(){if(tStep>=TOUR.length){tourEnd();return;}const s=TOUR[tStep],tgt=document.getElementById(s.t);if(!tgt){tourNext();return;}tgt.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>{const r=tgt.getBoundingClientRect(),p=10,sp=document.getElementById('tour-spotlight'),tt=document.getElementById('tour-tooltip');sp.style.cssText=`display:block;left:${r.left-p}px;top:${r.top-p}px;width:${r.width+p*2}px;height:${r.height+p*2}px`;tt.style.display='block';document.getElementById('tour-slbl').textContent=`PASSO ${tStep+1} DE ${TOUR.length}`;document.getElementById('tour-title').textContent=s.title;document.getElementById('tour-desc').textContent=s.desc;document.getElementById('tour-btn-next').textContent=tStep===TOUR.length-1?'Concluir ✓':'Próximo →';document.getElementById('tour-prog').innerHTML=TOUR.map((_,i)=>`<div class="tour-dot ${i===tStep?'active':''}"></div>`).join('');const mob=window.innerWidth<=768,ttH=180,vpH=window.innerHeight;let top;if(mob){tt.style.left='12px';tt.style.right='12px';tt.style.width='auto';top=r.bottom+ttH+16<vpH?r.bottom+16:Math.max(56,r.top-ttH-16);}else{tt.style.right='auto';tt.style.width='290px';tt.style.left=Math.max(12,Math.min(r.left+r.width/2-145,window.innerWidth-302))+'px';top=r.bottom+ttH+16<vpH?r.bottom+16:Math.max(56,r.top-ttH-16);}tt.style.top=top+'px';},360);}
-function tourNext(){tStep++;if(tStep>=TOUR.length){tourEnd();return;}renderTourStep();}
-function tourSkip(){tourEnd();}
-function tourEnd(){tActive=false;document.getElementById('tour-spotlight').style.display='none';document.getElementById('tour-tooltip').style.display='none';state.tourDone=true;save();}
-window.addEventListener('resize',()=>{if(tActive)renderTourStep();if(document.getElementById('page-rotina').classList.contains('active'))renderRotinaPage();});
-
-// Sincronizar scroll horizontal header ↔ grid
-const rotinaHdr = document.getElementById('rotina-weekly-header');
-const rotinaWrap = document.getElementById('rotina-grid-wrap');
-
-if (rotinaHdr && rotinaWrap) {
-  rotinaWrap.addEventListener('scroll', () => {
-    rotinaHdr.scrollLeft = rotinaWrap.scrollLeft;
-  });
-}
-
-// ═══════════════ SIMULADOS LIBRARY ═══════════════
-function renderSimLib() {
-  const list = document.getElementById('simlib-list');
-  if (!list) return;
-  const drafts = state.simuladosDraft || [];
-  if (!drafts.length) {
-    list.innerHTML = '<div class="simlib-empty">// nenhum simulado salvo ainda</div>';
-    return;
-  }
-  list.innerHTML = drafts.map((d, i) => {
-    const total = d.questoes ? d.questoes.length : 0;
-    const resp = d.respostas ? d.respostas.filter(r => r.resposta !== null).length : 0;
-    const pct = total ? Math.round(resp / total * 100) : 0;
-    const isDone = d.concluido;
-    const statusCls = isDone ? 'done' : resp > 0 ? 'prog' : 'new';
-    const statusTxt = isDone ? '✓ Concluído' : resp > 0 ? `${resp}/${total} feitas` : 'Não iniciado';
-    const modeIcon = d.modo === 'tutor' ? '🎓' : '🏆';
-    const date = d.savedAt ? new Date(d.savedAt).toLocaleDateString('pt-BR', {day:'2-digit',month:'short'}) : '';
-    return `<div class="simlib-item" onclick="carregarRascunho(${i})">
-      <div class="simlib-icon">${modeIcon}</div>
-      <div class="simlib-info">
-        <div class="simlib-title">${d.titulo || 'Simulado sem nome'}</div>
-        <div class="simlib-meta">${total} questões · ${d.modo === 'tutor' ? 'Tutor' : 'Simulado'}${date ? ' · ' + date : ''}</div>
-        <div class="simlib-progress"><div class="simlib-progress-fill" style="width:${pct}%"></div></div>
-      </div>
-      <span class="simlib-badge ${statusCls}">${statusTxt}</span>
-      <button class="simlib-del" onclick="event.stopPropagation();deletarRascunho(${i})" title="Remover">🗑</button>
-    </div>`;
-  }).join('');
-}
-
-function salvarRascunho() {
-  if (!state.simuladosDraft) state.simuladosDraft = [];
-  const { questoes, titulo, modo, qIdx, respostas, apiKey } = simuladoCorrente;
-  // Update existing draft if same titulo, otherwise add new
-  const idx = state.simuladosDraft.findIndex(d => d.titulo === titulo && !d.concluido);
-  const draft = { titulo, modo, questoes, respostas, qIdx, apiKey: apiKey || '', savedAt: Date.now(), concluido: false };
-  if (idx >= 0) state.simuladosDraft[idx] = draft;
-  else state.simuladosDraft.unshift(draft);
-  // Cap at 20 drafts
-  if (state.simuladosDraft.length > 20) state.simuladosDraft = state.simuladosDraft.slice(0, 20);
-  save();
-}
-
-function marcarConcluido() {
-  if (!state.simuladosDraft) return;
-  const idx = state.simuladosDraft.findIndex(d => d.titulo === simuladoCorrente.titulo && !d.concluido);
-  if (idx >= 0) { state.simuladosDraft[idx].concluido = true; save(); }
-}
-
-function carregarRascunho(i) {
-  const draft = state.simuladosDraft[i];
-  if (!draft) return;
-  closeModals();
-  if (draft.concluido) {
-    // Re-show revisão
-    simuladoCorrente = { ...draft };
-    exibirRevisao();
-    return;
-  }
-  // Load into simuladoCorrente and show mode selector if not started, else jump in
-  simuladoCorrente = {
-    apiKey: draft.apiKey || getGeminiKey(),
-    questoes: draft.questoes,
-    titulo: draft.titulo,
-    modo: draft.modo || 'tutor',
-    qIdx: draft.qIdx || 0,
-    respostas: draft.respostas,
-    respondida: !!(draft.respostas[draft.qIdx || 0]?.resposta),
-  };
-  if (!draft.modo) {
-    // Hasn't picked mode yet — show mode selector
-    document.getElementById('modal-mode-title').textContent = `"${draft.titulo}"`;
-    document.getElementById('modal-mode-sub').textContent = `// ${draft.questoes.length} questão(ões) · escolha o modo`;
-    document.getElementById('modal-simulado-mode').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  } else {
-    // Already in progress — jump back in
-    const badge = document.getElementById('sim-mode-badge');
-    badge.textContent = simuladoCorrente.modo === 'tutor' ? 'Modo Tutor' : 'Modo Simulado';
-    badge.className = 'sim-mode-badge ' + simuladoCorrente.modo;
-    document.getElementById('simulado-screen').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    renderSimQuestao();
-  }
-}
-
-function deletarRascunho(i) {
-  if (!confirm('Remover este simulado?')) return;
-  state.simuladosDraft.splice(i, 1);
-  save();
-  renderSimLib();
-}
-
-function confirmarNomeSimulado() {
-  const inp = document.getElementById('sim-name-input');
-  const nome = inp ? inp.value.trim() : '';
-  if (!nome) { toast('Digite um nome para o simulado'); return; }
-  simuladoCorrente.titulo = nome;
-  // Show mode selector
-  closeModals();
-  document.getElementById('modal-mode-title').textContent = `"${nome}"`;
-  document.getElementById('modal-mode-sub').textContent = `// ${simuladoCorrente.questoes.length} questão(ões) extraída(s) · como quer fazer?`;
-  document.getElementById('modal-simulado-mode').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-// ═══════════════ TOOLBAR DE ANOTAÇÃO ═══════════════
-let annotColor = 'y';
-let annotTargetIds = ['sim-enunciado', 'sim-contexto'];
-
-function annotSetColor(c) {
-  annotColor = c;
-  ['y','g','r','b'].forEach(x => {
-    const el = document.getElementById('annot-c-' + x);
-    if (el) el.classList.toggle('sel', x === c);
-  });
-}
-
-function annotApply(type) {
-  const sel = window.getSelection();
-  if (!sel || sel.isCollapsed) return;
-  const range = sel.getRangeAt(0);
-  const isAllowed = annotTargetIds.some(id => {
-    const el = document.getElementById(id);
-    return el && el.contains(range.commonAncestorContainer);
-  });
-  if (!isAllowed) { hideAnnotToolbar(); return; }
-  if (type === 'clear') {
-    const frag = range.extractContents();
-    frag.querySelectorAll('mark, s').forEach(el => {
-      const p = el.parentNode; while (el.firstChild) p.insertBefore(el.firstChild, el); p.removeChild(el);
-    });
-    range.insertNode(frag);
-  } else if (type === 'highlight') {
-    const mark = document.createElement('mark');
-    mark.className = 'hl-' + annotColor;
-    try { range.surroundContents(mark); } catch(e) { const f = range.extractContents(); mark.appendChild(f); range.insertNode(mark); }
-  } else if (type === 'strike') {
-    const s = document.createElement('s');
-    s.className = 'hl-strike';
-    try { range.surroundContents(s); } catch(e) { const f = range.extractContents(); s.appendChild(f); range.insertNode(s); }
-  }
-  sel.removeAllRanges();
-  hideAnnotToolbar();
-}
-
-function hideAnnotToolbar() {
-  const tb = document.getElementById('annot-toolbar');
-  if (tb) tb.classList.remove('show');
-}
-
-document.addEventListener('selectionchange', () => {
-  const sel = window.getSelection();
-  const tb = document.getElementById('annot-toolbar');
-  if (!tb) return;
-  if (!sel || sel.isCollapsed || !sel.toString().trim()) {
-    setTimeout(() => { const s2 = window.getSelection(); if (!s2 || s2.isCollapsed) tb.classList.remove('show'); }, 150);
-    return;
-  }
-  const range = sel.getRangeAt(0);
-  const allowed = annotTargetIds.some(id => {
-    const el = document.getElementById(id); return el && el.contains(range.commonAncestorContainer);
-  });
-  if (!allowed) { tb.classList.remove('show'); return; }
-  const rect = range.getBoundingClientRect();
-  const tbW = 230;
-  let left = rect.left + rect.width / 2 - tbW / 2;
-  let top = rect.top - 52 + window.scrollY;
-  left = Math.max(8, Math.min(left, window.innerWidth - tbW - 8));
-  if (top < window.scrollY + 8) top = rect.bottom + 8 + window.scrollY;
-  tb.style.left = left + 'px';
-  tb.style.top = top + 'px';
-  tb.classList.add('show');
-});
-
-    // ═══════════════════════════════════════════════════════════════
-//  PATCH — Correções do Simulado IA  (cole antes de </body>)
-// ═══════════════════════════════════════════════════════════════
-
-// ---------- helpers internos reusados ----------
-function _renderSbQGrid() {
-  const { questoes, qIdx, respostas, modo } = simuladoCorrente;
-  const grid = document.getElementById('sim-sb-q-grid');
-  if (!grid || !questoes) return;
-  grid.innerHTML = questoes.map((q, i) => {
-    const r = respostas[i];
-    let cls = '';
-    if (i === qIdx) cls = 'sq-active';
-    else if (r && r.resposta) {
-      if (modo === 'tutor' && r.acertou !== null) cls = r.acertou ? 'sq-correct' : 'sq-wrong';
-      else cls = 'sq-answered';
-    }
-    return `<div class="sim-sb-q-num ${cls}" onclick="simIrPara(${i})">${i + 1}</div>`;
-  }).join('');
-}
-
-// Navegar direto para uma questão pelo grid lateral
-window.simIrPara = function(i) {
-  if (i < 0 || i >= simuladoCorrente.questoes.length) return;
-  simuladoCorrente.qIdx = i;
-  simuladoCorrente.respondida = !!(simuladoCorrente.respostas[i]?.resposta);
-  document.getElementById('sim-body').scrollTop = 0;
-  renderSimQuestao();
-};
-
-// ---------- iniciarSimulado corrigido ----------
-window.iniciarSimulado = function() {
-  simuladoCorrente.modo = simModoSelecionado;
-  simuladoCorrente.qIdx = 0;
-  simuladoCorrente.respondida = false;
-
-  closeModals();
-
-  // Atualiza sidebar: modo
-  const tutorOpt = document.getElementById('sim-sb-tutor-opt');
-  const simOpt   = document.getElementById('sim-sb-sim-opt');
-  if (tutorOpt && simOpt) {
-    tutorOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
-    simOpt.classList.toggle('active',   simuladoCorrente.modo === 'simulado');
-  }
-
-  // Abre tela fullscreen
-  document.getElementById('simulado-screen').classList.add('open');
-  document.body.style.overflow = 'hidden';
-
-  simTimerStart();
-  renderSimQuestao();
-};
-
-// ---------- carregarRascunho corrigido ----------
-window.carregarRascunho = function(i) {
-  const draft = (state.simuladosDraft || [])[i];
-  if (!draft) return;
-  closeModals();
-
-  if (draft.concluido) {
-    simuladoCorrente = { ...draft };
-    exibirRevisao();
-    return;
-  }
-
-  simuladoCorrente = {
-    apiKey:      draft.apiKey || getGeminiKey(),
-    questoes:    draft.questoes,
-    titulo:      draft.titulo,
-    modo:        draft.modo || 'tutor',
-    qIdx:        draft.qIdx || 0,
-    respostas:   draft.respostas,
-    respondida:  !!(draft.respostas[draft.qIdx || 0]?.resposta),
-  };
-
-  if (!draft.modo) {
-    // Ainda não escolheu modo
-    const titleEl = document.getElementById('modal-mode-title');
-    const subEl   = document.getElementById('modal-mode-sub');
-    if (titleEl) titleEl.textContent = `"${draft.titulo}"`;
-    if (subEl)   subEl.textContent   = `// ${draft.questoes.length} questão(ões) · escolha o modo`;
-    document.getElementById('modal-simulado-mode').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  } else {
-    // Retomar onde parou
-    const tutorOpt = document.getElementById('sim-sb-tutor-opt');
-    const simOpt   = document.getElementById('sim-sb-sim-opt');
-    if (tutorOpt && simOpt) {
-      tutorOpt.classList.toggle('active', simuladoCorrente.modo === 'tutor');
-      simOpt.classList.toggle('active',   simuladoCorrente.modo === 'simulado');
-    }
-    const _pf = document.getElementById('sim-progress-fill');
-    if (_pf) _pf.style.width = ((qIdx + 1) / total * 100) + '%';
-    document.body.style.overflow = 'hidden';
-    simTimerStart();
-    renderSimQuestao();
-  }
-};
-
-// ---------- renderSimQuestao corrigido (wrap) ----------
-// Guardamos a original e envolvemos para sempre atualizar o grid lateral e o total
-(function() {
-  const _original = window.renderSimQuestao;
-  window.renderSimQuestao = function() {
-    // Atualiza totais no header
-    const totalEl = document.getElementById('sim-q-total');
-    if (totalEl && simuladoCorrente.questoes) {
-      totalEl.textContent = simuladoCorrente.questoes.length;
-    }
-    // Chama original
-    _original.apply(this, arguments);
-    // Atualiza grid lateral após renderizar
-    _renderSbQGrid();
-  };
-})();
   </script>
 </body>
 </html>
