@@ -859,7 +859,6 @@
 
   <div id="app-screen" class="screen" style="display:none">
 
-    <!-- MOBILE NAV -->
     <div class="mobile-nav" id="mobile-nav">
       <div class="mobile-nav-header">
         <div class="mobile-nav-logo">EstudaHub</div>
@@ -879,7 +878,6 @@
       </div>
     </div>
 
-    <!-- TOP NAV -->
     <nav>
       <div class="nav-logo"><div class="nav-orb"></div>EstudaHub</div>
       <div class="nav-tabs">
@@ -899,7 +897,6 @@
       <button class="hamburger" id="hamburger" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
     </nav>
 
-    <!-- PAGE: PLANILHA -->
     <div id="page-planilha" class="page active">
       <div class="dash-header">
         <div class="dash-inner">
@@ -939,7 +936,6 @@
 
     <button class="fab" id="fab-btn" onclick="openAddTemaModal()" aria-label="Adicionar tema">+</button>
 
-    <!-- PAGE: SIMULADOS -->
     <div id="page-simulados" class="page">
       <div class="sim-page-header">
         <div class="sim-page-inner">
@@ -959,7 +955,6 @@
       <div style="padding:0 36px 40px"><div id="simlib-page-list"></div></div>
     </div>
 
-    <!-- PAGE: ROTINA -->
     <div id="page-rotina" class="page">
       <div class="rotina-header">
         <div class="rotina-inner">
@@ -993,7 +988,6 @@
       </div>
     </div>
 
-    <!-- PAGE: POMODORO -->
     <div id="page-pomodoro" class="page">
       <div class="pomo-header"><div class="pomo-inner"><div class="dash-eyebrow">foco e produtividade</div><div class="dash-title" style="margin-bottom:4px">Pomodoro</div><div class="dash-date mono">Rastreie seu tempo de estudo por matéria</div></div></div>
       <div class="pomo-layout">
@@ -1053,7 +1047,6 @@
       </div>
     </div>
 
-    <!-- PAGE: PROVAS -->
     <div id="page-provas" class="page">
       <div class="provas-header">
         <div class="provas-inner">
@@ -1078,7 +1071,6 @@
       </div>
     </div>
 
-    <!-- PAGE: CONFIGURAÇÕES -->
     <div id="page-configuracoes" class="page">
       <div class="config-header"><div class="dash-eyebrow" style="margin-bottom:8px">personalize</div><div class="dash-title" style="font-size:32px;margin-bottom:0">Configurações</div></div>
       <div class="config-section" style="margin-top:24px">
@@ -1136,10 +1128,7 @@
       <div style="height:40px"></div>
     </div>
 
-  </div><!-- /app-screen -->
-
-  <!-- SIMULADO FULLSCREEN -->
-  <div id="simulado-screen">
+  </div><div id="simulado-screen">
     <div class="sim-topbar">
       <div class="sim-q-counter">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
       <div class="sim-mode-badge" id="sim-mode-badge">Tutor</div>
@@ -1156,7 +1145,6 @@
     </div>
   </div>
 
-  <!-- Annotation toolbar -->
   <div id="annot-toolbar">
     <div class="annot-color annot-color-y sel" id="annot-c-y" title="Amarelo" onclick="annotSetColor('y')"></div>
     <div class="annot-color annot-color-g" id="annot-c-g" title="Verde" onclick="annotSetColor('g')"></div>
@@ -1169,7 +1157,6 @@
     <button class="annot-btn" title="Limpar" onclick="annotApply('clear')">✕</button>
   </div>
 
-  <!-- Grading screen -->
   <div id="grading-screen">
     <div class="grading-orb">🤖</div>
     <div class="grading-title">Corrigindo com IA…</div>
@@ -1180,7 +1167,6 @@
     </div>
   </div>
 
-  <!-- Revisão screen -->
   <div id="revisao-screen">
     <div class="revisao-topbar">
       <div class="revisao-topbar-title">Revisão do Simulado</div>
@@ -1203,7 +1189,6 @@
     </div>
   </div>
 
-  <!-- MODALS -->
   <div class="modal-overlay" id="modal-simulado-byok" onclick="handleOvClick(event,'modal-simulado-byok')">
     <div class="modal" style="max-width:560px">
       <div class="modal-handle"></div>
@@ -1632,489 +1617,6 @@
       }).join('')}</div>`;
     }
 
-    // ═══ SIMULADO — ABRIR NOVO ═══
-    function abrirNovoSimulado() {
-      const savedKey=getGeminiKey();
-      const inp=document.getElementById('byok-key-input');
-      if(inp&&savedKey)inp.value=savedKey;
-      upClear();
-      document.getElementById('byok-processing').style.display='none';
-      document.getElementById('byok-btn-extrair').disabled=false;
-      document.getElementById('modal-simulado-byok').classList.add('open');
-      document.body.style.overflow='hidden';
-    }
-
-    // ═══ DROPZONE ═══
-    function upDrag(e,over){e.preventDefault();document.getElementById('upzone').classList.toggle('drag',over);}
-    function upDrop(e){
-      e.preventDefault();document.getElementById('upzone').classList.remove('drag');
-      const file=e.dataTransfer.files[0];if(file)upSetFile(file);
-    }
-    function upSelect(input){if(input.files[0])upSetFile(input.files[0]);}
-    function upSetFile(file){
-      const icons={'application/pdf':'📄','image/png':'🖼️','image/jpeg':'🖼️','image/webp':'🖼️'};
-      document.getElementById('upzone-prev-icon').textContent=icons[file.type]||'📄';
-      document.getElementById('upzone-prev-name').textContent=file.name;
-      document.getElementById('upzone-preview').style.display='flex';
-      document.getElementById('upzone-content').style.opacity='.4';
-      const dt=new DataTransfer();dt.items.add(file);
-      document.getElementById('byok-file-input').files=dt.files;
-    }
-    function upClear(){
-      document.getElementById('byok-file-input').value='';
-      document.getElementById('upzone-preview').style.display='none';
-      document.getElementById('upzone-content').style.opacity='1';
-    }
-
-    // ═══ EXTRAIR PROVA IA ═══
-    async function extrairProvaIA(){
-      const keyInp=document.getElementById('byok-key-input').value.trim();
-      const fileInp=document.getElementById('byok-file-input');
-      const apiKey=keyInp||getGeminiKey();
-      if(!apiKey){toast('Insira sua API Key do Gemini');return;}
-      if(!fileInp.files||!fileInp.files[0]){toast('Selecione um arquivo');return;}
-      localStorage.setItem('gemini_api_key',apiKey);
-      simuladoCorrente.apiKey=apiKey;
-      const file=fileInp.files[0];
-      const proc=document.getElementById('byok-processing');
-      const btn=document.getElementById('byok-btn-extrair');
-      proc.style.display='flex';
-      document.getElementById('byok-proc-txt').textContent='Lendo arquivo…';
-      btn.disabled=true;
-      try {
-        const base64=await readFileBase64(file);
-        const mimeType=file.type||'application/pdf';
-        document.getElementById('byok-proc-txt').textContent='Extraindo questões com IA…';
-        const prompt=`Você é um professor. Leia a prova em anexo. Extraia as questões e classifique como 'objetiva' ou 'discursiva'. Retorne ESTRITAMENTE em JSON puro (sem markdown, sem crases):
-{"titulo_sugerido":"Nome da prova","questoes":[{"numero":1,"tipo":"objetiva","contexto":"Texto introdutório ou caso clínico (string vazia se não houver)","enunciado":"Apenas a pergunta","alternativas":{"A":"Texto A","B":"Texto B","C":"Texto C","D":"Texto D","E":"Texto E"},"gabarito_correto":"A","padrao_esperado":"Rubrica detalhada","explicacao_geral":"Explicação do tema","explicacoes_alternativas":{"A":"Por que A","B":"Por que B","C":"Por que C","D":"Por que D","E":"Por que E"}}]}
-IMPORTANTE: Para questões discursivas alternativas/gabarito_correto/explicacoes_alternativas devem ser null. Retorne APENAS JSON puro.`;
-        let response, tentativas=3;
-        while(tentativas>0){
-          response=await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`,{
-            method:'POST',headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({contents:[{parts:[{inline_data:{mime_type:mimeType,data:base64}},{text:prompt}]}],generationConfig:{temperature:0.1,maxOutputTokens:8192,responseMimeType:"application/json"}})
-          });
-          if(response.ok)break;
-          const err=await response.json();
-          const errMsg=err.error?.message||'';
-          if(response.status===503||response.status===429||errMsg.includes('demand')||errMsg.includes('quota')){
-            tentativas--;
-            if(tentativas===0)throw new Error('IA sobrecarregada. Tente novamente em alguns segundos.');
-            document.getElementById('byok-proc-txt').textContent='Servidor cheio. Reconectando em 3s…';
-            await new Promise(r=>setTimeout(r,3000));
-          } else throw new Error(errMsg||'Erro na API Gemini');
-        }
-        const data=await response.json();
-        let rawText=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
-        let clean=rawText.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
-        clean=clean.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
-        const js=clean.indexOf('{'),je=clean.lastIndexOf('}');
-        if(js===-1||je===-1)throw new Error('IA não retornou JSON válido');
-        clean=clean.slice(js,je+1);
-        let parsed;
-        try{parsed=JSON.parse(clean);}
-        catch(e){throw new Error('JSON inválido. Tente com outro arquivo ou verifique a chave.');}
-        if(!parsed.questoes||!parsed.questoes.length)throw new Error('Nenhuma questão extraída');
-        simuladoCorrente.questoes=parsed.questoes;
-        simuladoCorrente.titulo=parsed.titulo_sugerido||'Simulado';
-        simuladoCorrente.respostas=parsed.questoes.map(()=>({resposta:null,nota:null,feedback:null,acertou:null}));
-        closeModals();
-        const nameInp=document.getElementById('sim-name-input');
-        if(nameInp)nameInp.value=simuladoCorrente.titulo||'';
-        document.getElementById('modal-simname-sub').textContent=`// ${parsed.questoes.length} questão(ões) extraída(s) — dê um nome ao teste`;
-        document.getElementById('modal-sim-name').classList.add('open');
-        document.body.style.overflow='hidden';
-      } catch(err) {
-        console.error(err); toast('Erro: '+err.message);
-        proc.style.display='none'; btn.disabled=false;
-      }
-    }
-
-    function readFileBase64(file){
-      return new Promise((res,rej)=>{
-        const r=new FileReader();
-        r.onload=()=>res(r.result.split(',')[1]);
-        r.onerror=()=>rej(new Error('Erro ao ler arquivo'));
-        r.readAsDataURL(file);
-      });
-    }
-
-    // ═══ MODO SELECTION ═══
-    let simModoSelecionado='tutor';
-    function selectSimMode(m){
-      simModoSelecionado=m;
-      document.getElementById('mode-card-tutor').classList.toggle('selected',m==='tutor');
-      document.getElementById('mode-card-simulado').classList.toggle('selected',m==='simulado');
-    }
-
-    function confirmarNomeSimulado(){
-      const inp=document.getElementById('sim-name-input');
-      const nome=inp?inp.value.trim():'';
-      if(!nome){toast('Digite um nome para o simulado');return;}
-      simuladoCorrente.titulo=nome;
-      closeModals();
-      document.getElementById('modal-mode-title').textContent=`"${nome}"`;
-      document.getElementById('modal-mode-sub').textContent=`// ${simuladoCorrente.questoes.length} questão(ões) · como quer fazer?`;
-      document.getElementById('modal-simulado-mode').classList.add('open');
-      document.body.style.overflow='hidden';
-    }
-
-    // ═══ INICIAR SIMULADO ═══
-    function iniciarSimulado(){
-      simuladoCorrente.modo=simModoSelecionado;
-      simuladoCorrente.qIdx=0; simuladoCorrente.respondida=false;
-      closeModals();
-      document.getElementById('simulado-screen').classList.add('open');
-      document.body.style.overflow='hidden';
-      const badge=document.getElementById('sim-mode-badge');
-      badge.textContent=simuladoCorrente.modo==='tutor'?'Modo Tutor':'Modo Simulado';
-      badge.className='sim-mode-badge '+(simuladoCorrente.modo==='tutor'?'tutor':'simulado');
-      renderSimQuestao();
-    }
-
-    function confirmarSairSimulado(){
-      const {respostas}=simuladoCorrente;
-      const respondidas=respostas.filter(r=>r.resposta!==null).length;
-      if(respondidas===0){if(confirm('Sair do simulado?'))fecharSimulado();return;}
-      if(confirm(`Salvar progresso (${respondidas}/${simuladoCorrente.questoes.length} respondidas)?`)){
-        salvarRascunho(); fecharSimulado(); toast('Progresso salvo!'); renderSimuladosPage();
-      } else if(confirm('Descartar progresso e sair?')) fecharSimulado();
-    }
-
-    function fecharSimulado(){
-      document.getElementById('simulado-screen').classList.remove('open');
-      document.body.style.overflow='';
-    }
-
-    // ═══ RENDER QUESTÃO ═══
-    function renderSimQuestao(){
-      const {questoes,qIdx,modo,respostas,respondida}=simuladoCorrente;
-      const q=questoes[qIdx]; const total=questoes.length; const resp=respostas[qIdx];
-      if(q.alternativas&&typeof q.alternativas==='object'){
-        const keys=Object.keys(q.alternativas);
-        const needsNorm=keys.some(k=>k.length>1&&/verdadeiro|falso|true|false|certo|errado/i.test(k));
-        if(needsNorm){
-          const newAlts={};
-          keys.forEach(k=>{const norm=/verdadeiro|true|certo/i.test(k)?'V':/falso|false|errado/i.test(k)?'F':k[0].toUpperCase();newAlts[norm]=q.alternativas[k];});
-          if(q.gabarito_correto&&q.gabarito_correto.length>1)q.gabarito_correto=/verdadeiro|true|certo/i.test(q.gabarito_correto)?'V':'F';
-          q.alternativas=newAlts;
-        }
-        if(q.gabarito_correto&&q.gabarito_correto.length>1&&Object.keys(q.alternativas).includes('V'))
-          q.gabarito_correto=/verdadeiro|true|certo/i.test(q.gabarito_correto)?'V':'F';
-      }
-      document.getElementById('sim-q-cur').textContent=qIdx+1;
-      document.getElementById('sim-q-total').textContent=total;
-      document.getElementById('sim-progress-fill').style.width=((qIdx+1)/total*100)+'%';
-      const isObj=q.tipo==='objetiva'; const isLast=qIdx===total-1;
-      let bodyHtml='';
-      if(isObj){
-        const alts=q.alternativas||{};
-        bodyHtml=`<div class="sim-alts" id="sim-alts">`;
-        for(const [letter,text] of Object.entries(alts)){
-          if(!text)continue;
-          let cls='';
-          if(respondida&&modo==='tutor'){
-            if(letter===q.gabarito_correto)cls='correct highlight';
-            else if(letter===resp.resposta)cls='wrong';
-          } else if(resp.resposta===letter)cls='selected';
-          bodyHtml+=`<div class="sim-alt ${cls}" id="alt-${letter}" onclick="simSelecionarAlt('${letter}')"><div class="sim-alt-letter">${letter}</div><div class="sim-alt-text">${text}</div></div>`;
-        }
-        bodyHtml+=`</div>`;
-      } else {
-        const taVal=resp.resposta||'';
-        const disabled=respondida&&modo==='tutor'?'disabled':'';
-        bodyHtml=`<div class="sim-disc-wrap"><textarea class="sim-disc-textarea" id="sim-disc-ta" placeholder="Escreva sua resposta aqui…" ${disabled} oninput="simDiscChar(this)">${taVal}</textarea><div class="sim-disc-char" id="sim-disc-char">${taVal.length} caracteres</div></div>`;
-      }
-      let feedbackHtml='';
-      if(respondida&&modo==='tutor'){
-        if(isObj){
-          const acertou=resp.resposta===q.gabarito_correto;
-          feedbackHtml=`<div class="sim-feedback ${acertou?'correct':'wrong'} show"><div class="sim-feedback-label">${acertou?'✓ CORRETO':'✗ INCORRETO'}</div><div class="sim-feedback-text">Gabarito: <strong>${q.gabarito_correto}</strong><br>${q.explicacao_geral||''}</div></div>`;
-        } else {
-          const notaVal=resp.nota;
-          feedbackHtml=`
-          <div class="sim-ai-loading ${notaVal===null?'show':''}" id="sim-ai-loading"><div class="sim-ai-spinner"></div> Avaliando com IA…</div>
-          ${notaVal!==null?`<div class="disc-fb-card">
-            <div class="disc-fb-nota-row"><span class="disc-fb-nota-lbl">NOTA</span><span class="disc-fb-nota disc-nota-${notaVal>=80?'green':notaVal>=60?'yellow':'red'}">${notaVal}<span class="disc-fb-nota-max">/100</span></span></div>
-            <div class="disc-fb-section"><div class="disc-fb-section-lbl">✦ Resposta esperada</div><div class="disc-fb-section-body">${resp.resposta_ideal||''}</div></div>
-            ${resp.o_que_faltou?`<div class="disc-fb-section disc-fb-faltou"><div class="disc-fb-section-lbl">⚠ O que faltou</div><div class="disc-fb-section-body">${resp.o_que_faltou}</div></div>`:`<div class="disc-fb-section disc-fb-ok"><div class="disc-fb-section-lbl">✓ Completo</div><div class="disc-fb-section-body">Sua resposta contemplou os pontos esperados.</div></div>`}
-          </div>`:''}`;
-        }
-      }
-      document.getElementById('sim-body').innerHTML=`<div class="sim-q-card"><div class="sim-q-header"><div class="sim-q-type">${q.tipo.toUpperCase()} · QUESTÃO ${qIdx+1}</div>${q.contexto?`<div class="sim-q-contexto" id="sim-contexto">${q.contexto}</div>`:''}<div class="sim-q-enunciado" id="sim-enunciado">${q.enunciado}</div></div><div class="sim-q-body">${bodyHtml}${feedbackHtml}</div></div>`;
-      const btnResp=document.getElementById('sim-btn-respond');
-      const btnNext=document.getElementById('sim-btn-next');
-      const btnFinish=document.getElementById('sim-btn-finish');
-      if(respondida){
-        btnResp.style.display='none'; btnNext.disabled=false; btnNext.style.display='inline-flex';
-        btnNext.textContent=isLast?'Finalizar Simulado':'Próxima ➔';
-        btnNext.onclick=isLast?finalizarSimulado:simProxima;
-        btnFinish.style.display='none';
-      } else {
-        btnResp.style.display='inline-flex'; btnResp.disabled=false; btnNext.style.display='none';
-        btnFinish.style.display=(modo==='simulado'&&qIdx>0)?'inline-flex':'none';
-      }
-    }
-
-    function simSelecionarAlt(letter){
-      if(simuladoCorrente.respondida)return;
-      simuladoCorrente.respostas[simuladoCorrente.qIdx].resposta=letter;
-      document.querySelectorAll('.sim-alt').forEach(el=>el.classList.remove('selected'));
-      const el=document.getElementById('alt-'+letter);if(el)el.classList.add('selected');
-    }
-
-    function simDiscChar(ta){
-      const c=document.getElementById('sim-disc-char');
-      if(c)c.textContent=ta.value.length+' caracteres';
-      simuladoCorrente.respostas[simuladoCorrente.qIdx].resposta=ta.value;
-    }
-
-    async function simResponder(){
-      const {questoes,qIdx,modo,respostas}=simuladoCorrente;
-      const q=questoes[qIdx]; const resp=respostas[qIdx];
-      if(q.tipo==='discursiva'){const ta=document.getElementById('sim-disc-ta');if(ta)resp.resposta=ta.value;}
-      if(!resp.resposta&&q.tipo==='objetiva'){toast('Selecione uma alternativa');return;}
-      if(q.tipo==='discursiva'&&(!resp.resposta||resp.resposta.trim().length<5)){toast('Escreva sua resposta antes de enviar');return;}
-      simuladoCorrente.respondida=true;
-      if(modo==='tutor'){
-        if(q.tipo==='objetiva'){resp.acertou=(resp.resposta===q.gabarito_correto);resp.nota=resp.acertou?100:0;renderSimQuestao();}
-        else{renderSimQuestao();const resultado=await avaliarDiscursivaIA(q,resp.resposta);resp.nota=resultado.nota;resp.resposta_ideal=resultado.resposta_ideal;resp.o_que_faltou=resultado.o_que_faltou;resp.acertou=resultado.nota>=60;renderSimQuestao();}
-      } else renderSimQuestao();
-    }
-
-    function simProxima(){
-      const {questoes,qIdx}=simuladoCorrente;
-      if(qIdx<questoes.length-1){
-        simuladoCorrente.qIdx++;
-        simuladoCorrente.respondida=!!simuladoCorrente.respostas[simuladoCorrente.qIdx].resposta;
-        renderSimQuestao(); window.scrollTo({top:0});
-      }
-    }
-
-    // ═══ AVALIAR DISCURSIVA IA ═══
-    async function avaliarDiscursivaIA(questao,respostaUsuario){
-      const apiKey=simuladoCorrente.apiKey||getGeminiKey();
-      if(!apiKey)return{nota:0,resposta_ideal:'Chave de API não encontrada.',o_que_faltou:null};
-      const sanitize=s=>(s||'').replace(/[\u201c\u201d\u2018\u2019]/g,'"').replace(/\r?\n/g,' ').replace(/\\/g,'\\\\').trim();
-      const prompt=`Você é um professor avaliador. Retorne ESTRITAMENTE em JSON puro:
-{"nota":80,"resposta_ideal":"Resposta modelo em 2-4 frases.","o_que_faltou":"Pontos ausentes ou null se nota>=95"}
-QUESTÃO: ${sanitize(questao.enunciado)}
-PADRÃO: ${sanitize(questao.padrao_esperado||'')}
-RESPOSTA: ${sanitize(respostaUsuario)}
-Nota de 0 a 100.`;
-      try{
-        let response,tentativas=3;
-        while(tentativas>0){
-          response=await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.1,maxOutputTokens:8192,responseMimeType:"application/json"}})});
-          if(response.ok)break;
-          const err=await response.json();
-          if(response.status===503||response.status===429){tentativas--;if(tentativas===0)throw new Error('IA sobrecarregada.');await new Promise(r=>setTimeout(r,3000));}
-          else throw new Error(err.error?.message||'Erro API');
-        }
-        const data=await response.json();
-        let raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
-        raw=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
-        raw=raw.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
-        const js=raw.indexOf('{'),je=raw.lastIndexOf('}');
-        if(js>=0&&je>js)raw=raw.slice(js,je+1);
-        let parsed;
-        try{parsed=JSON.parse(raw);}catch(e){parsed={nota:0,resposta_ideal:'Erro ao interpretar resposta da IA.',o_que_faltou:null};}
-        return{nota:Math.min(100,Math.max(0,parseInt(parsed.nota)||0)),resposta_ideal:parsed.resposta_ideal||'',o_que_faltou:parsed.o_que_faltou||null};
-      }catch(e){console.error(e);return{nota:0,resposta_ideal:'Erro: '+e.message,o_que_faltou:null};}
-    }
-
-    // ═══ FINALIZAR ═══
-    async function finalizarSimulado(){
-      const{questoes,respostas,modo}=simuladoCorrente;
-      const discursivas=questoes.map((q,i)=>({q,i,r:respostas[i]})).filter(x=>x.q.tipo==='discursiva'&&x.r.resposta&&x.r.nota===null);
-      if(modo==='simulado'&&discursivas.length>0){
-        fecharSimulado();
-        const gs=document.getElementById('grading-screen'); gs.classList.add('open');
-        document.getElementById('grading-sub').textContent=`Corrigindo ${discursivas.length} resposta(s)…`;
-        document.getElementById('grading-prog-fill').style.width='0%';
-        document.getElementById('grading-prog-txt').textContent=`0 / ${discursivas.length}`;
-        let done=0;
-        await Promise.all(discursivas.map(async({q,i,r})=>{
-          const res=await avaliarDiscursivaIA(q,r.resposta);
-          respostas[i].nota=res.nota;respostas[i].resposta_ideal=res.resposta_ideal;respostas[i].o_que_faltou=res.o_que_faltou;respostas[i].acertou=res.nota>=60;
-          done++;document.getElementById('grading-prog-fill').style.width=Math.round(done/discursivas.length*100)+'%';
-          document.getElementById('grading-prog-txt').textContent=`${done} / ${discursivas.length}`;
-        }));
-        questoes.forEach((q,i)=>{if(q.tipo==='objetiva'){respostas[i].acertou=(respostas[i].resposta===q.gabarito_correto);respostas[i].nota=respostas[i].acertou?100:0;}});
-        gs.classList.remove('open');
-      } else {
-        questoes.forEach((q,i)=>{if(q.tipo==='objetiva'){respostas[i].acertou=(respostas[i].resposta===q.gabarito_correto);respostas[i].nota=respostas[i].acertou?100:0;}});
-        fecharSimulado();
-      }
-      exibirRevisao();
-    }
-
-    // ═══ REVISÃO ═══
-    function exibirRevisao(){
-      const{questoes,respostas,titulo}=simuladoCorrente;
-      const total=questoes.length;
-      const notas=respostas.map((r,i)=>r.nota!==null?r.nota:questoes[i].tipo==='objetiva'?(r.acertou?100:0):0);
-      const media=notas.length?notas.reduce((a,b)=>a+b,0)/notas.length:0;
-      const notaFinal=(media/10).toFixed(1);
-      const acertos=respostas.filter((r,i)=>questoes[i].tipo==='objetiva'&&r.acertou).length;
-      const erros=respostas.filter((r,i)=>questoes[i].tipo==='objetiva'&&!r.acertou&&r.resposta).length;
-      const discTotal=questoes.filter(q=>q.tipo==='discursiva').length;
-      document.getElementById('revisao-titulo-sim').textContent=titulo;
-      document.getElementById('revisao-nota-value').textContent=notaFinal;
-      document.getElementById('revisao-nota-sub').textContent=`de 10.0 · ${media.toFixed(0)}% de aproveitamento`;
-      document.getElementById('rev-stat-acertos').textContent=acertos;
-      document.getElementById('rev-stat-erros').textContent=erros;
-      document.getElementById('rev-stat-disc').textContent=discTotal;
-      document.getElementById('rev-stat-total').textContent=total;
-      const body=document.getElementById('revisao-body');
-      body.innerHTML=questoes.map((q,i)=>{
-        const r=respostas[i]; const isObj=q.tipo==='objetiva';
-        const nota=r.nota!==null?r.nota:isObj?(r.acertou?100:0):0;
-        const acertou=isObj?(r.resposta===q.gabarito_correto):(nota>=60);
-        const resultCls=acertou?'acerto':'erro';
-        const badgeCls=isObj?(acertou?'acerto':'erro'):(nota>=80?'acerto':nota>=60?'parcial':'erro');
-        const badgeTxt=isObj?(acertou?'✓ Correto':'✗ Incorreto'):(nota>=60?`${nota}/100 Aprovado`:`${nota}/100 Insuficiente`);
-        const contextoHtml=q.contexto?`<div class="rq-contexto">${q.contexto}</div>`:'';
-        let respostaHtml='';
-        if(isObj&&q.alternativas){
-          const alts=Object.entries(q.alternativas);
-          const expAlts=q.explicacoes_alternativas||{};
-          const altRows=alts.map(([letra,texto])=>{
-            const isCorreta=letra===q.gabarito_correto,isSelecionada=letra===r.resposta;
-            let cls='alt-neutra',icon=letra,badge='';
-            if(isCorreta){cls='alt-correta';icon='✓';badge=`<span class="rq-alt-badge">Alternativa correta</span>`;}
-            else if(isSelecionada&&!isCorreta){cls='alt-errada';icon='✗';badge=`<span class="rq-alt-badge">Sua resposta</span>`;}
-            const exp=expAlts[letra]?`<div class="rq-alt-exp" id="rqexp-${i}-${letra}">${expAlts[letra]}</div>`:'';
-            const hasExp=!!expAlts[letra];
-            return `<div class="rq-alt ${cls}"><div class="rq-alt-header" ${hasExp?`onclick="toggleAltExp('rqexp-${i}-${letra}')"`:''}><div class="rq-alt-icon">${icon}</div><span class="rq-alt-letra">${letra}.</span><span class="rq-alt-txt">${texto}</span>${badge}</div>${exp}</div>`;
-          }).join('');
-          respostaHtml=`<div class="rq-alts">${altRows}</div>`;
-        } else if(!isObj){
-          respostaHtml=`<div class="rq-section"><div class="rq-section-lbl">Sua resposta</div><div class="rq-section-val">${r.resposta||'(não respondida)'}</div></div>
-          <div class="disc-fb-card" style="margin:0 0 12px">
-            <div class="disc-fb-nota-row"><span class="disc-fb-nota-lbl">NOTA</span><span class="disc-fb-nota disc-nota-${nota>=80?'green':nota>=60?'yellow':'red'}">${nota}<span class="disc-fb-nota-max">/100</span></span></div>
-            <div class="disc-fb-section"><div class="disc-fb-section-lbl">✦ Resposta esperada</div><div class="disc-fb-section-body">${r.resposta_ideal||q.padrao_esperado||''}</div></div>
-            ${r.o_que_faltou?`<div class="disc-fb-section disc-fb-faltou"><div class="disc-fb-section-lbl">⚠ O que faltou</div><div class="disc-fb-section-body">${r.o_que_faltou}</div></div>`:`<div class="disc-fb-section disc-fb-ok"><div class="disc-fb-section-lbl">✓ Resposta completa</div><div class="disc-fb-section-body">Sua resposta contemplou os pontos esperados.</div></div>`}
-          </div>`;
-        }
-        const explGeral=(q.explicacao_geral||r.feedback)?`<div class="rq-explicacao-geral"><strong>Comentário</strong>${q.explicacao_geral||''}${r.feedback?`<br>🤖 <em>${r.feedback}</em>`:''}</div>`:'';
-        return `<div class="rq-item ${resultCls}"><div class="rq-item-header" onclick="toggleRQ(${i})"><div><div class="rq-num">Questão ${i+1}</div><div class="rq-tipo">${q.tipo}</div></div><span class="rq-result-badge ${badgeCls}">${badgeTxt}</span></div><div class="rq-body" id="rq-body-${i}">${contextoHtml}<div class="rq-enunciado">${q.enunciado}</div>${respostaHtml}${explGeral}</div></div>`;
-      }).join('');
-      document.getElementById('revisao-screen').classList.add('open');
-      marcarConcluido();
-      if(parseFloat(notaFinal)>=7)celebrate();
-    }
-
-    function toggleRQ(i){const b=document.getElementById('rq-body-'+i);if(b)b.classList.toggle('open');}
-    function toggleAltExp(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
-
-    function voltarDashboard(){
-      const{questoes,respostas,titulo}=simuladoCorrente;
-      const notas=respostas.map((r,i)=>r.nota!==null?r.nota:questoes[i].tipo==='objetiva'?(r.acertou?100:0):0);
-      const media=notas.length?notas.reduce((a,b)=>a+b,0)/notas.length:0;
-      const acertos=Math.round(media/100*questoes.length);
-      state.provas.push({id:Date.now(),nome:titulo+' (IA)',ano:new Date().getFullYear(),total:questoes.length,acertos});
-      save();
-      document.getElementById('revisao-screen').classList.remove('open');
-      document.body.style.overflow='';
-      switchPage('simulados');
-      renderSimuladosPage();
-      toast('Simulado salvo!');
-      celebrate();
-    }
-
-    // ═══ DRAFT MANAGEMENT ═══
-    function salvarRascunho(){
-      if(!state.simuladosDraft)state.simuladosDraft=[];
-      const{questoes,titulo,modo,qIdx,respostas,apiKey}=simuladoCorrente;
-      const idx=state.simuladosDraft.findIndex(d=>d.titulo===titulo&&!d.concluido);
-      const draft={titulo,modo,questoes,respostas,qIdx,apiKey:apiKey||'',savedAt:Date.now(),concluido:false};
-      if(idx>=0)state.simuladosDraft[idx]=draft; else state.simuladosDraft.unshift(draft);
-      if(state.simuladosDraft.length>20)state.simuladosDraft=state.simuladosDraft.slice(0,20);
-      save();
-    }
-
-    function marcarConcluido(){
-      if(!state.simuladosDraft)return;
-      const idx=state.simuladosDraft.findIndex(d=>d.titulo===simuladoCorrente.titulo&&!d.concluido);
-      if(idx>=0){state.simuladosDraft[idx].concluido=true;save();}
-      else{
-        if(!state.simuladosDraft)state.simuladosDraft=[];
-        state.simuladosDraft.unshift({titulo:simuladoCorrente.titulo,modo:simuladoCorrente.modo,questoes:simuladoCorrente.questoes,respostas:simuladoCorrente.respostas,qIdx:simuladoCorrente.qIdx,apiKey:'',savedAt:Date.now(),concluido:true});
-        save();
-      }
-    }
-
-    function carregarRascunho(i){
-      const draft=state.simuladosDraft[i];
-      if(!draft)return;
-      if(draft.concluido){
-        simuladoCorrente={apiKey:draft.apiKey||getGeminiKey(),questoes:draft.questoes,titulo:draft.titulo,modo:draft.modo||'tutor',qIdx:draft.qIdx||0,respostas:draft.respostas,respondida:false};
-        exibirRevisao(); return;
-      }
-      simuladoCorrente={apiKey:draft.apiKey||getGeminiKey(),questoes:draft.questoes,titulo:draft.titulo,modo:draft.modo||'tutor',qIdx:draft.qIdx||0,respostas:draft.respostas,respondida:!!(draft.respostas[draft.qIdx||0]?.resposta)};
-      if(!draft.modo){
-        document.getElementById('modal-mode-title').textContent=`"${draft.titulo}"`;
-        document.getElementById('modal-mode-sub').textContent=`// ${draft.questoes.length} questão(ões) · escolha o modo`;
-        document.getElementById('modal-simulado-mode').classList.add('open');
-        document.body.style.overflow='hidden';
-      } else {
-        const badge=document.getElementById('sim-mode-badge');
-        badge.textContent=simuladoCorrente.modo==='tutor'?'Modo Tutor':'Modo Simulado';
-        badge.className='sim-mode-badge '+simuladoCorrente.modo;
-        document.getElementById('simulado-screen').classList.add('open');
-        document.body.style.overflow='hidden';
-        renderSimQuestao();
-      }
-    }
-
-    function deletarRascunho(i){
-      if(!confirm('Remover este simulado?'))return;
-      state.simuladosDraft.splice(i,1);
-      save(); renderSimuladosPage();
-    }
-
-    // ═══ ANNOTATION TOOLBAR ═══
-    let annotColor='y';
-    const annotTargetIds=['sim-enunciado','sim-contexto'];
-    function annotSetColor(c){
-      annotColor=c;
-      ['y','g','r','b'].forEach(x=>{const el=document.getElementById('annot-c-'+x);if(el)el.classList.toggle('sel',x===c);});
-    }
-    function annotApply(type){
-      const sel=window.getSelection();
-      if(!sel||sel.isCollapsed)return;
-      const range=sel.getRangeAt(0);
-      const isAllowed=annotTargetIds.some(id=>{const el=document.getElementById(id);return el&&el.contains(range.commonAncestorContainer);});
-      if(!isAllowed){hideAnnotToolbar();return;}
-      if(type==='clear'){
-        const frag=range.extractContents();
-        frag.querySelectorAll('mark, s').forEach(el=>{const p=el.parentNode;while(el.firstChild)p.insertBefore(el.firstChild,el);p.removeChild(el);});
-        range.insertNode(frag);
-      } else if(type==='highlight'){
-        const mark=document.createElement('mark'); mark.className='hl-'+annotColor;
-        try{range.surroundContents(mark);}catch(e){const f=range.extractContents();mark.appendChild(f);range.insertNode(mark);}
-      } else if(type==='strike'){
-        const s=document.createElement('s'); s.className='hl-strike';
-        try{range.surroundContents(s);}catch(e){const f=range.extractContents();s.appendChild(f);range.insertNode(s);}
-      }
-      sel.removeAllRanges(); hideAnnotToolbar();
-    }
-    function hideAnnotToolbar(){const tb=document.getElementById('annot-toolbar');if(tb)tb.classList.remove('show');}
-    document.addEventListener('selectionchange',()=>{
-      const sel=window.getSelection(); const tb=document.getElementById('annot-toolbar'); if(!tb)return;
-      if(!sel||sel.isCollapsed||!sel.toString().trim()){setTimeout(()=>{const s2=window.getSelection();if(!s2||s2.isCollapsed)tb.classList.remove('show');},150);return;}
-      const range=sel.getRangeAt(0);
-      const allowed=annotTargetIds.some(id=>{const el=document.getElementById(id);return el&&el.contains(range.commonAncestorContainer);});
-      if(!allowed){tb.classList.remove('show');return;}
-      const rect=range.getBoundingClientRect(); const tbW=230;
-      let left=rect.left+rect.width/2-tbW/2;
-      let top=rect.top-52+window.scrollY;
-      left=Math.max(8,Math.min(left,window.innerWidth-tbW-8));
-      if(top<window.scrollY+8)top=rect.bottom+8+window.scrollY;
-      tb.style.left=left+'px'; tb.style.top=top+'px'; tb.classList.add('show');
-    });
-
     // ═══ MATERIAS ═══
     function getMaterias(){return[...new Set([...state.materias,...state.temas.map(t=>t.materia)])].filter(Boolean);}
     function addMateria(){const inp=document.getElementById('new-mat-input'),v=inp.value.trim();if(!v){toast('Insira um nome');return;}if(!state.materias.includes(v)){state.materias.push(v);save();}inp.value='';renderMatManage();renderPomoSubjectSelect();toast('Matéria adicionada');}
@@ -2316,6 +1818,146 @@ Nota de 0 a 100.`;
       list.innerHTML = `<div class="rev-head"><div class="rev-dot"></div>${revs.length} tema${revs.length > 1 ? 's' : ''} para revisar hoje</div>` + revs.slice(0, 6).map(r => `<div class="review-item"><div class="review-mat">${r.materia}</div><div class="review-tema">${r.tema}</div><span class="rbadge ${r.badge}">${r.revType}</span></div>`).join('');
     }
 
+    // ═══════════════ TABLE + CARDS ═══════════════
+    function renderTable() {
+      const c = document.getElementById('subjects-container');
+      if (!state.temas.length) {
+        c.innerHTML = `<div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Nenhum tema ainda</div><div class="empty-sub">// clique em "+ Adicionar tema" para começar</div></div>`;
+        renderCards();
+        return;
+      }
+      
+      const groups = {};
+      state.temas.forEach(t => { if (!groups[t.materia]) groups[t.materia] = []; groups[t.materia].push(t); });
+      let html = '';
+      
+      for (const [mat, temas] of Object.entries(groups)) {
+        const est = temas.filter(t => t.estudado).length, pp = Math.round(est / temas.length * 100);
+        const k = btoa(encodeURIComponent(mat)).replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
+        html += `<div class="subj-header" onclick="toggleSubj('${k}')"><div class="subj-dot"></div><div class="subj-arrow open" id="arr-${k}">▶</div><div class="subj-name">${mat}</div><div class="subj-pbar"><div class="subj-pbar-fill" style="width:${pp}%"></div></div><div class="subj-count mono">${est}/${temas.length}</div></div>
+        <div id="sub-${k}"><div class="table-scroll"><table><thead><tr><th>✓</th><th>TEMA</th><th>Q.</th><th>ACE.</th><th>%</th><th>DATA</th><th>REVISÕES</th><th></th></tr></thead>
+        <tbody>${temas.map(t => {
+          const p = getPct(t), rv = getRevisions(t);
+          return `<tr>
+            <td><div class="check-box ${t.estudado ? 'checked' : ''}" onclick="toggleCheck(${t.id})"></div></td>
+            <td style="min-width:120px"><input class="inline" value="${t.tema.replace(/"/g, '&quot;')}" onblur="updateField(${t.id},'tema',this.value)"/></td>
+            <td><input class="inline num" type="number" value="${t.questoes || ''}" placeholder="0" inputmode="numeric" onblur="updateField(${t.id},'questoes',this.value)"/></td>
+            <td><input class="inline num" type="number" value="${t.acertos || ''}" placeholder="0" inputmode="numeric" onblur="updateField(${t.id},'acertos',this.value)"/></td>
+            <td>${p !== null ? `<span class="pct-badge ${pctCls(p)}">${p}%</span>` : '—'}</td>
+            <td><input class="inline" type="date" value="${t.dataEstudo || ''}" onchange="updateField(${t.id},'dataEstudo',this.value)" style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);min-width:104px"/></td>
+            <td><div class="revision-chips">${rv.map(r => `<span class="chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')" title="${r.date}">${r.label}</span>`).join('')}</div></td>
+            <td><button class="del-btn" onclick="deleteTema(${t.id})">×</button></td>
+          </tr>`;
+        }).join('')}</tbody></table></div></div>`;
+      }
+      c.innerHTML = html;
+      renderCards();
+    }
+    
+    function renderCards() {
+      const c = document.getElementById('card-list');
+      if (!state.temas.length) {
+        c.innerHTML = `<div class="empty-state"><div class="empty-icon">—</div><div class="empty-title">Nenhum tema</div><div class="empty-sub">// toque no + para começar</div></div>`;
+        return;
+      }
+      
+      const groups = {};
+      state.temas.forEach(t => { if (!groups[t.materia]) groups[t.materia] = []; groups[t.materia].push(t); });
+      let html = '';
+      
+      for (const [mat, temas] of Object.entries(groups)) {
+        const est = temas.filter(t => t.estudado).length, pp = Math.round(est / temas.length * 100);
+        const gk = 'g' + btoa(encodeURIComponent(mat)).replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);
+        html += `<div><div class="cg-header" onclick="toggleCG('${gk}')"><div class="cg-dot"></div><div class="cg-name">${mat}</div><div class="cg-pbar"><div class="cg-pbar-fill" style="width:${pp}%"></div></div><div class="cg-count mono">${est}/${temas.length}</div><div class="cg-arr open" id="cgarr-${gk}">▾</div></div>
+        <div class="cg-body" id="cgbody-${gk}">${temas.map(t => {
+          const p = getPct(t), rv = getRevisions(t), pend = rv.filter(r => r.status === 'due' || r.status === 'overdue'), cid = 'c' + t.id;
+          return `<div class="tc"><div class="tc-top" onclick="toggleTC('${cid}')"><div class="tc-chk ${t.estudado ? 'checked' : ''}" onclick="event.stopPropagation();toggleCheck(${t.id})"></div><div class="tc-info"><div class="tc-name">${t.tema}</div><div class="tc-meta">${p !== null ? `<span class="pct-badge ${pctCls(p)}">${p}%</span>` : ''}${pend.length ? `<span class="tc-rev">⏰ ${pend.map(r => r.label).join(' · ')}</span>` : ''}${t.estudado && p === null ? `<span style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted)">sem questões</span>` : ''}</div></div><div class="tc-chev" id="${cid}-chev">▾</div></div>
+        <div class="tc-body" id="${cid}"><div class="cf"><div class="cf-lbl">Tema</div><input class="cf-inp" value="${t.tema.replace(/"/g, '&quot;')}" onblur="updateField(${t.id},'tema',this.value)"/></div><div class="cf-row"><div class="cf"><div class="cf-lbl">Questões</div><input class="cf-inp" type="number" inputmode="numeric" value="${t.questoes || ''}" placeholder="0" onblur="updateField(${t.id},'questoes',this.value)"/></div><div class="cf"><div class="cf-lbl">Acertos</div><input class="cf-inp" type="number" inputmode="numeric" value="${t.acertos || ''}" placeholder="0" onblur="updateField(${t.id},'acertos',this.value)"/></div></div><div class="cf"><div class="cf-lbl">Data estudada</div><input class="cf-inp" type="date" value="${t.dataEstudo || ''}" onchange="updateField(${t.id},'dataEstudo',this.value)"/></div>${rv.length ? `<div class="cf"><div class="cf-lbl">Revisões espaçadas</div><div class="cf-chips">${rv.map(r => `<div class="cf-chip ${r.status}" onclick="toggleRevision(${t.id},'${r.key}')">${r.label}<br><span style="font-size:9px;opacity:.6">${r.date}</span></div>`).join('')}</div></div>` : ''}
+        <button class="tc-del" onclick="deleteTema(${t.id})">Remover tema</button></div></div>`;
+        }).join('')}</div></div>`;
+      }
+      c.innerHTML = html;
+    }
+    
+    function toggleTC(cid) {
+      const b = document.getElementById(cid), ch = document.getElementById(cid + '-chev');
+      if (!b) return;
+      b.classList.toggle('open');
+      if (ch) ch.classList.toggle('open');
+    }
+    
+    function toggleCG(gk) {
+      const b = document.getElementById('cgbody-' + gk), a = document.getElementById('cgarr-' + gk);
+      if (!b) return;
+      const h = b.style.display === 'none';
+      b.style.display = h ? '' : 'none';
+      if (a) a.classList.toggle('open', h);
+    }
+    
+    function toggleSubj(k) {
+      const s = document.getElementById('sub-' + k), a = document.getElementById('arr-' + k);
+      if (!s) return;
+      if (s.style.display === 'none') { s.style.display = ''; a.classList.add('open'); }
+      else { s.style.display = 'none'; a.classList.remove('open'); }
+    }
+
+    // ═══════════════ POMODORO ═══════════════
+    const PRESETS = {
+      classic: { focusMin: 25, breakMin: 5, longBreakMin: 15, cyclesBeforeLong: 4 },
+      deep: { focusMin: 45, breakMin: 15, longBreakMin: 30, cyclesBeforeLong: 0 },
+      short: { focusMin: 15, breakMin: 3, longBreakMin: 10, cyclesBeforeLong: 0 },
+      custom: { focusMin: 30, breakMin: 10, longBreakMin: 20, cyclesBeforeLong: 4 }
+    };
+    
+    const pomoCfg = { preset: 'classic', mode: 'focus', sound: true };
+    let pomoTimer = { running: false, remaining: 25 * 60, total: 25 * 60, interval: null };
+    let pomoCycleCount = 0;
+    const CIRC = 2 * Math.PI * 110;
+    
+    function getCurrentPreset() {
+      if (pomoCfg.preset === 'custom') return {
+        focusMin: parseInt(document.getElementById('custom-focus')?.value) || 30,
+        breakMin: parseInt(document.getElementById('custom-break')?.value) || 10,
+        longBreakMin: parseInt(document.getElementById('custom-long-break')?.value) || 20,
+        cyclesBeforeLong: parseInt(document.getElementById('custom-cycles')?.value) || 4
+      };
+      return PRESETS[pomoCfg.preset];
+    }
+    
+    function applyPreset(name, el) {
+      if (pomoTimer.running) return;
+      pomoCfg.preset = name;
+      document.querySelectorAll('.pomo-preset').forEach(p => p.classList.remove('active'));
+      if (el) el.classList.add('active');
+      const cr = document.getElementById('pomo-custom-row');
+      if (cr) cr.style.display = name === 'custom' ? 'flex' : 'none';
+      pomoCycleCount = 0;
+      setPomoMode('focus', document.querySelector('.pomo-mode-tab[data-mode="focus"]'));
+      renderCycleDots();
+    }
+    
+    function updateCustomPreset() {
+      if (pomoCfg.preset === 'custom' && !pomoTimer.running) setPomoMode('focus', document.querySelector('.pomo-mode-tab[data-mode="focus"]'));
+    }
+    
+    function renderCycleDots() {
+      const el = document.getElementById('cycle-dots');
+      if (!el) return;
+      const p = getCurrentPreset(), cycles = p.cyclesBeforeLong;
+      if (!cycles) { el.innerHTML = ''; return; }
+      el.innerHTML = Array.from({ length: cycles }, (_, i) => {
+        const cls = i < pomoCycleCount ? 'done' : i === pomoCycleCount && pomoCfg.mode === 'focus' ? 'current' : '';
+        return `<div class="cycle-dot ${cls}"></div>`;
+      }).join('');
+    }
+    
+    function setPomoMode(mode, el) {
+      if (pomoTimer.running) return;
+      pomoCfg.mode = mode;
+      document.querySelectorAll('.pomo-mode-tab').forEach(t => t.classList.remove('active'));
+      if (el) el.classList.add('active');
+      const p = getCurrent
+      
     // ═══════════════ TABLE + CARDS ═══════════════
     function renderTable() {
       const c = document.getElementById('subjects-container');
