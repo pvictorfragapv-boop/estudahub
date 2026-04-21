@@ -2497,14 +2497,16 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
             if (resp.resposta === letter) cls = 'selected';
           }
           const clickFn = showFeedback ? '' : `simSelecionarAlt('${letter}')`;
-bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}">
-            <div style="display:flex;align-items:center;gap:14px;padding:14px 18px">
-              <div class="sim-alt-letter">${letter}</div>
-              <div class="sim-alt-text" id="alt-txt-${letter}" style="flex:1;font-weight:500">${text}</div>
-              ${badge}
-            </div>
-            <div class="sim-alt-exp open" style="padding:4px 18px 12px 56px">${expHtml ? expHtml.replace(/<div class="sim-alt-exp open">/,'').replace('</div>','') : ''}</div>
-          </div>`;
+          const clickFn = showFeedback ? '' : `simSelecionarAlt('${letter}')`;
+          const expContent = expHtml ? expHtml.replace('<div class="sim-alt-exp open">', '').replace('</div>', '') : '';
+          bodyHtml += '<div class="sim-alt ' + cls + '" id="alt-' + letter + '" onclick="' + clickFn + '">';
+          bodyHtml += '<div style="display:flex;align-items:center;gap:14px;padding:14px 18px">';
+          bodyHtml += '<div class="sim-alt-letter">' + letter + '</div>';
+          bodyHtml += '<div class="sim-alt-text" id="alt-txt-' + letter + '" style="flex:1;font-weight:500">' + text + '</div>';
+          bodyHtml += badge;
+          bodyHtml += '</div>';
+          if (expContent) bodyHtml += '<div class="sim-alt-exp open" style="padding:4px 18px 12px 56px">' + expContent + '</div>';
+          bodyHtml += '</div>';
         // Explicação geral (tutor mode, after reveal)
         if (showFeedback && q.explicacao_geral) {
           bodyHtml += `<div style="margin-top:12px;padding:12px 16px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:var(--r);font-size:12px;line-height:1.7;color:var(--text)"><strong style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);display:block;margin-bottom:4px;font-family:'IBM Plex Mono',monospace">💡 Comentário geral</strong>${q.explicacao_geral}</div>`;
