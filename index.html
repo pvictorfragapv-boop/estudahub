@@ -917,32 +917,68 @@
     .sim-alt-exp { display: none; padding: 12px 18px 14px; font-size: 13px; line-height: 1.7; }
     .sim-alt-exp.open { display: block; }
 
-   /* ── ERRADAS: wrong (clicada) ── */
-.sim-alt.wrong { background: transparent !important; border: 2.5px solid #ef4444 !important; border-radius: 12px; }
-.sim-alt.wrong .sim-alt-main { background: #3a0e0e; border-radius: 12px; }
-.sim-alt.wrong .sim-alt-letter { background: #ef4444 !important; color: #ffffff !important; position: relative; z-index: 2; }
-.sim-alt.wrong .sim-alt-text { color: #fca5a5 !important; }
-.sim-alt.wrong .sim-alt-exp { background: #2d0808; border-top: 1px solid rgba(127,29,29,.4); color: #fca5a5 !important; }
+   /* ── ERRADAS: wrong (clicada pelo usuário) ── */
+.sim-alt.wrong {
+  background: #3b0d0d !important;
+  border: 2px solid #c0392b !important;
+  border-radius: 10px;
+}
+.sim-alt.wrong .sim-alt-main { background: transparent; }
+.sim-alt.wrong .sim-alt-letter {
+  background: transparent !important;
+  color: #ff6b6b !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+}
+.sim-alt.wrong .sim-alt-text { color: #ffcccc !important; font-weight: 600; }
+.sim-alt.wrong .sim-alt-exp { background: rgba(0,0,0,.2); border-top: 1px solid rgba(192,57,43,.4); color: #ffaaaa !important; padding: 10px 18px 14px 52px; }
 
-/* ── ERRADAS: other-wrong (não clicada) ── */
-.sim-alt.other-wrong { background: transparent !important; border: 1.5px solid rgba(239,68,68,.3) !important; border-radius: 12px; }
-.sim-alt.other-wrong .sim-alt-main { background: #2a0a0a; border-radius: 12px; }
-.sim-alt.other-wrong .sim-alt-letter { background: rgba(153,27,27,.7) !important; color: #ffffff !important; position: relative; z-index: 2; }
-.sim-alt.other-wrong .sim-alt-text { color: #fca5a5 !important; }
-.sim-alt.other-wrong .sim-alt-exp { background: #2d0808; border-top: 1px solid rgba(127,29,29,.4); color: #fca5a5 !important; }
+/* ── ERRADAS: other-wrong (não clicada, também errada) ── */
+.sim-alt.other-wrong {
+  background: #2a0a0a !important;
+  border: 1.5px solid rgba(192,57,43,.4) !important;
+  border-radius: 10px;
+}
+.sim-alt.other-wrong .sim-alt-main { background: transparent; }
+.sim-alt.other-wrong .sim-alt-letter {
+  background: transparent !important;
+  color: #e74c3c !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+}
+.sim-alt.other-wrong .sim-alt-text { color: #ffaaaa !important; }
+.sim-alt.other-wrong .sim-alt-exp { background: rgba(0,0,0,.2); border-top: 1px solid rgba(192,57,43,.3); color: #ffaaaa !important; padding: 10px 18px 14px 52px; }
 
 /* ── CORRETA não escolhida ── */
-.sim-alt.correct { background: transparent !important; border: 1.5px solid rgba(34,197,94,.4) !important; border-radius: 12px; }
-.sim-alt.correct .sim-alt-main { background: #0f2e1c; border-radius: 12px; }
-.sim-alt.correct .sim-alt-letter { background: #15803d !important; color: #ffffff !important; position: relative; z-index: 2; }
-.sim-alt.correct .sim-alt-text { color: #d1fae5 !important; }
-.sim-alt.correct .sim-alt-exp { background: #0f3320; border-top: 1px solid rgba(22,101,52,.5); color: #d1fae5 !important; }
+.sim-alt.correct {
+  background: #0d2e1a !important;
+  border: 1.5px solid rgba(39,174,96,.5) !important;
+  border-radius: 10px;
+}
+.sim-alt.correct .sim-alt-main { background: transparent; }
+.sim-alt.correct .sim-alt-letter {
+  background: transparent !important;
+  color: #2ecc71 !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+}
+.sim-alt.correct .sim-alt-text { color: #aaffcc !important; }
+.sim-alt.correct .sim-alt-exp { background: rgba(0,0,0,.2); border-top: 1px solid rgba(39,174,96,.3); color: #aaffcc !important; padding: 10px 18px 14px 52px; }
 
-/* ── CORRETA E ESCOLHIDA ── */
-.sim-alt.correct.highlight { background: transparent !important; border: 2.5px solid #22c55e !important; }
-.sim-alt.correct.highlight .sim-alt-main { background: #1a4731; border-radius: 12px; }
-.sim-alt.correct.highlight .sim-alt-letter { background: #22c55e !important; color: #ffffff !important; position: relative; z-index: 2; }
-.sim-alt.correct.highlight .sim-alt-text { color: #d1fae5 !important; font-weight: 600; }
+/* ── CORRETA E ESCOLHIDA (destaque máximo) ── */
+.sim-alt.correct.highlight {
+  background: #0f3d22 !important;
+  border: 2px solid #27ae60 !important;
+  border-radius: 10px;
+}
+.sim-alt.correct.highlight .sim-alt-letter {
+  background: transparent !important;
+  color: #2ecc71 !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+}
+.sim-alt.correct.highlight .sim-alt-text { color: #ccffdd !important; font-weight: 700; }
+.sim-alt.correct.highlight .sim-alt-exp { background: rgba(0,0,0,.2); border-top: 1px solid rgba(39,174,96,.4); color: #ccffdd !important; padding: 10px 18px 14px 52px; }
  
     .badge-correta { background: rgba(22,163,74,.2); color: #4ade80; border: 1px solid rgba(22,163,74,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
     .badge-errada  { background: rgba(185,28,28,.2); color: #fca5a5; border: 1px solid rgba(185,28,28,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
@@ -2595,13 +2631,15 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
  
           const clickFn = showFeedback ? '' : `simSelecionarAlt('${letter}')`;
  
-          bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}">
-            <div class="sim-alt-main">
-              <div class="sim-alt-letter">${letter}</div>
-              <div class="sim-alt-text" id="alt-txt-${letter}">${text}</div>
-            </div>
-            ${expHtml}
-          </div>`;
+          const icon = !showFeedback ? letter 
+  : (letter === q.gabarito_correto) ? '✓' : '✗';
+bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}">
+    <div class="sim-alt-main">
+      <div class="sim-alt-letter">${icon}</div>
+      <div class="sim-alt-text" id="alt-txt-${letter}">${text}</div>
+    </div>
+    ${expHtml}
+  </div>`;
         }
  
         if (showFeedback && q.explicacao_geral) {
