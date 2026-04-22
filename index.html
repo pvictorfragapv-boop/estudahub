@@ -560,7 +560,15 @@
     .mode-card-desc { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); line-height: 1.7; }
 
     /* ══ SIMULADO FULLSCREEN ══ */
-  #simulado-screen { position: fixed; inset: 0; z-index: 500; background: var(--bg); display: none; flex-direction: row; overflow: hidden; }
+  #simulado-screen { 
+  position: fixed; 
+  inset: 0; 
+  z-index: 500; 
+  background: var(--bg); /* Usa o fundo escuro do EstudaHub */
+  display: none; 
+  flex-direction: row;   /* Coloca Sidebar e Main Area lado a lado */
+  overflow: hidden; 
+}
     #simulado-screen.open { display: flex; }
     .sim-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 54px; background: rgba(7,7,11,.95); border-bottom: 1px solid var(--border2); flex-shrink: 0; backdrop-filter: blur(20px); position: relative; }
     .sim-topbar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--a), transparent); opacity: .4; }
