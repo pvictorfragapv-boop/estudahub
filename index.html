@@ -899,28 +899,29 @@
     .sim-alt.correct, .sim-alt.correct.highlight { border: none !important; background: transparent !important; }
     .sim-alt.correct .sim-alt-main { background: #3a0e0e; }
     .sim-alt.correct .sim-alt-exp { background: #2d0808 !important; border-top: 1px solid rgba(127,29,29,.4) !important; color: #fca5a5 !important; }
-    .sim-alt.correct .sim-alt-letter { background: rgba(153,27,27,.4); color: #fca5a5; }
+    .sim-alt.correct .sim-alt-letter { background: rgba(153,27,27,.4); color: #fff !important; }
     .sim-alt.correct .sim-alt-text { color: #fca5a5 !important; }
 
-    /* Correta E escolhida — borda verde destacada */
+   /* Correta E escolhida — verde */
     .sim-alt.correct.highlight { border: 2.5px solid #22c55e !important; border-radius: 12px; }
-    .sim-alt.correct.highlight .sim-alt-main { background: #3a0e0e; border-radius: 10px 10px 0 0; }
-    .sim-alt.correct.highlight .sim-alt-exp { background: #2d0808 !important; border-radius: 0 0 10px 10px; }
+    .sim-alt.correct.highlight .sim-alt-main { background: #1a4731; border-radius: 10px 10px 0 0; }
+    .sim-alt.correct.highlight .sim-alt-exp { background: #0f3320 !important; border-top: 1px solid rgba(22,101,52,.5) !important; color: #d1fae5 !important; border-radius: 0 0 10px 10px; }
     .sim-alt.correct.highlight .sim-alt-letter { background: #15803d; color: #fff; }
     .sim-alt.correct.highlight .sim-alt-text { color: #ffffff !important; font-weight: 600; }
+    .sim-alt.correct.highlight * { color: #d1fae5 !important; }
 
     /* Errada escolhida — borda vermelha destacada */
     .sim-alt.wrong { border: 2.5px solid #ef4444 !important; background: transparent !important; border-radius: 12px; }
     .sim-alt.wrong .sim-alt-main { background: #3a0e0e; border-radius: 10px 10px 0 0; }
     .sim-alt.wrong .sim-alt-exp { background: #2d0808 !important; border-top: 1px solid rgba(127,29,29,.4) !important; color: #fca5a5 !important; border-radius: 0 0 10px 10px; }
-    .sim-alt.wrong .sim-alt-letter { background: rgba(153,27,27,.4); color: #fca5a5; }
+  .sim-alt.wrong .sim-alt-letter { background: rgba(153,27,27,.4); color: #fff !important; }
     .sim-alt.wrong .sim-alt-text { color: #fca5a5 !important; font-weight: 600; }
 
     /* Outras erradas — mesmo vermelho vivo, sem borda */
     .sim-alt.other-wrong { border: none !important; background: transparent !important; opacity: 1; }
     .sim-alt.other-wrong .sim-alt-main { background: #3a0e0e; }
     .sim-alt.other-wrong .sim-alt-exp { background: #2d0808 !important; border-top: 1px solid rgba(127,29,29,.4) !important; color: #fca5a5 !important; }
-    .sim-alt.other-wrong .sim-alt-letter { background: rgba(153,27,27,.4); color: #fca5a5; }
+    .sim-alt.other-wrong .sim-alt-letter { background: rgba(153,27,27,.4); color: #fff !important; }
     .sim-alt.other-wrong .sim-alt-text { color: #fca5a5 !important; }
     /* Estrutura interna */
     .sim-alt .sim-alt-main { padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
