@@ -998,7 +998,22 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     .sim-actions-new { position: relative; flex-shrink: 0; background: rgba(7,7,11,.97); box-shadow: 0 -2px 16px rgba(0,0,0,.5); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
     .sim-btn { padding: 10px 20px; border-radius: var(--r); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .18s; white-space: nowrap; border: none; }
     .sim-btn-ghost { background: transparent; border: 1.5px solid var(--border3); color: var(--muted2); }
-    #sim-btn-prev { border-color: rgba(240,78,78,.5); color: var(--red); background: rgba(240,78,78,.1); border-radius: 50px; }
+   #sim-btn-prev,
+.sim-btn-next-rev {
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background: rgba(240,78,78,.15) !important;
+  border: 2px solid rgba(240,78,78,.55) !important;
+  color: #f04e4e !important;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+#sim-btn-prev:disabled { opacity: .3; cursor: not-allowed; }
     .sim-btn-next-rev { border-radius: 50px; }
     .sim-btn-ghost { border-radius: 50px; }
     .sim-btn-ghost:hover:not(:disabled) { border-color: var(--a); color: var(--a); background: var(--ad); }
@@ -1478,12 +1493,12 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     <div class="sim-body-scroll" id="sim-body"></div>
 
     <div class="sim-actions-new" id="sim-actions-new">
-      <button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
-      <div class="sim-btn-spacer"></div>
-      <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
-      <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
-      <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
-    </div>
+  <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
+  <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
+  <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
+  <div class="sim-btn-spacer"></div>
+  <button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
+</div>
   </div>
 </div>
 
