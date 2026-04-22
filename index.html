@@ -559,7 +559,31 @@
     .mode-card-title { font-size: 13px; font-weight: 800; margin-bottom: 6px; letter-spacing: -.01em; }
     .mode-card-desc { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); line-height: 1.7; }
 
-    /* ══ SIMULADO FULLSCREEN — bloco legado removido (substituído abaixo) ══ */
+    /* ══ SIMULADO FULLSCREEN ══ */
+    #simulado-screen { position: fixed; inset: 0; z-index: 500; background: #f0f2f5; display: none; flex-direction: column; overflow: hidden; }
+    #simulado-screen.open { display: flex; }
+    .sim-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 54px; background: rgba(7,7,11,.95); border-bottom: 1px solid var(--border2); flex-shrink: 0; backdrop-filter: blur(20px); position: relative; }
+    .sim-topbar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--a), transparent); opacity: .4; }
+    .sim-progress-track { position: absolute; bottom: 0; left: 0; height: 2px; background: var(--border2); width: 100%; }
+    .sim-progress-fill { height: 100%; background: linear-gradient(90deg, var(--a2), var(--a)); transition: width .4s cubic-bezier(.4,0,.2,1); }
+    .sim-q-counter { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .1em; }
+    .sim-q-counter strong { color: var(--a); }
+    .sim-mode-badge { font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border3); color: var(--muted2); }
+    .sim-mode-badge.tutor { border-color: var(--blue); color: var(--blue); background: rgba(77,158,245,.08); }
+    .sim-mode-badge.simulado { border-color: var(--yellow); color: var(--yellow); background: rgba(240,180,41,.08); }
+    .sim-exit-btn { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted); cursor: pointer; background: none; border: 1px solid var(--border2); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
+    .sim-exit-btn:hover { border-color: var(--red); color: var(--red); }
+    .sim-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 40px 24px 120px; }
+    .sim-q-card { width: 100%; max-width: 860px; margin: 0 auto; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; position: relative; animation: simcardIn .3s cubic-bezier(.4,0,.2,1); color: #1a1a1a; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+    .sim-q-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+    .sim-q-header { padding: 18px 24px 14px; border-bottom: 1px solid #f3f4f6; background: #ffffff;}
+    .sim-q-type { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #6366f1; margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
+    .sim-q-enunciado { font-size: 15px; line-height: 1.75; color: #111827; font-weight: 500; }
+    .sim-q-contexto { font-size: 13px; line-height: 1.75; color: #374151; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; }
+    .sim-q-body { padding: 20px 24px; background: #ffffff; }
+    /* sim-alt styles moved to new block below */
+    .badge-correta { background: #dcfce7; color: #15803d; border: 1px solid #86efac; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
+    .badge-errada { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
     #annot-toolbar { position: fixed; z-index: 9999; display: none; background: var(--bg3); border: 1px solid var(--border3); border-radius: 8px; padding: 4px 10px; gap: 4px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
     #annot-toolbar.show { display: flex; }
     .annot-btn { height: 28px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .15s; color: var(--text); }
@@ -778,7 +802,7 @@
     /* ══ SIMULADO FULLSCREEN — NEW LAYOUT ══ */
     #simulado-screen { position: fixed; inset: 0; z-index: 500; background: var(--bg); display: none; flex-direction: row; overflow: hidden; }
     #simulado-screen.open { display: flex; }
-    .sim-sidebar { width: 210px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border2); display: flex; flex-direction: column; padding: 16px 12px; gap: 14px; overflow-y: auto; }
+    .sim-sidebar { width: 210px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border2); display: flex; flex-direction: column; padding: 16px 12px; gap: 14px; overflow-y: auto; background: #1a1a2e; }
     .sim-sb-timer { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600; color: var(--text); }
     .sim-sb-mode { padding: 10px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); }
     .sim-sb-mode-lbl { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted2); margin-bottom: 8px; }
@@ -795,7 +819,12 @@
     .sim-sb-q-num.sq-answered { border-color: var(--border3); background: var(--bg4); color: var(--muted2); opacity: .7; }
     .sim-sb-finish { margin-top: auto; padding: 11px; border-radius: var(--r); border: 1.5px solid rgba(29,184,112,.4); background: rgba(29,184,112,.1); color: #1db870; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; text-align: center; font-family: 'Outfit', sans-serif; transition: all .18s; }
     .sim-sb-finish:hover { background: rgba(29,184,112,.18); }
-    /* legacy duplicate removed */
+    .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,.08); border-bottom: 1px solid var(--border2); }
+    .sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: #6b7280; letter-spacing: .06em; }
+    .sim-q-counter-new strong { color: #6366f1; }
+    .sim-exit-btn-new { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: #9ca3af; cursor: pointer; background: none; border: 1px solid #e5e7eb; padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
+    .sim-exit-btn-new:hover { border-color: rgba(240,78,78,.5); color: #f04e4e; }
 .sim-sidebar { width: 210px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border2); display: flex; flex-direction: column; padding: 16px 12px; gap: 14px; overflow-y: auto; }
     .sim-sb-timer { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600; color: var(--text); }
     .sim-sb-mode { padding: 10px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); }
@@ -813,7 +842,7 @@
     .sim-sb-q-num.sq-answered { border-color: var(--border3); background: var(--bg4); color: var(--muted2); opacity: .7; }
     .sim-sb-finish { margin-top: auto; padding: 11px; border-radius: var(--r); border: 1.5px solid rgba(29,184,112,.4); background: rgba(29,184,112,.1); color: #1db870; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; text-align: center; font-family: 'Outfit', sans-serif; transition: all .18s; }
     .sim-sb-finish:hover { background: rgba(29,184,112,.18); }
-    .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
  
     /* ── Topbar escuro ── */
     .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: rgba(7,7,11,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border2); }
@@ -927,7 +956,7 @@
     .badge-errada  { background: rgba(185,28,28,.2); color: #fca5a5; border: 1px solid rgba(185,28,28,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
  
     /* ── Barra de ações inferior ── */
-    .sim-actions-new { position: fixed; bottom: 0; left: 210px; right: 0; background: rgba(7,7,11,.97); box-shadow: 0 -2px 16px rgba(0,0,0,.5); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
+    .sim-actions-new { position: absolute; bottom: 0; left: 210px; right: 0; background: rgba(7,7,11,.97); box-shadow: 0 -2px 16px rgba(0,0,0,.5); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
     .sim-btn { padding: 10px 20px; border-radius: var(--r); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .18s; white-space: nowrap; border: none; }
     .sim-btn-ghost { background: transparent; border: 1.5px solid var(--border3); color: var(--muted2); }
     #sim-btn-prev { border-color: rgba(240,78,78,.5); color: var(--red); background: rgba(240,78,78,.1); border-radius: 50px; }
@@ -1372,47 +1401,48 @@
     <button class="sim-sb-finish" onclick="confirmarFinalizarComPendentes()">Finalizar Prova</button>
   </div>
 
+    <!-- Barra de progresso fina -->
+    <div style="height:3px;background:var(--border2);flex-shrink:0">
+      <div id="sim-progress-fill" style="height:100%;background:linear-gradient(90deg,var(--a2),var(--a));transition:width .4s;width:0%"></div>
+    </div>
+
+    <!-- Drawer toggle (só visível no mobile via CSS, inicialmente display:none) -->
+    <div class="sim-drawer-toggle" id="sim-drawer-toggle" onclick="toggleSimDrawer()" style="display:none">
+      <div class="sim-drawer-toggle-left">
+        <div class="sim-drawer-timer">🕐 <span id="sim-drawer-timer-val">00:00</span></div>
+        <div class="sim-drawer-dots" id="sim-drawer-dots"></div>
+      </div>
+      <div class="sim-drawer-right">
+        <div class="sim-mode-chip-mob" id="sim-mode-chip-mob">Tutor</div>
+        <div class="sim-drawer-chevron" id="sim-drawer-chevron">▾</div>
+      </div>
+    </div>
+
+    <!-- Drawer panel -->
+    <div class="sim-drawer-panel" id="sim-drawer-panel">
+      <div class="sim-drawer-grid" id="sim-drawer-grid"></div>
+      <button class="sim-drawer-finish" onclick="confirmarFinalizarComPendentes();toggleSimDrawer()">Finalizar Prova ✓</button>
+    </div>
+
     <div class="sim-main-area">
-      <!-- Barra de progresso fina -->
-      <div style="height:3px;background:var(--border2);flex-shrink:0">
-        <div id="sim-progress-fill" style="height:100%;background:linear-gradient(90deg,var(--a2),var(--a));transition:width .4s;width:0%"></div>
-      </div>
-
-      <!-- Drawer toggle (só visível no mobile via CSS, inicialmente display:none) -->
-      <div class="sim-drawer-toggle" id="sim-drawer-toggle" onclick="toggleSimDrawer()" style="display:none">
-        <div class="sim-drawer-toggle-left">
-          <div class="sim-drawer-timer">🕐 <span id="sim-drawer-timer-val">00:00</span></div>
-          <div class="sim-drawer-dots" id="sim-drawer-dots"></div>
-        </div>
-        <div class="sim-drawer-right">
-          <div class="sim-mode-chip-mob" id="sim-mode-chip-mob">Tutor</div>
-          <div class="sim-drawer-chevron" id="sim-drawer-chevron">▾</div>
-        </div>
-      </div>
-
-      <!-- Drawer panel -->
-      <div class="sim-drawer-panel" id="sim-drawer-panel">
-        <div class="sim-drawer-grid" id="sim-drawer-grid"></div>
-        <button class="sim-drawer-finish" onclick="confirmarFinalizarComPendentes();toggleSimDrawer()">Finalizar Prova ✓</button>
-      </div>
-
       <div class="sim-topbar-new">
-        <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
-        <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">✏️ Marca Texto</button>
-        <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
-      </div>
-
+  <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
+  <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">
+    ✏️ Marca Texto
+  </button>
+  <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
+</div>
       <div class="sim-body-scroll" id="sim-body"></div>
     </div>
-  </div>
 
-  <div class="sim-actions-new" id="sim-actions-new">
+    <div class="sim-actions-new" id="sim-actions-new">
       <button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
       <div class="sim-btn-spacer"></div>
       <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
       <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
       <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
     </div>
+  </div>
 
   <div id="annot-toolbar">
   <div class="annot-color annot-color-y sel" id="annot-c-y" onclick="annotSetColor('y')"></div>
