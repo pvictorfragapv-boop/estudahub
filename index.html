@@ -581,26 +581,7 @@
     .sim-q-enunciado { font-size: 15px; line-height: 1.75; color: #111827; font-weight: 500; }
     .sim-q-contexto { font-size: 13px; line-height: 1.75; color: #374151; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; }
     .sim-q-body { padding: 20px 24px; background: #ffffff; }
-    .sim-alts { display: flex; flex-direction: column; gap: 8px; }
-    .sim-alt { display: flex; flex-direction: column; border: 1.5px solid #e5e7eb; border-radius: 12px; cursor: pointer; transition: all .18s; background: #ffffff; font-size: 14px; line-height: 1.6; overflow: hidden; margin-bottom: 12px; color: #1a1a1a; }
-    .sim-alt:hover { border-color: #a5b4fc; background: #fafafa; }
-    .sim-alt.selected { border-color: #6366f1; background: #ede9fe; }
-    .sim-alt.correct { border: 2px solid #22c55e !important; background: #f0fdf4 !important; }
-    .sim-alt.correct.highlight { border: 2px solid #16a34a !important; background: #dcfce7 !important; }
-    .sim-alt.wrong { border: 2px solid #ef4444 !important; background: #fff1f2 !important; }
-    .sim-alt.other-wrong { border: 1.5px solid #fca5a5 !important; background: #fff5f5 !important; opacity: 1; }
-    .sim-alt-letter { width: 30px; height: 30px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: #374151; flex-shrink: 0; transition: all .18s; }
-    .sim-alt.selected .sim-alt-letter { background: #6366f1; color: #fff; }
-    .sim-alt.correct .sim-alt-letter { background: #22c55e; color: #fff; }
-    .sim-alt.wrong .sim-alt-letter { background: #ef4444; color: #fff; }
-    .sim-alt.other-wrong .sim-alt-letter { background: #f87171; color: #fff; }
-    .sim-alt-text { flex: 1; position: relative; z-index: 1; color: #1a1a1a; font-weight: 500; }
-    .sim-alt.correct .sim-alt-text { color: #15803d; font-weight: 600; }
-    .sim-alt.wrong .sim-alt-text { color: #991b1b; font-weight: 600; }
-    .sim-alt.other-wrong .sim-alt-text { color: #991b1b; }
-    .sim-alt.correct .sim-alt-exp { color: #15803d; border-top: 1px solid #bbf7d0; background: #f0fdf4; padding: 10px 18px 12px 56px; font-size: 13px; display: block; }
-    .sim-alt.wrong .sim-alt-exp { color: #991b1b; border-top: 1px solid #fecaca; background: #fff1f2; padding: 10px 18px 12px 56px; font-size: 13px; display: block; }
-    .sim-alt.other-wrong .sim-alt-exp { color: #991b1b; padding: 10px 18px 12px 56px; font-size: 13px; display: block; }
+    /* sim-alt styles moved to new block below */
     .badge-correta { background: #dcfce7; color: #15803d; border: 1px solid #86efac; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
     .badge-errada { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
     .sim-alt-text { flex: 1; position: relative; z-index: 1; }
@@ -983,13 +964,6 @@
   border-top: 1px solid rgba(22,101,52,.5);
   color: #d1fae5 !important;
 }
-    /* Estrutura interna */
-    .sim-alt .sim-alt-main { padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
-    .sim-alt-letter { width: 30px; height: 30px; border-radius: 50%; background: #2a2a3e; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); flex-shrink: 0; transition: all .18s; }
-    .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
-    .sim-alt-text { flex: 1; color: var(--text); font-weight: 500; }
-    .sim-alt-exp { display: none; padding: 12px 18px 14px 18px; font-size: 13px; line-height: 1.7; }
-    .sim-alt-exp.open { display: block; }
  
     .badge-correta { background: rgba(22,163,74,.2); color: #4ade80; border: 1px solid rgba(22,163,74,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
     .badge-errada  { background: rgba(185,28,28,.2); color: #fca5a5; border: 1px solid rgba(185,28,28,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
