@@ -994,6 +994,23 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     .badge-correta { background: rgba(22,163,74,.2); color: #4ade80; border: 1px solid rgba(22,163,74,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
     .badge-errada  { background: rgba(185,28,28,.2); color: #fca5a5; border: 1px solid rgba(185,28,28,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
  
+    /* ── Barra de ações inferior ── */
+    .sim-actions-new { position: relative; flex-shrink: 0; background: rgba(7,7,11,.97); box-shadow: 0 -2px 16px rgba(0,0,0,.5); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
+    .sim-btn { padding: 10px 20px; border-radius: var(--r); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .18s; white-space: nowrap; border: none; }
+    .sim-btn-ghost { background: transparent; border: 1.5px solid var(--border3); color: var(--muted2); }
+    #sim-btn-prev { border-color: rgba(240,78,78,.5); color: var(--red); background: rgba(240,78,78,.1); border-radius: 50px; }
+    .sim-btn-next-rev { border-radius: 50px; }
+    .sim-btn-ghost { border-radius: 50px; }
+    .sim-btn-ghost:hover:not(:disabled) { border-color: var(--a); color: var(--a); background: var(--ad); }
+    .sim-btn-ghost:disabled { opacity: .3; cursor: not-allowed; }
+    .sim-btn-primary { background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; box-shadow: 0 4px 20px var(--ag); }
+    .sim-btn-primary:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+    .sim-btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+    .sim-btn-next-rev { background: var(--ad); border: 1.5px solid var(--a); color: var(--a); }
+    .sim-btn-next-rev:hover { background: var(--ag); }
+    .sim-btn-finish-new { background: linear-gradient(135deg,#b45309,#fbbf24); color: #000; }
+    .sim-btn-finish-new:hover { opacity: .9; }
+    .sim-btn-spacer { flex: 1; }
  
     /* ── Mobile adjustments ── */
 @media(max-width:768px) {
@@ -1055,61 +1072,12 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
   .sim-alt-main { padding: 14px 14px; gap: 12px; min-height: 58px; }
   .sim-alt-letter { width: 34px; height: 34px; }
   .sim-alt-text { font-size: 14px; }
-/* ── Nova Barra de Ações (Estilo MedCof) ── */
-.sim-actions-new { 
-  display: flex; 
-  align-items: center; 
-  justify-content: flex-end; 
-  gap: 12px; 
-  width: 100%; 
-  max-width: 900px; 
-  margin: 0 auto; 
-  padding: 0 0 32px 0; 
-  background: transparent !important; 
-  border-top: none !important; 
-  box-shadow: none !important;
-}
 
-.sim-btn-pill { 
-  background: #dc2626 !important; 
-  color: #fff !important; 
-  border: none !important; 
-  border-radius: 40px !important; 
-  padding: 10px 24px !important; 
-  font-family: 'Outfit', sans-serif !important; 
-  font-weight: 700 !important; 
-  font-size: 13px !important; 
-  cursor: pointer; 
-  transition: all .2s; 
-  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3) !important;
-}
-.sim-btn-pill:hover:not(:disabled) { transform: translateY(-2px); opacity: 0.9; }
-.sim-btn-pill:disabled { opacity: 0.4; cursor: not-allowed; }
-
-.sim-btn-circle {
-  background: #dc2626 !important; 
-  color: #fff !important; 
-  border: none !important; 
-  border-radius: 50% !important; 
-  width: 40px !important; 
-  height: 40px !important; 
-  display: flex !important; 
-  align-items: center !important; 
-  justify-content: center !important; 
-  font-size: 18px !important; 
-  cursor: pointer; 
-  transition: all .2s; 
-  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3) !important;
-}
-.sim-btn-circle:hover:not(:disabled) { transform: translateY(-2px); opacity: 0.9; }
-.sim-btn-circle:disabled { opacity: 0.4; cursor: not-allowed; }
-
-/* Ajuste Mobile para colar na direita sem quebrar a tela */
-@media(max-width: 768px) {
-  .sim-actions-new { 
-    padding: 0 16px 24px 0 !important; 
-    max-width: 100% !important;
-  }
+  /* Barra de ações — full width, sem offset da sidebar */
+  .sim-actions-new { position: relative; flex-shrink: 0; padding: 10px 14px calc(10px + var(--sb)); gap: 8px; flex-wrap: nowrap; }
+  #sim-btn-prev { width: 46px; height: 46px; padding: 0; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .sim-btn-primary, .sim-btn-next-rev, .sim-btn-finish-new { flex: 1; height: 46px; border-radius: 24px; font-size: 12px; padding: 0 16px; }
+  .sim-btn-spacer { display: none; }
 }
   </style>
 </head>
@@ -1510,11 +1478,11 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     <div class="sim-body-scroll" id="sim-body"></div>
 
     <div class="sim-actions-new" id="sim-actions-new">
-      <button class="sim-btn-pill" id="sim-btn-respond" onclick="simResponder()">Validar</button>
-      <button class="sim-btn-pill" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar</button>
-      
-      <button class="sim-btn-circle" id="sim-btn-prev" onclick="simAnterior()">❮</button>
-      <button class="sim-btn-circle" id="sim-btn-next" onclick="simProxima()" style="display:none">❯</button>
+      <button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
+      <div class="sim-btn-spacer"></div>
+      <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
+      <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
+      <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
     </div>
   </div>
 </div>
@@ -2834,18 +2802,23 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
       const btnNext   = document.getElementById('sim-btn-next');
       const btnFinish = document.getElementById('sim-btn-finish');
 
+      // Prev always shown, disabled on first question
       btnPrev.disabled = (qIdx === 0);
+      // Update sidebar question grid
       renderSimSidebar();
 
       if (respondida) {
         btnResp.style.display = 'none';
-        btnNext.style.display = isLast ? 'none' : 'flex';
-        btnFinish.style.display = isLast ? 'flex' : 'none';
+        btnFinish.style.display = 'none';
+        btnNext.style.display = 'inline-flex';
+        btnNext.disabled = false;
+        btnNext.textContent = isLast ? 'Finalizar ✓' : 'Próxima →';
+        btnNext.onclick = isLast ? finalizarSimulado : simProxima;
       } else {
-        btnResp.style.display = 'flex';
+        btnResp.style.display = 'inline-flex';
         btnResp.disabled = false;
         btnNext.style.display = 'none';
-        btnFinish.style.display = 'none';
+        btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'inline-flex' : 'none';
       }
     }
 
