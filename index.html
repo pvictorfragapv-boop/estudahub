@@ -885,7 +885,11 @@
   background: #2a2a3e; color: #ffffff;
 }
 .sim-alt.selected .sim-alt-letter { background: var(--a); color: #fff; }
-
+.sim-alt .sim-alt-letter { color: #ffffff !important; }
+.sim-alt.wrong .sim-alt-letter,
+.sim-alt.other-wrong .sim-alt-letter,
+.sim-alt.correct .sim-alt-letter,
+.sim-alt.correct.highlight .sim-alt-letter { color: #ffffff !important; }
 .sim-alt-text { flex: 1; font-weight: 500; }
 .sim-alt-exp { display: none; padding: 12px 18px 14px; font-size: 13px; line-height: 1.7; }
 .sim-alt-exp.open { display: block; }
