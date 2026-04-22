@@ -2877,23 +2877,27 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
       const btnNext   = document.getElementById('sim-btn-next');
       const btnFinish = document.getElementById('sim-btn-finish');
 
-      // Prev always shown, disabled on first question
       btnPrev.disabled = (qIdx === 0);
-      // Update sidebar question grid
       renderSimSidebar();
 
       if (respondida) {
+        // Oculta o validar
         btnResp.style.display = 'none';
-        btnFinish.style.display = 'none';
-        btnNext.style.display = 'inline-flex';
-        btnNext.disabled = false;
-        btnNext.textContent = isLast ? 'Finalizar ✓' : 'Próxima →';
-        btnNext.onclick = isLast ? finalizarSimulado : simProxima;
+        
+        // Se for a última, mostra Finalizar. Se não, mostra a setinha de avançar.
+        if (isLast) {
+          btnNext.style.display = 'none';
+          btnFinish.style.display = 'flex';
+        } else {
+          btnNext.style.display = 'flex';
+          btnFinish.style.display = 'none';
+        }
       } else {
-        btnResp.style.display = 'inline-flex';
+        // Questão nova: Mostra Validar, esconde setinha de avançar e finalizar
+        btnResp.style.display = 'flex';
         btnResp.disabled = false;
         btnNext.style.display = 'none';
-        btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'inline-flex' : 'none';
+        btnFinish.style.display = 'none';
       }
     }
 
