@@ -1401,14 +1401,6 @@
     <button class="sim-sb-finish" onclick="confirmarFinalizarComPendentes()">Finalizar Prova</button>
   </div>
 
-  <div class="sim-main-area">
-    <!-- Topbar -->
-    <div class="sim-topbar-new">
-      <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
-      <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">✏️ Marca Texto</button>
-      <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
-    </div>
-
     <!-- Barra de progresso fina -->
     <div style="height:3px;background:var(--border2);flex-shrink:0">
       <div id="sim-progress-fill" style="height:100%;background:linear-gradient(90deg,var(--a2),var(--a));transition:width .4s;width:0%"></div>
@@ -1431,18 +1423,6 @@
       <div class="sim-drawer-grid" id="sim-drawer-grid"></div>
       <button class="sim-drawer-finish" onclick="confirmarFinalizarComPendentes();toggleSimDrawer()">Finalizar Prova ✓</button>
     </div>
-
-    <div class="sim-body-scroll" id="sim-body"></div>
-  </div>
-
-  <div class="sim-actions-new" id="sim-actions-new">
-    <button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
-    <div class="sim-btn-spacer"></div>
-    <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
-    <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
-    <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
-  </div>
-</div>
 
     <div class="sim-main-area">
       <div class="sim-topbar-new">
