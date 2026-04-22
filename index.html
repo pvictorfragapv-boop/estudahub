@@ -808,47 +808,30 @@
     }
   
     /* ══ SIMULADO FULLSCREEN — NEW LAYOUT ══ */
-    .sim-sidebar { width: 210px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border2); display: flex; flex-direction: column; padding: 16px 12px; gap: 14px; overflow-y: auto; background: #1a1a2e; }
-    .sim-sb-timer { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600; color: var(--text); }
-    .sim-sb-mode { padding: 10px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); }
-    .sim-sb-mode-lbl { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted2); margin-bottom: 8px; }
-    .sim-sb-mode-opts { display: flex; gap: 5px; }
-    .sim-sb-mode-opt { flex: 1; padding: 5px 8px; text-align: center; font-size: 10px; font-weight: 600; border-radius: 20px; border: 1px solid var(--border3); color: var(--muted2); cursor: default; background: transparent; font-family: 'Outfit', sans-serif; }
-    .sim-sb-mode-opt.active { background: var(--ad); border-color: var(--a); color: var(--a); }
-    .sim-sb-q-title { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted2); padding: 0 2px; }
-    .sim-sb-q-grid { display: flex; flex-wrap: wrap; gap: 5px; }
-    .sim-sb-q-num { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1.5px solid var(--border3); background: var(--bg3); color: var(--muted2); font-family: 'IBM Plex Mono', monospace; transition: all .15s; }
-    .sim-sb-q-num:hover { border-color: var(--a); color: var(--a); }
-    .sim-sb-q-num.sq-active { border-color: var(--a); background: var(--ad); color: var(--a); }
-    .sim-sb-q-num.sq-correct { border-color: rgba(29,184,112,.5); background: rgba(29,184,112,.12); color: #1db870; }
-    .sim-sb-q-num.sq-wrong { border-color: rgba(240,78,78,.5); background: rgba(240,78,78,.1); color: #f04e4e; }
-    .sim-sb-q-num.sq-answered { border-color: var(--border3); background: var(--bg4); color: var(--muted2); opacity: .7; }
-    .sim-sb-finish { margin-top: auto; padding: 11px; border-radius: var(--r); border: 1.5px solid rgba(29,184,112,.4); background: rgba(29,184,112,.1); color: #1db870; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; text-align: center; font-family: 'Outfit', sans-serif; transition: all .18s; }
-    .sim-sb-finish:hover { background: rgba(29,184,112,.18); }
-    .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
-    .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,.08); border-bottom: 1px solid var(--border2); }
-    .sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: #6b7280; letter-spacing: .06em; }
-    .sim-q-counter-new strong { color: #6366f1; }
-    .sim-exit-btn-new { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: #9ca3af; cursor: pointer; background: none; border: 1px solid #e5e7eb; padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
-    .sim-exit-btn-new:hover { border-color: rgba(240,78,78,.5); color: #f04e4e; }
 .sim-sidebar { width: 210px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border2); display: flex; flex-direction: column; padding: 16px 12px; gap: 14px; overflow-y: auto; }
-    .sim-sb-timer { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600; color: var(--text); }
-    .sim-sb-mode { padding: 10px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); }
-    .sim-sb-mode-lbl { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted2); margin-bottom: 8px; }
-    .sim-sb-mode-opts { display: flex; gap: 5px; }
-    .sim-sb-mode-opt { flex: 1; padding: 5px 8px; text-align: center; font-size: 10px; font-weight: 600; border-radius: 20px; border: 1px solid var(--border3); color: var(--muted2); cursor: default; background: transparent; font-family: 'Outfit', sans-serif; }
-    .sim-sb-mode-opt.active { background: var(--ad); border-color: var(--a); color: var(--a); }
-    .sim-sb-q-title { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted2); padding: 0 2px; }
-    .sim-sb-q-grid { display: flex; flex-wrap: wrap; gap: 5px; }
-    .sim-sb-q-num { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1.5px solid var(--border3); background: var(--bg3); color: var(--muted2); font-family: 'IBM Plex Mono', monospace; transition: all .15s; }
-    .sim-sb-q-num:hover { border-color: var(--a); color: var(--a); }
-    .sim-sb-q-num.sq-active { border-color: var(--a); background: var(--ad); color: var(--a); }
-    .sim-sb-q-num.sq-correct { border-color: rgba(29,184,112,.5); background: rgba(29,184,112,.12); color: #1db870; }
-    .sim-sb-q-num.sq-wrong { border-color: rgba(240,78,78,.5); background: rgba(240,78,78,.1); color: #f04e4e; }
-    .sim-sb-q-num.sq-answered { border-color: var(--border3); background: var(--bg4); color: var(--muted2); opacity: .7; }
-    .sim-sb-finish { margin-top: auto; padding: 11px; border-radius: var(--r); border: 1.5px solid rgba(29,184,112,.4); background: rgba(29,184,112,.1); color: #1db870; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; text-align: center; font-family: 'Outfit', sans-serif; transition: all .18s; }
-    .sim-sb-finish:hover { background: rgba(29,184,112,.18); }
-    .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.sim-sb-timer { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600; color: var(--text); }
+.sim-sb-mode { padding: 10px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); }
+.sim-sb-mode-lbl { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted2); margin-bottom: 8px; }
+.sim-sb-mode-opts { display: flex; gap: 5px; }
+.sim-sb-mode-opt { flex: 1; padding: 5px 8px; text-align: center; font-size: 10px; font-weight: 600; border-radius: 20px; border: 1px solid var(--border3); color: var(--muted2); cursor: default; background: transparent; font-family: 'Outfit', sans-serif; }
+.sim-sb-mode-opt.active { background: var(--ad); border-color: var(--a); color: var(--a); }
+.sim-sb-q-title { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted2); padding: 0 2px; }
+.sim-sb-q-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+.sim-sb-q-num { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1.5px solid var(--border3); background: var(--bg3); color: var(--muted2); font-family: 'IBM Plex Mono', monospace; transition: all .15s; }
+.sim-sb-q-num:hover { border-color: var(--a); color: var(--a); }
+.sim-sb-q-num.sq-active { border-color: var(--a); background: var(--ad); color: var(--a); }
+.sim-sb-q-num.sq-correct { border-color: rgba(29,184,112,.5); background: rgba(29,184,112,.12); color: #1db870; }
+.sim-sb-q-num.sq-wrong { border-color: rgba(240,78,78,.5); background: rgba(240,78,78,.1); color: #f04e4e; }
+.sim-sb-q-num.sq-answered { border-color: var(--border3); background: var(--bg4); color: var(--muted2); opacity: .7; }
+.sim-sb-finish { margin-top: auto; padding: 11px; border-radius: var(--r); border: 1.5px solid rgba(29,184,112,.4); background: rgba(29,184,112,.1); color: #1db870; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; text-align: center; font-family: 'Outfit', sans-serif; transition: all .18s; }
+.sim-sb-finish:hover { background: rgba(29,184,112,.18); }
+
+.sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; min-height: 0; }
+.sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: rgba(7,7,11,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border2); }
+.sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .06em; }
+.sim-q-counter-new strong { color: var(--a); }
+.sim-exit-btn-new { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); cursor: pointer; background: none; border: 1px solid var(--border3); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
+.sim-exit-btn-new:hover { border-color: rgba(240,78,78,.5); color: #f04e4e; }
  
     /* ── Topbar escuro ── */
     .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: rgba(7,7,11,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border2); }
