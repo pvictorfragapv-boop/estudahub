@@ -902,19 +902,19 @@
     .sim-alt.correct .sim-alt-letter { background: #15803d; color: #fff; }
     .sim-alt.correct .sim-alt-text { color: #ffffff; font-weight: 600; }
  
-    /* Errada escolhida — vermelho médio + vermelho escuro */
-    .sim-alt.wrong { border: none !important; background: transparent !important; }
-    .sim-alt.wrong .sim-alt-main { background: #4c1010; }
-    .sim-alt.wrong .sim-alt-exp { background: #3b0808 !important; border-top: 1px solid rgba(127,29,29,.5) !important; color: #fecaca !important; }
+    /* Errada escolhida — borda vermelha destacada */
+    .sim-alt.wrong { border: 2.5px solid #ef4444 !important; background: transparent !important; border-radius: 12px; }
+    .sim-alt.wrong .sim-alt-main { background: #4c1010; border-radius: 10px 10px 0 0; }
+    .sim-alt.wrong .sim-alt-exp { background: #3b0808 !important; border-top: 1px solid rgba(127,29,29,.5) !important; color: #fecaca !important; border-radius: 0 0 10px 10px; }
     .sim-alt.wrong .sim-alt-letter { background: #991b1b; color: #fff; }
     .sim-alt.wrong .sim-alt-text { color: #ffffff; font-weight: 600; }
  
-    /* Outras erradas não escolhidas */
+    /* Outras erradas — mesmo visual escuro, sem borda destacada */
     .sim-alt.other-wrong { border: none !important; background: transparent !important; opacity: 1; }
-    .sim-alt.other-wrong .sim-alt-main { background: #3a0e0e; }
-    .sim-alt.other-wrong .sim-alt-exp { background: #2d0808 !important; border-top: 1px solid rgba(127,29,29,.4) !important; color: #fca5a5 !important; }
-    .sim-alt.other-wrong .sim-alt-letter { background: rgba(153,27,27,.4); color: #fca5a5; }
-    .sim-alt.other-wrong .sim-alt-text { color: #fca5a5; }
+    .sim-alt.other-wrong .sim-alt-main { background: #4c1010; }
+    .sim-alt.other-wrong .sim-alt-exp { background: #3b0808 !important; border-top: 1px solid rgba(127,29,29,.5) !important; color: #fecaca !important; }
+    .sim-alt.other-wrong .sim-alt-letter { background: #991b1b; color: #fff; }
+    .sim-alt.other-wrong .sim-alt-text { color: #fecaca; }
  
     /* Estrutura interna */
     .sim-alt .sim-alt-main { padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
