@@ -864,83 +864,80 @@
     .sim-q-body { padding: 20px 24px; background: var(--bg2); }
  
        /* ── Alternativas (objetiva) ── */
-    .sim-alts { display: flex; flex-direction: column; gap: 10px; }
+.sim-alts { display: flex; flex-direction: column; gap: 10px; }
 
-    .sim-alt {
-      display: flex; 
-      flex-direction: column; 
-      border-radius: 12px; 
-      cursor: pointer;
-      transition: all .18s; 
-      overflow: hidden; 
-      font-size: 14px; 
-      line-height: 1.6;
-      background: #1e1e2e; 
-      color: #e0e0f0; 
-      border: 1.5px solid #2e2e4a;
-    }
-    .sim-alt:hover { background: #26263a; border-color: var(--a); }
-    .sim-alt.selected { border: 2px solid var(--a); background: rgba(167,139,250,0.05); }
+.sim-alt {
+  display: flex; flex-direction: column; border-radius: 12px; cursor: pointer;
+  transition: all .18s; overflow: hidden; font-size: 14px; line-height: 1.6;
+  background: #1e1e2e; color: #ffffff; border: 1.5px solid #2e2e4a;
+}
+.sim-alt:hover { background: #26263a; border-color: var(--a); }
+.sim-alt.selected { background: rgba(167,139,250,.18); border: 2px solid var(--a); }
 
-    /* ── Estrutura interna ── */
-    .sim-alt .sim-alt-main { padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
+/* ── Estrutura interna ── */
+.sim-alt .sim-alt-main { 
+  padding: 14px 18px; display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; 
+}
 
-    .sim-alt-letter {
-      width: 30px; 
-      height: 30px; 
-      border-radius: 50%;
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      font-size: 14px; /* Aumentei um pouco para os ícones ✓ e ✗ */
-      font-weight: 800; 
-      font-family: 'IBM Plex Mono', monospace;
-      flex-shrink: 0; 
-      transition: all .18s;
-      background: #2a2a3e; 
-      color: #ffffff !important; /* FORÇA LETRA BRANCA */
-    }
+.sim-alt-letter {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; font-family: 'IBM Plex Mono', monospace;
+  flex-shrink: 0; transition: all .18s;
+  background: #2a2a3e; 
+  color: #ffffff !important; /* Bolinha sempre com ícone/letra branca */
+}
 
-    /* Quando selecionado (antes de validar) */
-    .sim-alt.selected .sim-alt-letter { background: var(--a); color: #ffffff !important; }
+.sim-alt.selected .sim-alt-letter { background: var(--a); color: #ffffff !important; }
 
-    .sim-alt-text { flex: 1; font-weight: 500; color: inherit; }
-    .sim-alt-exp { display: none; padding: 12px 18px 14px; font-size: 13px; line-height: 1.7; }
-    .sim-alt-exp.open { display: block; }
+.sim-alt-text { flex: 1; font-weight: 500; color: #ffffff !important; } /* Texto da alternativa SEMPRE BRANCO */
+.sim-alt-exp { display: none; padding: 10px 18px 14px 52px; font-size: 13px; line-height: 1.7; }
+.sim-alt-exp.open { display: block; }
 
-    /* ── ESTADOS DE CORREÇÃO (TUTOR) ── */
-    
-    /* ERRADAS: Bolinha vermelha com ícone BRANCO */
-    .sim-alt.wrong .sim-alt-main,
-    .sim-alt.other-wrong .sim-alt-main {
-      background: rgba(240, 78, 78, 0.08); 
-    }
-    .sim-alt.wrong .sim-alt-letter,
-    .sim-alt.other-wrong .sim-alt-letter {
-      background: #f04e4e !important; 
-      color: #ffffff !important; /* Ícone ✗ fica branco */
-    }
-    .sim-alt.wrong .sim-alt-text,
-    .sim-alt.other-wrong .sim-alt-text {
-      color: #fca5a5; /* Texto da alternativa levemente avermelhado para leitura */
-    }
-    .sim-alt.wrong { border-color: rgba(240, 78, 78, 0.4) !important; }
+/* ── ERRADAS: wrong (clicada pelo usuário) ── */
+.sim-alt.wrong {
+  background: #3b0d0d !important; /* Restaura o seu fundo original escuro */
+  border: 2px solid #ef4444 !important;
+  border-radius: 10px;
+}
+.sim-alt.wrong .sim-alt-main { background: transparent; }
+.sim-alt.wrong .sim-alt-letter { background: #ef4444 !important; color: #ffffff !important; }
+.sim-alt.wrong .sim-alt-text { color: #ffffff !important; font-weight: 600; } /* TEXTO BRANCO */
+.sim-alt.wrong .sim-alt-exp { background: rgba(0,0,0,.2); border-top: 1px solid rgba(192,57,43,.4); color: #ffaaaa !important; }
 
-    /* CORRETAS: Bolinha verde com ícone BRANCO */
-    .sim-alt.correct .sim-alt-main,
-    .sim-alt.correct.highlight .sim-alt-main {
-      background: rgba(29, 184, 112, 0.1);
-    }
-    .sim-alt.correct .sim-alt-letter,
-    .sim-alt.correct.highlight .sim-alt-letter {
-      background: #1db870 !important;
-      color: #ffffff !important; /* Ícone ✓ fica branco */
-    }
-    .sim-alt.correct .sim-alt-text,
-    .sim-alt.correct.highlight .sim-alt-text {
-      color: #d1fae5; /* Texto da alternativa levemente esverdeado */
-    }
-    .sim-alt.correct.highlight { border-color: #1db870 !important; border-width: 2px; }
+/* ── ERRADAS: other-wrong (não clicada, também errada) ── */
+.sim-alt.other-wrong {
+  background: #2a0a0a !important; /* Restaura o seu fundo original escuro */
+  border: 1.5px solid rgba(239,68,68,.4) !important;
+  border-radius: 10px;
+}
+.sim-alt.other-wrong .sim-alt-main { background: transparent; }
+.sim-alt.other-wrong .sim-alt-letter { background: #ef4444 !important; color: #ffffff !important; }
+.sim-alt.other-wrong .sim-alt-text { color: #ffffff !important; } /* TEXTO BRANCO */
+.sim-alt.other-wrong .sim-alt-exp { background: rgba(0,0,0,.2); border-top: 1px solid rgba(192,57,43,.3); color: #ffaaaa !important; }
+
+/* ── CORRETA não escolhida ── */
+.sim-alt.correct {
+  background: #0d2e1a !important; /* Restaura o seu fundo original escuro */
+  border: 1.5px solid rgba(34,197,94,.5) !important;
+  border-radius: 10px;
+}
+.sim-alt.correct .sim-alt-main { background: transparent; }
+.sim-alt.correct .sim-alt-letter { background: #22c55e !important; color: #ffffff !important; }
+.sim-alt.correct .sim-alt-text { color: #ffffff !important; } /* TEXTO BRANCO */
+.sim-alt.correct .sim-alt-exp { background: rgba(0,0,0,.2); border-top: 1px solid rgba(34,197,94,.3); color: #aaffcc !important; }
+
+/* ── CORRETA E ESCOLHIDA (destaque máximo) ── */
+.sim-alt.correct.highlight {
+  background: #0f3d22 !important; /* Restaura o seu fundo original escuro */
+  border: 2px solid #22c55e !important;
+  border-radius: 10px;
+}
+.sim-alt.correct.highlight .sim-alt-main { background: transparent; }
+.sim-alt.correct.highlight .sim-alt-letter { background: #22c55e !important; color: #ffffff !important; }
+.sim-alt.correct.highlight .sim-alt-text { color: #ffffff !important; font-weight: 700; } /* TEXTO BRANCO */
+.sim-alt.correct.highlight .sim-alt-exp { background: rgba(0,0,0,.2); border-top: 1px solid rgba(34,197,94,.4); color: #ccffdd !important; }
+
 
     .badge-correta { background: rgba(22,163,74,.2); color: #4ade80; border: 1px solid rgba(22,163,74,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
     .badge-errada  { background: rgba(185,28,28,.2); color: #fca5a5; border: 1px solid rgba(185,28,28,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
