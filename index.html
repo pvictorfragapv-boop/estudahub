@@ -4248,13 +4248,15 @@ function renderSimDots() {
   const el = document.getElementById('sim-q-pill-row');
   if (!el) return;
   const total = simuladoCorrente?.questoes?.length || 0;
-  const cur = simQAtual || 0;
+ const cur = simuladoCorrente?.qIdx || 0;
   const visivel = Math.min(total, 12);
   el.innerHTML = Array.from({length: visivel}, (_, i) => {
     const q = simuladoCorrente?.questoes?.[i];
     let cls = '';
     if (i === cur) cls = 'sq-active';
-    else if (q?.respondida) cls = q.acertou ? 'sq-correct' : 'sq-wrong';
+    else if (simuladoCorrente?.respostas?.[i]?.resposta !== null && simuladoCorrente?.respostas?.[i]?.resposta !== undefined) {
+  cls = simuladoCorrente.respostas[i].acertou ? 'sq-correct' : 'sq-wrong';
+}
     else if (i < cur) cls = 'sq-answered';
     return `<div class="sim-q-dot ${cls}"></div>`;
   }).join('');
