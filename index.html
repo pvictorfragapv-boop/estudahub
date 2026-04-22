@@ -1478,11 +1478,11 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     <div class="sim-body-scroll" id="sim-body"></div>
 
     <div class="sim-actions-new" id="sim-actions-new">
-      <button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
-      <div class="sim-btn-spacer"></div>
-      <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
-      <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
-      <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
+      <button class="sim-btn-pill" id="sim-btn-respond" onclick="simResponder()">Validar</button>
+      <button class="sim-btn-pill" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar</button>
+      
+      <button class="sim-btn-circle" id="sim-btn-prev" onclick="simAnterior()">❮</button>
+      <button class="sim-btn-circle" id="sim-btn-next" onclick="simProxima()" style="display:none">❯</button>
     </div>
   </div>
 </div>
@@ -2802,23 +2802,18 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
       const btnNext   = document.getElementById('sim-btn-next');
       const btnFinish = document.getElementById('sim-btn-finish');
 
-      // Prev always shown, disabled on first question
       btnPrev.disabled = (qIdx === 0);
-      // Update sidebar question grid
       renderSimSidebar();
 
       if (respondida) {
         btnResp.style.display = 'none';
-        btnFinish.style.display = 'none';
-        btnNext.style.display = 'inline-flex';
-        btnNext.disabled = false;
-        btnNext.textContent = isLast ? 'Finalizar ✓' : 'Próxima →';
-        btnNext.onclick = isLast ? finalizarSimulado : simProxima;
+        btnNext.style.display = isLast ? 'none' : 'flex';
+        btnFinish.style.display = isLast ? 'flex' : 'none';
       } else {
-        btnResp.style.display = 'inline-flex';
+        btnResp.style.display = 'flex';
         btnResp.disabled = false;
         btnNext.style.display = 'none';
-        btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'inline-flex' : 'none';
+        btnFinish.style.display = 'none';
       }
     }
 
