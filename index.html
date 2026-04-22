@@ -807,7 +807,7 @@
       .tg-row { flex-direction: column; }
     }
   
-    /* ══ SIMULADO FULLSCREEN — NEW LAYOUT ══ */
+   /* ══ SIMULADO FULLSCREEN — NEW LAYOUT ══ */
 .sim-sidebar { width: 210px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border2); display: flex; flex-direction: column; padding: 16px 12px; gap: 14px; overflow-y: auto; }
 .sim-sb-timer { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600; color: var(--text); }
 .sim-sb-mode { padding: 10px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); }
@@ -827,18 +827,13 @@
 .sim-sb-finish:hover { background: rgba(29,184,112,.18); }
 
 .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; min-height: 0; }
+
+/* ── Topbar escuro ── */
 .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: rgba(7,7,11,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border2); }
 .sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .06em; }
 .sim-q-counter-new strong { color: var(--a); }
 .sim-exit-btn-new { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); cursor: pointer; background: none; border: 1px solid var(--border3); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
 .sim-exit-btn-new:hover { border-color: rgba(240,78,78,.5); color: #f04e4e; }
- 
-    /* ── Topbar escuro ── */
-    .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: rgba(7,7,11,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border2); }
-    .sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .06em; }
-    .sim-q-counter-new strong { color: var(--a); }
-    .sim-exit-btn-new { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); cursor: pointer; background: none; border: 1px solid var(--border3); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
-    .sim-exit-btn-new:hover { border-color: rgba(240,78,78,.5); color: #f04e4e; }
  
     /* ── Área de scroll (fundo escuro) ── */
    .sim-body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 24px 20px 160px; display: flex; flex-direction: column; align-items: center; background: var(--bg); min-width: 0; }
