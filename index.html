@@ -608,32 +608,51 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     flex-wrap: wrap !important; 
     height: auto !important; 
     padding: 12px 16px !important; 
-    gap: 12px !important;
   }
   
-  /* Contador na primeira linha, à esquerda */
-  .sim-q-counter-new { 
+  /* Linha 1 Esquerda: Contador */
+  .sim-topbar-new > div:nth-child(1) { 
     flex: 1 1 50% !important; 
     order: 1 !important; 
   }
+  /* Agrupa e separa o texto das ferramentas no Desktop */
+.sim-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* ← Este é o espaçamento salvador! */
+}
+
+/* Linha divisória elegante */
+.topbar-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border2);
+}
   
-  /* Botão de Sair na primeira linha, à direita */
-  .sim-exit-btn-new { 
+  /* Linha 1 Direita: Botão Sair */
+  .sim-topbar-new > div:nth-child(3) { 
+    flex: 1 1 50% !important; 
     order: 2 !important; 
+    justify-content: flex-end !important; 
   }
   
-  /* Ferramentas na segunda linha, ocupando tudo */
+  /* Linha 2: Ferramentas (Caneta, Riscar, Apagar) */
   .inline-annot-tools { 
     flex: 1 1 100% !important; 
     order: 3 !important; 
-    justify-content: flex-start !important; 
-    overflow-x: auto !important; 
+    margin-top: 12px !important; 
+    justify-content: flex-start !important; /* Alinha à esquerda no mobile */
+    overflow-x: auto !important; /* Permite scroll horizontal se a tela for minúscula */
     padding-bottom: 4px !important; 
-    scrollbar-width: none;
+    scrollbar-width: none; /* Esconde barra de scroll no Firefox */
   }
-  .inline-annot-tools::-webkit-scrollbar { display: none; }
+  .inline-annot-tools::-webkit-scrollbar { display: none; } /* Esconde barra de scroll no Chrome/Safari */
   
-  .iat-btn { white-space: nowrap !important; flex-shrink: 0 !important; }
+  /* Impede que o texto dos botões quebre e força o tamanho */
+  .iat-btn { 
+    white-space: nowrap !important; 
+    flex-shrink: 0 !important; 
+  }
 }
     .sim-disc-wrap { position: relative; }
     .sim-disc-textarea { width: 100%; min-height: 180px; background: var(--bg3); border: 1.5px solid var(--border2); border-radius: var(--r); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.75; padding: 16px 18px; resize: vertical; outline: none; transition: border-color .18s, box-shadow .18s; }
@@ -855,19 +874,7 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
 .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; min-height: 0; }
 
 /* ── Topbar escuro ── */
-.sim-topbar-new { 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  padding: 0 24px; 
-  height: 52px; 
-  flex-shrink: 0; 
-  background: rgba(7,7,11,.97); 
-  backdrop-filter: blur(20px); 
-  -webkit-backdrop-filter: blur(20px); 
-  border-bottom: 1px solid var(--border2); 
-  gap: 32px; /* ← O campo de força que desgruda os itens */
-}
+.sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: rgba(7,7,11,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border2); }
 .sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .06em; }
 .sim-q-counter-new strong { color: var(--a); }
 .sim-exit-btn-new { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); cursor: pointer; background: none; border: 1px solid var(--border3); padding: 4px 12px; border-radius: var(--r); transition: all .15s; }
