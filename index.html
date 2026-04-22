@@ -1099,44 +1099,90 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
 .sim-body-scroll { flex: 1; overflow-y: auto; display: block; padding: 30px 20px 0; background: var(--bg); min-width: 0; }
 .sim-q-card { width: 100%; max-width: 900px; margin: 0 auto 24px auto; background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; overflow: hidden; position: relative; color: var(--text); box-shadow: 0 4px 24px rgba(0,0,0,.4); }
 
-/* ── Botões de Ação Embaixo da Questão (AGORA DENTRO DO CARD) ── */
+/* ── Botões de Ação no Rodapé do Card ── */
 .sim-actions-new { 
   display: flex; 
   align-items: center; 
-  gap: 12px; 
+  justify-content: flex-end; /* Empurra tudo para a direita! */
+  gap: 10px; 
   width: 100%; 
   padding: 20px 24px; 
   border-top: 1px solid var(--border2);
-  background: var(--bg3); /* Tom diferente para destacar do card */
-  border-radius: 0 0 16px 16px; /* Arredonda as pontas só em baixo */
+  background: var(--bg3); 
+  border-radius: 0 0 16px 16px; 
 }
-.sim-btn { padding: 14px 24px; border-radius: 12px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; transition: all .2s; border: none; }
-.sim-btn-spacer { flex: 1; }
+.sim-btn-spacer { flex: 1; } /* Garante que os botões fiquem colados na direita */
 
-/* Botão Anterior Avermelhado */
-.sim-btn-ghost { background: rgba(240,78,78,.1); border: 1.5px solid rgba(240,78,78,.3); color: var(--red); }
-.sim-btn-ghost:hover:not(:disabled) { background: rgba(240,78,78,.2); border-color: var(--red); }
+/* Botões Circulares (< e >) vermelhos vazados */
+.sim-btn-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--red);
+  color: var(--red);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.sim-btn-circle:hover:not(:disabled) {
+  background: rgba(240,78,78,.15);
+}
+.sim-btn-circle:disabled {
+  border-color: var(--border2);
+  color: var(--border3);
+  cursor: not-allowed;
+  background: transparent;
+}
 
-/* Botão Principal */
-.sim-btn-primary, .sim-btn-finish-new { background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; box-shadow: 0 4px 20px var(--ag); }
-.sim-btn-primary:hover:not(:disabled), .sim-btn-finish-new:hover { opacity: .9; transform: translateY(-2px); }
+/* Botões de Texto (Validar / Finalizar) */
+.sim-btn { 
+  padding: 12px 24px; 
+  border-radius: 12px; 
+  font-family: 'Outfit', sans-serif; 
+  font-weight: 700; 
+  font-size: 13px; 
+  letter-spacing: .05em; 
+  text-transform: uppercase; 
+  cursor: pointer; 
+  transition: all .2s; 
+  border: none; 
+  background: transparent;
+}
 
-/* O ESTADO DESATIVADO (Cinza e Morto) */
-.sim-btn:disabled { 
-  background: var(--bg4) !important; 
-  border-color: var(--border2) !important;
+/* O botão vermelho vazado */
+.sim-btn-primary { 
+  border: 1.5px solid var(--red); 
+  color: var(--red); 
+}
+.sim-btn-primary:hover:not(:disabled) { 
+  background: rgba(240,78,78,.15);
+}
+
+/* Botão finalizar de destaque */
+#sim-btn-finish { background: var(--red); color: #fff; }
+#sim-btn-finish:hover { opacity: 0.9; transform: translateY(-2px); }
+
+/* ESTADO DESATIVADO (Validado: Sem cor, morto, inslicável) */
+.sim-btn:disabled, .sim-btn-primary:disabled { 
+  background: transparent !important; 
+  border-color: var(--border2) !important; 
   color: var(--muted) !important; 
   box-shadow: none !important; 
   cursor: not-allowed !important; 
-  transform: none !important;
+  transform: none !important; 
 }
 
 /* Ajuste Responsivo do Rodapé do Card */
 @media(max-width: 768px) {
-  .sim-actions-new { flex-wrap: wrap; padding: 16px; }
-  .sim-btn { flex: 1 1 100%; text-align: center; }
-  .sim-btn-spacer { display: none; }
-  #sim-btn-prev { margin-bottom: 8px; }
+  .sim-actions-new { padding: 16px; gap: 8px; }
+  .sim-btn { padding: 10px 16px; font-size: 11px; }
+  .sim-btn-circle { width: 38px; height: 38px; font-size: 18px; }
 }
   </style>
 </head>
@@ -2844,11 +2890,11 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
             ${feedbackHtml}
           </div>
           <div class="sim-actions-new" id="sim-actions-new">
-            <button class="sim-btn sim-btn-ghost" id="sim-btn-prev" onclick="simAnterior()">← Anterior</button>
             <div class="sim-btn-spacer"></div>
             <button class="sim-btn sim-btn-primary" id="sim-btn-respond" onclick="simResponder()">Validar</button>
-            <button class="sim-btn sim-btn-primary" id="sim-btn-next" onclick="simProxima()" style="display:none">Próxima →</button>
-            <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
+            <button class="sim-btn-circle" id="sim-btn-prev" onclick="simAnterior()">&lt;</button>
+            <button class="sim-btn-circle" id="sim-btn-next" onclick="simProxima()" style="display:none">&gt;</button>
+            <button class="sim-btn" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
           </div>
         </div>`;
 
@@ -2866,17 +2912,20 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
       renderSimSidebar();
 
       if (respondida) {
-        // Questão respondida: Mantém o botão "Validar" na tela, mas Cinza e Desativado
+        // Questão respondida: Mantém o botão "Validar" na tela, mas Cinza e Morto
         btnResp.style.display = 'inline-flex';
         btnResp.disabled = true;
         btnResp.textContent = 'Validado'; 
         
-        // Exibe o botão Próxima / Finalizar
-        btnNext.style.display = 'inline-flex';
-        btnNext.disabled = false;
-        btnNext.textContent = isLast ? 'Finalizar ✓' : 'Próxima →';
-        btnNext.onclick = isLast ? finalizarSimulado : simProxima;
-        btnFinish.style.display = 'none';
+        // Exibe o botão Próxima (>) ou Finalizar dependendo se é a última questão
+        if (isLast) {
+          btnNext.style.display = 'none';
+          btnFinish.style.display = 'inline-flex';
+        } else {
+          btnNext.style.display = 'flex';
+          btnNext.disabled = false;
+          btnFinish.style.display = 'none';
+        }
       } else {
         // Questão nova: Botão Validar normal
         btnResp.style.display = 'inline-flex';
@@ -2884,7 +2933,7 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
         btnResp.textContent = 'Validar';
         
         btnNext.style.display = 'none';
-        btnFinish.style.display = (modo === 'simulado' && qIdx > 0) ? 'inline-flex' : 'none';
+        btnFinish.style.display = (modo === 'simulado' && qIdx > 0 && isLast) ? 'inline-flex' : 'none';
       }
     }
 
