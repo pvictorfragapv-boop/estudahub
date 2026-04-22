@@ -2026,13 +2026,19 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       document.getElementById('dash-date2').textContent=now.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
       const todayCol=document.getElementById('rgh-'+new Date().getDay());
       if (todayCol) todayCol.classList.add('today-col');
-      // Mostrar drawer toggle só no mobile
-const dt = document.getElementById('sim-drawer-toggle');
-if (dt) dt.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
-window.addEventListener('resize', () => {
-  const dt2 = document.getElementById('sim-drawer-toggle');
-  if (dt2) dt2.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
-});
+     // Mostrar drawer toggle e panel só no mobile
+      const dt = document.getElementById('sim-drawer-toggle');
+      const dp = document.getElementById('sim-drawer-panel');
+      
+      if (dt) dt.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+      if (dp) dp.style.display = window.innerWidth <= 768 ? 'block' : 'none';
+
+      window.addEventListener('resize', () => {
+        const dt2 = document.getElementById('sim-drawer-toggle');
+        const dp2 = document.getElementById('sim-drawer-panel');
+        if (dt2) dt2.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+        if (dp2) dp2.style.display = window.innerWidth <= 768 ? 'block' : 'none';
+      });
       showScreen('app');
       syncGeminiKeyUI();
       renderAll(); renderProvas(); renderMatManage(); renderPomoSubjectSelect();
