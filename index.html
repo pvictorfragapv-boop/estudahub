@@ -2898,7 +2898,7 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
           </div>
         </div>`;
 
-      // ── Annotation targets: enunciado + contexto + alt texts ───────────────
+    // ── Annotation targets: enunciado + contexto + alt texts ───────────────
       annotTargetIds = ['sim-enunciado', 'sim-contexto'];
       Object.keys(q.alternativas || {}).forEach(l => { if (!respondida || modo !== 'tutor') annotTargetIds.push('alt-txt-' + l); });
 
@@ -2912,12 +2912,12 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
       renderSimSidebar();
 
       if (respondida) {
-        // Questão respondida: Mantém o botão "Validar" na tela, mas Cinza e Morto
+        // Questão respondida: Botão Validar cinza e desativado
         btnResp.style.display = 'inline-flex';
         btnResp.disabled = true;
         btnResp.textContent = 'Validado'; 
         
-        // Exibe o botão Próxima (>) ou Finalizar dependendo se é a última questão
+        // Exibe a seta Próxima (>) ou botão Finalizar
         if (isLast) {
           btnNext.style.display = 'none';
           btnFinish.style.display = 'inline-flex';
@@ -2927,13 +2927,14 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
           btnFinish.style.display = 'none';
         }
       } else {
-        // Questão nova: Botão Validar normal
+        // Questão nova: Botão Validar fica ativo
         btnResp.style.display = 'inline-flex';
         btnResp.disabled = false;
         btnResp.textContent = 'Validar';
         
+        // ESCONDE a seta para a direita (>) e o botão finalizar
         btnNext.style.display = 'none';
-        btnFinish.style.display = (modo === 'simulado' && qIdx > 0 && isLast) ? 'inline-flex' : 'none';
+        btnFinish.style.display = 'none';
       }
     }
 
