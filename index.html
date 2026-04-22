@@ -973,17 +973,53 @@
     .sim-btn-finish-new:hover { opacity: .9; }
     .sim-btn-spacer { flex: 1; }
  
-    /* ── Mobile adjustments ── */
-    @media(max-width:768px) {
-      #simulado-screen { flex-direction: column; }
-      .sim-sidebar { display: none; width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border2); flex-direction: row; flex-wrap: wrap; padding: 10px 12px; gap: 8px; max-height: 160px; overflow-y: auto; }
-      .sim-sidebar.mob-visible { display: flex; }
-      .sim-sb-finish { margin-top: 0; }
-      .sim-topbar-new { padding: 0 14px; height: 48px; }
-      .sim-body-scroll { padding: 12px 12px 110px; }
-      .sim-actions-new { left: 0; padding: 10px 14px calc(10px + var(--sb)); flex-wrap: wrap; }
-      .sim-btn { font-size: 10px; padding: 9px 14px; }
-    }
+    /* ── Mobile adjustments (patch v2) ── */
+@media(max-width:768px) {
+  #simulado-screen { flex-direction: column; }
+
+  /* Esconde a sidebar lateral no mobile */
+  .sim-sidebar { display: none !important; }
+
+  /* Progress strip */
+  .sim-progress-strip { height: 3px; background: var(--border2); flex-shrink: 0; position: relative; }
+  .sim-progress-strip-fill { height: 100%; background: linear-gradient(90deg, var(--a2), var(--a)); transition: width .4s cubic-bezier(.4,0,.2,1); border-radius: 0 2px 2px 0; }
+
+  /* Pill recolhível */
+  .sim-sidebar-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg2); border-bottom: 1px solid var(--border2); cursor: pointer; flex-shrink: 0; user-select: none; }
+  .sim-sidebar-toggle-left { display: flex; align-items: center; gap: 10px; }
+  .sim-timer-inline { display: flex; align-items: center; gap: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: var(--text); }
+  .sim-q-pill-row { display: flex; align-items: center; gap: 5px; }
+  .sim-q-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); border: 1px solid var(--border3); flex-shrink: 0; transition: all .2s; }
+  .sim-q-dot.sq-active   { background: var(--a); border-color: var(--a); }
+  .sim-q-dot.sq-correct  { background: var(--green); border-color: var(--green); }
+  .sim-q-dot.sq-wrong    { background: var(--red); border-color: var(--red); }
+  .sim-q-dot.sq-answered { background: var(--muted); border-color: var(--border3); }
+  .sim-mode-chip { font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; border: 1px solid var(--border3); color: var(--muted2); font-family: 'IBM Plex Mono', monospace; }
+  .sim-mode-chip.tutor    { border-color: var(--a); color: var(--a); background: var(--ad); }
+  .sim-mode-chip.simulado { border-color: var(--yellow); color: var(--yellow); background: rgba(240,180,41,.08); }
+  .sim-sidebar-chevron { font-size: 14px; color: var(--muted2); transition: transform .25s; }
+  .sim-sidebar-chevron.open { transform: rotate(180deg); }
+
+  /* Drawer expansível */
+  .sim-sidebar-drawer { background: var(--bg2); border-bottom: 1px solid var(--border2); overflow: hidden; transition: max-height .3s cubic-bezier(.4,0,.2,1); max-height: 0; flex-shrink: 0; }
+  .sim-sidebar-drawer.open { max-height: 220px; }
+  .sim-drawer-inner { padding: 12px 14px 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .sim-sb-q-num { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border: 1.5px solid var(--border3); background: var(--bg3); color: var(--muted2); font-family: 'IBM Plex Mono', monospace; cursor: pointer; transition: all .15s; }
+  .sim-sb-q-num.sq-active   { border-color: var(--a); background: var(--ad); color: var(--a); }
+  .sim-sb-q-num.sq-correct  { border-color: rgba(29,184,112,.5); background: rgba(29,184,112,.12); color: var(--green); }
+  .sim-sb-q-num.sq-wrong    { border-color: rgba(240,78,78,.5); background: rgba(240,78,78,.1); color: var(--red); }
+  .sim-sb-q-num.sq-answered { border-color: var(--border3); background: var(--bg4); color: var(--muted2); opacity: .7; }
+  .sim-drawer-footer { padding: 0 14px 12px; display: flex; gap: 8px; }
+  .sim-sb-finish-inline { flex: 1; padding: 10px; border-radius: var(--r); border: 1.5px solid rgba(29,184,112,.4); background: rgba(29,184,112,.1); color: var(--green); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; font-family: 'Outfit', sans-serif; transition: all .18s; }
+
+  /* Topbar, scroll e botões */
+  .sim-topbar-new { padding: 0 14px; height: 48px; gap: 8px; }
+  .sim-annot-btn { padding: 5px 10px; background: transparent; border: 1px solid var(--border3); border-radius: 20px; font-size: 10px; font-weight: 700; color: var(--muted2); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+  .sim-body-scroll { padding: 12px 12px 140px; }
+  .sim-actions-new { left: 0; padding: 10px 14px calc(10px + var(--sb)); }
+  .sim-btn { font-size: 10px; padding: 9px 14px; }
+  #sim-btn-prev { width: 44px; height: 44px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+}
   </style>
 </head>
 <body class="theme-default">
