@@ -3158,11 +3158,34 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
     function simTimerStop() { clearInterval(simTimerInterval); }
 
     function renderSimSidebar() {
-  // ... código existente ...
-  renderSimDrawerDots(); // ← adicionar esta linha no final
+  const { questoes, qIdx, modo, respostas } = simuladoCorrente;
+  
+  // mode badges
+  const to = document.getElementById('sim-sb-tutor-opt');
+  const so = document.getElementById('sim-sb-sim-opt');
+  if (to) to.classList.toggle('active', modo === 'tutor');
+  if (so) so.classList.toggle('active', modo === 'simulado');
+  
+  // question grid
+  const grid = document.getElementById('sim-sb-q-grid');
+  if (!grid || !questoes) return;
+  
+  grid.innerHTML = questoes.map((q, i) => {
+    const r = respostas[i];
+    let cls = '';
+    if (i === qIdx) cls = 'sq-active';
+    else if (r && r.resposta !== null) {
+      if (modo === 'tutor' && r.acertou !== null) cls = r.acertou ? 'sq-correct' : 'sq-wrong';
+      else cls = 'sq-answered';
+    }
+    return `<div class="sim-sb-q-num ${cls}" onclick="simIrPara(${i})">${i + 1}</div>`;
+  }).join('');
+
+  // Atualização para o mobile
+  renderSimDrawerDots(); 
 }
-      
-      // ── Mobile drawer ──
+
+// ── Mobile drawer ──
 let simDrawerOpen = false;
 function toggleSimDrawer() {
   simDrawerOpen = !simDrawerOpen;
