@@ -1566,7 +1566,14 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
       </div>
 
      <div class="sim-topbar-new">
-  <div style="flex: 1;"></div> <div class="inline-annot-tools">
+  <div style="display: none;">
+    <span id="sim-q-cur"></span>
+    <span id="sim-q-total"></span>
+  </div>
+
+  <div style="flex: 1;"></div> 
+
+  <div class="inline-annot-tools">
     <button class="iat-btn active" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca Texto</button>
     <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">Riscar</span></button>
     <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
@@ -2759,16 +2766,17 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
   const total = questoes.length;
   const resp = respostas[qIdx];
 
-  // --- CORREÇÃO AQUI: ---
-  // Substituímos o .textContent direto por uma verificação de segurança
+  // --- PROTEÇÃO DE SEGURANÇA ---
   const elCur = document.getElementById('sim-q-cur');
   const elTotal = document.getElementById('sim-q-total');
   if (elCur) elCur.textContent = qIdx + 1;
   if (elTotal) elTotal.textContent = total;
-  // -----------------------
+  // -----------------------------
 
   const progFill = document.getElementById('sim-progress-fill');
   if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
+  
+  // O RESTO DA FUNÇÃO SEGUE IGUAL...
       
       // --- Fix V/F normalization ---
       if (q.alternativas && typeof q.alternativas === 'object') {
