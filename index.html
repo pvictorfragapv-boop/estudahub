@@ -1020,6 +1020,206 @@
   .sim-btn { font-size: 10px; padding: 9px 14px; }
   #sim-btn-prev { width: 44px; height: 44px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 }
+    /* ════ SIMULADO FULLSCREEN — MOBILE ════ */
+#simulado-screen {
+  position:fixed; inset:0; z-index:500;
+  background:var(--bg);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+.sim-topbar-new {
+  display:flex; align-items:center; gap:8px;
+  padding:0 14px; height:52px; flex-shrink:0;
+  background:rgba(7,7,11,.97);
+  border-bottom:1px solid var(--border2);
+  backdrop-filter:blur(20px);
+  position:relative; z-index:20;
+}
+.sim-logo-badge {
+  font-size:11px; font-weight:900; letter-spacing:.14em;
+  text-transform:uppercase;
+  background:linear-gradient(120deg,var(--a),rgba(255,255,255,.8));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; flex-shrink:0;
+}
+.sim-q-counter-new {
+  font-size:11px; font-family:'IBM Plex Mono',monospace;
+  color:var(--muted2); letter-spacing:.06em; flex:1; text-align:center;
+}
+.sim-q-counter-new strong { color:var(--a); }
+.sim-annot-btn {
+  padding:5px 10px; background:transparent;
+  border:1px solid var(--border3); border-radius:20px;
+  font-size:10px; font-weight:700; color:var(--muted2);
+  cursor:pointer; transition:all .18s; white-space:nowrap; flex-shrink:0;
+}
+.sim-annot-btn:hover { border-color:var(--a); color:var(--a); background:var(--ad); }
+.sim-exit-btn-new {
+  width:32px; height:32px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; background:transparent;
+  border:1px solid var(--border3); color:var(--muted2);
+  cursor:pointer; transition:all .15s;
+}
+.sim-exit-btn-new:hover { border-color:rgba(240,78,78,.5); color:var(--red); }
+.sim-progress-strip {
+  height:3px; background:var(--border2); flex-shrink:0; position:relative;
+}
+.sim-progress-strip-fill {
+  height:100%; background:linear-gradient(90deg,var(--a2),var(--a));
+  transition:width .4s cubic-bezier(.4,0,.2,1);
+  border-radius:0 2px 2px 0;
+}
+.sim-sidebar-toggle {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; background:var(--bg2);
+  border-bottom:1px solid var(--border2);
+  cursor:pointer; flex-shrink:0;
+  transition:background .15s;
+  user-select:none;
+}
+.sim-sidebar-toggle:active { background:var(--bg3); }
+.sim-sidebar-toggle-left {
+  display:flex; align-items:center; gap:10px;
+}
+.sim-timer-inline {
+  display:flex; align-items:center; gap:5px;
+  font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+  color:var(--text);
+}
+.sim-mode-chip {
+  font-size:9px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  padding:2px 8px; border-radius:20px; border:1px solid var(--border3);
+  color:var(--muted2); font-family:'IBM Plex Mono',monospace;
+}
+.sim-mode-chip.tutor { border-color:var(--a); color:var(--a); background:var(--ad); }
+.sim-mode-chip.simulado { border-color:var(--yellow); color:var(--yellow); background:rgba(240,180,41,.08); }
+.sim-q-pill-row {
+  display:flex; align-items:center; gap:5px;
+}
+.sim-q-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--border2); border:1px solid var(--border3);
+  flex-shrink:0; transition:all .2s;
+}
+.sim-q-dot.sq-active  { background:var(--a); border-color:var(--a); box-shadow:0 0 5px var(--ag); }
+.sim-q-dot.sq-correct { background:var(--green); border-color:var(--green); }
+.sim-q-dot.sq-wrong   { background:var(--red); border-color:var(--red); }
+.sim-q-dot.sq-answered{ background:var(--muted); border-color:var(--border3); }
+.sim-sidebar-chevron {
+  font-size:14px; color:var(--muted2); transition:transform .25s;
+  flex-shrink:0;
+}
+.sim-sidebar-chevron.open { transform:rotate(180deg); }
+.sim-sidebar-drawer {
+  background:var(--bg2); border-bottom:1px solid var(--border2);
+  overflow:hidden; transition:max-height .3s cubic-bezier(.4,0,.2,1);
+  max-height:0; flex-shrink:0;
+}
+.sim-sidebar-drawer.open { max-height:220px; }
+.sim-drawer-inner {
+  padding:12px 14px 14px;
+  display:flex; flex-wrap:wrap; gap:6px;
+}
+.sim-sb-q-num {
+  width:34px; height:34px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700;
+  border:1.5px solid var(--border3); background:var(--bg3);
+  color:var(--muted2); font-family:'IBM Plex Mono',monospace;
+  cursor:pointer; transition:all .15s;
+}
+.sim-sb-q-num:active { transform:scale(.9); }
+.sim-sb-q-num.sq-active  { border-color:var(--a); background:var(--ad); color:var(--a); }
+.sim-sb-q-num.sq-correct { border-color:rgba(29,184,112,.5); background:rgba(29,184,112,.12); color:var(--green); }
+.sim-sb-q-num.sq-wrong   { border-color:rgba(240,78,78,.5); background:rgba(240,78,78,.1); color:var(--red); }
+.sim-sb-q-num.sq-answered{ border-color:var(--border3); background:var(--bg4); color:var(--muted2); opacity:.7; }
+.sim-drawer-footer {
+  padding:0 14px 12px;
+  display:flex; gap:8px;
+}
+.sim-sb-finish-inline {
+  flex:1; padding:10px; border-radius:var(--r);
+  border:1.5px solid rgba(29,184,112,.4);
+  background:rgba(29,184,112,.1); color:var(--green);
+  font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; cursor:pointer;
+  font-family:'Outfit',sans-serif; transition:all .18s;
+}
+.sim-sb-finish-inline:active { background:rgba(29,184,112,.2); }
+.sim-body-scroll {
+  flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:16px 12px 140px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.sim-q-card {
+  width:100%; max-width:860px;
+  background:var(--bg2); border:1px solid var(--border2);
+  border-radius:14px; overflow:hidden;
+  color:var(--text); box-shadow:0 4px 24px rgba(0,0,0,.4);
+  animation:simcardIn .25s cubic-bezier(.4,0,.2,1);
+}
+@keyframes simcardIn { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);} }
+.sim-q-card::before {
+  content:''; display:block; height:3px;
+  background:linear-gradient(90deg,var(--a2),var(--a));
+}
+.sim-q-header {
+  padding:16px 18px 14px;
+  border-bottom:1px solid var(--border2);
+}
+.sim-q-type {
+  font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--a); margin-bottom:8px; font-family:'IBM Plex Mono',monospace;
+}
+.sim-q-contexto {
+  font-size:13px; line-height:1.75; color:var(--muted2);
+  background:var(--bg3); border:1px solid var(--border2);
+  border-radius:8px; padding:12px 14px; margin-bottom:12px;
+}
+.sim-q-enunciado {
+  font-size:15px; line-height:1.8; color:var(--text); font-weight:500;
+}
+.sim-q-body { padding:16px 18px; }
+.sim-alts { display:flex; flex-direction:column; gap:10px; }
+.sim-alt {
+  display:flex; flex-direction:column;
+  border-radius:12px; cursor:pointer;
+  transition:all .18s; overflow:hidden;
+  background:var(--bg3); border:1.5px solid var(--border2);
+  min-height:52px;
+}
+.sim-alt:active { transform:scale(.985); }
+.sim-alt-main {
+  padding:14px 16px;
+  display:flex; align-items:center; gap:12px;
+  min-height:52px;
+}
+.sim-alt-letter {
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:800; font-family:'IBM Plex Mono',monospace;
+  flex-shrink:0; transition:all .18s;
+  background:var(--bg4); color:var(--text);
+}
+.sim-alt.selected .sim-alt-letter { background:var(--a); color:#fff; }
+.sim-alt.selected { background:rgba(167,139,250,.07); border-color:var(--a); }
+.sim-alt-text { flex:1; font-size:14px; font-weight:500; line-height:1.55; color:var(--text); }
+.sim-alt.wrong   { background:#3b0d0d!important; border:2px solid #ef4444!important; }
+.sim-alt.wrong .sim-alt-letter { background:#ef4444!important; color:#fff!important; }
+.sim-alt.other-wrong { background:#2a0a0a!important; border:1.5px solid rgba(239,68,68,.3)!important; }
+.sim-alt.other-wrong .sim-alt-letter { background:#ef4444!important; color:#fff!important; }
+.sim-alt.correct { background:#0d2e1a!important; border:1.5px solid rgba(34,197,94,.4)!important; }
+.sim-alt.correct .sim-alt-letter { background:#22c55e!important; color:#fff!important; }
+.sim-alt.correct.highlight { background:#0f3d22!important; border:2px solid #22c55e!important; }
+.sim-alt.correct.highlight .sim-alt-letter { background:#22c55e!important; color:#fff!important; }
+.sim-alt-exp { display:none; padding:10px 16px 14px 60px; font-size:13px; line-height:1.7; color:#fff; }
+.sim-alt-exp.open { display:block; }
+.sim-disc-textarea {
+  width:100%; min-height:160px;
+  background:var(--bg3); border:1.5px solid var(--border2);
+  border-radius:var(--r); color:var(--text);
+  font-family:'Outfit',sans-serif; font-size:15px;
   </style>
 </head>
 <body class="theme-default">
@@ -1364,17 +1564,49 @@
 
   </div>  <!-- SIMULADO FULLSCREEN -->
   <div id="simulado-screen">
-    <div class="sim-sidebar" id="sim-sidebar">
-      <div class="sim-sb-timer">
-        <span style="font-size:15px">🕐</span>
-        <span id="sim-sb-timer-val">00:00</span>
-      </div>
-      <div class="sim-sb-mode">
-        <div class="sim-sb-mode-lbl">Modo do teste</div>
-        <div class="sim-sb-mode-opts">
-          <div class="sim-sb-mode-opt active" id="sim-sb-tutor-opt">Tutor</div>
-          <div class="sim-sb-mode-opt" id="sim-sb-sim-opt">Simulado</div>
-        </div>
+   <!-- Top bar -->
+  <div class="sim-topbar-new">
+    <div class="sim-logo-badge">Hub</div>
+    <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">20</strong></div>
+    <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">✏️ Marca</button>
+    <button class="sim-exit-btn-new" onclick="fecharSimulado()">✕</button>
+  </div>
+
+  <!-- Barra de progresso fina -->
+  <div class="sim-progress-strip">
+    <div class="sim-progress-strip-fill" id="sim-progress-fill" style="width:0%"></div>
+  </div>
+
+  <!-- Linha clicável com timer + dots + modo -->
+  <div class="sim-sidebar-toggle" id="sim-sidebar-toggle" onclick="toggleSidebarDrawer()">
+    <div class="sim-sidebar-toggle-left">
+      <div class="sim-timer-inline">🕐 <span id="sim-sb-timer-val">00:00</span></div>
+      <div class="sim-q-pill-row" id="sim-q-pill-row"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="sim-mode-chip tutor" id="sim-mode-chip">Tutor</div>
+      <div class="sim-sidebar-chevron" id="sim-sidebar-chevron">▾</div>
+    </div>
+  </div>
+
+  <!-- Gaveta com grid de questões (abre ao clicar na linha acima) -->
+  <div class="sim-sidebar-drawer" id="sim-sidebar-drawer">
+    <div class="sim-drawer-inner" id="sim-sb-q-grid"></div>
+    <div class="sim-drawer-footer">
+      <button class="sim-sb-finish-inline" onclick="finalizarSimulado()">Finalizar Prova ✓</button>
+    </div>
+  </div>
+
+  <!-- Área de scroll com a questão -->
+  <div class="sim-body-scroll" id="sim-body"></div>
+
+  <!-- Barra de ações no rodapé -->
+  <div class="sim-actions-new">
+    <button class="sim-btn-prev-mob" id="sim-btn-prev" onclick="simAnterior()" disabled>←</button>
+    <button class="sim-btn-respond" id="sim-btn-respond" onclick="simResponder()">Validar</button>
+    <button class="sim-btn-next" id="sim-btn-next" onclick="simProxima()">Próxima →</button>
+    <button class="sim-btn-finish" id="sim-btn-finish" onclick="finalizarSimulado()">Finalizar ✓</button>
+  </div>
       </div>
       <div class="sim-sb-q-title">Questões</div>
       <div class="sim-sb-q-grid" id="sim-sb-q-grid"></div>
@@ -3107,6 +3339,7 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
         }
         return `<div class="sim-sb-q-num ${cls}" onclick="simIrPara(${i})">${i + 1}</div>`;
       }).join('');
+      renderSimDots();
     }
 
     function simIrPara(i) {
@@ -4000,6 +4233,35 @@ function toggleSimTheme(light) {
     });
   }
 })();
+    // Abre/fecha a gaveta de questões
+let simDrawerOpen = false;
+function toggleSidebarDrawer() {
+  simDrawerOpen = !simDrawerOpen;
+  const drawer = document.getElementById('sim-sidebar-drawer');
+  const chevron = document.getElementById('sim-sidebar-chevron');
+  if (drawer) drawer.classList.toggle('open', simDrawerOpen);
+  if (chevron) chevron.classList.toggle('open', simDrawerOpen);
+}
+
+// Renderiza os pontinhos coloridos na linha de progresso
+function renderSimDots() {
+  const el = document.getElementById('sim-q-pill-row');
+  if (!el) return;
+  const total = simuladoCorrente?.questoes?.length || 0;
+  const cur = simQAtual || 0;
+  const visivel = Math.min(total, 12);
+  el.innerHTML = Array.from({length: visivel}, (_, i) => {
+    const q = simuladoCorrente?.questoes?.[i];
+    let cls = '';
+    if (i === cur) cls = 'sq-active';
+    else if (q?.respondida) cls = q.acertou ? 'sq-correct' : 'sq-wrong';
+    else if (i < cur) cls = 'sq-answered';
+    return `<div class="sim-q-dot ${cls}"></div>`;
+  }).join('');
+  if (total > 12) {
+    el.innerHTML += `<span style="font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--muted2);margin-left:3px">+${total - 12}</span>`;
+  }
+}
   </script>
 </body>
 </html>
