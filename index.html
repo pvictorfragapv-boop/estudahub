@@ -2908,36 +2908,28 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
       const btnNext   = document.getElementById('sim-btn-next');
       const btnFinish = document.getElementById('sim-btn-finish');
 
-      btnPrev.disabled = (qIdx === 0);
       renderSimSidebar();
 
+      // Navegação Livre: Setas aparecem sempre, exceto nos limites
+      btnPrev.style.display = (qIdx === 0) ? 'none' : 'flex';
+      btnNext.style.display = (isLast) ? 'none' : 'flex';
+      
+      // Botão Finalizar assume o lugar da seta direita na última questão
+      btnFinish.style.display = (isLast) ? 'inline-flex' : 'none';
+
+      // Estado do botão de Validação
       if (respondida) {
-        // Questão respondida: Botão Validar cinza e desativado
+        // Questão já respondida: Botão Validar fica cinza e desativado
         btnResp.style.display = 'inline-flex';
         btnResp.disabled = true;
         btnResp.textContent = 'Validado'; 
-        
-        // Exibe a seta Próxima (>) ou botão Finalizar
-        if (isLast) {
-          btnNext.style.display = 'none';
-          btnFinish.style.display = 'inline-flex';
-        } else {
-          btnNext.style.display = 'flex';
-          btnNext.disabled = false;
-          btnFinish.style.display = 'none';
-        }
       } else {
-        // Questão nova: Botão Validar fica ativo
+        // Questão nova: Botão Validar normal
         btnResp.style.display = 'inline-flex';
         btnResp.disabled = false;
         btnResp.textContent = 'Validar';
-        
-        // ESCONDE a seta para a direita (>) e o botão finalizar
-        btnNext.style.display = 'none';
-        btnFinish.style.display = 'none';
       }
     }
-
     function simToggleAltExp(letter) {
       // In tutor revealed mode, clicking an "other-wrong" alt toggles its explanation
       const exp = document.getElementById('exp-' + letter);
