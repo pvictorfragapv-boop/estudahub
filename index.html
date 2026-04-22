@@ -819,7 +819,7 @@
     .sim-sb-q-num.sq-answered { border-color: var(--border3); background: var(--bg4); color: var(--muted2); opacity: .7; }
     .sim-sb-finish { margin-top: auto; padding: 11px; border-radius: var(--r); border: 1.5px solid rgba(29,184,112,.4); background: rgba(29,184,112,.1); color: #1db870; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; text-align: center; font-family: 'Outfit', sans-serif; transition: all .18s; }
     .sim-sb-finish:hover { background: rgba(29,184,112,.18); }
-    .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .sim-main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
     .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; flex-shrink: 0; background: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,.08); border-bottom: 1px solid var(--border2); }
     .sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: #6b7280; letter-spacing: .06em; }
     .sim-q-counter-new strong { color: #6366f1; }
@@ -852,8 +852,7 @@
     .sim-exit-btn-new:hover { border-color: rgba(240,78,78,.5); color: #f04e4e; }
  
     /* ── Área de scroll (fundo escuro) ── */
-    .sim-body-scroll { flex: 1; overflow-y: auto; padding: 20px 20px 110px; display: flex; flex-direction: column; align-items: center; background: var(--bg); }
- 
+   .sim-body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 20px 20px 20px; display: flex; flex-direction: column; align-items: center; background: var(--bg); }
     /* ── Card da questão ── */
     .sim-q-card { width: 100%; max-width: 860px; margin: 0 auto; background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; overflow: hidden; position: relative; animation: simcardIn .3s cubic-bezier(.4,0,.2,1); color: var(--text); box-shadow: 0 4px 24px rgba(0,0,0,.4); }
     .sim-q-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--a2), var(--a)); }
@@ -956,7 +955,7 @@
     .badge-errada  { background: rgba(185,28,28,.2); color: #fca5a5; border: 1px solid rgba(185,28,28,.4); font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
  
     /* ── Barra de ações inferior ── */
-    .sim-actions-new { position: absolute; bottom: 0; left: 210px; right: 0; background: rgba(7,7,11,.97); box-shadow: 0 -2px 16px rgba(0,0,0,.5); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
+    .sim-actions-new { position: relative; flex-shrink: 0; background: rgba(7,7,11,.97); box-shadow: 0 -2px 16px rgba(0,0,0,.5); border-top: 1px solid var(--border2); padding: 12px 28px calc(12px + var(--sb)); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(20px); z-index: 10; }
     .sim-btn { padding: 10px 20px; border-radius: var(--r); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .18s; white-space: nowrap; border: none; }
     .sim-btn-ghost { background: transparent; border: 1.5px solid var(--border3); color: var(--muted2); }
     #sim-btn-prev { border-color: rgba(240,78,78,.5); color: var(--red); background: rgba(240,78,78,.1); border-radius: 50px; }
@@ -1035,7 +1034,7 @@
   .sim-alt-text { font-size: 14px; }
 
   /* Barra de ações — full width, sem offset da sidebar */
-  .sim-actions-new { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 14px calc(10px + var(--sb)); gap: 8px; flex-wrap: nowrap; }
+  .sim-actions-new { position: relative; flex-shrink: 0; padding: 10px 14px calc(10px + var(--sb)); gap: 8px; flex-wrap: nowrap; }
   #sim-btn-prev { width: 46px; height: 46px; padding: 0; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
   .sim-btn-primary, .sim-btn-next-rev, .sim-btn-finish-new { flex: 1; height: 46px; border-radius: 24px; font-size: 12px; padding: 0 16px; }
   .sim-btn-spacer { display: none; }
