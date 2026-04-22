@@ -590,31 +590,22 @@
     /* sim-alt styles moved to new block below */
     .badge-correta { background: #dcfce7; color: #15803d; border: 1px solid #86efac; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
     .badge-errada { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; }
-   #annot-toolbar { 
-  position: fixed; 
-  top: 64px; 
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999; 
-  display: none; 
-  flex-wrap: wrap;
-  justify-content: center;
-  background: var(--bg3); 
-  border: 1px solid var(--border3); 
-  border-radius: 8px; 
-  padding: 6px 12px; 
-  gap: 12px; 
-  box-shadow: 0 8px 32px rgba(0,0,0,.6); 
-  width: max-content;
-  max-width: 90vw;
+  /* Ferramentas de Anotação Embutidas */
+.inline-annot-tools { display: flex; gap: 8px; align-items: center; justify-content: center; }
+.iat-btn { height: 32px; border-radius: 8px; border: 1px solid var(--border3); background: transparent; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 0 14px; transition: all .2s; color: var(--muted2); font-family: 'Outfit', sans-serif; }
+.iat-btn:hover { background: var(--bg4); color: var(--text); border-color: var(--border2); }
+.iat-btn.active { background: var(--ad); border-color: var(--a); color: var(--a); }
+
+/* Cores das Anotações (Amarelo Suave Dark Mode) */
+mark.hl-yellow { background: rgba(253, 224, 71, 0.22); color: inherit; border-radius: 3px; padding: 2px 0; }
+s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+
+/* Ajuste responsivo para celular */
+@media(max-width:768px) {
+  .sim-topbar-new { flex-wrap: wrap; height: auto; padding: 12px 16px; gap: 12px; }
+  .sim-topbar-new > div:first-child { flex: none !important; width: 100%; text-align: center; }
+  .inline-annot-tools { flex: 1; overflow-x: auto; justify-content: center; padding-bottom: 4px; }
 }
-#annot-toolbar.show { display: flex; animation: feedIn .2s ease; }
-.annot-tools { display: flex; gap: 6px; }
-.annot-btn { height: 28px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; padding: 0 10px; transition: all .15s; color: var(--text); }
-.annot-btn:hover { background: var(--bg4); border-color: var(--a); }
-.annot-btn.active { background: var(--ad); border-color: var(--a); color: var(--a); }
-mark.hl-yellow { background: rgba(240,180,41,.35); color: inherit; border-radius: 2px; padding: 0 1px; }
-s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decoration-thickness: 2px; }
     .sim-disc-wrap { position: relative; }
     .sim-disc-textarea { width: 100%; min-height: 180px; background: var(--bg3); border: 1.5px solid var(--border2); border-radius: var(--r); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.75; padding: 16px 18px; resize: vertical; outline: none; transition: border-color .18s, box-shadow .18s; }
     .sim-disc-textarea:focus { border-color: var(--a); box-shadow: 0 0 0 3px var(--ad); }
@@ -1436,9 +1427,17 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     </div>
 
     <div class="sim-topbar-new">
-      <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
-      <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">✏️ Marca Texto</button>
-      <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
+      <div class="sim-q-counter-new" style="flex: 1;">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
+      
+      <div class="inline-annot-tools">
+        <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca Texto</button>
+        <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">Riscar</span></button>
+        <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
+      </div>
+
+      <div style="flex: 1; display: flex; justify-content: flex-end;">
+        <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
+      </div>
     </div>
 
     <div class="sim-body-scroll" id="sim-body"></div>
@@ -4016,45 +4015,28 @@ function confirmarNomeSimulado() {
   document.body.style.overflow = 'hidden';
 }
 
-// ═══════════════ TOOLBAR DE ANOTAÇÃO (MODO AUTOMÁTICO SIMPLIFICADO) ═══════════════
-let annotMode = false;
-let annotTool = 'highlight'; // 'highlight', 'strike', 'clear'
+// ═══════════════ TOOLBAR DE ANOTAÇÃO (INLINE & INTELIGENTE) ═══════════════
+let annotTool = 'none'; // Começa desligado
 let annotTargetIds = ['sim-enunciado', 'sim-contexto'];
 
 function annotSetTool(tool) {
-  annotTool = tool;
-  document.getElementById('btn-tool-highlight').classList.toggle('active', tool === 'highlight');
-  document.getElementById('btn-tool-strike').classList.toggle('active', tool === 'strike');
-  document.getElementById('btn-tool-clear').classList.toggle('active', tool === 'clear');
-}
-
-function toggleAnnotToolbar() {
-  annotMode = !annotMode;
-  const tb = document.getElementById('annot-toolbar');
-  const btn = document.querySelector('.sim-annot-btn');
-
-  if (annotMode) {
-    tb.classList.add('show');
-    if (btn) {
-      btn.style.background = 'var(--ad)';
-      btn.style.borderColor = 'var(--a)';
-      btn.style.color = 'var(--a)';
-    }
+  // Se clicar na ferramenta que já está ativa, ela desliga.
+  if (annotTool === tool) {
+    annotTool = 'none'; 
   } else {
-    tb.classList.remove('show');
-    if (btn) {
-      btn.style.background = '';
-      btn.style.borderColor = '';
-      btn.style.color = '';
-    }
+    annotTool = tool;
   }
+  
+  document.getElementById('btn-tool-highlight').classList.toggle('active', annotTool === 'highlight');
+  document.getElementById('btn-tool-strike').classList.toggle('active', annotTool === 'strike');
+  document.getElementById('btn-tool-clear').classList.toggle('active', annotTool === 'clear');
 }
 
 document.addEventListener('mouseup', handleAutoAnnotate);
 document.addEventListener('touchend', handleAutoAnnotate);
 
 function handleAutoAnnotate() {
-  if (!annotMode) return;
+  if (annotTool === 'none') return;
   
   setTimeout(() => {
     const sel = window.getSelection();
@@ -4062,6 +4044,7 @@ function handleAutoAnnotate() {
 
     const range = sel.getRangeAt(0);
     
+    // Verifica se está selecionando texto da prova (e não o menu)
     const isAllowed = annotTargetIds.some(id => {
       const el = document.getElementById(id);
       return el && el.contains(range.commonAncestorContainer);
@@ -4072,7 +4055,15 @@ function handleAutoAnnotate() {
       return;
     }
 
+    // Impede marcação dupla: Se a pessoa começou a selecionar DE DENTRO de uma marcação, ignora.
+    const parent = range.commonAncestorContainer.nodeType === 3 ? range.commonAncestorContainer.parentNode : range.commonAncestorContainer;
+    if ((parent.closest('mark') || parent.closest('s')) && annotTool !== 'clear') {
+        sel.removeAllRanges();
+        return;
+    }
+
     if (annotTool === 'clear') {
+      // Tenta apagar varrendo por cima das marcações
       const frag = range.extractContents();
       frag.querySelectorAll('mark, s').forEach(el => {
         const p = el.parentNode; 
@@ -4080,21 +4071,55 @@ function handleAutoAnnotate() {
         p.removeChild(el);
       });
       range.insertNode(frag);
+
     } else if (annotTool === 'highlight') {
+      const frag = range.extractContents();
+      // Remove marcações internas que a pessoa pegou na seleção para não "engolir" a tag
+      frag.querySelectorAll('mark, s').forEach(el => {
+          const p = el.parentNode;
+          while(el.firstChild) p.insertBefore(el.firstChild, el);
+          p.removeChild(el);
+      });
       const mark = document.createElement('mark');
       mark.className = 'hl-yellow';
-      try { range.surroundContents(mark); } 
-      catch(e) { const f = range.extractContents(); mark.appendChild(f); range.insertNode(mark); }
+      mark.appendChild(frag);
+      range.insertNode(mark);
+
     } else if (annotTool === 'strike') {
+      const frag = range.extractContents();
+      frag.querySelectorAll('mark, s').forEach(el => {
+          const p = el.parentNode;
+          while(el.firstChild) p.insertBefore(el.firstChild, el);
+          p.removeChild(el);
+      });
       const s = document.createElement('s');
       s.className = 'hl-strike';
-      try { range.surroundContents(s); } 
-      catch(e) { const f = range.extractContents(); s.appendChild(f); range.insertNode(s); }
+      s.appendChild(frag);
+      range.insertNode(s);
     }
     
-    sel.removeAllRanges();
+    sel.removeAllRanges(); // Limpa a cor azul de seleção nativa do navegador
   }, 10);
 }
+
+// ── TEMA DO SIMULADO ──────────────────────────
+function toggleSimTheme(light) {
+  document.body.classList.toggle('sim-light', light);
+  localStorage.setItem('sim_theme', light ? 'light' : 'dark');
+}
+
+(function() {
+  if (localStorage.getItem('sim_theme') === 'light') {
+    document.body.classList.add('sim-light');
+    document.addEventListener('DOMContentLoaded', function() {
+      const t = document.getElementById('sim-theme-toggle');
+      if (t) t.checked = true;
+    });
+  }
+})();
+  </script>
+</body>
+</html>
 
   // ── TEMA DO SIMULADO ──────────────────────────
 function toggleSimTheme(light) {
