@@ -604,55 +604,27 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
 
 /* ── Correção da Topbar no Mobile ── */
 @media(max-width: 768px) {
-  .sim-topbar-new { 
+  .sim-topbar-new { padding: 12px 16px !important; height: auto !important; }
+  
+  .sim-topbar-left { 
     flex-wrap: wrap !important; 
-    height: auto !important; 
-    padding: 12px 16px !important; 
+    gap: 12px !important; 
+    width: 100% !important; 
   }
   
-  /* Linha 1 Esquerda: Contador */
-  .sim-topbar-new > div:nth-child(1) { 
-    flex: 1 1 50% !important; 
-    order: 1 !important; 
-  }
-  /* Agrupa e separa o texto das ferramentas no Desktop */
-.sim-topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 20px; /* ← Este é o espaçamento salvador! */
-}
-
-/* Linha divisória elegante */
-.topbar-divider {
-  width: 1px;
-  height: 20px;
-  background: var(--border2);
-}
+  /* Esconde a linha vertical no telemóvel */
+  .topbar-divider { display: none !important; }
   
-  /* Linha 1 Direita: Botão Sair */
-  .sim-topbar-new > div:nth-child(3) { 
-    flex: 1 1 50% !important; 
-    order: 2 !important; 
-    justify-content: flex-end !important; 
-  }
+  .sim-q-counter-new { width: 100% !important; text-align: center !important; }
   
-  /* Linha 2: Ferramentas (Caneta, Riscar, Apagar) */
   .inline-annot-tools { 
-    flex: 1 1 100% !important; 
-    order: 3 !important; 
-    margin-top: 12px !important; 
-    justify-content: flex-start !important; /* Alinha à esquerda no mobile */
-    overflow-x: auto !important; /* Permite scroll horizontal se a tela for minúscula */
-    padding-bottom: 4px !important; 
-    scrollbar-width: none; /* Esconde barra de scroll no Firefox */
+    width: 100% !important; 
+    justify-content: center !important; 
+    overflow-x: auto !important; 
+    padding-bottom: 4px !important;
   }
-  .inline-annot-tools::-webkit-scrollbar { display: none; } /* Esconde barra de scroll no Chrome/Safari */
   
-  /* Impede que o texto dos botões quebre e força o tamanho */
-  .iat-btn { 
-    white-space: nowrap !important; 
-    flex-shrink: 0 !important; 
-  }
+  .iat-btn { white-space: nowrap !important; flex-shrink: 0 !important; }
 }
     .sim-disc-wrap { position: relative; }
     .sim-disc-textarea { width: 100%; min-height: 180px; background: var(--bg3); border: 1.5px solid var(--border2); border-radius: var(--r); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.75; padding: 16px 18px; resize: vertical; outline: none; transition: border-color .18s, box-shadow .18s; }
