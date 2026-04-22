@@ -1439,6 +1439,17 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
       </div>
     </div>
+      
+      <div class="inline-annot-tools">
+        <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca Texto</button>
+        <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">Riscar</span></button>
+        <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
+      </div>
+
+      <div style="flex: 1; display: flex; justify-content: flex-end;">
+        <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
+      </div>
+    </div>
 
     <div class="sim-body-scroll" id="sim-body"></div>
 
@@ -1449,14 +1460,6 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
       <button class="sim-btn sim-btn-next-rev" id="sim-btn-next" onclick="simProxima()" style="display:none">→</button>
       <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
     </div>
-  </div>
-</div>
-
-  <div id="annot-toolbar">
-  <div class="annot-tools">
-    <button class="annot-btn active" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca Texto</button>
-    <button class="annot-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><s>Riscar</s></button>
-    <button class="annot-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">Apagar</button>
   </div>
 </div>
 
