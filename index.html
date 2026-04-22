@@ -1565,19 +1565,17 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         <button class="sim-drawer-finish" onclick="confirmarFinalizarComPendentes();toggleSimDrawer()">Finalizar Prova ✓</button>
       </div>
 
-      <div class="sim-topbar-new">
-        <div class="sim-q-counter-new" style="flex: 1;">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
-        
-        <div class="inline-annot-tools">
-          <button class="iat-btn active" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca Texto</button>
-          <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">Riscar</span></button>
-          <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
-        </div>
+     <div class="sim-topbar-new">
+  <div style="flex: 1;"></div> <div class="inline-annot-tools">
+    <button class="iat-btn active" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca Texto</button>
+    <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">Riscar</span></button>
+    <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
+  </div>
 
-        <div style="flex: 1; display: flex; justify-content: flex-end;">
-          <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">✕ Sair</button>
-        </div>
-      </div>
+  <div style="flex: 1; display: flex; justify-content: flex-end;">
+    <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">✕ Sair</button>
+  </div>
+</div>
 
       <div class="sim-body-scroll">
         <div id="sim-body"></div> </div>
@@ -2760,6 +2758,11 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       const q = questoes[qIdx];
       const total = questoes.length;
       const resp = respostas[qIdx];
+
+      const elCur = document.getElementById('sim-q-cur');
+      const elTotal = document.getElementById('sim-q-total');
+      if (elCur) elCur.textContent = qIdx + 1;
+      if (elTotal) elTotal.textContent = total;
       
       // --- Fix V/F normalization ---
       if (q.alternativas && typeof q.alternativas === 'object') {
