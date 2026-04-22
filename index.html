@@ -615,6 +615,19 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     flex: 1 1 50% !important; 
     order: 1 !important; 
   }
+  /* Agrupa e separa o texto das ferramentas no Desktop */
+.sim-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* ← Este é o espaçamento salvador! */
+}
+
+/* Linha divisória elegante */
+.topbar-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border2);
+}
   
   /* Linha 1 Direita: Botão Sair */
   .sim-topbar-new > div:nth-child(3) { 
@@ -1462,17 +1475,17 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     </div>
 
     <div class="sim-topbar-new">
-      <div class="sim-q-counter-new" style="flex: 1;">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
-      
-      <div class="inline-annot-tools">
-        <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')"><span class="iat-icon">✏️</span> Marcar</button>
-        <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span class="iat-icon"><s>S</s></span> Riscar</button>
-        <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')"><span class="iat-icon">✕</span> Apagar</button>
+      <div class="sim-topbar-left">
+        <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
+        
+        <div class="topbar-divider"></div> <div class="inline-annot-tools">
+          <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 MARCAR</button>
+          <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">RISCAR</span></button>
+          <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">✕ APAGAR</button>
+        </div>
       </div>
 
-      <div style="flex: 1; display: flex; justify-content: flex-end;">
-        <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
-      </div>
+      <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
     </div>
 
     <div class="sim-body-scroll" id="sim-body"></div>
