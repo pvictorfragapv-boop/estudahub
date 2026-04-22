@@ -4120,24 +4120,3 @@ function toggleSimTheme(light) {
   </script>
 </body>
 </html>
-
-  // ── TEMA DO SIMULADO ──────────────────────────
-function toggleSimTheme(light) {
-  document.body.classList.toggle('sim-light', light);
-  localStorage.setItem('sim_theme', light ? 'light' : 'dark');
-}
-
-// Restaurar preferência ao carregar
-(function() {
-  if (localStorage.getItem('sim_theme') === 'light') {
-    document.body.classList.add('sim-light');
-    // Marcar o toggle depois que o DOM carregar
-    document.addEventListener('DOMContentLoaded', function() {
-      const t = document.getElementById('sim-theme-toggle');
-      if (t) t.checked = true;
-    });
-  }
-})();
-  </script>
-</body>
-</html>
