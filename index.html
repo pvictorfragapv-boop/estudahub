@@ -560,7 +560,7 @@
     .mode-card-desc { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); line-height: 1.7; }
 
     /* ══ SIMULADO FULLSCREEN ══ */
-    #simulado-screen { position: fixed; inset: 0; z-index: 500; background: #f0f2f5; display: none; flex-direction: column; overflow: hidden; }
+  #simulado-screen { position: fixed; inset: 0; z-index: 500; background: var(--bg); display: none; flex-direction: row; overflow: hidden; }
     #simulado-screen.open { display: flex; }
     .sim-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 54px; background: rgba(7,7,11,.95); border-bottom: 1px solid var(--border2); flex-shrink: 0; backdrop-filter: blur(20px); position: relative; }
     .sim-topbar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--a), transparent); opacity: .4; }
@@ -1380,7 +1380,6 @@
     </div>
 
  <div id="simulado-screen">
-  <!-- Sidebar desktop (oculta no mobile via CSS) -->
   <div class="sim-sidebar" id="sim-sidebar">
     <div class="sim-sb-timer">
       <span style="font-size:15px">🕐</span>
@@ -1398,12 +1397,12 @@
     <button class="sim-sb-finish" onclick="confirmarFinalizarComPendentes()">Finalizar Prova</button>
   </div>
 
-    <!-- Barra de progresso fina -->
+  <div class="sim-main-area">
+    
     <div style="height:3px;background:var(--border2);flex-shrink:0">
       <div id="sim-progress-fill" style="height:100%;background:linear-gradient(90deg,var(--a2),var(--a));transition:width .4s;width:0%"></div>
     </div>
 
-    <!-- Drawer toggle (só visível no mobile via CSS, inicialmente display:none) -->
     <div class="sim-drawer-toggle" id="sim-drawer-toggle" onclick="toggleSimDrawer()" style="display:none">
       <div class="sim-drawer-toggle-left">
         <div class="sim-drawer-timer">🕐 <span id="sim-drawer-timer-val">00:00</span></div>
@@ -1415,22 +1414,18 @@
       </div>
     </div>
 
-    <!-- Drawer panel -->
     <div class="sim-drawer-panel" id="sim-drawer-panel">
       <div class="sim-drawer-grid" id="sim-drawer-grid"></div>
       <button class="sim-drawer-finish" onclick="confirmarFinalizarComPendentes();toggleSimDrawer()">Finalizar Prova ✓</button>
     </div>
 
-    <div class="sim-main-area">
-      <div class="sim-topbar-new">
-  <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
-  <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">
-    ✏️ Marca Texto
-  </button>
-  <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
-</div>
-      <div class="sim-body-scroll" id="sim-body"></div>
+    <div class="sim-topbar-new">
+      <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
+      <button class="sim-annot-btn" onclick="toggleAnnotToolbar()">✏️ Marca Texto</button>
+      <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">—</button>
     </div>
+
+    <div class="sim-body-scroll" id="sim-body"></div>
 
     <div class="sim-actions-new" id="sim-actions-new">
       <button class="sim-btn" id="sim-btn-prev" onclick="simAnterior()">←</button>
@@ -1440,6 +1435,7 @@
       <button class="sim-btn sim-btn-finish-new" id="sim-btn-finish" onclick="finalizarSimulado()" style="display:none">Finalizar ✓</button>
     </div>
   </div>
+</div>
 
   <div id="annot-toolbar">
   <div class="annot-color annot-color-y sel" id="annot-c-y" onclick="annotSetColor('y')"></div>
