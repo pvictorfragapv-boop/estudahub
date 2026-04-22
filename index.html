@@ -2753,16 +2753,22 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
     }
 
     // --- STEP 5: Render question card ---
-    function renderSimQuestao() {
-      const { questoes, qIdx, modo, respostas, respondida } = simuladoCorrente;
-      const q = questoes[qIdx];
-      const total = questoes.length;
-      const resp = respostas[qIdx];
+    ffunction renderSimQuestao() {
+  const { questoes, qIdx, modo, respostas, respondida } = simuladoCorrente;
+  const q = questoes[qIdx];
+  const total = questoes.length;
+  const resp = respostas[qIdx];
 
-      const elCur = document.getElementById('sim-q-cur');
-      const elTotal = document.getElementById('sim-q-total');
-      if (elCur) elCur.textContent = qIdx + 1;
-      if (elTotal) elTotal.textContent = total;
+  // --- CORREÇÃO AQUI: ---
+  // Substituímos o .textContent direto por uma verificação de segurança
+  const elCur = document.getElementById('sim-q-cur');
+  const elTotal = document.getElementById('sim-q-total');
+  if (elCur) elCur.textContent = qIdx + 1;
+  if (elTotal) elTotal.textContent = total;
+  // -----------------------
+
+  const progFill = document.getElementById('sim-progress-fill');
+  if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
       
       // --- Fix V/F normalization ---
       if (q.alternativas && typeof q.alternativas === 'object') {
