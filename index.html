@@ -1024,7 +1024,8 @@
 #simulado-screen {
   position:fixed; inset:0; z-index:500;
   background:var(--bg);
-  display:flex; flex-direction:column;
+  display:none; /* ← Alterado de flex para none */
+  flex-direction:column;
   overflow:hidden;
 }
 .sim-topbar-new {
