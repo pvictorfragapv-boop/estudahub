@@ -1203,6 +1203,60 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     .sim-btn-vf.wrong { background: #ef4444; border-color: #ef4444; color: #fff; }
     .sim-btn-vf.missed { border-color: rgba(34,197,94,.5); color: #4ade80; background: rgba(34,197,94,.15); }
 
+    /* =========================================
+       REMODELAGEM DA TOPBAR MOBILE (TIPO SKETCH) 
+       ========================================= */
+    @media (max-width: 768px) {
+      /* Esconde o botão de Sair de baixo (desktop) no mobile */
+      .desk-sair-wrap { display: none !important; }
+      
+      /* Empilha o contador e as ferramentas */
+      .sim-topbar-new {
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        height: auto !important;
+        padding: 12px 16px 14px !important;
+        gap: 12px !important;
+      }
+
+      /* Contador centralizado */
+      .sim-q-counter-new {
+        flex: none !important;
+        text-align: center;
+        width: 100%;
+        font-size: 12px;
+      }
+
+      /* Container das ferramentas perfeitamente dividido */
+      .inline-annot-tools {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        padding: 0 !important;
+        overflow: hidden !important; 
+      }
+
+      /* Botões de ferramentas iguais */
+      .iat-btn {
+        flex: 1; 
+        justify-content: center;
+        font-size: 10px !important;
+        padding: 0 4px !important;
+        white-space: nowrap !important;
+      }
+
+      /* Ajuste da primeira linha (Gaveta / Timer / Bolinhas / Sair) */
+      .sim-drawer-toggle {
+        padding: 8px 16px !important;
+      }
+      
+      .sim-drawer-dots {
+        max-width: none !important; 
+        flex: 1;
+      }
+    }
   </style>
 </head>
 <body class="theme-default">
@@ -1569,15 +1623,13 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         <div id="sim-progress-fill" style="height:100%;background:linear-gradient(90deg,var(--a2),var(--a));transition:width .4s;width:0%"></div>
       </div>
 
-      <div class="sim-drawer-toggle" id="sim-drawer-toggle" onclick="toggleSimDrawer()" style="display:none">
-        <div class="sim-drawer-toggle-left">
+    <div class="sim-drawer-toggle" id="sim-drawer-toggle" style="display:none">
+        <div style="display:flex; align-items:center; flex:1; min-width:0; cursor:pointer;" onclick="toggleSimDrawer()">
           <div class="sim-drawer-timer">🕐 <span id="sim-drawer-timer-val">00:00</span></div>
           <div class="sim-drawer-dots" id="sim-drawer-dots"></div>
+          <div class="sim-drawer-chevron" id="sim-drawer-chevron" style="margin-left: 8px;">▾</div>
         </div>
-        <div class="sim-drawer-right">
-          <div class="sim-mode-chip-mob" id="sim-mode-chip-mob">Tutor</div>
-          <div class="sim-drawer-chevron" id="sim-drawer-chevron">▾</div>
-        </div>
+        <button class="sim-exit-btn-new" style="margin-left: 12px; border-color: var(--red); color: var(--red);" onclick="confirmarSairSimulado()">✕ Sair</button>
       </div>
 
       <div class="sim-drawer-panel" id="sim-drawer-panel">
@@ -1586,15 +1638,15 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
       </div>
 
       <div class="sim-topbar-new">
-        <div class="sim-q-counter-new" style="flex: 1;">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
+        <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
         
         <div class="inline-annot-tools">
-          <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca Texto</button>
+          <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marcar</button>
           <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">Riscar</span></button>
           <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
         </div>
 
-        <div style="flex: 1; display: flex; justify-content: flex-end;">
+        <div class="desk-sair-wrap" style="flex: 1; display: flex; justify-content: flex-end;">
           <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">✕ Sair</button>
         </div>
       </div>
