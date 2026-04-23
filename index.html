@@ -3360,7 +3360,13 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       }
 
       document.getElementById('revisao-screen').classList.add('open');
-      marcarConcluido();
+      
+      // SÓ SALVA E MARCA COMO CONCLUÍDO SE FOR A PRIMEIRA VEZ
+      if (!simuladoCorrente.concluido) {
+        marcarConcluido();
+        simuladoCorrente.concluido = true;
+      }
+      
       if (parseFloat(notaFinal) >= 7) celebrate();
     }
 
