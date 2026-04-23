@@ -1601,7 +1601,7 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     </div>
   </div>
 
-  <div id="grading-screen" style="display:none">
+ <div id="grading-screen">
     <div class="grading-orb">🤖</div>
     <div class="grading-title">Corrigindo com IA…</div>
     <div class="grading-sub" id="grading-sub">Analisando respostas discursivas</div>
@@ -1611,7 +1611,7 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     </div>
   </div>
 
-  <div id="revisao-screen" style="display:none">
+  <div id="revisao-screen">
     <div class="revisao-topbar">
       <div class="revisao-topbar-title">Revisão do Simulado</div>
       <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--muted2)" id="revisao-titulo-sim"></div>
@@ -4326,12 +4326,18 @@ function salvarRascunho() {
 }
 
 function marcarConcluido() {
+      // 1. Garante que o simulado foi criado na lista de "Meus Simulados" primeiro
+      salvarRascunho();
+
       if (!state.simuladosDraft) return;
+      
+      // 2. Agora acha ele na lista e marca como concluído
       const idx = state.simuladosDraft.findIndex(d => d.titulo === simuladoCorrente.titulo && !d.concluido);
+      
       if (idx >= 0) { 
         state.simuladosDraft[idx].concluido = true; 
         
-        // ADICIONE ESTE BLOCO PARA SALVAR NAS MÉTRICAS AUTOMATICAMENTE
+        // 3. Salva os resultados nas Métricas de Provas
         const { questoes, respostas, titulo } = simuladoCorrente;
         const notas = respostas.map((r, i) => {
           if (r.nota !== null) return r.nota;
@@ -4359,6 +4365,7 @@ function carregarRascunho(i) {
 
   if (draft.concluido) {
     simuladoCorrente = { ...draft };
+    document.body.style.overflow = 'hidden'; // <-- ADICIONE ESTA LINHA AQUI
     exibirRevisao();
     return;
   }
