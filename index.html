@@ -4560,7 +4560,7 @@ document.addEventListener('selectionchange', () => {
   // Aguarda o usuário parar de mexer na seleção por 600ms antes de pintar!
   annotDebounce = setTimeout(() => {
     handleAutoAnnotate();
-  }, 600);
+  }, 1000);
 });
 
 // PC: Mantém o gatilho imediato ao soltar o clique do mouse
