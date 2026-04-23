@@ -752,9 +752,13 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     .rq-alt-exp.open { display: block; }
     .rq-explicacao-geral { font-size: 12px; line-height: 1.7; color: var(--muted2); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: 10px 14px; margin-top: 10px; }
     .rq-explicacao-geral strong { color: var(--a); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: 4px; font-family: 'IBM Plex Mono', monospace; }
-    .revisao-footer { padding: 14px 28px calc(14px + var(--sb)); border-top: 1px solid var(--border2); background: rgba(7,7,11,.95); flex-shrink: 0; }
-    .btn-voltar-dash { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--a2), var(--a)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 16px var(--ag); transition: all .18s; }
-    .btn-voltar-dash:hover { opacity: .9; }
+    .revisao-footer { padding: 14px 28px calc(14px + var(--sb)); border-top: 1px solid var(--border2); background: rgba(7,7,11,.95); flex-shrink: 0; display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-rev-ghost { flex: 1; min-width: 120px; padding: 13px; background: transparent; border: 1.5px solid var(--border3); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border-radius: var(--r); transition: all .18s; }
+    .btn-rev-ghost:hover { border-color: var(--a); color: var(--a); background: var(--ad); }
+    .btn-rev-primary { flex: 1; min-width: 120px; padding: 13px; background: linear-gradient(135deg, var(--border3), var(--border2)); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: 1px solid var(--border); cursor: pointer; border-radius: var(--r); transition: opacity .18s; }
+    .btn-rev-primary:hover { opacity: .9; border-color: var(--a); }
+    .btn-rev-ai { flex: 2; min-width: 200px; padding: 13px; background: linear-gradient(135deg, #1db870, #047857); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 16px rgba(29,184,112,.25); transition: opacity .18s; }
+    .btn-rev-ai:hover { opacity: .9; transform: translateY(-1px); }
 
     /* EMPTY / TOAST / CONFETTI / TOUR */
     .empty-state { padding: 52px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -3345,7 +3349,16 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
           </div>
         </div>`;
       }).join('');
-      // Show revisão screen
+     // Adiciona os novos botões no rodapé da revisão
+      const footer = document.querySelector('.revisao-footer');
+      if (footer) {
+        footer.innerHTML = `
+          <button class="btn-rev-ghost" onclick="voltarDashboard()">Voltar</button>
+          <button class="btn-rev-primary" onclick="refazerSimulado()">Refazer Prova</button>
+          <button class="btn-rev-ai" onclick="gerarVarianteIA()">✨ Gerar Variante Inédita</button>
+        `;
+      }
+
       document.getElementById('revisao-screen').classList.add('open');
       marcarConcluido();
       if (parseFloat(notaFinal) >= 7) celebrate();
@@ -3368,6 +3381,120 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       renderProvas();
     }
 
+    function refazerSimulado() {
+      if (!confirm("Deseja refazer este simulado do zero? Suas respostas atuais serão limpas.")) return;
+      
+      // Reseta todas as respostas do simulado atual
+      simuladoCorrente.qIdx = 0;
+      simuladoCorrente.respondida = false;
+      simuladoCorrente.respostas = simuladoCorrente.questoes.map(() => ({resposta:null, nota:null, feedback:null, acertou:null, validada:false}));
+      
+      // Salva o reset no rascunho (reabre a prova)
+      const idx = state.simuladosDraft.findIndex(d => d.titulo === simuladoCorrente.titulo);
+      if (idx >= 0) {
+        state.simuladosDraft[idx].concluido = false;
+        state.simuladosDraft[idx].respostas = simuladoCorrente.respostas;
+        state.simuladosDraft[idx].qIdx = 0;
+        save();
+      }
+      
+      // Fecha a tela de revisão e abre o menu de Modo
+      document.getElementById('revisao-screen').classList.remove('open');
+      document.getElementById('modal-mode-title').textContent = `"${simuladoCorrente.titulo}"`;
+      document.getElementById('modal-mode-sub').textContent = `// escolha o modo para refazer a prova`;
+      document.getElementById('modal-simulado-mode').classList.add('open');
+    }
+
+    async function gerarVarianteIA() {
+      if (!getAllGeminiKeys().length) { toast('Insira sua API Key do Gemini em Configurações'); return; }
+      
+      // Reutiliza a tela de "Corrigindo com IA" para mostrar o carregamento
+      const gs = document.getElementById('grading-screen');
+      const gTitle = gs.querySelector('.grading-title');
+      const gSub = document.getElementById('grading-sub');
+      const gProg = document.querySelector('.grading-prog-wrap');
+      
+      document.getElementById('revisao-screen').classList.remove('open');
+      gs.classList.add('open');
+      gTitle.textContent = '✨ Gerando Variante Inédita...';
+      gSub.textContent = 'A IA está criando novos casos clínicos e alternativas baseadas nos temas originais.';
+      gProg.style.display = 'none'; // Esconde a barra de progresso
+
+      try {
+        const prompt = `Você é um professor de medicina especialista em elaboração de provas.
+Eu tenho este simulado original:
+${JSON.stringify(simuladoCorrente.questoes)}
+
+SUA TAREFA:
+Gere um NOVO simulado com o mesmo número de questões e focado nos mesmos temas médicos/clínicos do original, mas com perguntas INÉDITAS. 
+Crie novos casos clínicos, novos pacientes e novas alternativas, mantendo o nível de dificuldade. Mantenha a exata mesma ordem e proporção de tipos de questões.
+
+Retorne ESTRITAMENTE em JSON neste formato:
+{"titulo_sugerido": "Variante da Prova", "questoes": [{"numero": 1, "tipo": "objetiva, discursiva ou vf", "contexto": "Novos casos clínicos longos (vazio se não houver)", "enunciado": "Nova pergunta", "alternativas": {"A": "...", "B": "..."}, "gabarito_correto": "A", "padrao_esperado": "...", "explicacao_geral": "...", "explicacoes_alternativas": {"A": "...", "B": "..."}}]}
+
+REGRAS VITAIS:
+- O campo "contexto" só recebe textos de apoio ou histórias de pacientes. Instruções ficam no "enunciado".
+- Para tipo 'vf', alternativas são "1", "2" e gabarito_correto é um objeto ("1": "V", "2": "F").
+- Para objetivas, gabarito_correto é "A", "B", etc.
+- Não retorne NENHUM texto antes ou depois do JSON (sem crases de markdown).`;
+
+        const response = await geminiRequest({
+          contents:[{parts:[{text:prompt}]}],
+          generationConfig:{maxOutputTokens:16384}
+        }, null);
+
+        const data = await response.json();
+        const parts = data.candidates?.[0]?.content?.parts||[];
+        const rawText = parts.map(p=>p.text||'').join('');
+        
+        function extractJSON(raw) {
+          let s=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+          s=s.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
+          let depth=0, start=-1, end=-1;
+          for(let i=0;i<s.length;i++){
+            if(s[i]==='{'){if(start===-1)start=i;depth++;}
+            else if(s[i]==='}'){depth--;if(depth===0){end=i;break;}}
+          }
+          if(start===-1||end===-1)return null;
+          return s.slice(start,end+1);
+        }
+        
+        const jsonStr = extractJSON(rawText);
+        if(!jsonStr) throw new Error('Falha ao formatar as novas questões.');
+        const parsed = JSON.parse(jsonStr);
+
+        // Configura o novo simulado na memória e zera as respostas
+        simuladoCorrente.questoes = parsed.questoes;
+        simuladoCorrente.titulo = "Variante: " + simuladoCorrente.titulo.replace('Variante: ', '');
+        simuladoCorrente.respostas = parsed.questoes.map(()=>({resposta:null,nota:null,feedback:null,acertou:null,validada:false}));
+        simuladoCorrente.qIdx = 0;
+        simuladoCorrente.respondida = false;
+
+        // Restaura o modal de loading para o padrão
+        gs.classList.remove('open');
+        gTitle.textContent = 'Corrigindo com IA…';
+        gSub.textContent = 'Analisando respostas discursivas';
+        gProg.style.display = 'block';
+
+        // Abre o modal de escolher o modo para a nova prova
+        document.getElementById('modal-mode-title').textContent = `"${simuladoCorrente.titulo}"`;
+        document.getElementById('modal-mode-sub').textContent = `// ${parsed.questoes.length} novas questões geradas · escolha o modo`;
+        document.getElementById('modal-simulado-mode').classList.add('open');
+
+      } catch(err) {
+        console.error(err);
+        toast('Erro ao gerar variante: Tente novamente. O Gemini pode estar sobrecarregado.');
+        
+        // Restaura o modal de loading
+        gs.classList.remove('open');
+        gTitle.textContent = 'Corrigindo com IA…';
+        gSub.textContent = 'Analisando respostas discursivas';
+        gProg.style.display = 'block';
+        
+        // Volta para a tela de revisão
+        document.getElementById('revisao-screen').classList.add('open');
+      }
+    }
 
     // ═══ SIMULADO TIMER & SIDEBAR ═══
     let simTimerInterval = null, simTimerSecs = 0;
