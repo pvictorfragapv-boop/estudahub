@@ -4542,7 +4542,6 @@ function annotSetTool(tool) {
 // Intercepta e bloqueia a pop-up de "Copiar/Colar" no Android e iOS
 document.addEventListener('contextmenu', function(e) {
   if (annotTool !== 'none') {
-    // Só bloqueia se o clique foi dentro da área da questão
     const isAllowed = annotTargetIds.some(id => {
       const el = document.getElementById(id);
       return el && el.contains(e.target);
@@ -4578,7 +4577,6 @@ function handleAutoAnnotate() {
 
   const range = sel.getRangeAt(0);
   
-  // Verifica se está selecionando texto da prova (e não o menu)
   const isAllowed = annotTargetIds.some(id => {
     const el = document.getElementById(id);
     return el && el.contains(range.commonAncestorContainer);
@@ -4589,7 +4587,6 @@ function handleAutoAnnotate() {
     return;
   }
 
-  // Impede marcação dupla
   const parent = range.commonAncestorContainer.nodeType === 3 ? range.commonAncestorContainer.parentNode : range.commonAncestorContainer;
   if ((parent.closest('mark') || parent.closest('s')) && annotTool !== 'clear') {
       sel.removeAllRanges();
@@ -4633,46 +4630,6 @@ function handleAutoAnnotate() {
   sel.removeAllRanges(); 
 }
 
-    if (annotTool === 'clear') {
-      // Tenta apagar varrendo por cima das marcações
-      const frag = range.extractContents();
-      frag.querySelectorAll('mark, s').forEach(el => {
-        const p = el.parentNode; 
-        while (el.firstChild) p.insertBefore(el.firstChild, el); 
-        p.removeChild(el);
-      });
-      range.insertNode(frag);
-
-    } else if (annotTool === 'highlight') {
-      const frag = range.extractContents();
-      // Remove marcações internas que a pessoa pegou na seleção para não "engolir" a tag
-      frag.querySelectorAll('mark, s').forEach(el => {
-          const p = el.parentNode;
-          while(el.firstChild) p.insertBefore(el.firstChild, el);
-          p.removeChild(el);
-      });
-      const mark = document.createElement('mark');
-      mark.className = 'hl-yellow';
-      mark.appendChild(frag);
-      range.insertNode(mark);
-
-    } else if (annotTool === 'strike') {
-      const frag = range.extractContents();
-      frag.querySelectorAll('mark, s').forEach(el => {
-          const p = el.parentNode;
-          while(el.firstChild) p.insertBefore(el.firstChild, el);
-          p.removeChild(el);
-      });
-      const s = document.createElement('s');
-      s.className = 'hl-strike';
-      s.appendChild(frag);
-      range.insertNode(s);
-    }
-    
-    sel.removeAllRanges(); // Limpa a cor azul de seleção nativa do navegador
-  }, 10);
-}
-
 // ── TEMA DO SIMULADO ──────────────────────────
 function toggleSimTheme(light) {
   document.body.classList.toggle('sim-light', light);
@@ -4690,15 +4647,14 @@ function toggleSimTheme(light) {
 })();
 
 function simSelecionarVF(key, val) {
-      if (simuladoCorrente.respondida) return; // Se já validou, trava o clique
-      const resp = simuladoCorrente.respostas[simuladoCorrente.qIdx];
-      
-      // Cria um objeto para guardar as respostas V e F separadas, se não existir
-      if (!resp.resposta || typeof resp.resposta !== 'object') resp.resposta = {};
-      
-      resp.resposta[key] = val; // Grava "V" ou "F" na chave daquela frase
-      renderSimQuestao(); // Recarrega a tela para acender o botão
-    }
+  if (simuladoCorrente.respondida) return; 
+  const resp = simuladoCorrente.respostas[simuladoCorrente.qIdx];
+  
+  if (!resp.resposta || typeof resp.resposta !== 'object') resp.resposta = {};
+  
+  resp.resposta[key] = val; 
+  renderSimQuestao(); 
+}
   </script>
 </body>
 </html>
