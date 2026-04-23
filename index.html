@@ -3480,6 +3480,8 @@ REGRAS VITAIS:
         simuladoCorrente.respondida = false;
 
         // Restaura o modal de loading para o padrão
+        salvarRascunho();
+        
         gs.classList.remove('open');
         gTitle.textContent = 'Corrigindo com IA…';
         gSub.textContent = 'Analisando respostas discursivas';
@@ -3570,6 +3572,8 @@ REGRAS VITAIS:
         simuladoCorrente.respondida = false;
 
         // Restaura a tela de carregamento
+        salvarRascunho();
+        
         gs.classList.remove('open');
         gTitle.textContent = 'Corrigindo com IA…';
         gSub.textContent = 'Analisando respostas discursivas';
