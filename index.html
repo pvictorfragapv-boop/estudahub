@@ -602,6 +602,11 @@
 mark.hl-yellow { background: #ccff00; color: #000000; border-radius: 3px; padding: 2px 0; }
 s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decoration-thickness: 1.5px; }
 
+    /* Bloqueia o menu nativo do celular quando a ferramenta estiver ligada */
+.annot-active {
+  -webkit-touch-callout: none !important;
+}
+
 /* ── Correção da Topbar no Mobile ── */
 @media(max-width: 768px) {
   .sim-topbar-new { 
@@ -4521,11 +4526,12 @@ let annotTool = 'none'; // Começa desligado
 let annotTargetIds = ['sim-enunciado', 'sim-contexto'];
 
 function annotSetTool(tool) {
-  // Se clicar na ferramenta que já está ativa, ela desliga.
   if (annotTool === tool) {
     annotTool = 'none'; 
+    document.body.classList.remove('annot-active'); // Libera o celular
   } else {
     annotTool = tool;
+    document.body.classList.add('annot-active'); // Trava o menu do celular
   }
   
   document.getElementById('btn-tool-highlight').classList.toggle('active', annotTool === 'highlight');
@@ -4533,9 +4539,20 @@ function annotSetTool(tool) {
   document.getElementById('btn-tool-clear').classList.toggle('active', annotTool === 'clear');
 }
 
+// Intercepta e bloqueia a pop-up de "Copiar/Colar" no Android e iOS
+document.addEventListener('contextmenu', function(e) {
+  if (annotTool !== 'none') {
+    // Só bloqueia se o clique foi dentro da área da questão
+    const isAllowed = annotTargetIds.some(id => {
+      const el = document.getElementById(id);
+      return el && el.contains(e.target);
+    });
+    if (isAllowed) e.preventDefault();
+  }
+});
+
 document.addEventListener('mouseup', handleAutoAnnotate);
 document.addEventListener('touchend', handleAutoAnnotate);
-
 function handleAutoAnnotate() {
   if (annotTool === 'none') return;
   
