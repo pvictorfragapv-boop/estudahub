@@ -1183,6 +1183,18 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
   .sim-btn { padding: 10px 16px; font-size: 11px; }
   .sim-btn-circle { width: 38px; height: 38px; font-size: 18px; }
 }
+
+/* Botões V e F */
+    .sim-btn-vf {
+      width: 48px; height: 40px; border-radius: 8px; border: 1.5px solid var(--border3);
+      background: var(--bg3); color: var(--muted2); font-family: 'IBM Plex Mono', monospace; font-weight: 800; font-size: 16px;
+      cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center;
+    }
+    .sim-btn-vf:hover { border-color: var(--a); color: var(--a); background: var(--ad); }
+    .sim-btn-vf.selected { background: var(--a); border-color: var(--a); color: #fff; }
+    .sim-btn-vf.correct { background: #22c55e; border-color: #22c55e; color: #fff; }
+    .sim-btn-vf.wrong { background: #ef4444; border-color: #ef4444; color: #fff; }
+    .sim-btn-vf.missed { border-color: rgba(34,197,94,.5); color: #4ade80; background: rgba(34,197,94,.15); }
   </style>
 </head>
 <body class="theme-default">
@@ -2615,9 +2627,19 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       document.getElementById('byok-proc-txt').textContent='Extraindo questões com IA…';
   
       const prompt=`Você é um professor de medicina. Leia a prova em anexo.
-  Extraia as questões e classifique como 'objetiva' ou 'discursiva'. Retorne ESTRITAMENTE em JSON neste formato (sem markdown, sem crases, sem texto adicional):
-  {"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva ou discursiva", "contexto": "Texto introdutório, caso clínico ou vinheta que precede a pergunta (deixe como string vazia se não houver)", "enunciado": "Apenas a pergunta em si, sem repetir o contexto", "alternativas": {"A": "Texto A", "B": "Texto B", "C": "Texto C", "D": "Texto D", "E": "Texto E"}, "gabarito_correto": "A", "padrao_esperado": "O que o aluno deve responder para acertar a questão (rubrica de correção detalhada)", "explicacao_geral": "Explicação geral do tema da questão", "explicacoes_alternativas": {"A": "Por que A está correta ou incorreta", "B": "Por que B está correta ou incorreta", "C": "Por que C está correta ou incorreta", "D": "Por que D está correta ou incorreta", "E": "Por que E está correta ou incorreta"}}]}
-  
+  Extraia as questões e classifique o "tipo" como 'objetiva', 'discursiva' ou 'vf' (Verdadeiro ou Falso múltiplo).
+  Retorne ESTRITAMENTE em JSON neste formato:
+  {"titulo_sugerido": "Nome da prova", "questoes": [{"numero": 1, "tipo": "objetiva, discursiva ou vf", "contexto": "Texto introdutório (string vazia se não houver)", "enunciado": "A pergunta", "alternativas": {"A": "Texto", "B": "Texto"}, "gabarito_correto": "A", "padrao_esperado": "Rubrica", "explicacao_geral": "Comentário geral", "explicacoes_alternativas": {"A": "Por que A...", "B": "Por que B..."}}]}
+
+  REGRAS:
+  - Para tipo 'vf' (itens de julgar V ou F): 
+    1. Em 'alternativas', coloque as afirmativas (ex: {"1": "Primeira frase", "2": "Segunda frase"}).
+    2. Em 'gabarito_correto', passe um objeto com a resposta exata (ex: {"1": "V", "2": "F"}).
+    3. Use 'explicacoes_alternativas' para justificar cada item (ex: {"1": "Verdadeira porque...", "2": "Falsa porque..."}).
+  - Para objetivas, 'gabarito_correto' é uma string ("A").
+  - Para discursivas, alternativas/gabarito são null.
+  Retorne APENAS o JSON puro.
+      
   IMPORTANTE:
   - Se a questão tiver um caso clínico, vinheta ou texto introdutório ANTES da pergunta, coloque esse texto em 'contexto' e apenas a pergunta em 'enunciado'.
   - Para questões objetivas: preencha 'alternativas', 'gabarito_correto', e 'explicacoes_alternativas' com comentário para cada opção.
@@ -2793,6 +2815,103 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
 
       // ── Build alternatives / textarea ──────────────────────────────────────
       let bodyHtml = '';
+      // NOVA LÓGICA: Se for Verdadeiro/Falso
+      if (q.tipo === 'vf') {
+        const alts = q.alternativas || {};
+        const showFeedback = respondida && modo === 'tutor';
+        if (!resp.resposta || typeof resp.resposta !== 'object') resp.resposta = {};
+
+        bodyHtml = `<div class="sim-alts" style="gap:16px;">`;
+        for (const [key, text] of Object.entries(alts)) {
+          if (!text) continue;
+          
+          const userVal = resp.resposta[key]; // O que o aluno marcou (V ou F)
+          const correctVal = q.gabarito_correto ? q.gabarito_correto[key] : null; // Gabarito real
+          
+          let btnVCls = 'sim-btn-vf', btnFCls = 'sim-btn-vf';
+          let expHtml = '';
+
+          if (showFeedback) {
+            const isCorretoV = correctVal === 'V';
+            const isCorretoF = correctVal === 'F';
+            
+            // Pinta os botões V e F de verde/vermelho baseado no acerto
+            if (userVal === 'V') btnVCls += isCorretoV ? ' correct' : ' wrong';
+            else if (isCorretoV) btnVCls += ' missed';
+
+            if (userVal === 'F') btnFCls += isCorretoF ? ' correct' : ' wrong';
+            else if (isCorretoF) btnFCls += ' missed';
+
+            const exp = q.explicacoes_alternativas?.[key] || '';
+            if (exp || userVal !== correctVal) {
+              const acertouItem = userVal === correctVal;
+              const labelHtml = acertouItem
+                ? `<div style="font-size:13px;font-weight:700;color:#4ade80;margin-bottom:6px">Item correto! ✅</div>`
+                : `<div style="font-size:13px;font-weight:700;color:#fca5a5;margin-bottom:6px">Item incorreto (O certo era ${correctVal}) ❌</div>`;
+              expHtml = `<div class="sim-alt-exp open" style="padding-left:0;">${labelHtml}${exp}</div>`;
+            }
+          } else {
+            // Se ainda não validou, só acende o botão clicado
+            if (userVal === 'V') btnVCls += ' selected';
+            if (userVal === 'F') btnFCls += ' selected';
+          }
+
+          const clickV = showFeedback ? '' : `simSelecionarVF('${key}', 'V')`;
+          const clickF = showFeedback ? '' : `simSelecionarVF('${key}', 'F')`;
+
+          // Monta o layout: Frase na esquerda, Botões V/F na direita
+          bodyHtml += `
+          <div class="sim-alt" style="background:transparent; border:none; padding:0; flex-direction:column; gap:12px;">
+            <div style="font-size:15px; line-height:1.6; color:var(--text); font-weight:500;">
+              <span style="color:var(--muted2); font-weight:700; margin-right:8px;">${key}.</span>${text}
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="${btnVCls}" onclick="${clickV}">V</button>
+              <button class="${btnFCls}" onclick="${clickF}">F</button>
+            </div>
+            ${expHtml}
+          </div>
+          <div style="height:1px; background:var(--border2); margin:12px 0;"></div>`;
+        }
+        bodyHtml += `</div>`;
+        
+      } else if (isObj) { 
+        // -> Seu código antigo do "if (isObj) {" continua daqui para baixo
+Fase 5: Validação e Nota Parcial
+Temos que impedir o aluno de "Validar" sem responder todos os itens de V e F, e calcular a nota parcial (ex: acertou 3 de 4 itens, ganha 75 pontos).
+
+Onde encontrar:
+Dê Ctrl + F por async function simResponder().
+
+O que fazer:
+Dentro dessa função, logo abaixo da linha if (q.tipo === 'discursiva' && (!resp.resposta || resp.resposta.trim().length < 5)) { toast('Escreva sua resposta antes de enviar'); return; }, cole a regra abaixo:
+
+JavaScript
+      // Validação do V/F
+      if (q.tipo === 'vf') {
+        const altsKeys = Object.keys(q.alternativas || {});
+        const respKeys = Object.keys(resp.resposta || {});
+        
+        // Verifica se a quantidade de respostas é igual a quantidade de alternativas
+        if (respKeys.length < altsKeys.length) {
+          toast('Julgue todos os itens (V ou F) antes de validar');
+          return;
+        }
+        simuladoCorrente.respondida = true;
+        resp.validada = true; // Trava a questão
+
+        if (modo === 'tutor') {
+          let correctCount = 0;
+          for (const k of altsKeys) {
+            if (resp.resposta[k] === q.gabarito_correto[k]) correctCount++;
+          }
+          // Calcula nota parcial. 2 de 4 = nota 50.
+          resp.nota = (correctCount / altsKeys.length) * 100;
+          resp.acertou = resp.nota === 100; // Conta como acerto total no painel só se gabaritar 100%
+        }
+        renderSimQuestao();
+        return;
+      }
       if (isObj) {
         const alts = q.alternativas || {};
         const showFeedback = respondida && modo === 'tutor';
@@ -4263,6 +4382,17 @@ function toggleSimTheme(light) {
     });
   }
 })();
+
+function simSelecionarVF(key, val) {
+      if (simuladoCorrente.respondida) return; // Se já validou, trava o clique
+      const resp = simuladoCorrente.respostas[simuladoCorrente.qIdx];
+      
+      // Cria um objeto para guardar as respostas V e F separadas, se não existir
+      if (!resp.resposta || typeof resp.resposta !== 'object') resp.resposta = {};
+      
+      resp.resposta[key] = val; // Grava "V" ou "F" na chave daquela frase
+      renderSimQuestao(); // Recarrega a tela para acender o botão
+    }
   </script>
 </body>
 </html>
