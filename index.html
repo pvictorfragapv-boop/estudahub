@@ -4551,34 +4551,87 @@ document.addEventListener('contextmenu', function(e) {
   }
 });
 
-document.addEventListener('mouseup', handleAutoAnnotate);
-document.addEventListener('touchend', handleAutoAnnotate);
-function handleAutoAnnotate() {
+let annotDebounce = null;
+
+// MOBILE: Detecta quando o usuário está arrastando os pinos de seleção
+document.addEventListener('selectionchange', () => {
   if (annotTool === 'none') return;
   
-  setTimeout(() => {
-    const sel = window.getSelection();
-    if (!sel || sel.isCollapsed) return;
+  clearTimeout(annotDebounce);
+  // Aguarda o usuário parar de mexer na seleção por 600ms antes de pintar!
+  annotDebounce = setTimeout(() => {
+    handleAutoAnnotate();
+  }, 600);
+});
 
-    const range = sel.getRangeAt(0);
-    
-    // Verifica se está selecionando texto da prova (e não o menu)
-    const isAllowed = annotTargetIds.some(id => {
-      const el = document.getElementById(id);
-      return el && el.contains(range.commonAncestorContainer);
-    });
+// PC: Mantém o gatilho imediato ao soltar o clique do mouse
+document.addEventListener('mouseup', () => {
+  if (annotTool === 'none') return;
+  clearTimeout(annotDebounce);
+  setTimeout(handleAutoAnnotate, 10); 
+});
 
-    if (!isAllowed) {
+function handleAutoAnnotate() {
+  if (annotTool === 'none') return;
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+
+  const range = sel.getRangeAt(0);
+  
+  // Verifica se está selecionando texto da prova (e não o menu)
+  const isAllowed = annotTargetIds.some(id => {
+    const el = document.getElementById(id);
+    return el && el.contains(range.commonAncestorContainer);
+  });
+
+  if (!isAllowed) {
+    sel.removeAllRanges();
+    return;
+  }
+
+  // Impede marcação dupla
+  const parent = range.commonAncestorContainer.nodeType === 3 ? range.commonAncestorContainer.parentNode : range.commonAncestorContainer;
+  if ((parent.closest('mark') || parent.closest('s')) && annotTool !== 'clear') {
       sel.removeAllRanges();
       return;
-    }
+  }
 
-    // Impede marcação dupla: Se a pessoa começou a selecionar DE DENTRO de uma marcação, ignora.
-    const parent = range.commonAncestorContainer.nodeType === 3 ? range.commonAncestorContainer.parentNode : range.commonAncestorContainer;
-    if ((parent.closest('mark') || parent.closest('s')) && annotTool !== 'clear') {
-        sel.removeAllRanges();
-        return;
-    }
+  if (annotTool === 'clear') {
+    const frag = range.extractContents();
+    frag.querySelectorAll('mark, s').forEach(el => {
+      const p = el.parentNode; 
+      while (el.firstChild) p.insertBefore(el.firstChild, el); 
+      p.removeChild(el);
+    });
+    range.insertNode(frag);
+
+  } else if (annotTool === 'highlight') {
+    const frag = range.extractContents();
+    frag.querySelectorAll('mark, s').forEach(el => {
+        const p = el.parentNode;
+        while(el.firstChild) p.insertBefore(el.firstChild, el);
+        p.removeChild(el);
+    });
+    const mark = document.createElement('mark');
+    mark.className = 'hl-yellow';
+    mark.appendChild(frag);
+    range.insertNode(mark);
+
+  } else if (annotTool === 'strike') {
+    const frag = range.extractContents();
+    frag.querySelectorAll('mark, s').forEach(el => {
+        const p = el.parentNode;
+        while(el.firstChild) p.insertBefore(el.firstChild, el);
+        p.removeChild(el);
+    });
+    const s = document.createElement('s');
+    s.className = 'hl-strike';
+    s.appendChild(frag);
+    range.insertNode(s);
+  }
+  
+  sel.removeAllRanges(); 
+}
 
     if (annotTool === 'clear') {
       // Tenta apagar varrendo por cima das marcações
