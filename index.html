@@ -2783,7 +2783,7 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       const total = questoes.length;
       const resp = respostas[qIdx];
       
-      // Corrige a normalização de itens V/F vindos da IA
+      // Fix V/F normalization
       if (q.alternativas && typeof q.alternativas === 'object') {
         const keys = Object.keys(q.alternativas);
         const needsNorm = keys.some(k => k.length > 1 && /verdadeiro|falso|true|false|certo|errado/i.test(k));
@@ -2818,7 +2818,8 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
         if (!resp.resposta || typeof resp.resposta !== 'object') resp.resposta = {};
 
         bodyHtml = `<div class="sim-alts" style="gap:16px;">`;
-        for (const [key, text] of Object.entries(alts)) {
+        // Adicionamos o .sort() aqui para organizar V/F
+        for (const [key, text] of Object.entries(alts).sort(([a], [b]) => a.localeCompare(b))) {
           if (!text) continue;
           
           const userVal = resp.resposta[key];
@@ -2853,7 +2854,6 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
           const clickV = showFeedback ? '' : `simSelecionarVF('${key}', 'V')`;
           const clickF = showFeedback ? '' : `simSelecionarVF('${key}', 'F')`;
 
-         // Monta o layout limpo: Frase na esquerda, Botões V/F na direita
           bodyHtml += `
           <div style="display:flex; flex-direction:column; gap:12px; width:100%;">
             <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; width:100%;">
@@ -2875,7 +2875,8 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
         const alts = q.alternativas || {};
         const showFeedback = respondida && modo === 'tutor';
         bodyHtml = `<div class="sim-alts" id="sim-alts">`;
-        for (const [letter, text] of Object.entries(alts)) {
+        // Adicionamos o .sort() aqui para organizar objetivas
+        for (const [letter, text] of Object.entries(alts).sort(([a], [b]) => a.localeCompare(b))) {
           if (!text) continue;
           let cls = '';
           let expHtml = '';
@@ -3191,7 +3192,7 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
     }
 
     // --- STEP 8: Show revisão screen ---
-    function exibirRevisao() {
+   function exibirRevisao() {
       const { questoes, respostas, titulo } = simuladoCorrente;
       const total = questoes.length;
       
@@ -3223,27 +3224,67 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       body.innerHTML = questoes.map((q, i) => {
         const r = respostas[i];
         const isObj = q.tipo === 'objetiva';
+        const isVf = q.tipo === 'vf';
         const nota = r.nota !== null ? r.nota : (isObj ? (r.acertou ? 100 : 0) : 0);
-        const acertou = isObj ? (r.resposta === q.gabarito_correto) : (nota >= 60);
-        const resultCls = acertou ? 'acerto' : 'erro';
-        const badgeCls = isObj ? (acertou ? 'acerto' : 'erro') : (nota >= 80 ? 'acerto' : nota >= 60 ? 'parcial' : 'erro');
-        const badgeTxt = isObj ? (acertou ? '✓ Correto' : '✗ Incorreto') : (nota >= 60 ? `${nota}/100 Aprovado` : `${nota}/100 Insuficiente`);
+        
+        let acertou;
+        if (isObj) acertou = (r.resposta === q.gabarito_correto);
+        else if (isVf) acertou = (nota === 100);
+        else acertou = (nota >= 60);
 
-        // Contexto (caso clínico / vinheta)
+        const resultCls = acertou ? 'acerto' : 'erro';
+        const badgeCls = (isObj || isVf) ? (acertou ? 'acerto' : 'erro') : (nota >= 80 ? 'acerto' : nota >= 60 ? 'parcial' : 'erro');
+        
+        let badgeTxt = '';
+        if (isObj) badgeTxt = acertou ? '✓ Correto' : '✗ Incorreto';
+        else if (isVf) badgeTxt = acertou ? '✓ Correto' : `Parcial (${nota.toFixed(0)}%)`;
+        else badgeTxt = nota >= 60 ? `${nota}/100 Aprovado` : `${nota}/100 Insuficiente`;
+
         const contextoHtml = q.contexto ? `<div class="rq-contexto">${q.contexto}</div>` : '';
 
         let respostaHtml = '';
-        if (isObj && q.alternativas) {
-          const alts = Object.entries(q.alternativas);
+        
+        if (isVf && q.alternativas) {
+          // Ordena as alternativas V/F
+          const alts = Object.entries(q.alternativas).sort(([a], [b]) => a.localeCompare(b));
+          const expAlts = q.explicacoes_alternativas || {};
+          
+          const altRows = alts.map(([letra, texto]) => {
+            const userVal = r.resposta ? r.resposta[letra] : null;
+            const correctVal = q.gabarito_correto ? q.gabarito_correto[letra] : null;
+            const acertouItem = userVal === correctVal;
+            
+            const badge = acertouItem 
+              ? `<span class="rq-alt-badge" style="background:var(--g-bg);color:var(--green);border:1px solid rgba(29,184,112,.3);">✓ ${correctVal}</span>`
+              : `<span class="rq-alt-badge" style="background:var(--r-bg);color:var(--red);border:1px solid rgba(240,78,78,.3);">✗ Marcou ${userVal||'-'} (Era ${correctVal})</span>`;
+            
+            const exp = expAlts[letra] ? `<div class="rq-alt-exp open" style="margin-top:8px; padding-left:0; border:none;">${expAlts[letra]}</div>` : '';
+            
+            return `
+            <div class="rq-alt alt-neutra" style="padding:16px; margin-bottom:12px; background:var(--bg3);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+                <div style="font-size:14px; color:var(--text); line-height:1.6;">
+                  <strong style="color:var(--muted2)">${letra}.</strong> ${texto}
+                </div>
+                ${badge}
+              </div>
+              ${exp}
+            </div>`;
+          }).join('');
+          respostaHtml = `<div class="rq-alts">${altRows}</div>`;
+        
+        } else if (isObj && q.alternativas) {
+          // Ordena as alternativas da Objetiva
+          const alts = Object.entries(q.alternativas).sort(([a], [b]) => a.localeCompare(b));
           const expAlts = q.explicacoes_alternativas || {};
           const altRows = alts.map(([letra, texto]) => {
             const isCorreta = letra === q.gabarito_correto;
             const isSelecionada = letra === r.resposta;
             let cls = 'alt-neutra';
             let icon = letra;
-            let badge = '';
-            if (isCorreta) { cls = 'alt-correta'; icon = '✓'; badge = `<span class="rq-alt-badge">Alternativa correta</span>`; }
-            else if (isSelecionada && !isCorreta) { cls = 'alt-errada'; icon = '✗'; badge = `<span class="rq-alt-badge">Sua resposta</span>`; }
+            let b = '';
+            if (isCorreta) { cls = 'alt-correta'; icon = '✓'; b = `<span class="rq-alt-badge">Alternativa correta</span>`; }
+            else if (isSelecionada && !isCorreta) { cls = 'alt-errada'; icon = '✗'; b = `<span class="rq-alt-badge">Sua resposta</span>`; }
             const exp = expAlts[letra] ? `<div class="rq-alt-exp" id="rqexp-${i}-${letra}">${expAlts[letra]}</div>` : '';
             const hasExp = !!expAlts[letra];
             return `<div class="rq-alt ${cls}">
@@ -3251,13 +3292,13 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
                 <div class="rq-alt-icon">${icon}</div>
                 <span class="rq-alt-letra">${letra}.</span>
                 <span class="rq-alt-txt">${texto}</span>
-                ${badge}
+                ${b}
               </div>
               ${exp}
             </div>`;
           }).join('');
           respostaHtml = `<div class="rq-alts">${altRows}</div>`;
-        } else if (!isObj) {
+        } else if (!isObj && !isVf) {
           const notaCls2 = nota >= 80 ? 'green' : nota >= 60 ? '' : 'red';
           respostaHtml = `<div class="rq-section">
             <div class="rq-section-lbl">Sua resposta</div>
@@ -3305,6 +3346,10 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
         </div>`;
       }).join('');
 
+      document.getElementById('revisao-screen').classList.add('open');
+      marcarConcluido();
+      if (parseFloat(notaFinal) >= 7) celebrate();
+    }
       // Show revisão screen
       document.getElementById('revisao-screen').classList.add('open');
       marcarConcluido();
