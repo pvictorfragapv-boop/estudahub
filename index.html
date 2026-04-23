@@ -2853,14 +2853,17 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
           const clickV = showFeedback ? '' : `simSelecionarVF('${key}', 'V')`;
           const clickF = showFeedback ? '' : `simSelecionarVF('${key}', 'F')`;
 
+          // Monta o layout: Frase na esquerda, Botões V/F na direita
           bodyHtml += `
           <div class="sim-alt" style="background:transparent; border:none; padding:0; flex-direction:column; gap:12px;">
-            <div style="font-size:15px; line-height:1.6; color:var(--text); font-weight:500;">
-              <span style="color:var(--muted2); font-weight:700; margin-right:8px;">${key}.</span>${text}
-            </div>
-            <div style="display:flex; gap:10px;">
-              <button class="${btnVCls}" onclick="${clickV}">V</button>
-              <button class="${btnFCls}" onclick="${clickF}">F</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+              <div style="font-size:15px; line-height:1.6; color:var(--text); font-weight:500; flex:1;">
+                <span style="color:var(--muted2); font-weight:700; margin-right:8px;">${key}.</span>${text}
+              </div>
+              <div style="display:flex; gap:10px; flex-shrink:0;">
+                <button class="${btnVCls}" onclick="${clickV}">V</button>
+                <button class="${btnFCls}" onclick="${clickF}">F</button>
+              </div>
             </div>
             ${expHtml}
           </div>
