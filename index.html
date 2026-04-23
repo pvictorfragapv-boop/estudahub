@@ -605,40 +605,36 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
 /* ── Correção da Topbar no Mobile ── */
 @media(max-width: 768px) {
   .sim-topbar-new { 
-    flex-wrap: wrap !important; 
-    height: auto !important; 
-    padding: 12px 16px !important; 
+    flex-wrap: wrap; 
+    height: auto; 
+    padding: 12px 16px; 
+    gap: 12px; /* Adiciona espaçamento vertical e horizontal entre as linhas */
   }
   
-  /* Linha 1 Esquerda: Contador */
-  .sim-topbar-new > div:nth-child(1) { 
-    flex: 1 1 50% !important; 
-    order: 1 !important; 
+  /* Linha 1: Contador (esq) e Botão Sair (dir) */
+  .sim-topbar-new .sim-q-counter-new {
+    flex: 1 1 auto; /* Permite crescer, mas respeita o espaço do botão sair */
+    font-size: 13px; /* Aumenta um pouquinho a fonte para ficar mais legível */
+  }
+  .sim-topbar-new > div:last-child {
+    flex: 0 0 auto; /* Não deixa o botão de sair esticar */
   }
   
-  /* Linha 1 Direita: Botão Sair */
-  .sim-topbar-new > div:nth-child(3) { 
-    flex: 1 1 50% !important; 
-    order: 2 !important; 
-    justify-content: flex-end !important; 
-  }
-  
-  /* Linha 2: Ferramentas (Caneta, Riscar, Apagar) */
+  /* Linha 2: Ferramentas (Caneta, Riscar, Apagar) - Força a ir para baixo */
   .inline-annot-tools { 
-    flex: 1 1 100% !important; 
-    order: 3 !important; 
-    margin-top: 12px !important; 
-    justify-content: flex-start !important; /* Alinha à esquerda no mobile */
-    overflow-x: auto !important; /* Permite scroll horizontal se a tela for minúscula */
-    padding-bottom: 4px !important; 
-    scrollbar-width: none; /* Esconde barra de scroll no Firefox */
+    flex: 1 1 100%; /* Força a ocupar a linha inteira debaixo */
+    order: 3; /* Garante que fique abaixo do contador e botão Sair */
+    justify-content: flex-start; /* Alinha os botões à esquerda */
+    overflow-x: auto; /* Adiciona scroll se a tela for muito fina */
+    padding-bottom: 6px; 
+    scrollbar-width: none; 
+    -webkit-overflow-scrolling: touch; /* Suaviza o scroll no iPhone */
   }
-  .inline-annot-tools::-webkit-scrollbar { display: none; } /* Esconde barra de scroll no Chrome/Safari */
+  .inline-annot-tools::-webkit-scrollbar { display: none; }
   
-  /* Impede que o texto dos botões quebre e força o tamanho */
   .iat-btn { 
-    white-space: nowrap !important; 
-    flex-shrink: 0 !important; 
+    white-space: nowrap; 
+    flex-shrink: 0; 
   }
 }
     .sim-disc-wrap { position: relative; }
