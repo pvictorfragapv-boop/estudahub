@@ -2783,7 +2783,7 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       const total = questoes.length;
       const resp = respostas[qIdx];
       
-      // --- Fix V/F normalization ---
+      // Corrige a normalização de itens V/F vindos da IA
       if (q.alternativas && typeof q.alternativas === 'object') {
         const keys = Object.keys(q.alternativas);
         const needsNorm = keys.some(k => k.length > 1 && /verdadeiro|falso|true|false|certo|errado/i.test(k));
@@ -2803,19 +2803,15 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
         }
       }
       
-      // Update header
       document.getElementById('sim-q-cur').textContent = qIdx + 1;
       document.getElementById('sim-q-total').textContent = total;
       const progFill = document.getElementById('sim-progress-fill');
-if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
+      if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
 
-      // Build card
       const isObj = q.tipo === 'objetiva';
       const isLast = qIdx === total - 1;
-
-      // ── Build alternatives / textarea ──────────────────────────────────────
       let bodyHtml = '';
-      // NOVA LÓGICA: Se for Verdadeiro/Falso
+
       if (q.tipo === 'vf') {
         const alts = q.alternativas || {};
         const showFeedback = respondida && modo === 'tutor';
@@ -2825,8 +2821,8 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
         for (const [key, text] of Object.entries(alts)) {
           if (!text) continue;
           
-          const userVal = resp.resposta[key]; // O que o aluno marcou (V ou F)
-          const correctVal = q.gabarito_correto ? q.gabarito_correto[key] : null; // Gabarito real
+          const userVal = resp.resposta[key];
+          const correctVal = q.gabarito_correto ? q.gabarito_correto[key] : null;
           
           let btnVCls = 'sim-btn-vf', btnFCls = 'sim-btn-vf';
           let expHtml = '';
@@ -2835,7 +2831,6 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
             const isCorretoV = correctVal === 'V';
             const isCorretoF = correctVal === 'F';
             
-            // Pinta os botões V e F de verde/vermelho baseado no acerto
             if (userVal === 'V') btnVCls += isCorretoV ? ' correct' : ' wrong';
             else if (isCorretoV) btnVCls += ' missed';
 
@@ -2851,7 +2846,6 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
               expHtml = `<div class="sim-alt-exp open" style="padding-left:0;">${labelHtml}${exp}</div>`;
             }
           } else {
-            // Se ainda não validou, só acende o botão clicado
             if (userVal === 'V') btnVCls += ' selected';
             if (userVal === 'F') btnFCls += ' selected';
           }
@@ -2859,7 +2853,6 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
           const clickV = showFeedback ? '' : `simSelecionarVF('${key}', 'V')`;
           const clickF = showFeedback ? '' : `simSelecionarVF('${key}', 'F')`;
 
-          // Monta o layout: Frase na esquerda, Botões V/F na direita
           bodyHtml += `
           <div class="sim-alt" style="background:transparent; border:none; padding:0; flex-direction:column; gap:12px;">
             <div style="font-size:15px; line-height:1.6; color:var(--text); font-weight:500;">
@@ -2875,44 +2868,7 @@ if (progFill) progFill.style.width = ((qIdx + 1) / total * 100) + '%';
         }
         bodyHtml += `</div>`;
         
-      } else if (isObj) { 
-        // -> Seu código antigo do "if (isObj) {" continua daqui para baixo
-Fase 5: Validação e Nota Parcial
-Temos que impedir o aluno de "Validar" sem responder todos os itens de V e F, e calcular a nota parcial (ex: acertou 3 de 4 itens, ganha 75 pontos).
-
-Onde encontrar:
-Dê Ctrl + F por async function simResponder().
-
-O que fazer:
-Dentro dessa função, logo abaixo da linha if (q.tipo === 'discursiva' && (!resp.resposta || resp.resposta.trim().length < 5)) { toast('Escreva sua resposta antes de enviar'); return; }, cole a regra abaixo:
-
-JavaScript
-      // Validação do V/F
-      if (q.tipo === 'vf') {
-        const altsKeys = Object.keys(q.alternativas || {});
-        const respKeys = Object.keys(resp.resposta || {});
-        
-        // Verifica se a quantidade de respostas é igual a quantidade de alternativas
-        if (respKeys.length < altsKeys.length) {
-          toast('Julgue todos os itens (V ou F) antes de validar');
-          return;
-        }
-        simuladoCorrente.respondida = true;
-        resp.validada = true; // Trava a questão
-
-        if (modo === 'tutor') {
-          let correctCount = 0;
-          for (const k of altsKeys) {
-            if (resp.resposta[k] === q.gabarito_correto[k]) correctCount++;
-          }
-          // Calcula nota parcial. 2 de 4 = nota 50.
-          resp.nota = (correctCount / altsKeys.length) * 100;
-          resp.acertou = resp.nota === 100; // Conta como acerto total no painel só se gabaritar 100%
-        }
-        renderSimQuestao();
-        return;
-      }
-      if (isObj) {
+      } else if (isObj) {
         const alts = q.alternativas || {};
         const showFeedback = respondida && modo === 'tutor';
         bodyHtml = `<div class="sim-alts" id="sim-alts">`;
@@ -2920,17 +2876,17 @@ JavaScript
           if (!text) continue;
           let cls = '';
           let expHtml = '';
- 
+
           if (showFeedback) {
             const isCorrect = letter === q.gabarito_correto;
             const isChosen  = letter === resp.resposta;
- 
+
             if (isCorrect)     cls = isChosen ? 'correct highlight' : 'correct';
             else if (isChosen) cls = 'wrong';
             else               cls = 'other-wrong';
- 
+
             const exp = q.explicacoes_alternativas?.[letter] || '';
- 
+
             if (isCorrect || isChosen || exp) {
               const labelHtml = isCorrect
                 ? `<div style="font-size:13px;font-weight:700;color:#4ade80;margin-bottom:${exp?'6px':'0'}">Alternativa correta! ✅</div>`
@@ -2940,20 +2896,17 @@ JavaScript
           } else {
             if (resp.resposta === letter) cls = 'selected';
           }
- 
+
           const clickFn = showFeedback ? '' : `simSelecionarAlt('${letter}')`;
- 
-          const icon = !showFeedback ? letter 
-  : (letter === q.gabarito_correto) ? '✓' : '✗';
-bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}">
-    <div class="sim-alt-main">
-      <div class="sim-alt-letter">${icon}</div>
-      <div class="sim-alt-text" id="alt-txt-${letter}">${text}</div>
-    </div>
-    ${expHtml}
-  </div>`;
+          const icon = !showFeedback ? letter : (letter === q.gabarito_correto) ? '✓' : '✗';
+          bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}">
+            <div class="sim-alt-main">
+              <div class="sim-alt-letter">${icon}</div>
+              <div class="sim-alt-text" id="alt-txt-${letter}">${text}</div>
+            </div>
+            ${expHtml}
+          </div>`;
         }
- 
         if (showFeedback && q.explicacao_geral) {
           bodyHtml += `<div style="margin-top:12px;padding:12px 16px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:var(--r);font-size:12px;line-height:1.7;color:var(--text)"><strong style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);display:block;margin-bottom:4px;font-family:'IBM Plex Mono',monospace">💡 Comentário geral</strong>${q.explicacao_geral}</div>`;
         }
@@ -2967,9 +2920,8 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
         </div>`;
       }
 
-      // ── Discursiva feedback ─────────────────────────────────────────────────
       let feedbackHtml = '';
-      if (respondida && modo === 'tutor' && !isObj) {
+      if (respondida && modo === 'tutor' && !isObj && q.tipo !== 'vf') {
         const notaVal = resp.nota;
         const notaCls = notaVal === null ? '' : notaVal >= 80 ? 'disc-nota-green' : notaVal >= 60 ? 'disc-nota-yellow' : 'disc-nota-red';
         feedbackHtml = `
@@ -3016,11 +2968,9 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
           </div>
         </div>`;
 
-    // ── Annotation targets: enunciado + contexto + alt texts ───────────────
       annotTargetIds = ['sim-enunciado', 'sim-contexto'];
       Object.keys(q.alternativas || {}).forEach(l => { if (!respondida || modo !== 'tutor') annotTargetIds.push('alt-txt-' + l); });
 
-      // ── Controlando os Botões ───────────────────────────────────────────────────────
       const btnPrev   = document.getElementById('sim-btn-prev');
       const btnResp   = document.getElementById('sim-btn-respond');
       const btnNext   = document.getElementById('sim-btn-next');
@@ -3028,46 +2978,37 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
 
       renderSimSidebar();
 
-      // Navegação Livre: Setas aparecem sempre, exceto nos limites
       btnPrev.style.display = (qIdx === 0) ? 'none' : 'flex';
       btnNext.style.display = (isLast) ? 'none' : 'flex';
-      
-      // Botão Finalizar assume o lugar da seta direita na última questão
       btnFinish.style.display = (isLast) ? 'inline-flex' : 'none';
 
-      // Estado do botão de Validação
       if (respondida) {
-        // Questão já respondida: Botão Validar fica cinza e desativado
         btnResp.style.display = 'inline-flex';
         btnResp.disabled = true;
         btnResp.textContent = 'Validado'; 
       } else {
-        // Questão nova: Botão Validar normal
         btnResp.style.display = 'inline-flex';
         btnResp.disabled = false;
         btnResp.textContent = 'Validar';
       }
     }
+
     function simToggleAltExp(letter) {
-      // In tutor revealed mode, clicking an "other-wrong" alt toggles its explanation
       const exp = document.getElementById('exp-' + letter);
       if (exp) exp.classList.toggle('open');
     }
 
     function simAnterior() {
-  if (simuladoCorrente.qIdx === 0) return;
-  simuladoCorrente.qIdx--;
-  // A linha abaixo mudou para procurar a tag 'validada'
-  simuladoCorrente.respondida = !!(simuladoCorrente.respostas[simuladoCorrente.qIdx]?.validada);
-  renderSimQuestao();
-  document.getElementById('sim-body').scrollTop = 0;
-}
+      if (simuladoCorrente.qIdx === 0) return;
+      simuladoCorrente.qIdx--;
+      simuladoCorrente.respondida = !!(simuladoCorrente.respostas[simuladoCorrente.qIdx]?.validada);
+      renderSimQuestao();
+      document.getElementById('sim-body').scrollTop = 0;
+    }
 
     function simSelecionarAlt(letter) {
       if (simuladoCorrente.respondida) return;
       simuladoCorrente.respostas[simuladoCorrente.qIdx].resposta = letter;
-      
-      // Update UI
       document.querySelectorAll('.sim-alt').forEach(el => el.classList.remove('selected'));
       const el = document.getElementById('alt-' + letter);
       if (el) el.classList.add('selected');
@@ -3084,7 +3025,6 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
       const q = questoes[qIdx];
       const resp = respostas[qIdx];
       
-      // For discursiva, grab textarea value
       if (q.tipo === 'discursiva') {
         const ta = document.getElementById('sim-disc-ta');
         if (ta) resp.resposta = ta.value;
@@ -3092,6 +3032,28 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
 
       if (!resp.resposta && q.tipo === 'objetiva') { toast('Selecione uma alternativa'); return; }
       if (q.tipo === 'discursiva' && (!resp.resposta || resp.resposta.trim().length < 5)) { toast('Escreva sua resposta antes de enviar'); return; }
+
+      if (q.tipo === 'vf') {
+        const altsKeys = Object.keys(q.alternativas || {});
+        const respKeys = Object.keys(resp.resposta || {});
+        if (respKeys.length < altsKeys.length) {
+          toast('Julgue todos os itens (V ou F) antes de validar');
+          return;
+        }
+        simuladoCorrente.respondida = true;
+        resp.validada = true;
+
+        if (modo === 'tutor') {
+          let correctCount = 0;
+          for (const k of altsKeys) {
+            if (resp.resposta[k] === q.gabarito_correto[k]) correctCount++;
+          }
+          resp.nota = (correctCount / altsKeys.length) * 100;
+          resp.acertou = resp.nota === 100;
+        }
+        renderSimQuestao();
+        return;
+      }
 
       simuladoCorrente.respondida = true;
       resp.validada = true;
@@ -3102,9 +3064,7 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
           resp.nota = resp.acertou ? 100 : 0;
           renderSimQuestao();
         } else {
-          // discursiva — call AI for grading
           renderSimQuestao();
-          // show loading state
           const resultado = await avaliarDiscursivaIA(q, resp.resposta);
           resp.nota = resultado.nota;
           resp.resposta_ideal = resultado.resposta_ideal;
@@ -3113,24 +3073,21 @@ bodyHtml += `<div class="sim-alt ${cls}" id="alt-${letter}" onclick="${clickFn}"
           renderSimQuestao();
         }
       } else {
-        // simulado mode — just mark as answered, no feedback
         if (q.tipo === 'objetiva') resp.acertou = null;
-        // graded at the end
         renderSimQuestao();
       }
     }
 
     function simProxima() {
-  const { questoes, qIdx } = simuladoCorrente;
-  if (qIdx < questoes.length - 1) {
-    simuladoCorrente.qIdx++;
-    // A linha abaixo mudou para procurar a tag 'validada'
-    simuladoCorrente.respondida = !!(simuladoCorrente.respostas[simuladoCorrente.qIdx]?.validada);
-    document.getElementById('sim-body').scrollTop = 0;
-    renderSimQuestao();
-    window.scrollTo({ top: 0 });
-  }
-}
+      const { questoes, qIdx } = simuladoCorrente;
+      if (qIdx < questoes.length - 1) {
+        simuladoCorrente.qIdx++;
+        simuladoCorrente.respondida = !!(simuladoCorrente.respostas[simuladoCorrente.qIdx]?.validada);
+        document.getElementById('sim-body').scrollTop = 0;
+        renderSimQuestao();
+        window.scrollTo({ top: 0 });
+      }
+    }
 
     // --- STEP 6: Evaluate discursiva with AI ---
     async function avaliarDiscursivaIA(questao,respostaUsuario){
