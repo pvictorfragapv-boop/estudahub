@@ -1257,6 +1257,55 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         flex: 1;
       }
     }
+
+  /* =========================================
+       NOVA TOPBAR MOBILE (EXATAMENTE COMO O DESENHO) 
+       ========================================= */
+    /* Ajustes para o Desktop manter a ordem correta */
+    .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; }
+    .sim-q-counter-new { order: 1; flex: 1; }
+    .inline-annot-tools { order: 2; flex: 1; justify-content: center; }
+    .desk-sair-wrap { order: 3; flex: 1; display: flex; justify-content: flex-end; }
+    
+    .sim-drawer-toggle-left { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1; min-width: 0; }
+
+    @media (max-width: 768px) {
+      /* 1. Primeira Linha: Gaveta e Botão Sair */
+      .sim-drawer-toggle { padding: 10px 16px !important; }
+      .sim-drawer-dots { flex: 1; max-width: 140px; }
+      
+      /* Esconde o Sair do desktop */
+      .desk-sair-wrap { display: none !important; }
+      
+      /* 2. Container de baixo: Ferramentas e Contador */
+      .sim-topbar-new { 
+        flex-direction: column !important; 
+        height: auto !important; 
+        padding: 12px 16px 4px !important; 
+        gap: 12px !important; 
+        align-items: stretch !important;
+        border-bottom: none !important;
+      }
+      
+      /* Força as ferramentas a ficarem em cima do contador no mobile */
+      .inline-annot-tools { 
+        order: 1 !important; 
+        display: flex !important; 
+        width: 100% !important; 
+        justify-content: space-between !important; 
+        gap: 8px !important; 
+      }
+      /* Ajusta os botões para caberem perfeitamente */
+      .iat-btn { flex: 1; justify-content: center; font-size: 11px !important; padding: 0 4px !important; white-space: nowrap !important; }
+      
+      /* Contador de questões vai para a linha de baixo */
+      .sim-q-counter-new { 
+        order: 2 !important; 
+        font-size: 12px !important; 
+        color: var(--muted2) !important;
+        padding-left: 2px;
+      }
+    }
   </style>
 </head>
 <body class="theme-default">
@@ -1624,12 +1673,14 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
       </div>
 
     <div class="sim-drawer-toggle" id="sim-drawer-toggle" style="display:none">
-        <div style="display:flex; align-items:center; flex:1; min-width:0; cursor:pointer;" onclick="toggleSimDrawer()">
+        <div class="sim-drawer-toggle-left" onclick="toggleSimDrawer()">
           <div class="sim-drawer-timer">🕐 <span id="sim-drawer-timer-val">00:00</span></div>
           <div class="sim-drawer-dots" id="sim-drawer-dots"></div>
-          <div class="sim-drawer-chevron" id="sim-drawer-chevron" style="margin-left: 8px;">▾</div>
+          <div class="sim-drawer-chevron" id="sim-drawer-chevron">▾</div>
         </div>
-        <button class="sim-exit-btn-new" style="margin-left: 12px; border-color: var(--red); color: var(--red);" onclick="confirmarSairSimulado()">✕ Sair</button>
+        <div class="sim-drawer-right">
+          <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()" style="border-color:var(--red); color:var(--red);">✕ Sair</button>
+        </div>
       </div>
 
       <div class="sim-drawer-panel" id="sim-drawer-panel">
@@ -1646,7 +1697,7 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
           <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
         </div>
 
-        <div class="desk-sair-wrap" style="flex: 1; display: flex; justify-content: flex-end;">
+        <div class="desk-sair-wrap">
           <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">✕ Sair</button>
         </div>
       </div>
