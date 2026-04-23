@@ -602,7 +602,45 @@
 mark.hl-yellow { background: #ccff00; color: #000000; border-radius: 3px; padding: 2px 0; }
 s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decoration-thickness: 1.5px; }
 
-
+/* ── Correção da Topbar no Mobile ── */
+@media(max-width: 768px) {
+  .sim-topbar-new { 
+    flex-wrap: wrap !important; 
+    height: auto !important; 
+    padding: 12px 16px !important; 
+  }
+  
+  /* Linha 1 Esquerda: Contador */
+  .sim-topbar-new > div:nth-child(1) { 
+    flex: 1 1 50% !important; 
+    order: 1 !important; 
+  }
+  
+  /* Linha 1 Direita: Botão Sair */
+  .sim-topbar-new > div:nth-child(3) { 
+    flex: 1 1 50% !important; 
+    order: 2 !important; 
+    justify-content: flex-end !important; 
+  }
+  
+  /* Linha 2: Ferramentas (Caneta, Riscar, Apagar) */
+  .inline-annot-tools { 
+    flex: 1 1 100% !important; 
+    order: 3 !important; 
+    margin-top: 12px !important; 
+    justify-content: flex-start !important; /* Alinha à esquerda no mobile */
+    overflow-x: auto !important; /* Permite scroll horizontal se a tela for minúscula */
+    padding-bottom: 4px !important; 
+    scrollbar-width: none; /* Esconde barra de scroll no Firefox */
+  }
+  .inline-annot-tools::-webkit-scrollbar { display: none; } /* Esconde barra de scroll no Chrome/Safari */
+  
+  /* Impede que o texto dos botões quebre e força o tamanho */
+  .iat-btn { 
+    white-space: nowrap !important; 
+    flex-shrink: 0 !important; 
+  }
+}
     .sim-disc-wrap { position: relative; }
     .sim-disc-textarea { width: 100%; min-height: 180px; background: var(--bg3); border: 1.5px solid var(--border2); border-radius: var(--r); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.75; padding: 16px 18px; resize: vertical; outline: none; transition: border-color .18s, box-shadow .18s; }
     .sim-disc-textarea:focus { border-color: var(--a); box-shadow: 0 0 0 3px var(--ad); }
@@ -1056,34 +1094,7 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
   }
 }
  /* ── Topbar Desktop & Ferramentas ── */
-.sim-topbar-new {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  background: rgba(7,7,11,.97);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border2);
-}
-.sim-topbar-row1 {
-  display: flex;
-  align-items: center;
-  padding: 10px 16px;
-  gap: 12px;
-  border-bottom: 1px solid var(--border);
-}
-.sim-topbar-q-group { flex: 1; display: flex; flex-direction: column; gap: 1px; }
-.sim-topbar-q-label { font-size: 9px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .14em; text-transform: uppercase; }
-.sim-topbar-q-num { font-size: 18px; font-weight: 800; font-family: 'IBM Plex Mono', monospace; color: var(--text); line-height: 1; }
-.sim-topbar-q-num span { color: var(--a); }
-.sim-topbar-meta { display: flex; align-items: center; gap: 10px; }
-.sim-topbar-timer { font-size: 13px; font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--text); }
-.sim-topbar-exit { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border3); background: transparent; color: var(--muted2); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s; margin-left: 4px; }
-.sim-topbar-exit:hover { border-color: var(--red); color: var(--red); }
-.sim-topbar-row2 { display: flex; align-items: center; padding: 7px 16px; gap: 10px; overflow-x: auto; scrollbar-width: none; }
-.sim-topbar-row2::-webkit-scrollbar { display: none; }
-.sim-topbar-dots { display: flex; align-items: center; gap: 4px; flex: 1; overflow: hidden; min-width: 0; }
-.sim-topbar-sep { width: 1px; height: 16px; background: var(--border2); flex-shrink: 0; }
+.sim-topbar-new { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 60px; flex-shrink: 0; background: var(--bg2); border-bottom: 1px solid var(--border2); }
 .inline-annot-tools { display: flex; gap: 8px; align-items: center; justify-content: center; }
 .iat-btn { height: 34px; border-radius: 8px; border: 1px solid var(--border3); background: var(--bg3); cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 0 16px; transition: all .2s; color: var(--muted2); font-family: 'Outfit', sans-serif; }
 .iat-btn:hover { background: var(--bg4); color: var(--text); border-color: var(--border2); }
@@ -1605,27 +1616,18 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
       </div>
 
       <div class="sim-topbar-new">
-  <div class="sim-topbar-row1">
-    <div class="sim-topbar-q-group">
-      <div class="sim-topbar-q-label">Questão</div>
-      <div class="sim-topbar-q-num">
-        <span id="sim-q-cur">1</span> / <span id="sim-q-total">?</span>
+        <div class="sim-q-counter-new" style="flex: 1;">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
+        
+        <div class="inline-annot-tools">
+          <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca Texto</button>
+          <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">Riscar</span></button>
+          <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
+        </div>
+
+        <div style="flex: 1; display: flex; justify-content: flex-end;">
+          <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">✕ Sair</button>
+        </div>
       </div>
-    </div>
-    <div class="sim-topbar-meta">
-      <div class="sim-topbar-timer" id="sim-sb-timer-val-top">00:00</div>
-      <div class="sim-mode-badge tutor" id="sim-mode-badge-top">Tutor</div>
-    </div>
-    <button class="sim-topbar-exit" onclick="confirmarSairSimulado()">✕</button>
-  </div>
-  <div class="sim-topbar-row2">
-    <div class="sim-topbar-dots" id="sim-drawer-dots"></div>
-    <div class="sim-topbar-sep"></div>
-    <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marca</button>
-    <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through">Riscar</span></button>
-    <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹</button>
-  </div>
-</div>
 
       <div class="sim-body-scroll">
         <div id="sim-body"></div> </div>
@@ -2778,11 +2780,6 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       document.getElementById('simulado-screen').classList.add('open');
       document.body.style.overflow = 'hidden';
       simTimerStart();
-      const mb = document.getElementById('sim-mode-badge-top');
-      if (mb) {
-        mb.textContent = simuladoCorrente.modo === 'tutor' ? 'Tutor' : 'Simulado';
-        mb.className = 'sim-mode-badge ' + simuladoCorrente.modo;
-      }
       renderSimQuestao();
       renderSimSidebar();
     }
@@ -3648,10 +3645,6 @@ REGRAS VITAIS:
         // Atualiza no mobile simultaneamente
         const elMob = document.getElementById('sim-drawer-timer-val');
         if (elMob) elMob.textContent = timeStr;
-
-        const elTop = document.getElementById('sim-sb-timer-val-top');
-        if (elTop) elTop.textContent = timeStr;
-        
       }, 1000);
     }
     function simTimerStop() { clearInterval(simTimerInterval); }
@@ -4527,16 +4520,12 @@ function carregarRascunho(i) {
   } else {
     document.getElementById('simulado-screen').classList.add('open');
     document.body.style.overflow = 'hidden';
-    simTimerStart();
-    const mb = document.getElementById('sim-mode-badge-top');
-    if (mb) {
-      mb.textContent = simuladoCorrente.modo === 'tutor' ? 'Tutor' : 'Simulado';
-      mb.className = 'sim-mode-badge ' + simuladoCorrente.modo;
-    }
+    simTimerStart();          // ← estava faltando
     renderSimQuestao();
-    renderSimSidebar();
+    renderSimSidebar();       // ← estava faltando
   }
 }
+
 function deletarRascunho(i) {
   if (!confirm('Remover este simulado?')) return;
   state.simuladosDraft.splice(i, 1);
