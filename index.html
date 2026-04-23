@@ -759,6 +759,8 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     .btn-rev-primary:hover { opacity: .9; border-color: var(--a); }
     .btn-rev-ai { flex: 2; min-width: 200px; padding: 13px; background: linear-gradient(135deg, #1db870, #047857); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 16px rgba(29,184,112,.25); transition: opacity .18s; }
     .btn-rev-ai:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-rev-ai-subtle { flex: 2; min-width: 200px; padding: 13px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border: none; cursor: pointer; border-radius: var(--r); box-shadow: 0 4px 16px rgba(139,92,246,.25); transition: opacity .18s; }
+    .btn-rev-ai-subtle:hover { opacity: .9; transform: translateY(-1px); }
 
     /* EMPTY / TOAST / CONFETTI / TOUR */
     .empty-state { padding: 52px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -3354,8 +3356,9 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
       if (footer) {
         footer.innerHTML = `
           <button class="btn-rev-ghost" onclick="voltarDashboard()">Voltar</button>
-          <button class="btn-rev-primary" onclick="refazerSimulado()">Refazer Prova</button>
-          <button class="btn-rev-ai" onclick="gerarVarianteIA()">✨ Gerar Variante Inédita</button>
+          <button class="btn-rev-primary" onclick="refazerSimulado()">Refazer</button>
+          <button class="btn-rev-ai-subtle" onclick="gerarPegadinhasIA()">🔄 Pegadinhas</button>
+          <button class="btn-rev-ai" onclick="gerarVarianteIA()">✨ Inédita</button>
         `;
       }
 
@@ -3502,6 +3505,93 @@ REGRAS VITAIS:
       }
     }
 
+    async function gerarPegadinhasIA() {
+      if (!getAllGeminiKeys().length) { toast('Insira sua API Key do Gemini em Configurações'); return; }
+      
+      const gs = document.getElementById('grading-screen');
+      const gTitle = gs.querySelector('.grading-title');
+      const gSub = document.getElementById('grading-sub');
+      const gProg = document.querySelector('.grading-prog-wrap');
+      
+      document.getElementById('revisao-screen').classList.remove('open');
+      gs.classList.add('open');
+      gTitle.textContent = '🔄 Criando Pegadinhas...';
+      gSub.textContent = 'A IA está alterando detalhes sutis para mudar o gabarito original.';
+      gProg.style.display = 'none';
+
+      try {
+        const prompt = `Você é um professor de medicina especialista em criar "pegadinhas" e testar a atenção dos alunos.
+Eu tenho este simulado original:
+${JSON.stringify(simuladoCorrente.questoes)}
+
+SUA TAREFA:
+Gere um simulado MODIFICADO. Você deve manter a base de cada questão quase idêntica (o mesmo texto base, o mesmo estilo), mas introduzir PEQUENAS ALTERAÇÕES (inverter uma palavra, um sinal vital, trocar "hiper" por "hipo", incluir ou remover a palavra "não", etc.) que MUDEM COMPLETAMENTE O GABARITO (a resposta correta).
+O objetivo é que o aluno que decorou a prova anterior erre se não ler o enunciado com extrema atenção.
+
+Retorne ESTRITAMENTE em JSON neste formato:
+{"titulo_sugerido": "Pegadinhas da Prova", "questoes": [{"numero": 1, "tipo": "objetiva, discursiva ou vf", "contexto": "O mesmo contexto com leve alteração", "enunciado": "A mesma pergunta alterada", "alternativas": {"A": "...", "B": "..."}, "gabarito_correto": "B", "padrao_esperado": "...", "explicacao_geral": "Explicar qual foi a pegadinha feita", "explicacoes_alternativas": {"A": "...", "B": "..."}}]}
+
+REGRAS VITAIS:
+- Para questões objetivas, a alternativa que era correta no original DEVE estar errada agora.
+- Para V/F, inverta ou altere os itens para mudar a combinação de verdadeiro ou falso.
+- O campo "contexto" só recebe textos de apoio. Instruções ficam no "enunciado".
+- Não retorne NENHUM texto antes ou depois do JSON (sem crases de markdown).`;
+
+        const response = await geminiRequest({
+          contents:[{parts:[{text:prompt}]}],
+          generationConfig:{maxOutputTokens:16384}
+        }, null);
+
+        const data = await response.json();
+        const parts = data.candidates?.[0]?.content?.parts||[];
+        const rawText = parts.map(p=>p.text||'').join('');
+        
+        function extractJSON(raw) {
+          let s=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+          s=s.replace(/[\u201c\u201d]/g,'"').replace(/[\u2018\u2019]/g,"'");
+          let depth=0, start=-1, end=-1;
+          for(let i=0;i<s.length;i++){
+            if(s[i]==='{'){if(start===-1)start=i;depth++;}
+            else if(s[i]==='}'){depth--;if(depth===0){end=i;break;}}
+          }
+          if(start===-1||end===-1)return null;
+          return s.slice(start,end+1);
+        }
+        
+        const jsonStr = extractJSON(rawText);
+        if(!jsonStr) throw new Error('Falha ao formatar as novas questões.');
+        const parsed = JSON.parse(jsonStr);
+
+        // Configura o novo simulado
+        simuladoCorrente.questoes = parsed.questoes;
+        simuladoCorrente.titulo = "Pegadinhas: " + simuladoCorrente.titulo.replace('Pegadinhas: ', '').replace('Variante: ', '');
+        simuladoCorrente.respostas = parsed.questoes.map(()=>({resposta:null,nota:null,feedback:null,acertou:null,validada:false}));
+        simuladoCorrente.qIdx = 0;
+        simuladoCorrente.respondida = false;
+
+        // Restaura a tela de carregamento
+        gs.classList.remove('open');
+        gTitle.textContent = 'Corrigindo com IA…';
+        gSub.textContent = 'Analisando respostas discursivas';
+        gProg.style.display = 'block';
+
+        // Abre a modal de modo
+        document.getElementById('modal-mode-title').textContent = `"${simuladoCorrente.titulo}"`;
+        document.getElementById('modal-mode-sub').textContent = `// ${parsed.questoes.length} questões com pegadinhas criadas · escolha o modo`;
+        document.getElementById('modal-simulado-mode').classList.add('open');
+
+      } catch(err) {
+        console.error(err);
+        toast('Erro ao gerar pegadinhas: Tente novamente. O Gemini pode estar sobrecarregado.');
+        
+        gs.classList.remove('open');
+        gTitle.textContent = 'Corrigindo com IA…';
+        gSub.textContent = 'Analisando respostas discursivas';
+        gProg.style.display = 'block';
+        
+        document.getElementById('revisao-screen').classList.add('open');
+      }
+    }
     // ═══ SIMULADO TIMER & SIDEBAR ═══
     let simTimerInterval = null, simTimerSecs = 0;
     function simTimerStart() {
@@ -4404,7 +4494,12 @@ function deletarRascunho(i) {
   if (!confirm('Remover este simulado?')) return;
   state.simuladosDraft.splice(i, 1);
   save();
-  renderSimLib();
+  
+  // Atualiza a tela de Simulados (cards de estatística e a lista)
+  renderSimuladosPage();
+  
+  // Atualiza o modal de biblioteca (se estiver aberto)
+  if (typeof renderSimLib === 'function') renderSimLib();
 }
 
 function confirmarNomeSimulado() {
