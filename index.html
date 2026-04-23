@@ -3345,11 +3345,6 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
           </div>
         </div>`;
       }).join('');
-
-      document.getElementById('revisao-screen').classList.add('open');
-      marcarConcluido();
-      if (parseFloat(notaFinal) >= 7) celebrate();
-    }
       // Show revisão screen
       document.getElementById('revisao-screen').classList.add('open');
       marcarConcluido();
