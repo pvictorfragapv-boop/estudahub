@@ -607,40 +607,45 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
   -webkit-touch-callout: none !important;
 }
 
-/* ── Correção da Topbar no Mobile ── */
-@media(max-width: 768px) {
-  .sim-topbar-new { 
-    flex-wrap: wrap; 
-    height: auto; 
-    padding: 12px 16px; 
-    gap: 12px; /* Adiciona espaçamento vertical e horizontal entre as linhas */
-  }
+/* ── NOVA ESTRUTURA DO TOPO (DESKTOP E MOBILE) ── */
+.mob-only { display: none !important; }
+.sim-top-container { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 60px; flex-shrink: 0; background: var(--bg2); border-bottom: 1px solid var(--border2); }
+.sim-top-header { flex: 1; }
+.sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .06em; }
+.sim-q-counter-new strong { color: var(--a); }
+.inline-annot-tools { flex: 1; justify-content: center; display: flex; gap: 8px; }
+.desk-sair-wrap { flex: 1; display: flex; justify-content: flex-end; }
+
+@media (max-width: 768px) {
+  .desk-only { display: none !important; }
+  .mob-only.flex { display: flex !important; }
+  .mob-only.block { display: block !important; }
   
-  /* Linha 1: Contador (esq) e Botão Sair (dir) */
-  .sim-topbar-new .sim-q-counter-new {
-    flex: 1 1 auto; /* Permite crescer, mas respeita o espaço do botão sair */
-    font-size: 13px; /* Aumenta um pouquinho a fonte para ficar mais legível */
-  }
-  .sim-topbar-new > div:last-child {
-    flex: 0 0 auto; /* Não deixa o botão de sair esticar */
-  }
+  .sim-top-container { flex-direction: column; height: auto; padding: 0; background: transparent; border-bottom: none; }
   
-  /* Linha 2: Ferramentas (Caneta, Riscar, Apagar) - Força a ir para baixo */
-  .inline-annot-tools { 
-    flex: 1 1 100%; /* Força a ocupar a linha inteira debaixo */
-    order: 3; /* Garante que fique abaixo do contador e botão Sair */
-    justify-content: flex-start; /* Alinha os botões à esquerda */
-    overflow-x: auto; /* Adiciona scroll se a tela for muito fina */
-    padding-bottom: 6px; 
-    scrollbar-width: none; 
-    -webkit-overflow-scrolling: touch; /* Suaviza o scroll no iPhone */
-  }
-  .inline-annot-tools::-webkit-scrollbar { display: none; }
+  /* Linha 1: Contador e Sair */
+  .sim-top-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(7,7,11,.97); }
   
-  .iat-btn { 
-    white-space: nowrap; 
-    flex-shrink: 0; 
-  }
+  /* Linha 2: Menu Gaveta (Timer + Bolinhas) */
+  .sim-central-bar { width: 100%; align-items: center; background: #161622; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border2); gap: 12px; }
+  .sim-drawer-timer { font-size: 13px; font-weight: 700; color: var(--text); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; }
+  .sim-drawer-dots { flex: 1; display: flex; align-items: center; gap: 4px; overflow: hidden; }
+  .sim-q-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); border: 1px solid var(--border3); flex-shrink: 0; }
+  .sim-q-dot.sq-active  { background: var(--a); border-color: var(--a); box-shadow: 0 0 5px var(--ag); }
+  .sim-q-dot.sq-correct { background: var(--green); border-color: var(--green); }
+  .sim-q-dot.sq-wrong   { background: var(--red); border-color: var(--red); }
+  .sim-q-dot.sq-answered{ background: var(--muted); border-color: var(--border3); }
+  .sim-drawer-chevron { font-size: 14px; color: var(--muted2); transition: transform .2s; flex-shrink: 0; }
+  .sim-drawer-chevron.open { transform: rotate(180deg); }
+
+  /* Painel Gaveta (Números das questões) */
+  .sim-drawer-panel { width: 100%; background: var(--bg2); border-bottom: 1px solid var(--border2); overflow: hidden; max-height: 0; transition: max-height .3s ease; }
+  .sim-drawer-panel.open { max-height: 400px; }
+  
+  /* Linha 3: Ferramentas */
+  .inline-annot-tools { width: 100%; justify-content: space-between; padding: 12px 16px; background: rgba(7,7,11,.97); border-bottom: 1px solid var(--border2); margin-top: 0 !important; }
+  .iat-btn { flex: 1; justify-content: center; font-size: 11px !important; padding: 0 4px !important; white-space: nowrap !important; }
+}
 }
     .sim-disc-wrap { position: relative; }
     .sim-disc-textarea { width: 100%; min-height: 180px; background: var(--bg3); border: 1.5px solid var(--border2); border-radius: var(--r); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.75; padding: 16px 18px; resize: vertical; outline: none; transition: border-color .18s, box-shadow .18s; }
@@ -1672,36 +1677,35 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         <div id="sim-progress-fill" style="height:100%;background:linear-gradient(90deg,var(--a2),var(--a));transition:width .4s;width:0%"></div>
       </div>
 
-    <div class="sim-drawer-toggle" id="sim-drawer-toggle" style="display:none">
-        <div class="sim-drawer-toggle-left" onclick="toggleSimDrawer()">
+  <div class="sim-top-container">
+        
+        <div class="sim-top-header">
+          <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
+          <button class="sim-exit-btn-new mob-only flex" onclick="confirmarSairSimulado()" style="border-color:var(--red); color:var(--red);">✕ Sair</button>
+        </div>
+
+        <div class="sim-central-bar mob-only flex" id="sim-drawer-toggle" onclick="toggleSimDrawer()">
           <div class="sim-drawer-timer">🕐 <span id="sim-drawer-timer-val">00:00</span></div>
           <div class="sim-drawer-dots" id="sim-drawer-dots"></div>
           <div class="sim-drawer-chevron" id="sim-drawer-chevron">▾</div>
         </div>
-        <div class="sim-drawer-right">
-          <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()" style="border-color:var(--red); color:var(--red);">✕ Sair</button>
+
+        <div class="sim-drawer-panel mob-only block" id="sim-drawer-panel">
+          <div class="sim-drawer-grid" id="sim-drawer-grid"></div>
+          <button class="sim-drawer-finish" onclick="confirmarFinalizarComPendentes();toggleSimDrawer()">Finalizar Prova ✓</button>
         </div>
-      </div>
 
-      <div class="sim-drawer-panel" id="sim-drawer-panel">
-        <div class="sim-drawer-grid" id="sim-drawer-grid"></div>
-        <button class="sim-drawer-finish" onclick="confirmarFinalizarComPendentes();toggleSimDrawer()">Finalizar Prova ✓</button>
-      </div>
-
-      <div class="sim-topbar-new">
-        <div class="sim-q-counter-new">Questão <strong id="sim-q-cur">1</strong> de <strong id="sim-q-total">?</strong></div>
-        
         <div class="inline-annot-tools">
           <button class="iat-btn" id="btn-tool-highlight" onclick="annotSetTool('highlight')">🖊 Marcar</button>
           <button class="iat-btn" id="btn-tool-strike" onclick="annotSetTool('strike')"><span style="text-decoration:line-through;">Riscar</span></button>
           <button class="iat-btn" id="btn-tool-clear" onclick="annotSetTool('clear')">🧹 Apagar</button>
         </div>
 
-        <div class="desk-sair-wrap">
-          <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()">✕ Sair</button>
+        <div class="desk-sair-wrap desk-only">
+          <button class="sim-exit-btn-new" onclick="confirmarSairSimulado()" style="border-color:var(--red); color:var(--red);">✕ Sair</button>
         </div>
-      </div>
 
+      </div>
       <div class="sim-body-scroll">
         <div id="sim-body"></div> </div>
 
