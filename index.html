@@ -1365,8 +1365,8 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         padding-left: 2px;
         text-align: center; /* Centraliza o texto para ficar mais harmônico */
       }
-   /* =========================================
-   FORÇAR ALINHAMENTO DO SIMULADO (MOBILE) E ANIMAÇÕES
+  /* =========================================
+   ALINHAMENTO DO SIMULADO (CELULAR)
    ========================================= */
 @media (max-width: 768px) {
   .sim-body-scroll { padding: 20px 16px 160px !important; }
@@ -1374,23 +1374,35 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
   .inline-annot-tools { padding: 0 16px !important; width: 100% !important; box-sizing: border-box !important; margin: 0 !important; }
   .sim-drawer-dots { flex: 1 !important; display: flex !important; justify-content: center !important; flex-wrap: wrap !important; max-width: none !important; padding: 4px 0 !important; }
   .sim-drawer-grid { display: grid !important; grid-template-columns: repeat(auto-fit, 30px) !important; justify-content: center !important; gap: 6px !important; }
-  
-  /* Ajuste do card de streak no celular */
   #streak-section { padding: 24px 16px 0 !important; }
 }
 
-/* ANIMAÇÕES DO STREAK */
+/* =========================================
+   ALINHAMENTO DO SIMULADO (COMPUTADOR)
+   ========================================= */
+@media (min-width: 769px) {
+  .inline-annot-tools {
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 0 auto 24px auto !important;
+    padding: 0 !important;
+  }
+}
+
+/* =========================================
+   ANIMAÇÕES (LIVRES PARA TODAS AS TELAS)
+   ========================================= */
 @keyframes flicker {
   0%,100%{transform:scaleY(1) scaleX(1) rotate(-1deg)}
   20%{transform:scaleY(1.05) scaleX(.97) rotate(1deg)}
   60%{transform:scaleY(1.03) scaleX(.98) rotate(1.5deg)}
 }
+
 @keyframes pulse-ring {
   0% { transform: scale(0.8); opacity: 0.8; border-width: 3px; }
   80% { opacity: 0; }
   100% { transform: scale(1.8); opacity: 0; border-width: 1px; }
 }
-
 .sim-sb-q-num { display: flex !important; align-items: center !important; justify-content: center !important; padding-top: 2px !important; padding-left: 1px !important; letter-spacing: 0 !important; line-height: 1 !important; }
 </style>
   </style>
