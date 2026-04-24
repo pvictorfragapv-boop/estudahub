@@ -1365,25 +1365,17 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         padding-left: 2px;
         text-align: center; /* Centraliza o texto para ficar mais harmônico */
       }
-    /* =========================================
+   /* =========================================
    FORÇAR ALINHAMENTO DO SIMULADO (MOBILE) E ANIMAÇÕES
    ========================================= */
 @media (max-width: 768px) {
-  .sim-body-scroll {
-    padding: 20px 16px 160px !important;
-  }
-  .sim-q-card {
-    width: 100% !important;
-    margin: 0 !important; /* Remove margens automáticas que causam desalinhamento */
-  }
-  .inline-annot-tools {
-    padding: 0 16px !important; /* Exatamente igual ao padding do scroll! */
-    width: 100% !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-  }
+  .sim-body-scroll { padding: 20px 16px 160px !important; }
+  .sim-q-card { width: 100% !important; margin: 0 !important; }
+  .inline-annot-tools { padding: 0 16px !important; width: 100% !important; box-sizing: border-box !important; margin: 0 !important; }
   .sim-drawer-dots { flex: 1 !important; display: flex !important; justify-content: center !important; flex-wrap: wrap !important; max-width: none !important; padding: 4px 0 !important; }
   .sim-drawer-grid { display: grid !important; grid-template-columns: repeat(auto-fit, 30px) !important; justify-content: center !important; gap: 6px !important; }
+  
+  /* Ajuste do card de streak no celular */
   #streak-section { padding: 24px 16px 0 !important; }
 }
 
@@ -4900,32 +4892,28 @@ function simSelecionarVF(key, val) {
   resp.resposta[key] = val; 
   renderSimQuestao(); 
 }
- /* =========================================
+/* =========================================
    COMPONENTE GAMIFICADO DE STREAK (AVANÇADO)
    ========================================= */
 function renderStreakCard(streak) {
   const container = document.getElementById('streak-section');
   if (!container) return;
 
-  // Recorde histórico
   const record = parseInt(localStorage.getItem('streak_record') || '0');
   if (streak > record) localStorage.setItem('streak_record', streak);
   const recordFinal = Math.max(streak, record);
 
-  // Lógica do Congelamento (Cooldown de 7 dias)
   const lastFreeze = parseInt(localStorage.getItem('streak_last_freeze') || '0');
   const now = Date.now();
-  const freezeCooldown = 7 * 24 * 60 * 60 * 1000; // 7 dias em ms
+  const freezeCooldown = 7 * 24 * 60 * 60 * 1000; 
   const canFreeze = (now - lastFreeze) > freezeCooldown;
   const isFrozen = localStorage.getItem('streak_frozen') === 'true';
 
-  // Milestones e Progresso
   const MILESTONES = [3, 7, 14, 30, 60, 100];
   const next = MILESTONES.find(m => m > streak) || (streak + 10);
   const prev = [...MILESTONES].reverse().find(m => m <= streak) || 0;
   const progress = Math.min(100, Math.max(0, Math.round(((streak - prev) / (next - prev)) * 100)));
 
-  // Mensagem dinâmica
   const msgs = {
     0: 'Estude hoje para começar sua sequência! 💪',
     1: '<strong>Primeiro dia!</strong> A jornada começa agora. 🌱',
@@ -4938,7 +4926,6 @@ function renderStreakCard(streak) {
   const name = (state.displayName || '').split(' ')[0] || '';
   const msgText = streak === 0 ? msgs[0] : (msgs[msgKey] || `<strong>${streak} dias seguidos!</strong> Continue assim${name ? ', ' + name : ''}! 🔥`);
 
-  // Dias da semana
   const DAYS = ['dom','seg','ter','qua','qui','sex','sáb'];
   const today = new Date();
   let weekHtml = '';
@@ -4947,14 +4934,14 @@ function renderStreakCard(streak) {
     d.setDate(today.getDate() - i);
     const isDone = i < streak;
     const isToday = i === 0;
-    const isFrozenDay = isToday && isFrozen; // Dia de hoje está congelado?
+    const isFrozenDay = isToday && isFrozen;
     
     let ringColor = isDone ? '#FF6B1A' : 'var(--border3)';
     let bgColor = isDone ? 'rgba(255,107,26,.18)' : 'transparent';
     let icon = isDone ? '🔥' : '';
 
     if (isFrozenDay && !isDone) {
-      ringColor = '#3b82f6'; // Azul gelo
+      ringColor = '#3b82f6';
       bgColor = 'rgba(59,130,246,.18)';
       icon = '🧊';
     }
@@ -4970,7 +4957,6 @@ function renderStreakCard(streak) {
       </div>`;
   }
 
-  // Define se o botão de congelamento aparece ativo, inativo ou se já está congelado
   let freezeBtnHtml = '';
   if (isFrozen) {
     freezeBtnHtml = `<div style="padding:8px 16px; border-radius:8px; background:rgba(59,130,246,.15); border:1px solid #3b82f6; color:#3b82f6; font-size:11px; font-weight:700; display:flex; align-items:center; gap:6px;"><span style="font-size:14px">🧊</span> Congelamento Ativo (Protegido hoje)</div>`;
@@ -5028,9 +5014,8 @@ function usarCongelamento() {
   if (confirm("Deseja usar seu congelamento semanal? Se você não estudar hoje, sua ofensiva não será perdida.")) {
     localStorage.setItem('streak_last_freeze', Date.now().toString());
     localStorage.setItem('streak_frozen', 'true');
-    localStorage.setItem('streak_frozen_date', new Date().toISOString().split('T')[0]); // Salva a data de hoje
+    localStorage.setItem('streak_frozen_date', new Date().toISOString().split('T')[0]);
     
-    // Atualiza a tela imediatamente (simula que o streak de hoje tá protegido)
     const currentStreakCount = document.getElementById('streak-count')?.textContent || '0';
     renderStreakCard(parseInt(currentStreakCount));
   }
