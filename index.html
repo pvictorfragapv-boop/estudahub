@@ -1365,8 +1365,8 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         padding-left: 2px;
         text-align: center; /* Centraliza o texto para ficar mais harmônico */
       }
-  /* =========================================
-   ALINHAMENTO DO SIMULADO (CELULAR)
+ /* =========================================
+   1. REGRAS EXCLUSIVAS PARA CELULAR
    ========================================= */
 @media (max-width: 768px) {
   .sim-body-scroll { padding: 20px 16px 160px !important; }
@@ -1375,10 +1375,11 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
   .sim-drawer-dots { flex: 1 !important; display: flex !important; justify-content: center !important; flex-wrap: wrap !important; max-width: none !important; padding: 4px 0 !important; }
   .sim-drawer-grid { display: grid !important; grid-template-columns: repeat(auto-fit, 30px) !important; justify-content: center !important; gap: 6px !important; }
   #streak-section { padding: 24px 16px 0 !important; }
-}
+} /* <--- A CERCA DO CELULAR FECHA AQUI! */
+
 
 /* =========================================
-   ALINHAMENTO DO SIMULADO (COMPUTADOR)
+   2. REGRAS EXCLUSIVAS PARA COMPUTADOR
    ========================================= */
 @media (min-width: 769px) {
   .inline-annot-tools {
@@ -1387,10 +1388,11 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     margin: 0 auto 24px auto !important;
     padding: 0 !important;
   }
-}
+} /* <--- A CERCA DO PC FECHA AQUI! */
+
 
 /* =========================================
-   ANIMAÇÕES (LIVRES PARA TODAS AS TELAS)
+   3. ANIMAÇÕES (LIVRES PARA TODAS AS TELAS)
    ========================================= */
 @keyframes flicker {
   0%,100%{transform:scaleY(1) scaleX(1) rotate(-1deg)}
@@ -1400,8 +1402,20 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
 
 @keyframes pulse-ring {
   0% { transform: scale(0.8); opacity: 0.8; border-width: 3px; }
-  80% { opacity: 0; }
-  100% { transform: scale(1.8); opacity: 0; border-width: 1px; }
+  80% { transform: scale(1.6); opacity: 0; border-width: 1px; }
+  100% { transform: scale(1.8); opacity: 0; border-width: 0px; }
+}
+
+.sonar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid #FF6B1A;
+  animation: pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite !important;
+}
+
+.sonar-ring.delayed {
+  animation-delay: 1.25s !important;
 }
 .sim-sb-q-num { display: flex !important; align-items: center !important; justify-content: center !important; padding-top: 2px !important; padding-left: 1px !important; letter-spacing: 0 !important; line-height: 1 !important; }
 </style>
