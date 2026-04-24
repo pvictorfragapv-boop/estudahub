@@ -1385,9 +1385,10 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
   20%{transform:scaleY(1.05) scaleX(.97) rotate(1deg)}
   60%{transform:scaleY(1.03) scaleX(.98) rotate(1.5deg)}
 }
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; border-width: 3px; }
+  80% { opacity: 0; }
+  100% { transform: scale(1.8); opacity: 0; border-width: 1px; }
 }
 
 .sim-sb-q-num { display: flex !important; align-items: center !important; justify-content: center !important; padding-top: 2px !important; padding-left: 1px !important; letter-spacing: 0 !important; line-height: 1 !important; }
@@ -4976,9 +4977,11 @@ function renderStreakCard(streak) {
       </div>
       
       <div style="display:flex;align-items:center;gap:24px;margin-bottom:24px">
-        <div style="position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <div style="position:absolute;inset:0;border-radius:50%;border:2.5px solid rgba(255,107,26,.2);border-top-color:#FF6B1A;animation:spin-slow 3s linear infinite"></div>
-          <div style="font-size:42px;animation:flicker 1.8s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(255,107,26,.5));transform-origin:bottom center">🔥</div>
+       <div style="position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <div style="position:absolute;inset:0;border-radius:50%;border:2px solid #FF6B1A;animation:pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite"></div>
+          <div style="position:absolute;inset:0;border-radius:50%;border:2px solid #FF6B1A;animation:pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) 1.25s infinite"></div>
+          
+          <div style="font-size:42px;animation:flicker 1.8s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(255,107,26,.5));transform-origin:bottom center;z-index:2">🔥</div>
         </div>
         
         <div>
