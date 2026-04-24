@@ -607,45 +607,75 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
   -webkit-touch-callout: none !important;
 }
 
-/* ── NOVA ESTRUTURA DO TOPO (DESKTOP E MOBILE) ── */
-.mob-only { display: none !important; }
-.sim-top-container { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 60px; flex-shrink: 0; background: var(--bg2); border-bottom: 1px solid var(--border2); }
-.sim-top-header { flex: 1; }
-.sim-q-counter-new { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--muted2); letter-spacing: .06em; }
-.sim-q-counter-new strong { color: var(--a); }
-.inline-annot-tools { flex: 1; justify-content: center; display: flex; gap: 8px; }
-.desk-sair-wrap { flex: 1; display: flex; justify-content: flex-end; }
+/* =========================================
+       NOVA TOPBAR MOBILE (PÍLULA FLUTUANTE) 
+       ========================================= */
+    /* Ajustes para o Desktop manter a ordem correta */
+    .sim-topbar-new { display: flex; align-items: center; justify-content: space-between; }
+    .sim-q-counter-new { order: 1; flex: 1; }
+    .inline-annot-tools { order: 2; flex: 1; justify-content: center; display: flex; gap: 8px; }
+    .desk-sair-wrap { order: 3; flex: 1; display: flex; justify-content: flex-end; }
+    .sim-drawer-toggle-left { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1; min-width: 0; }
+    .mob-only { display: none !important; }
 
-@media (max-width: 768px) {
-  .desk-only { display: none !important; }
-  .mob-only.flex { display: flex !important; }
-  .mob-only.block { display: block !important; }
-  
-  .sim-top-container { flex-direction: column; height: auto; padding: 0; background: transparent; border-bottom: none; }
-  
-  /* Linha 1: Contador e Sair */
-  .sim-top-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(7,7,11,.97); }
-  
-  /* Linha 2: Menu Gaveta (Timer + Bolinhas) */
-  .sim-central-bar { width: 100%; align-items: center; background: #161622; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border2); gap: 12px; }
-  .sim-drawer-timer { font-size: 13px; font-weight: 700; color: var(--text); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; }
-  .sim-drawer-dots { flex: 1; display: flex; align-items: center; gap: 4px; overflow: hidden; }
-  .sim-q-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); border: 1px solid var(--border3); flex-shrink: 0; }
-  .sim-q-dot.sq-active  { background: var(--a); border-color: var(--a); box-shadow: 0 0 5px var(--ag); }
-  .sim-q-dot.sq-correct { background: var(--green); border-color: var(--green); }
-  .sim-q-dot.sq-wrong   { background: var(--red); border-color: var(--red); }
-  .sim-q-dot.sq-answered{ background: var(--muted); border-color: var(--border3); }
-  .sim-drawer-chevron { font-size: 14px; color: var(--muted2); transition: transform .2s; flex-shrink: 0; }
-  .sim-drawer-chevron.open { transform: rotate(180deg); }
+    @media (max-width: 768px) {
+      .desk-only { display: none !important; }
+      .mob-only.flex { display: flex !important; }
+      .mob-only.block { display: block !important; }
+      
+      /* Tira o fundo escuro grudado para dar efeito de elementos flutuantes */
+      .sim-top-container { flex-direction: column; height: auto; padding: 0; background: transparent; border-bottom: none; }
+      
+      /* 1. Remove o "Questão X de Y" do topo */
+      .sim-q-counter-new { display: none !important; }
+      
+      /* 2. Botão Sair menor, isolado no canto superior direito */
+      .sim-top-header { width: 100%; display: flex; justify-content: flex-end; padding: 12px 16px 4px; background: transparent; }
+      .sim-top-header .sim-exit-btn-new { padding: 4px 12px; font-size: 9px; border-radius: 20px; text-transform: uppercase; font-weight: 700; letter-spacing: .05em; }
+      
+      /* 3. A "Pílula" Flutuante: Timer + Bolinhas */
+      .sim-central-bar { 
+        width: calc(100% - 32px); 
+        margin: 4px 16px 12px; 
+        align-items: center; 
+        background: var(--bg2); 
+        padding: 10px 16px; 
+        cursor: pointer; 
+        border: 1px solid var(--border2); 
+        border-radius: 30px; /* Deixa redondo como uma pílula */
+        gap: 12px; 
+        box-shadow: 0 6px 16px rgba(0,0,0,0.4); /* Sombra flutuante */
+      }
+      .sim-drawer-timer { font-size: 13px; font-weight: 700; color: var(--text); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; }
+      .sim-drawer-dots { flex: 1; display: flex; align-items: center; gap: 4px; overflow: hidden; }
+      .sim-q-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border3); flex-shrink: 0; }
+      .sim-q-dot.sq-active  { background: var(--a); border-color: var(--a); box-shadow: 0 0 5px var(--ag); }
+      .sim-q-dot.sq-correct { background: var(--green); border-color: var(--green); }
+      .sim-q-dot.sq-wrong   { background: var(--red); border-color: var(--red); }
+      .sim-q-dot.sq-answered{ background: var(--muted); border-color: var(--border3); }
+      .sim-drawer-chevron { font-size: 14px; color: var(--muted2); transition: transform .2s; flex-shrink: 0; }
+      .sim-drawer-chevron.open { transform: rotate(180deg); }
 
-  /* Painel Gaveta (Números das questões) */
-  .sim-drawer-panel { width: 100%; background: var(--bg2); border-bottom: 1px solid var(--border2); overflow: hidden; max-height: 0; transition: max-height .3s ease; }
-  .sim-drawer-panel.open { max-height: 400px; }
-  
-  /* Linha 3: Ferramentas */
-  .inline-annot-tools { width: 100%; justify-content: space-between; padding: 12px 16px; background: rgba(7,7,11,.97); border-bottom: 1px solid var(--border2); margin-top: 0 !important; }
-  .iat-btn { flex: 1; justify-content: center; font-size: 11px !important; padding: 0 4px !important; white-space: nowrap !important; }
-}
+      /* A Gaveta que desce (arredondada para combinar) */
+      .sim-drawer-panel { 
+        width: calc(100% - 32px); 
+        margin: -6px 16px 16px; 
+        background: var(--bg2); 
+        border: 1px solid var(--border2); 
+        border-radius: 16px;
+        overflow: hidden; max-height: 0; transition: max-height .3s ease; 
+        box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+      }
+      .sim-drawer-panel.open { max-height: 400px; }
+      
+      /* 4. Ferramentas na base, logo acima da questão */
+      .inline-annot-tools { 
+        width: 100%; justify-content: space-between; 
+        padding: 0 16px 12px; background: transparent; 
+        border-bottom: none; margin-top: 0 !important; 
+      }
+      .iat-btn { flex: 1; justify-content: center; font-size: 11px !important; padding: 0 4px !important; white-space: nowrap !important; }
+    }
 }
     .sim-disc-wrap { position: relative; }
     .sim-disc-textarea { width: 100%; min-height: 180px; background: var(--bg3); border: 1.5px solid var(--border2); border-radius: var(--r); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.75; padding: 16px 18px; resize: vertical; outline: none; transition: border-color .18s, box-shadow .18s; }
