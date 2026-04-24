@@ -3823,16 +3823,16 @@ function toggleSimDrawer() {
 function renderSimDrawerDots() {
   const { questoes, qIdx, modo, respostas } = simuladoCorrente;
   if (!questoes) return;
-  
+
   const dotsEl = document.getElementById('sim-drawer-dots');
   const gridEl = document.getElementById('sim-drawer-grid');
   const timerEl = document.getElementById('sim-drawer-timer-val');
   const chipEl  = document.getElementById('sim-mode-chip-mob');
-  
+
   if (timerEl) timerEl.textContent = document.getElementById('sim-sb-timer-val')?.textContent || '00:00';
   if (chipEl) chipEl.textContent = modo === 'tutor' ? 'Tutor' : 'Simulado';
-  
-  const dotHtml = questoes.slice(0, 14).map((q, i) => {
+
+  const dotHtml = questoes.map((q, i) => {
     let cls = '';
     const r = respostas[i];
     if (i === qIdx) cls = 'sq-active';
@@ -3841,10 +3841,10 @@ function renderSimDrawerDots() {
       else cls = 'sq-answered';
     }
     return `<div class="sim-q-dot ${cls}"></div>`;
-  }).join('') + (questoes.length > 14 ? `<span style="font-size:9px;color:var(--muted2);font-family:'IBM Plex Mono',monospace;margin-left:2px">+${questoes.length-14}</span>` : '');
-  
+  }).join('');
+
   if (dotsEl) dotsEl.innerHTML = dotHtml;
-  
+
   if (gridEl) gridEl.innerHTML = questoes.map((q, i) => {
     const r = respostas[i]; let cls = '';
     if (i === qIdx) cls = 'sq-active';
@@ -3855,6 +3855,7 @@ function renderSimDrawerDots() {
     return `<div class="sim-sb-q-num ${cls}" onclick="simIrPara(${i});toggleSimDrawer()">${i+1}</div>`;
   }).join('');
 }
+
 
     function simIrPara(i) {
   if (i < 0 || i >= simuladoCorrente.questoes.length) return;
