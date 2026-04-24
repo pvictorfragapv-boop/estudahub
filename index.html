@@ -647,7 +647,18 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         box-shadow: 0 6px 16px rgba(0,0,0,0.4); /* Sombra flutuante */
       }
       .sim-drawer-timer { font-size: 13px; font-weight: 700; color: var(--text); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; }
-      .sim-drawer-dots { flex: 1; display: flex; align-items: center; gap: 4px; overflow: hidden; }
+            .sim-drawer-dots { 
+        flex: 1; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        flex-wrap: wrap; /* ← Permite quebrar em várias linhas */
+        gap: 6px; 
+        overflow: hidden; 
+        max-width: none !important; 
+        padding: 4px 0; /* ← Aumenta o respiro para caber a segunda linha */
+      }
+
       .sim-q-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border3); flex-shrink: 0; }
       .sim-q-dot.sq-active  { background: var(--a); border-color: var(--a); box-shadow: 0 0 5px var(--ag); }
       .sim-q-dot.sq-correct { background: var(--green); border-color: var(--green); }
