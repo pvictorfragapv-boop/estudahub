@@ -1365,7 +1365,26 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         padding-left: 2px;
         text-align: center; /* Centraliza o texto para ficar mais harmônico */
       }
-    }
+    /* FORÇAR ATUALIZAÇÃO DO VISUAL */
+@media (max-width: 768px) {
+  .inline-annot-tools {
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+  }
+  .sim-drawer-dots {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    max-width: none !important;
+    padding: 4px 0 !important;
+  }
+  /* CENTRALIZA O GRID DE NÚMEROS */
+  .sim-drawer-grid {
+    justify-content: center !important;
+  }
+}
+
 
   </style>
 </head>
