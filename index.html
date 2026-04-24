@@ -1379,11 +1379,24 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     max-width: none !important;
     padding: 4px 0 !important;
   }
-  /* CENTRALIZA O GRID DE NÚMEROS */
+  /* CENTRALIZA O BLOCO MAS MANTÉM A ÚLTIMA LINHA ALINHADA À ESQUERDA */
   .sim-drawer-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, 30px) !important;
     justify-content: center !important;
+    gap: 6px !important;
   }
 }
+.sim-sb-q-num {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding-top: 2px !important;
+  padding-left: 1px !important;
+  letter-spacing: 0 !important;
+  line-height: 1 !important;
+}
+
 
 
   </style>
