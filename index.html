@@ -1307,7 +1307,17 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
     @media (max-width: 768px) {
       /* 1. Primeira Linha: Gaveta e Botão Sair */
       .sim-drawer-toggle { padding: 10px 16px !important; }
-      .sim-drawer-dots { flex: 1; max-width: 140px; }
+      
+      /* ALINHAMENTO DAS BOLINHAS: centralizado na pílula */
+      .sim-drawer-dots { 
+        flex: 1; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        gap: 4px; 
+        overflow: hidden; 
+        max-width: none !important; 
+      }
       
       /* Esconde o Sair do desktop */
       .desk-sair-wrap { display: none !important; }
@@ -1322,14 +1332,17 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         border-bottom: none !important;
       }
       
-      /* Força as ferramentas a ficarem em cima do contador no mobile */
+      /* ALINHAMENTO DAS FERRAMENTAS: desgrudado das bordas */
       .inline-annot-tools { 
         order: 1 !important; 
         display: flex !important; 
         width: 100% !important; 
         justify-content: space-between !important; 
         gap: 8px !important; 
+        padding: 0 16px !important; 
+        box-sizing: border-box !important; 
       }
+      
       /* Ajusta os botões para caberem perfeitamente */
       .iat-btn { flex: 1; justify-content: center; font-size: 11px !important; padding: 0 4px !important; white-space: nowrap !important; }
       
@@ -1339,8 +1352,10 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
         font-size: 12px !important; 
         color: var(--muted2) !important;
         padding-left: 2px;
+        text-align: center; /* Centraliza o texto para ficar mais harmônico */
       }
     }
+
   </style>
 </head>
 <body class="theme-default">
