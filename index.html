@@ -4994,6 +4994,20 @@ function renderStreakCard(streak) {
   }
 
   container.innerHTML = `
+    <style>
+      /* Embutimos a animação aqui para NENHUM computador conseguir ignorar! */
+      @keyframes fire-sonar {
+        0% { transform: scale(0.8); opacity: 0.8; border-width: 3px; }
+        80% { transform: scale(1.6); opacity: 0; border-width: 1px; }
+        100% { transform: scale(1.8); opacity: 0; border-width: 0px; }
+      }
+      @keyframes fire-flicker {
+        0%, 100% { transform: scaleY(1) scaleX(1) rotate(-1deg); }
+        20% { transform: scaleY(1.05) scaleX(0.97) rotate(1deg); }
+        60% { transform: scaleY(1.03) scaleX(0.98) rotate(1.5deg); }
+      }
+    </style>
+
     <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:24px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.2)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
         <span style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2)">Sequência de estudos</span>
@@ -5003,12 +5017,13 @@ function renderStreakCard(streak) {
       </div>
       
       <div style="display:flex;align-items:center;gap:24px;margin-bottom:24px">
-       <div style="position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                    <div class="sonar-ring"></div>
-          <div class="sonar-ring delayed"></div>
-          
-          <div style="font-size:42px;animation:flicker 1.8s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(255,107,26,.5));transform-origin:bottom center;z-index:2">🔥</div>
-        </div>
+        
+        <div style="position:relative;width:72px;height:72px;flex-shrink:0">
+          <div style="position:absolute;inset:0;border-radius:50%;border:2px solid #FF6B1A;animation:fire-sonar 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite"></div>
+          <div style="position:absolute;inset:0;border-radius:50%;border:2px solid #FF6B1A;animation:fire-sonar 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) 1.25s infinite"></div>
+          
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:42px;animation:fire-flicker 1.8s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(255,107,26,.5));z-index:2;padding-bottom:6px;padding-left:2px;">🔥</div>
+        </div>
         
         <div>
           <div style="font-size:42px;font-weight:700;line-height:1;color:#FF6B1A;letter-spacing:-.02em">
