@@ -1367,38 +1367,23 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
       }
     /* FORÇAR ATUALIZAÇÃO DO VISUAL */
 @media (max-width: 768px) {
-  .inline-annot-tools {
-    padding: 0 12px !important;
-    box-sizing: border-box !important;
-  }
-  .sim-drawer-dots {
-    flex: 1 !important;
-    display: flex !important;
-    justify-content: center !important;
-    flex-wrap: wrap !important;
-    max-width: none !important;
-    padding: 4px 0 !important;
-  }
-  /* CENTRALIZA O BLOCO MAS MANTÉM A ÚLTIMA LINHA ALINHADA À ESQUERDA */
-  .sim-drawer-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, 30px) !important;
-    justify-content: center !important;
-    gap: 6px !important;
-  }
-}
-.sim-sb-q-num {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding-top: 2px !important;
-  padding-left: 1px !important;
-  letter-spacing: 0 !important;
-  line-height: 1 !important;
+  .inline-annot-tools { padding: 0 12px !important; box-sizing: border-box !important; }
+  .sim-drawer-dots { flex: 1 !important; display: flex !important; justify-content: center !important; flex-wrap: wrap !important; max-width: none !important; padding: 4px 0 !important; }
+  .sim-drawer-grid { display: grid !important; grid-template-columns: repeat(auto-fit, 30px) !important; justify-content: center !important; gap: 6px !important; }
+  
+  /* NOVO: Ajuste do card de streak no celular */
+  #streak-section { padding: 0 16px 16px !important; }
 }
 
+/* NOVO: Animação do foguinho */
+@keyframes flicker {
+  0%,100%{transform:scaleY(1) scaleX(1) rotate(-1deg)}
+  20%{transform:scaleY(1.05) scaleX(.97) rotate(1deg)}
+  60%{transform:scaleY(1.03) scaleX(.98) rotate(1.5deg)}
+}
 
-
+.sim-sb-q-num { display: flex !important; align-items: center !important; justify-content: center !important; padding-top: 2px !important; padding-left: 1px !important; letter-spacing: 0 !important; line-height: 1 !important; }
+</style>
   </style>
 </head>
 <body class="theme-default">
@@ -1519,6 +1504,7 @@ s.hl-strike { color: var(--muted2); text-decoration: line-through; text-decorati
           </div>
         </div>
       </div>
+      <div id="streak-section" style="padding: 24px 36px 0;"></div>
       <div class="sec-hdr" style="gap:10px">
         <div class="sec-label" id="heatmap-label" style="margin-bottom:0">Atividade</div>
         <div class="streak-badge" id="streak-badge" style="display:none">🔥 <span id="streak-count">0</span></div>
@@ -2662,6 +2648,7 @@ if (simT) simT.checked = localStorage.getItem('sim_theme') === 'light';
         if (streak > 0) { document.getElementById('streak-count').textContent = streak; sb.style.display = 'inline-flex'; }
         else sb.style.display = 'none';
       }
+      if (typeof renderStreakCard === 'function') renderStreakCard(streak);
     }
 
     function renderTodayRevisions() {
@@ -4896,6 +4883,96 @@ function simSelecionarVF(key, val) {
   
   resp.resposta[key] = val; 
   renderSimQuestao(); 
+}
+    /* =========================================
+   COMPONENTE GAMIFICADO DE STREAK
+   ========================================= */
+function renderStreakCard(streak) {
+  const container = document.getElementById('streak-section');
+  if (!container) return;
+
+  // Calcula o recorde histórico
+  const record = parseInt(localStorage.getItem('streak_record') || '0');
+  if (streak > record) {
+    localStorage.setItem('streak_record', streak);
+  }
+  const recordFinal = Math.max(streak, record);
+
+  // Milestones
+  const MILESTONES = [3, 7, 14, 30, 60, 100];
+  const next = MILESTONES.find(m => m > streak) || (streak + 10);
+  const prev = [...MILESTONES].reverse().find(m => m <= streak) || 0;
+  const progress = Math.min(100, Math.round(((streak - prev) / (next - prev)) * 100));
+
+  // Mensagem
+  const msgs = {
+    0: 'Estude hoje para começar sua sequência! 💪',
+    1: '<strong>Primeiro dia!</strong> A jornada começa agora. 🌱',
+    3: '<strong>3 dias seguidos!</strong> Você criou um padrão. ✨',
+    7: '<strong>Uma semana inteira!</strong> Isso é dedicação. 🎉',
+    14: '<strong>Duas semanas!</strong> Hábito sólido se formando. 🔥🔥',
+    30: '<strong>30 dias!</strong> Um mês sem parar. Imparável! 🏆',
+  };
+  const msgKey = [30,14,7,3,1].find(k => streak >= k) || 0;
+  const name = (state.displayName || '').split(' ')[0] || '';
+  const msg = streak === 0 
+    ? msgs[0] 
+    : (msgs[msgKey] || `<strong>${streak} dias seguidos!</strong> Continue assim${name ? ', ' + name : ''}! 🔥`);
+
+  const DAYS = ['dom','seg','ter','qua','qui','sex','sáb'];
+  const today = new Date();
+  let weekHtml = '';
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const isDone = i < streak;
+    const isToday = i === 0;
+    weekHtml += `
+      <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+        <div style="font-size:10px;font-weight:500;color:var(--muted2);letter-spacing:.05em">${DAYS[d.getDay()]}</div>
+        <div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;
+          border:${isToday ? '2px' : '1.5px'} solid ${isDone ? '#FF6B1A' : 'var(--border3)'};
+          background:${isDone ? 'rgba(255,107,26,.18)' : 'var(--bg3)'};
+          ${isToday ? 'box-shadow:0 0 0 3px rgba(255,107,26,.15)' : ''}"
+        >${isDone ? '🔥' : ''}</div>
+      </div>`;
+  }
+
+  const trophies = ['🏅','🥉','🥈','🥇','🏆','👑'];
+  const tIdx = MILESTONES.indexOf(next);
+  const trophy = tIdx >= 0 ? trophies[Math.min(tIdx, trophies.length-1)] : '🏆';
+
+  container.innerHTML = `
+    <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:1.25rem;position:relative;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2)">Sequência de estudos</span>
+        <span style="font-size:11px;color:var(--muted2);background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:3px 10px">
+          recorde: <span style="color:#FF6B1A;font-weight:500">${recordFinal}</span> dias
+        </span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem">
+        <div style="font-size:52px;animation:flicker 1.8s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(255,107,26,.6));transform-origin:bottom center;flex-shrink:0">🔥</div>
+        <div>
+          <div style="font-size:48px;font-weight:500;line-height:1;color:#FF6B1A">
+            ${streak} <span style="font-size:16px;color:var(--muted2);font-weight:400">${streak === 1 ? 'dia' : 'dias'}</span>
+          </div>
+          <div style="font-size:13px;color:var(--muted2);margin-top:4px">${msg}</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:1rem">${weekHtml}</div>
+      <div style="border-top:1px solid var(--border2);padding-top:.75rem;display:flex;align-items:center;gap:12px">
+        <div style="flex:1">
+          <div style="font-size:11px;color:var(--muted2);display:flex;justify-content:space-between;margin-bottom:5px">
+            <span>próxima conquista: <strong style="color:var(--text)">${next} dias</strong></span>
+            <span style="color:#FF6B1A;font-weight:500">${progress}%</span>
+          </div>
+          <div style="height:4px;background:var(--bg3);border-radius:2px;overflow:hidden">
+            <div style="height:100%;width:${progress}%;background:#FF6B1A;border-radius:2px;transition:width .8s ease"></div>
+          </div>
+        </div>
+        <span style="font-size:20px;opacity:${progress > 70 ? '.9' : '.4'}">${trophy}</span>
+      </div>
+    </div>`;
 }
   </script>
 </body>
