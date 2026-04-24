@@ -4559,20 +4559,57 @@ function renderProvas(){const t=state.provas.length,tq=state.provas.reduce((a,p)
 function renderCharts(){const ac=getComputedStyle(document.body).getPropertyValue('--a').trim()||'#a78bfa',mu='#42425a',gr='rgba(255,255,255,.04)';const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#888',bodyColor:'#555',borderColor:'rgba(255,255,255,.08)',borderWidth:1,cornerRadius:6}},scales:{x:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9}},grid:{color:gr},border:{color:'transparent'}},y:{ticks:{color:mu,font:{family:"'IBM Plex Mono',monospace",size:9},callback:v=>v+'%'},grid:{color:gr},min:0,max:100,border:{color:'transparent'}}}};const labels=state.provas.map(p=>p.nome.length>14?p.nome.slice(0,13)+'…':p.nome),pcts=state.provas.map(p=>Math.round(p.acertos/p.total*100)),cols=pcts.map(p=>p>=80?'rgba(29,184,112,.7)':p>=70?'rgba(240,180,41,.7)':'rgba(240,78,78,.7)');if(cEv)cEv.destroy();cEv=new Chart(document.getElementById('chart-evolucao').getContext('2d'),{type:'line',data:{labels,datasets:[{data:pcts,borderColor:ac,backgroundColor:ac+'18',pointBackgroundColor:ac,tension:.35,borderWidth:1.5,pointRadius:5,fill:true}]},options:base});if(cPr)cPr.destroy();cPr=new Chart(document.getElementById('chart-provas').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:pcts,backgroundColor:cols,borderWidth:0,borderRadius:4}]},options:base});}
 
 // ═══════════════ TOUR ═══════════════
-    const TOUR = [
-      { t: 'tour-stat-total', title: 'Painel de controle', desc: 'Resumo em tempo real: temas, progresso, média de acertos e revisões pendentes para o dia.' },
-      { t: 'tour-btn-add', title: 'Adicionar temas', desc: 'Selecione uma matéria existente ou crie uma nova de forma ágil para alimentar sua planilha.' },
-      { t: 'tour-table', title: 'Planilha de estudos', desc: 'Marque temas como estudados, lance seu número de acertos e gerencie revisões automáticas (24h · 1S · 1M).' },
-      { t: 'dt-simulados', title: 'Simulados com IA', desc: 'Faça upload de provas em PDF ou imagem. O Gemini extrai as questões, corrige e explica cada alternativa!' },
-      { t: 'dt-rotina', title: 'Grade de Horários', desc: 'Organize sua semana visualmente (Timeblocking). Crie blocos, arraste e redimensione sua rotina.' },
-      { t: 'dt-pomodoro', title: 'Timer Pomodoro', desc: 'Rastreie suas sessões de estudo por matéria. Acompanhe seu tempo de foco e ofensiva (streak) diária.' },
-      { t: 'dt-provas', title: 'Métricas de Provas', desc: 'Registre o resultado de simulados externos e visualize gráficos para acompanhar sua evolução.' },
-      { t: 'dt-configuracoes', title: 'Configurações', desc: 'Personalize o tema, gerencie matérias, insira chaves do Gemini e ative alertas do Telegram.' }
+        const TOUR = [
+      { page: 'planilha', t: 'tour-stat-total', title: 'Painel de controle', desc: 'Resumo em tempo real: temas, progresso, média de acertos e revisões pendentes para o dia.' },
+      { page: 'planilha', t: 'tour-btn-add', title: 'Adicionar temas', desc: 'Selecione uma matéria existente ou crie uma nova de forma ágil para alimentar sua planilha.' },
+      { page: 'planilha', t: 'tour-table', title: 'Planilha de estudos', desc: 'Marque temas como estudados, lance seu número de acertos e gerencie revisões automáticas (24h · 1S · 1M).' },
+      { page: 'simulados', t: 'simstat-total', title: 'Simulados com IA', desc: 'Faça upload de provas em PDF ou imagem. O Gemini extrai as questões, corrige e explica cada alternativa!' },
+      { page: 'rotina', t: 'rotina-grid-wrap', title: 'Grade de Horários', desc: 'Organize sua semana visualmente. Crie blocos, arraste e redimensione sua rotina.' },
+      { page: 'pomodoro', t: 'timer-ring-svg', title: 'Timer Pomodoro', desc: 'Rastreie suas sessões de estudo por matéria. Acompanhe seu tempo de foco e ofensiva (streak) diária.' },
+      { page: 'provas', t: 'pstat-total', title: 'Métricas de Provas', desc: 'Registre o resultado de simulados externos e visualize gráficos para acompanhar sua evolução.' },
+      { page: 'configuracoes', t: 'tour-telegram', title: 'Alertas no Telegram', desc: 'Conecte seu Telegram para receber notificações automáticas diárias com as revisões pendentes.' }
     ];
+
 let tStep=0,tActive=false;
 function retakeTour(){state.tourDone=false;switchPage('planilha');setTimeout(startTour,300);}
 function startTour(){tStep=0;tActive=true;renderTourStep();}
-function renderTourStep(){if(tStep>=TOUR.length){tourEnd();return;}const s=TOUR[tStep],tgt=document.getElementById(s.t);if(!tgt){tourNext();return;}tgt.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>{const r=tgt.getBoundingClientRect(),p=10,sp=document.getElementById('tour-spotlight'),tt=document.getElementById('tour-tooltip');sp.style.cssText=`display:block;left:${r.left-p}px;top:${r.top-p}px;width:${r.width+p*2}px;height:${r.height+p*2}px`;tt.style.display='block';document.getElementById('tour-slbl').textContent=`PASSO ${tStep+1} DE ${TOUR.length}`;document.getElementById('tour-title').textContent=s.title;document.getElementById('tour-desc').textContent=s.desc;document.getElementById('tour-btn-next').textContent=tStep===TOUR.length-1?'Concluir ✓':'Próximo →';document.getElementById('tour-prog').innerHTML=TOUR.map((_,i)=>`<div class="tour-dot ${i===tStep?'active':''}"></div>`).join('');const mob=window.innerWidth<=768,ttH=180,vpH=window.innerHeight;let top;if(mob){tt.style.left='12px';tt.style.right='12px';tt.style.width='auto';top=r.bottom+ttH+16<vpH?r.bottom+16:Math.max(56,r.top-ttH-16);}else{tt.style.right='auto';tt.style.width='290px';tt.style.left=Math.max(12,Math.min(r.left+r.width/2-145,window.innerWidth-302))+'px';top=r.bottom+ttH+16<vpH?r.bottom+16:Math.max(56,r.top-ttH-16);}tt.style.top=top+'px';},360);}
+function renderTourStep() {
+  if (tStep >= TOUR.length) { tourEnd(); return; }
+  const s = TOUR[tStep];
+  
+  // A mágica acontece aqui: O tour muda a página automaticamente!
+  if (s.page) switchPage(s.page, null, true); 
+
+  setTimeout(() => {
+    const tgt = document.getElementById(s.t);
+    if (!tgt) { tourNext(); return; }
+    tgt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    setTimeout(() => {
+      const r = tgt.getBoundingClientRect(), p = 10;
+      const sp = document.getElementById('tour-spotlight'), tt = document.getElementById('tour-tooltip');
+      sp.style.cssText = `display:block;left:${r.left-p}px;top:${r.top-p}px;width:${r.width+p*2}px;height:${r.height+p*2}px`;
+      tt.style.display = 'block';
+      document.getElementById('tour-slbl').textContent = `PASSO ${tStep+1} DE ${TOUR.length}`;
+      document.getElementById('tour-title').textContent = s.title;
+      document.getElementById('tour-desc').textContent = s.desc;
+      document.getElementById('tour-btn-next').textContent = tStep === TOUR.length-1 ? 'Concluir ✓' : 'Próximo →';
+      document.getElementById('tour-prog').innerHTML = TOUR.map((_,i) => `<div class="tour-dot ${i===tStep?'active':''}"></div>`).join('');
+      
+      const mob = window.innerWidth <= 768, ttH = 180, vpH = window.innerHeight;
+      let top;
+      if (mob) {
+        tt.style.left = '12px'; tt.style.right = '12px'; tt.style.width = 'auto';
+        top = r.bottom + ttH + 16 < vpH ? r.bottom + 16 : Math.max(56, r.top - ttH - 16);
+      } else {
+        tt.style.right = 'auto'; tt.style.width = '290px';
+        tt.style.left = Math.max(12, Math.min(r.left + r.width/2 - 145, window.innerWidth - 302)) + 'px';
+        top = r.bottom + ttH + 16 < vpH ? r.bottom + 16 : Math.max(56, r.top - ttH - 16);
+      }
+      tt.style.top = top + 'px';
+    }, 360);
+  }, 150); // Dá um tempinho de 150ms pra página trocar antes de jogar o holofote
+}
 function tourNext(){tStep++;if(tStep>=TOUR.length){tourEnd();return;}renderTourStep();}
 function tourSkip(){tourEnd();}
 function tourEnd(){tActive=false;document.getElementById('tour-spotlight').style.display='none';document.getElementById('tour-tooltip').style.display='none';state.tourDone=true;save();}
